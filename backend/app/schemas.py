@@ -152,6 +152,7 @@ class Candidate(BaseModel):
     names: dict[str, str]            # {"en": "Chickpea", "mr": "हरभरा", "hi": "चना"}
     season: str
     water_need_m3_per_acre: SourcedValue
+    opens_on: str | None = None      # ISO date if sowing window opens within 21 days
 
 
 # ─────────────────────────────────────────────────────────────────────────────
