@@ -22,9 +22,14 @@ async def create_plan(profile: FarmProfile) -> PlanResult:
     explanation.provider = 'template' (no LLM calls).
     """
     result = await run_plan(profile)
-    # Store inputs for E3 and E4
+    # Store for E3 (reoptimize by plan_id) and E4 (restore by thread_id)
     cache = await get_cache()
-    await cache.set_plan(result.plan_id, result.model_dump(mode="json"))
+    plan_data = result.model_dump(mode="json")
+    await cache.set_plan(result.plan_id, plan_data)
+    if result.thread_id:
+        await cache.set_memory(result.thread_id, "profile", profile.model_dump(mode="json"))
+        await cache.set_memory(result.thread_id, "plan", plan_data)
+        await cache.set_memory(result.thread_id, "messages", [])
     return result
 
 
