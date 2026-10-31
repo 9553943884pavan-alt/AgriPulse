@@ -147,7 +147,7 @@ def build_graph() -> StateGraph:
     g = StateGraph(AgentState)
 
     # Register all nodes
-    g.add_node("route", route_node)
+    g.add_node("router", route_node)
     g.add_node("merge_patch", merge_patch_node)
     g.add_node("extract_profile", extract_profile_node)
     g.add_node("ask_missing", ask_missing_node)
@@ -164,10 +164,10 @@ def build_graph() -> StateGraph:
     g.add_node("save_memory", save_memory_node)
 
     # Entry point
-    g.set_entry_point("route")
+    g.set_entry_point("router")
 
     # Edges
-    g.add_conditional_edges("route", _after_route, {
+    g.add_conditional_edges("router", _after_route, {
         "merge_patch": "merge_patch",
         "answer_from_memory": "answer_from_memory",
         "extract_profile": "extract_profile",

@@ -142,7 +142,7 @@ def _lg_event_to_sse(event: dict) -> dict | None:
         return None
 
     # profile event — after extract_profile or merge_patch
-    if name in ("extract_profile", "merge_patch"):
+    if name in ("router", "merge_patch"):
         profile = output.get("profile")
         if profile:
             data = profile.model_dump_json() if hasattr(profile, "model_dump_json") else json.dumps(profile)
