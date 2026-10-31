@@ -57,22 +57,25 @@ async def transcribe(audio_bytes: bytes, content_type: str, language_hint: str |
         logger.warning("SARVAM_API_KEY not set; STT unavailable")
         return {"text": None, "error": "STT service not configured"}
 
-    # Try primary model, then fallbacks
-    models = [settings.SARVAM_STT_MODEL] + settings.sarvam_fallback_list
-    models = [m for m in models if m]  # remove empty
+    # STT uses only SARVAM_STT_MODEL — do NOT iterate sarvam_fallback_list
+    # (those are chat model IDs, not STT model IDs).
+    stt_model = settings.SARVAM_STT_MODEL or "saaras:v4"
+    models = [stt_model]
 
     for model in models:
         try:
             async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
+                # NOTE: do NOT send 'mode' — it is only valid for saaras:v3.
+                # saaras:v4 ignores it and some versions return 400.
+                form_data: dict = {
+                    "model": model,
+                    "language_code": language_hint or "unknown",
+                }
                 resp = await client.post(
                     _STT_URL,
                     headers=_sarvam_headers(),
                     files={"file": ("audio", audio_bytes, content_type)},
-                    data={
-                        "model": model,
-                        "language_code": language_hint or "unknown",
-                        "mode": "transcribe",
-                    },
+                    data=form_data,
                 )
                 resp.raise_for_status()
             data = resp.json()
@@ -99,8 +102,10 @@ async def speak(text: str, language: str = "mr", speed: float = 1.0) -> bytes:
         raise AppError("UPSTREAM_UNAVAILABLE", {"service": "TTS", "reason": "SARVAM_API_KEY not set"})
 
     lang_code = {"mr": "mr-IN", "hi": "hi-IN", "en": "en-IN"}.get(language, "mr-IN")
-    models = [settings.SARVAM_TTS_MODEL] + settings.sarvam_fallback_list
-    models = [m for m in models if m]
+    # TTS uses only SARVAM_TTS_MODEL — do NOT iterate sarvam_fallback_list
+    # (those are chat model IDs, not TTS model IDs).
+    tts_model = settings.SARVAM_TTS_MODEL or "bulbul:v3"
+    models = [tts_model]
 
     for model in models:
         try:
@@ -110,7 +115,7 @@ async def speak(text: str, language: str = "mr", speed: float = 1.0) -> bytes:
                     headers=_sarvam_headers(),
                     json={
                         "text": text,
-                        "target_language_code": lang_code,
+                        "language_code": lang_code,   # NOT target_language_code
                         "speaker": "meera" if lang_code == "mr-IN" else "shubh",
                         "pace": speed,
                         "model": model,
