@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px; /* base — never below this */
+  }
+
+  body {
+    @apply bg-page text-ink;
+  }
+
+  /* Tabular numbers for all monetary / data values */
+  .font-tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Focus ring — consistent across all interactive elements */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+  }
+
+  /* Devanagari font class applied via JS when lang = mr or hi */
+  html[lang="mr"] body,
+  html[lang="hi"] body {
+    font-family: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+  }
+
+  /* Smooth green-themed scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #86efac transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: #86efac;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #4ade80;
+  }
+}
+
+@layer utilities {
+  /* Safe area insets for iPhone notch / home indicator */
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Nature-inspired main content background */
+  .bg-nature-content {
+    background-color: #f4f8f0;
+    background-image:
+      /* Faint diagonal leaf shapes */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M20 100 Q35 60 60 20 Q65 55 40 80 Q30 90 20 100Z' fill='%234caf50' opacity='0.04'/%3E%3Cpath d='M80 10 Q95 50 110 90 Q75 75 65 50 Q70 30 80 10Z' fill='%2366bb6a' opacity='0.03'/%3E%3Cpath d='M5 50 Q25 35 50 30 Q40 55 20 65 Q12 60 5 50Z' fill='%2381c784' opacity='0.035'/%3E%3C/svg%3E"),
+      /* Warm sage-green radial glow top-right */
+      radial-gradient(ellipse 70% 50% at 80% 10%, rgba(167,213,140,0.18) 0%, transparent 70%),
+      /* Soft ivory base */
+      linear-gradient(160deg, #f6f9f2 0%, #f0f6eb 50%, #f5f9f1 100%);
+  }
+
+  /* Hide scrollbar visually but keep scrollable */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
