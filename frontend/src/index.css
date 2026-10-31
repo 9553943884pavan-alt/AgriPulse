@@ -7,11 +7,12 @@
     font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 16px; /* base — never below this */
+    font-size: 16px;
   }
 
   body {
-    @apply bg-page text-ink;
+    background-color: #F7F8EE;
+    color: #09231A;
   }
 
   /* Tabular numbers for all monetary / data values */
@@ -19,9 +20,9 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Focus ring — consistent across all interactive elements */
+  /* Focus ring in Fresh Leaf (#16834A) */
   :focus-visible {
-    @apply outline-none ring-2 ring-primary ring-offset-2;
+    @apply outline-none ring-2 ring-fresh-leaf ring-offset-2;
   }
 
   /* Devanagari font class applied via JS when lang = mr or hi */
@@ -30,15 +31,15 @@
     font-family: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
   }
 
-  /* Smooth green-themed scrollbar */
+  /* Smooth green scrollbar in Sage Mist and Fresh Leaf */
   * {
     scrollbar-width: thin;
-    scrollbar-color: #86efac transparent;
+    scrollbar-color: #16834A transparent;
   }
 
   *::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
   }
 
   *::-webkit-scrollbar-track {
@@ -47,30 +48,27 @@
 
   *::-webkit-scrollbar-thumb {
     border-radius: 9999px;
-    background: #86efac;
+    background: #D9EBCB;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: #4ade80;
+    background: #16834A;
   }
 }
 
 @layer utilities {
-  /* Safe area insets for iPhone notch / home indicator */
+
+  /* Safe area insets for mobile */
   .safe-area-inset-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  /* Nature-inspired main content background */
+  /* Warm Cream + subtle Sage Mist decorative backdrop */
   .bg-nature-content {
-    background-color: #f4f8f0;
+    background-color: #F7F8EE;
     background-image:
-      /* Faint diagonal leaf shapes */
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M20 100 Q35 60 60 20 Q65 55 40 80 Q30 90 20 100Z' fill='%234caf50' opacity='0.04'/%3E%3Cpath d='M80 10 Q95 50 110 90 Q75 75 65 50 Q70 30 80 10Z' fill='%2366bb6a' opacity='0.03'/%3E%3Cpath d='M5 50 Q25 35 50 30 Q40 55 20 65 Q12 60 5 50Z' fill='%2381c784' opacity='0.035'/%3E%3C/svg%3E"),
-      /* Warm sage-green radial glow top-right */
-      radial-gradient(ellipse 70% 50% at 80% 10%, rgba(167,213,140,0.18) 0%, transparent 70%),
-      /* Soft ivory base */
-      linear-gradient(160deg, #f6f9f2 0%, #f0f6eb 50%, #f5f9f1 100%);
+      radial-gradient(ellipse 65% 45% at 85% 10%, rgba(217, 235, 203, 0.40) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 35% at 15% 90%, rgba(243, 198, 107, 0.10) 0%, transparent 60%);
   }
 
   /* Hide scrollbar visually but keep scrollable */
@@ -78,6 +76,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }

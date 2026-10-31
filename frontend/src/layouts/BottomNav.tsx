@@ -2,13 +2,14 @@
 
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Home, ClipboardList, BarChart2, GitCompare } from 'lucide-react'
+import { Home, ClipboardList, BarChart2, GitCompare, Database } from 'lucide-react'
 
 const NAV_ITEMS = [
   { to: '/',           icon: Home,          key: 'home' },
   { to: '/profile',    icon: ClipboardList, key: 'profile' },
   { to: '/dashboard',  icon: BarChart2,     key: 'dashboard' },
   { to: '/comparison', icon: GitCompare,    key: 'comparison' },
+  { to: '/sources',    icon: Database,      key: 'sources' },
 ] as const
 
 export function BottomNav() {
@@ -16,7 +17,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-100 z-30 safe-area-inset-bottom shadow-[0_-1px_8px_rgba(0,0,0,0.06)]"
+      className="lg:hidden fixed bottom-0 inset-x-0 bg-warm-cream border-t border-sage-mist z-30 safe-area-inset-bottom shadow-[0_-2px_10px_rgba(7,59,43,0.06)]"
       aria-label="Main navigation"
     >
       <div className="flex">
@@ -26,19 +27,24 @@ export function BottomNav() {
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              `flex-1 flex flex-col items-center gap-1 py-3 text-[11px] font-medium transition-colors
-              ${isActive ? 'text-green-700' : 'text-gray-400'}`
+              `flex-1 flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors
+              ${isActive ? 'text-forest font-semibold' : 'text-muted'}`
             }
           >
             {({ isActive }) => (
               <>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${isActive ? 'bg-green-50' : ''}`}>
+                <div
+                  className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${
+                    isActive ? 'bg-sage-mist text-forest shadow-xs' : 'text-muted'
+                  }`}
+                >
                   <Icon
-                    className={`w-5 h-5 ${isActive ? 'text-green-600' : 'text-gray-400'}`}
+                    className="w-4 h-4"
                     aria-hidden="true"
+                    strokeWidth={isActive ? 2.5 : 1.8}
                   />
                 </div>
-                <span className="leading-none">{t(`nav.${key}`)}</span>
+                <span className="leading-none text-[10px]">{t(`nav.${key}`)}</span>
               </>
             )}
           </NavLink>

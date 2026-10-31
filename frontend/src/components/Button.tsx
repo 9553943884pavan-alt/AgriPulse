@@ -1,4 +1,4 @@
-/** Button component — primary, secondary, ghost variants. */
+/** Button component — primary (Forest Green), secondary, ghost variants. */
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
@@ -8,10 +8,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const VARIANT_CLASSES: Record<NonNullable<ButtonProps['variant']>, string> = {
-  primary:   'bg-primary text-white hover:bg-primary-dark active:scale-95',
-  secondary: 'bg-surface text-ink border border-gray-300 hover:bg-gray-50 active:scale-95',
-  ghost:     'text-ink hover:bg-gray-100 active:scale-95',
-  danger:    'bg-danger text-white hover:bg-red-900 active:scale-95',
+  primary:   'bg-forest text-white hover:bg-fresh-leaf active:scale-95 shadow-sm font-semibold',
+  secondary: 'bg-white text-forest border border-sage-mist hover:bg-sage-mist/40 active:scale-95 font-medium',
+  ghost:     'text-forest hover:bg-sage-mist/30 active:scale-95',
+  danger:    'bg-danger text-white hover:bg-red-800 active:scale-95',
 }
 
 const SIZE_CLASSES: Record<NonNullable<ButtonProps['size']>, string> = {
@@ -36,7 +36,7 @@ export function Button({
       className={`
         inline-flex items-center justify-center gap-2 rounded-btn font-medium
         transition-all duration-150 focus-visible:outline-none focus-visible:ring-2
-        focus-visible:ring-primary focus-visible:ring-offset-2
+        focus-visible:ring-fresh-leaf focus-visible:ring-offset-2
         disabled:opacity-50 disabled:cursor-not-allowed
         ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}
       `}
