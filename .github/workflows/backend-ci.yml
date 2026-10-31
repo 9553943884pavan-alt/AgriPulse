@@ -1,0 +1,68 @@
+name: Backend CI
+
+on:
+  push:
+    branches: ["backend", "main"]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+
+jobs:
+  test:
+    name: pytest + ruff
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create .env for tests
+        working-directory: backend
+        run: |
+          cat > .env << 'EOF'
+          STATE=Maharashtra
+          DATA_GOV_IN_API_KEY=test-placeholder
+          SARVAM_API_KEY=test-placeholder
+          SARVAM_CHAT_MODEL=sarvam-105b
+          SARVAM_STT_MODEL=saaras:v4
+          SARVAM_TTS_MODEL=bulbul:v3
+          SARVAM_FALLBACK_MODELS=
+          CORS_ORIGINS=http://localhost:5173
+          CACHE_DB_PATH=data/cache.db
+          EOF
+
+      - name: Ruff lint
+        working-directory: backend
+        run: |
+          python -m ruff check app/
+
+      - name: Run tests
+        working-directory: backend
+        run: |
+          python -m pytest tests/ -v --tb=short --no-header
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: backend/.pytest_cache/
+          retention-days: 7
