@@ -88,7 +88,7 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
     water_budgets = []
     if scenarios:
         try:
-            await water_svc.build_water_budgets(profile, location, scenarios, weather)
+            water_budgets = water_svc.build_water_budgets(profile, location, scenarios, weather)
         except Exception as exc:
             logger.warning("Water budget failed: %s", exc)
 
@@ -103,9 +103,35 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
             from app.ml.stubs import candidate_crops
             candidates, excluded_crops = candidate_crops(profile, location, season, water_budgets)
             excluded.extend(excluded_crops)
-            # compare_strategies will be called here once ML is implemented
-        except NotImplementedError:
-            pass
+
+            if candidates:
+                from app.ml.candidate_options import build_crop_options
+                from app.ml.optimizer import compare_strategies
+                from app.schemas import OptimizerInputs
+
+                crops = await build_crop_options(candidates, scenarios, location, season, profile)
+                if crops:
+                    opt_inputs = OptimizerInputs(
+                        profile=profile,
+                        location=location,
+                        season=season,
+                        candidates=crops,
+                        water_budgets=water_budgets,
+                        scenario_weights=[0.2, 0.6, 0.2],
+                        price_history_years={c.crop_id: 5 for c in crops},
+                    )
+                    strategies, impact, opt_warnings = compare_strategies(opt_inputs)
+                    warnings.extend(opt_warnings)
+
+                    rec_id = "qp_drought_safe" if profile.risk_appetite == "safe" else "qp_balanced"
+                    rec_strat = next((s for s in strategies if s.id == rec_id), None)
+                    if rec_strat is None and strategies:
+                        rec_strat = strategies[0]
+                    recommended_strategy = rec_strat.id if rec_strat else None
+                    if rec_strat and not rec_strat.feasible:
+                        infeasibility = rec_strat.infeasibility
+        except Exception as exc:
+            logger.warning("Pipeline optimization stage failed: %s", exc)
 
     # ── Stage 9: OLD_COST_YEAR warning (always) ───────────────────────────────
     warnings.append(Warning(code="OLD_COST_YEAR", params={"year": "2022-23"}))

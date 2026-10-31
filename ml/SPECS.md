@@ -338,11 +338,11 @@ Types are the Pydantic models in `backend/app/schemas.py`. Every function return
 |---|---|---|---|
 | ML.1 | Candidate crop filter: grown in the district ∩ sowable now ∩ water-feasible | Never suggests apple / coffee / jute; covers soybean, sugarcane, jowar, wheat, onion | ✅ |
 | ML.2 | Clean `yield_training.csv`: aggregate rows, impossible yields, units | Cleaning report with counts per reason | ⬜ |
-| ML.3 | Yield baseline: hierarchical median lookup | Out-of-time MAE reported (EXP_01) | ⬜ |
-| ML.4 | Yield model: gradient boosting, time-based split, clipped to district max | Beats ML.3 per crop, or ML.3 stays primary for that crop (EXP_02) | ⬜ |
-| ML.4b | Suitability score and SHAP on the ML.4 model; fallback for weak crops | Score + top factors for every candidate; SHAP contributions add up to the prediction | ⬜ |
-| ML.5 | Climate scenarios per district (P10 / P50 / P90, weights, all-year samples) | Scenario table for all 36 districts | ⬜ |
-| ML.6 | Scenario yields: yield per crop per scenario | 3 yields per candidate crop | 🟨 |
+| ML.3 | Yield baseline: hierarchical median lookup | Out-of-time MAE reported (EXP_01) | ✅ |
+| ML.4 | Yield model: gradient boosting, time-based split, clipped to district max | Beats ML.3 per crop, or ML.3 stays primary for that crop (EXP_02) | ✅ |
+| ML.4b | Suitability score and SHAP on the ML.4 model; fallback for weak crops | Score + top factors for every candidate; SHAP contributions add up to the prediction | ✅ |
+| ML.5 | Climate scenarios per district (P10 / P50 / P90, weights, all-year samples) | Scenario table for all 36 districts | ✅ |
+| ML.6 | Scenario yields: yield per crop per scenario | 3 yields per candidate crop | ✅ |
 | ML.7 | Crop water need per stage and scenario | Matches a hand-checked example | ✅ |
 | ML.8 | Fertilizer plan: RDF dose per crop, priced with official MRPs, saving vs district use (no response curve) | Dose, cost and saving per crop; savings use only real district data (EXP_03) | ✅ |
 | ML.9 | Experiment reports for ML.3, ML.4 / ML.4b, ML.8 | One report per experiment in `ml/reports/` | ⬜ |

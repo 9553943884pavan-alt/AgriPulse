@@ -161,14 +161,17 @@ def _get_seed_cost(crop_id: str, seed_df) -> float | None:
 
 def _get_fertilizer_mrps(fert_prices_df) -> dict[str, float]:
     def _price(product: str) -> float:
-        row = fert_prices_df[fert_prices_df["product"].str.lower() == product.lower()]
+        col = "fertilizer_id" if "fertilizer_id" in fert_prices_df.columns else "fertilizer" if "fertilizer" in fert_prices_df.columns else "product"
+        if col not in fert_prices_df.columns:
+            return 0.0
+        row = fert_prices_df[fert_prices_df[col].astype(str).str.lower() == product.lower()]
         if row.empty:
             return 0.0
         return float(row.iloc[0].get("mrp_rs_per_kg", row.iloc[0].get("price_rs_per_kg", 0)) or 0)
     return {
-        "urea_rs_per_kg": _price("urea") or 5.36,       # NFMS 2024 controlled price
+        "urea_rs_per_kg": _price("urea") or 5.92,       # NFMS 2024 controlled price
         "dap_rs_per_kg": _price("dap") or 27.0,
-        "mop_rs_per_kg": _price("mop") or 17.0,
+        "mop_rs_per_kg": _price("mop") or 33.1,
     }
 
 

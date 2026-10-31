@@ -37,7 +37,7 @@ def candidate_crops(
     return _impl(profile, location, season, water)
 
 
-# ── ML.4 — Yield model ⬜ not yet implemented (needs weather data) ────────────
+# ── ML.4 — Yield model ✅ implemented ─────────────────────────────────────────
 
 def predict_yield(
     crop_id: str,
@@ -45,11 +45,12 @@ def predict_yield(
     season: Season,
     conditions: Scenario,
 ) -> YieldPrediction:
-    """ML.4 — Gradient boosting yield prediction. Needs yield_training.csv."""
-    raise NotImplementedError("predict_yield: pending weather data + ML.2 cleaning")
+    """ML.4 — Gradient boosting yield prediction (Model A) with baseline fallback."""
+    from app.ml.yield_model import predict_yield as _impl
+    return _impl(crop_id, location, season, conditions)
 
 
-# ── ML.4b — Suitability ⬜ not yet implemented ────────────────────────────────
+# ── ML.4b — Suitability ✅ implemented ────────────────────────────────────────
 
 def suitability(
     crop_id: str,
@@ -57,18 +58,20 @@ def suitability(
     season: Season,
     conditions: Scenario,
 ) -> Suitability:
-    """ML.4b — SHAP suitability score. Needs ML.4 yield model."""
-    raise NotImplementedError("suitability: pending ML.4 yield model")
+    """ML.4b — SHAP suitability score and factor attribution."""
+    from app.ml.suitability_scoring import suitability as _impl
+    return _impl(crop_id, location, season, conditions)
 
 
-# ── ML.5 — Climate scenarios ⬜ not yet implemented ───────────────────────────
+# ── ML.5 — Climate scenarios ✅ implemented ────────────────────────────────────
 
 def build_scenarios(
     location: Location,
     season: Season,
 ) -> list[Scenario]:
-    """ML.5 — Analogue-year scenarios P10/P50/P90. Needs 36-district weather."""
-    raise NotImplementedError("build_scenarios: pending full weather archive")
+    """ML.5 — Analogue-year scenarios P10/P50/P90 from ERA5 weather series."""
+    from app.ml.scenarios import build_scenarios as _impl
+    return _impl(location, season)
 
 
 # ── ML.7 — Crop water need ✅ implemented ────────────────────────────────────
