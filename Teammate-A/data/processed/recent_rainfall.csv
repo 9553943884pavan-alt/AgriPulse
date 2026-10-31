@@ -1,0 +1,37 @@
+district,period_end_date,rainfall_last_30d_mm,normal_last_30d_mm,departure_30d_pct,rainfall_last_60d_mm,normal_last_60d_mm,departure_60d_pct,rainfall_last_90d_mm,normal_last_90d_mm,departure_90d_pct,imd_departure_category_90d,kharif_16yr_baseline_normal_mm,source
+Ahmednagar,2025-12-31,0.0,8.8,-100.0,6.3,28.2,-77.7,72.4,103.6,-30.1,Deficient,816.2,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Akola,2025-12-31,0.0,3.6,-100.0,4.0,19.4,-79.3,61.2,66.3,-7.6,Normal,1036.2,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Amravati,2025-12-31,0.0,3.6,-100.0,3.4,15.9,-78.6,58.5,60.3,-2.9,Normal,1139.4,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Beed,2025-12-31,0.0,4.6,-100.0,4.6,21.6,-78.7,115.0,88.5,30.0,Excess,840.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Bhandara,2025-12-31,0.0,6.1,-100.0,1.8,17.6,-89.8,116.3,77.0,51.1,Excess,1424.6,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Buldhana,2025-12-31,0.0,7.7,-100.0,3.6,26.9,-86.6,76.4,80.9,-5.5,Normal,912.4,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Chandrapur,2025-12-31,0.0,6.0,-100.0,5.4,16.8,-67.8,93.0,89.4,4.0,Normal,1385.7,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Chhatrapati Sambhajinagar,2025-12-31,0.0,7.4,-100.0,2.4,20.3,-88.2,76.2,87.0,-12.5,Normal,971.3,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Dharashiv,2025-12-31,0.0,4.4,-100.0,4.6,22.3,-79.4,50.2,88.9,-43.5,Deficient,863.1,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Dhule,2025-12-31,0.0,10.3,-100.0,2.0,28.6,-93.0,92.7,63.6,45.8,Excess,776.0,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Gadchiroli,2025-12-31,0.0,9.9,-100.0,2.5,21.9,-88.6,127.4,103.3,23.4,Excess,1617.1,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Gondia,2025-12-31,0.0,7.9,-100.0,2.5,15.1,-83.4,116.3,68.6,69.6,Large Excess,1430.7,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Hingoli,2025-12-31,0.0,2.9,-100.0,5.1,16.1,-68.3,78.7,73.8,6.6,Normal,984.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Jalgaon,2025-12-31,0.0,7.1,-100.0,6.3,19.5,-67.7,76.2,65.3,16.6,Normal,954.8,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Jalna,2025-12-31,0.0,4.9,-100.0,2.1,21.0,-90.0,101.4,85.0,19.2,Normal,902.6,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Kolhapur,2025-12-31,1.7,8.6,-80.3,6.3,34.2,-81.6,99.3,164.3,-39.6,Deficient,1940.6,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Latur,2025-12-31,0.0,4.3,-100.0,4.9,18.0,-72.7,83.2,85.7,-2.9,Normal,841.6,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Mumbai City,2025-12-31,0.2,9.0,-97.8,10.7,18.5,-42.2,151.6,103.1,47.0,Excess,2133.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Mumbai Suburban,2025-12-31,0.0,6.7,-100.0,9.3,19.5,-52.2,129.9,112.0,16.0,Normal,1769.5,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Nagpur,2025-12-31,0.0,5.0,-100.0,2.0,11.8,-83.1,60.3,57.2,5.3,Normal,1251.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Nanded,2025-12-31,0.0,2.7,-100.0,6.3,14.5,-56.4,92.7,85.9,8.0,Normal,961.7,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Nandurbar,2025-12-31,0.0,7.3,-100.0,2.6,17.5,-85.2,121.1,57.1,112.0,Large Excess,842.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Nashik,2025-12-31,0.0,5.3,-100.0,1.7,18.5,-90.8,119.5,77.9,53.4,Excess,832.6,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Palghar,2025-12-31,0.0,5.7,-100.0,6.7,18.3,-63.4,157.9,102.7,53.7,Excess,2112.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Parbhani,2025-12-31,0.0,3.3,-100.0,5.3,13.9,-61.9,109.0,84.1,29.6,Excess,964.2,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Pune,2025-12-31,0.0,5.1,-100.0,3.1,19.5,-84.1,93.4,94.9,-1.6,Normal,817.1,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Raigad,2025-12-31,0.0,5.0,-100.0,13.5,23.4,-42.4,204.9,159.5,28.5,Excess,2494.1,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Ratnagiri,2025-12-31,0.0,6.8,-100.0,10.6,38.6,-72.5,213.0,192.3,10.8,Normal,2746.8,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Sangli,2025-12-31,0.1,5.3,-98.1,4.1,27.2,-84.9,107.3,131.1,-18.1,Normal,872.8,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Satara,2025-12-31,0.0,4.8,-100.0,4.9,28.1,-82.5,108.8,134.0,-18.8,Normal,823.0,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Sindhudurg,2025-12-31,0.7,9.7,-92.8,14.5,51.0,-71.6,367.7,266.1,38.2,Excess,3018.5,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Solapur,2025-12-31,0.0,4.5,-100.0,7.3,24.0,-69.5,106.6,117.8,-9.5,Normal,764.0,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Thane,2025-12-31,0.0,5.7,-100.0,15.7,21.4,-26.5,157.5,131.5,19.8,Normal,1874.9,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Wardha,2025-12-31,0.0,3.6,-100.0,1.8,14.3,-87.4,80.8,66.2,22.0,Excess,1204.8,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Washim,2025-12-31,0.0,4.0,-100.0,1.9,18.2,-89.6,49.1,71.5,-31.3,Deficient,1009.2,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms
+Yavatmal,2025-12-31,0.0,3.0,-100.0,2.0,14.4,-86.1,114.3,74.8,52.8,Excess,1167.8,Open-Meteo 16-Year Daily Reanalysis (2010-2025) & IMD Standard Departure Norms

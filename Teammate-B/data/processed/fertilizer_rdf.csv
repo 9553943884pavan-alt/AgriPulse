@@ -1,0 +1,17 @@
+crop_id,crop,season,n_kg_per_ha,p2o5_kg_per_ha,k2o_kg_per_ha,total_npk_kg_per_ha,fym_tonnes_per_ha,university_source
+soybean,Soybean,Kharif,50,75,45,170,5,"MPKV Rahuri / VNMKV Parbhani Krishi Darshani"
+cotton,"Cotton (Bt Irrigated/Rainfed Avg)",Kharif,120,60,60,240,10,"Dr. PDKV Akola / VNMKV Parbhani"
+rice,Rice (Paddy),Kharif,100,50,50,200,7.5,"Dr. BSKKV Dapoli / MPKV Rahuri"
+jowar,"Jowar (Hybrid/Rabi)","Kharif/Rabi",80,40,40,160,5,MPKV Rahuri
+bajra,Bajra (Pearl Millet),Kharif,60,30,30,120,5,MPKV Rahuri
+maize,Maize,"Kharif/Rabi",120,60,40,220,6,MPKV Rahuri
+pigeonpeas,"Tur / Arhar (Pigeon Pea)",Kharif,25,50,30,105,5,"Dr. PDKV Akola / VNMKV Parbhani"
+chickpea,"Gram / Chana (Chickpea)",Rabi,25,50,30,105,5,"MPKV Rahuri / Dr. PDKV Akola"
+mungbean,Moong (Green Gram),Kharif,20,40,20,80,5,VNMKV Parbhani
+blackgram,Urad (Black Gram),Kharif,20,40,20,80,5,VNMKV Parbhani
+wheat,Wheat (Irrigated),Rabi,120,60,40,220,6,MPKV Rahuri
+groundnut,Groundnut,"Kharif/Summer",25,50,0,75,7.5,MPKV Rahuri
+sugarcane,Sugarcane (Suru),Whole Year,250,115,115,480,20,"VSI Pune / MPKV Rahuri"
+onion,Onion,"Kharif/Rabi",100,50,50,200,15,ICAR-DOGR Rajgurunagar (Pune)
+pomegranate,Pomegranate,Whole Year,250,125,125,500,15,ICAR-NRCP Solapur
+banana,Banana,Whole Year,300,100,300,700,20,MPKV Jalgaon Banana Research Station

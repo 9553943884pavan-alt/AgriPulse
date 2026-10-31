@@ -1,0 +1,227 @@
+[
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Autumn",
+    "crop": "Maize",
+    "area_": 1,
+    "production_": 1113
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Arhar/Tur",
+    "area_": 17600,
+    "production_": 6300
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Bajra",
+    "area_": 274100,
+    "production_": 152800
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Gram",
+    "area_": 40800,
+    "production_": 18600
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Jowar",
+    "area_": 900,
+    "production_": 1100
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Maize",
+    "area_": 4400,
+    "production_": 4700
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Moong(Green Gram)",
+    "area_": 10200,
+    "production_": 900
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Pulses total",
+    "area_": 451,
+    "production_": 130
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Ragi",
+    "area_": 2600,
+    "production_": 2100
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Rice",
+    "area_": 5900,
+    "production_": 7200
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Sugarcane",
+    "area_": 45900,
+    "production_": 38940
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Total foodgrain",
+    "area_": 3384,
+    "production_": 1836
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Kharif",
+    "crop": "Urad",
+    "area_": 1600,
+    "production_": 800
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Rabi",
+    "crop": "Jowar",
+    "area_": 598400,
+    "production_": 217000
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Rabi",
+    "crop": "Maize",
+    "area_": 6200,
+    "production_": 9100
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Rabi",
+    "crop": "Other  Rabi pulses",
+    "area_": 60,
+    "production_": 3
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Rabi",
+    "crop": "Wheat",
+    "area_": 79700,
+    "production_": 87100
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Summer",
+    "crop": "Maize",
+    "area_": 1100,
+    "production_": 1900
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1997,
+    "season": "Whole Year",
+    "crop": "Cotton(lint)",
+    "area_": 98,
+    "production_": 17900
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1998,
+    "season": "Kharif",
+    "crop": "Arhar/Tur",
+    "area_": 18800,
+    "production_": 9700
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1998,
+    "season": "Kharif",
+    "crop": "Bajra",
+    "area_": 302400,
+    "production_": 243900
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1998,
+    "season": "Kharif",
+    "crop": "Castor seed",
+    "area_": 400,
+    "production_": 100
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1998,
+    "season": "Kharif",
+    "crop": "Cotton(lint)",
+    "area_": 12100,
+    "production_": 19900
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1998,
+    "season": "Kharif",
+    "crop": "Groundnut",
+    "area_": 7100,
+    "production_": 6200
+  },
+  {
+    "state_name": "Maharashtra",
+    "district_name": "AHMEDNAGAR",
+    "crop_year": 1998,
+    "season": "Kharif",
+    "crop": "Jowar",
+    "area_": 300,
+    "production_": 500
+  }
+]

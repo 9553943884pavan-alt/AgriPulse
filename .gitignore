@@ -1,0 +1,98 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+.env.local
+*.env
+*.pem
+*.key
+
+# Python & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python packaging & distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing & type checking
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Node.js / frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.next/
+out/
+.streamlit/secrets.toml
+
+# Machine learning & model checkpoints
+# Uncomment if you want to prevent committing large trained model weights:
+# *.pkl
+# *.joblib
+# *.pt
+# *.pth
+# *.onnx
+# *.h5
+
+# Local databases, logs & temporary files
+*.log
+*.sqlite3
+*.db-journal
+*.tmp
+temp/
+tmp/
+
+# Operating system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# IDE & editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~

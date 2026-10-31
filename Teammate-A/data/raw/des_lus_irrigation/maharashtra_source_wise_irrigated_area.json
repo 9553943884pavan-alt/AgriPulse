@@ -1,0 +1,5879 @@
+[
+  {
+    "id": "28705",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "65700"
+  },
+  {
+    "id": "28706",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "306400"
+  },
+  {
+    "id": "28707",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "97000"
+  },
+  {
+    "id": "28708",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "242200"
+  },
+  {
+    "id": "28709",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "57300"
+  },
+  {
+    "id": "28710",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "321800"
+  },
+  {
+    "id": "28711",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "94800"
+  },
+  {
+    "id": "28712",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "251800"
+  },
+  {
+    "id": "28713",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "117800"
+  },
+  {
+    "id": "28714",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "221600"
+  },
+  {
+    "id": "28715",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "97400"
+  },
+  {
+    "id": "28716",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "178000"
+  },
+  {
+    "id": "28717",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "137300"
+  },
+  {
+    "id": "28718",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "231400"
+  },
+  {
+    "id": "28719",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "89000"
+  },
+  {
+    "id": "28720",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "247500"
+  },
+  {
+    "id": "28721",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "132200"
+  },
+  {
+    "id": "28722",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "231400"
+  },
+  {
+    "id": "28723",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "84000"
+  },
+  {
+    "id": "28724",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AHMEDNAGAR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "247500"
+  },
+  {
+    "id": "28725",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5000"
+  },
+  {
+    "id": "28726",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20800"
+  },
+  {
+    "id": "28727",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "900"
+  },
+  {
+    "id": "28728",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "17500"
+  },
+  {
+    "id": "28729",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4900"
+  },
+  {
+    "id": "28730",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20700"
+  },
+  {
+    "id": "28731",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "700"
+  },
+  {
+    "id": "28732",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "17700"
+  },
+  {
+    "id": "28733",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "10900"
+  },
+  {
+    "id": "28734",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20600"
+  },
+  {
+    "id": "28735",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9100"
+  },
+  {
+    "id": "28736",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "16500"
+  },
+  {
+    "id": "28737",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5300"
+  },
+  {
+    "id": "28738",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20700"
+  },
+  {
+    "id": "28739",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "3700"
+  },
+  {
+    "id": "28740",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "15100"
+  },
+  {
+    "id": "28741",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "8000"
+  },
+  {
+    "id": "28742",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "20700"
+  },
+  {
+    "id": "28743",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6400"
+  },
+  {
+    "id": "28744",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AKOLA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "15100"
+  },
+  {
+    "id": "28745",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "2400"
+  },
+  {
+    "id": "28746",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "78100"
+  },
+  {
+    "id": "28747",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "1500"
+  },
+  {
+    "id": "28748",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "63000"
+  },
+  {
+    "id": "28749",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "7600"
+  },
+  {
+    "id": "28750",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "86100"
+  },
+  {
+    "id": "28751",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9100"
+  },
+  {
+    "id": "28752",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "69100"
+  },
+  {
+    "id": "28753",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "27400"
+  },
+  {
+    "id": "28754",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "51400"
+  },
+  {
+    "id": "28755",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "22600"
+  },
+  {
+    "id": "28756",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "41300"
+  },
+  {
+    "id": "28757",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "7200"
+  },
+  {
+    "id": "28758",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "78500"
+  },
+  {
+    "id": "28759",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6100"
+  },
+  {
+    "id": "28760",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "64700"
+  },
+  {
+    "id": "28761",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "8000"
+  },
+  {
+    "id": "28762",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "78500"
+  },
+  {
+    "id": "28763",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "7000"
+  },
+  {
+    "id": "28764",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AMRAVATI",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "64700"
+  },
+  {
+    "id": "28765",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "16000"
+  },
+  {
+    "id": "28766",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "171200"
+  },
+  {
+    "id": "28767",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "23200"
+  },
+  {
+    "id": "28768",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "139500"
+  },
+  {
+    "id": "28769",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "15500"
+  },
+  {
+    "id": "28770",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "164600"
+  },
+  {
+    "id": "28771",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "18100"
+  },
+  {
+    "id": "28772",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "137600"
+  },
+  {
+    "id": "28773",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "65900"
+  },
+  {
+    "id": "28774",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "123800"
+  },
+  {
+    "id": "28775",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "54400"
+  },
+  {
+    "id": "28776",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "99500"
+  },
+  {
+    "id": "28777",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "25300"
+  },
+  {
+    "id": "28778",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "104400"
+  },
+  {
+    "id": "28779",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "15700"
+  },
+  {
+    "id": "28780",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "89900"
+  },
+  {
+    "id": "28781",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "28200"
+  },
+  {
+    "id": "28782",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "104400"
+  },
+  {
+    "id": "28783",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "18700"
+  },
+  {
+    "id": "28784",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "AURAGABAD",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "89900"
+  },
+  {
+    "id": "28785",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "83800"
+  },
+  {
+    "id": "28786",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "169800"
+  },
+  {
+    "id": "28787",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "71100"
+  },
+  {
+    "id": "28788",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "143500"
+  },
+  {
+    "id": "28789",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "78900"
+  },
+  {
+    "id": "28790",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "157300"
+  },
+  {
+    "id": "28791",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "50400"
+  },
+  {
+    "id": "28792",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "147300"
+  },
+  {
+    "id": "28793",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "87500"
+  },
+  {
+    "id": "28794",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "164600"
+  },
+  {
+    "id": "28795",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "72400"
+  },
+  {
+    "id": "28796",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "132200"
+  },
+  {
+    "id": "28797",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "86700"
+  },
+  {
+    "id": "28798",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "139100"
+  },
+  {
+    "id": "28799",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "68000"
+  },
+  {
+    "id": "28800",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "119300"
+  },
+  {
+    "id": "28801",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "83100"
+  },
+  {
+    "id": "28802",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "139100"
+  },
+  {
+    "id": "28803",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "64500"
+  },
+  {
+    "id": "28804",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BEED",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "119300"
+  },
+  {
+    "id": "28805",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "171000"
+  },
+  {
+    "id": "28806",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "47700"
+  },
+  {
+    "id": "28807",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "165800"
+  },
+  {
+    "id": "28808",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "28500"
+  },
+  {
+    "id": "28809",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "99100"
+  },
+  {
+    "id": "28810",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "27400"
+  },
+  {
+    "id": "28811",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "97000"
+  },
+  {
+    "id": "28812",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "17400"
+  },
+  {
+    "id": "28813",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "81800"
+  },
+  {
+    "id": "28814",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "153700"
+  },
+  {
+    "id": "28815",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "67600"
+  },
+  {
+    "id": "28816",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "123500"
+  },
+  {
+    "id": "28817",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "89600"
+  },
+  {
+    "id": "28818",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "25200"
+  },
+  {
+    "id": "28819",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "69800"
+  },
+  {
+    "id": "28820",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "17800"
+  },
+  {
+    "id": "28821",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "91300"
+  },
+  {
+    "id": "28822",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "25200"
+  },
+  {
+    "id": "28823",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "71600"
+  },
+  {
+    "id": "28824",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BHANDARA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "17800"
+  },
+  {
+    "id": "28825",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5700"
+  },
+  {
+    "id": "28826",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "47200"
+  },
+  {
+    "id": "28827",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6300"
+  },
+  {
+    "id": "28828",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "39500"
+  },
+  {
+    "id": "28829",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4900"
+  },
+  {
+    "id": "28830",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "40300"
+  },
+  {
+    "id": "28831",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2400"
+  },
+  {
+    "id": "28832",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "35500"
+  },
+  {
+    "id": "28833",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "17500"
+  },
+  {
+    "id": "28834",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "33000"
+  },
+  {
+    "id": "28835",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "14500"
+  },
+  {
+    "id": "28836",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "26400"
+  },
+  {
+    "id": "28837",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5000"
+  },
+  {
+    "id": "28838",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "38600"
+  },
+  {
+    "id": "28839",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "3600"
+  },
+  {
+    "id": "28840",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "33100"
+  },
+  {
+    "id": "28841",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "13300"
+  },
+  {
+    "id": "28842",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "38600"
+  },
+  {
+    "id": "28843",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "11900"
+  },
+  {
+    "id": "28844",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "BULDHANA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "33100"
+  },
+  {
+    "id": "28845",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "92600"
+  },
+  {
+    "id": "28846",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "24300"
+  },
+  {
+    "id": "28847",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "89100"
+  },
+  {
+    "id": "28848",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "16300"
+  },
+  {
+    "id": "28849",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "92000"
+  },
+  {
+    "id": "28850",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "24100"
+  },
+  {
+    "id": "28851",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "86600"
+  },
+  {
+    "id": "28852",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "18400"
+  },
+  {
+    "id": "28853",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "38800"
+  },
+  {
+    "id": "28854",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "72900"
+  },
+  {
+    "id": "28855",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "32000"
+  },
+  {
+    "id": "28856",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "58600"
+  },
+  {
+    "id": "28857",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "31200"
+  },
+  {
+    "id": "28858",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "76100"
+  },
+  {
+    "id": "28859",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "30900"
+  },
+  {
+    "id": "28860",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "65500"
+  },
+  {
+    "id": "28861",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "30400"
+  },
+  {
+    "id": "28862",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "76100"
+  },
+  {
+    "id": "28863",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "30100"
+  },
+  {
+    "id": "28864",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "CHANDRAPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "65500"
+  },
+  {
+    "id": "28865",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "11800"
+  },
+  {
+    "id": "28866",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "41500"
+  },
+  {
+    "id": "28867",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "3100"
+  },
+  {
+    "id": "28868",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "41500"
+  },
+  {
+    "id": "28869",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "12100"
+  },
+  {
+    "id": "28870",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "41700"
+  },
+  {
+    "id": "28871",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "3200"
+  },
+  {
+    "id": "28872",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "41700"
+  },
+  {
+    "id": "28873",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "36000"
+  },
+  {
+    "id": "28874",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "67700"
+  },
+  {
+    "id": "28875",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "29800"
+  },
+  {
+    "id": "28876",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "54300"
+  },
+  {
+    "id": "28877",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5500"
+  },
+  {
+    "id": "28878",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "39400"
+  },
+  {
+    "id": "28879",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "7400"
+  },
+  {
+    "id": "28880",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "28600"
+  },
+  {
+    "id": "28881",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "19400"
+  },
+  {
+    "id": "28882",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "39400"
+  },
+  {
+    "id": "28883",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "21300"
+  },
+  {
+    "id": "28884",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "DHULE",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "28600"
+  },
+  {
+    "id": "28885",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "58100"
+  },
+  {
+    "id": "28886",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "3100"
+  },
+  {
+    "id": "28887",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "53800"
+  },
+  {
+    "id": "28888",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "3100"
+  },
+  {
+    "id": "28889",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "59800"
+  },
+  {
+    "id": "28890",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "3300"
+  },
+  {
+    "id": "28891",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "55600"
+  },
+  {
+    "id": "28892",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "3300"
+  },
+  {
+    "id": "28893",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "20200"
+  },
+  {
+    "id": "28894",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "38100"
+  },
+  {
+    "id": "28895",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "16700"
+  },
+  {
+    "id": "28896",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "30600"
+  },
+  {
+    "id": "28897",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "18400"
+  },
+  {
+    "id": "28898",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "42100"
+  },
+  {
+    "id": "28899",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "17800"
+  },
+  {
+    "id": "28900",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "38200"
+  },
+  {
+    "id": "28901",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "17900"
+  },
+  {
+    "id": "28902",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "42100"
+  },
+  {
+    "id": "28903",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "17300"
+  },
+  {
+    "id": "28904",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GADCHIROLI",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "38200"
+  },
+  {
+    "id": "28905",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "86200"
+  },
+  {
+    "id": "28906",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "23700"
+  },
+  {
+    "id": "28907",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "74300"
+  },
+  {
+    "id": "28908",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "23700"
+  },
+  {
+    "id": "28909",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "67400"
+  },
+  {
+    "id": "28910",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "32500"
+  },
+  {
+    "id": "28911",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "66700"
+  },
+  {
+    "id": "28912",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "21800"
+  },
+  {
+    "id": "28913",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "68400"
+  },
+  {
+    "id": "28914",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "32500"
+  },
+  {
+    "id": "28915",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "67700"
+  },
+  {
+    "id": "28916",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "GONDIYA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "21800"
+  },
+  {
+    "id": "28917",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "22700"
+  },
+  {
+    "id": "28918",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "49200"
+  },
+  {
+    "id": "28919",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "21700"
+  },
+  {
+    "id": "28920",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "29200"
+  },
+  {
+    "id": "28921",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "27200"
+  },
+  {
+    "id": "28922",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "49200"
+  },
+  {
+    "id": "28923",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "20000"
+  },
+  {
+    "id": "28924",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "35200"
+  },
+  {
+    "id": "28925",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "28200"
+  },
+  {
+    "id": "28926",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "49200"
+  },
+  {
+    "id": "28927",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "21000"
+  },
+  {
+    "id": "28928",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "35200"
+  },
+  {
+    "id": "28929",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2005",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "22700"
+  },
+  {
+    "id": "28930",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2005",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "49200"
+  },
+  {
+    "id": "28931",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2005",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "21700"
+  },
+  {
+    "id": "28932",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "HINGOLI",
+    "year": "2005",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "29200"
+  },
+  {
+    "id": "28933",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "6600"
+  },
+  {
+    "id": "28934",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "161200"
+  },
+  {
+    "id": "28935",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "5800"
+  },
+  {
+    "id": "28936",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "144500"
+  },
+  {
+    "id": "28937",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "6600"
+  },
+  {
+    "id": "28938",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "166200"
+  },
+  {
+    "id": "28939",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "7200"
+  },
+  {
+    "id": "28940",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "148600"
+  },
+  {
+    "id": "28941",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "61700"
+  },
+  {
+    "id": "28942",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "116100"
+  },
+  {
+    "id": "28943",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "51000"
+  },
+  {
+    "id": "28944",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "93200"
+  },
+  {
+    "id": "28945",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "24500"
+  },
+  {
+    "id": "28946",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "120900"
+  },
+  {
+    "id": "28947",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "20100"
+  },
+  {
+    "id": "28948",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "108400"
+  },
+  {
+    "id": "28949",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "31100"
+  },
+  {
+    "id": "28950",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "120900"
+  },
+  {
+    "id": "28951",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "26700"
+  },
+  {
+    "id": "28952",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALGAON",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "108400"
+  },
+  {
+    "id": "28953",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9800"
+  },
+  {
+    "id": "28954",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "92800"
+  },
+  {
+    "id": "28955",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "8800"
+  },
+  {
+    "id": "28956",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "59800"
+  },
+  {
+    "id": "28957",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "10600"
+  },
+  {
+    "id": "28958",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "96900"
+  },
+  {
+    "id": "28959",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "13500"
+  },
+  {
+    "id": "28960",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "60400"
+  },
+  {
+    "id": "28961",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "38300"
+  },
+  {
+    "id": "28962",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "72100"
+  },
+  {
+    "id": "28963",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "31700"
+  },
+  {
+    "id": "28964",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "57900"
+  },
+  {
+    "id": "28965",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "14500"
+  },
+  {
+    "id": "28966",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "83900"
+  },
+  {
+    "id": "28967",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "11500"
+  },
+  {
+    "id": "28968",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "52300"
+  },
+  {
+    "id": "28969",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "19200"
+  },
+  {
+    "id": "28970",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "83900"
+  },
+  {
+    "id": "28971",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "16200"
+  },
+  {
+    "id": "28972",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "JALNA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "52300"
+  },
+  {
+    "id": "28973",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "88800"
+  },
+  {
+    "id": "28974",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "46600"
+  },
+  {
+    "id": "28975",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "66300"
+  },
+  {
+    "id": "28976",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "62500"
+  },
+  {
+    "id": "28977",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "82400"
+  },
+  {
+    "id": "28978",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "43400"
+  },
+  {
+    "id": "28979",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "56300"
+  },
+  {
+    "id": "28980",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "63400"
+  },
+  {
+    "id": "28981",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "43500"
+  },
+  {
+    "id": "28982",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "81700"
+  },
+  {
+    "id": "28983",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "35900"
+  },
+  {
+    "id": "28984",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "65700"
+  },
+  {
+    "id": "28985",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "58700"
+  },
+  {
+    "id": "28986",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "92500"
+  },
+  {
+    "id": "28987",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "54100"
+  },
+  {
+    "id": "28988",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "90200"
+  },
+  {
+    "id": "28989",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "59900"
+  },
+  {
+    "id": "28990",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "92500"
+  },
+  {
+    "id": "28991",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "55300"
+  },
+  {
+    "id": "28992",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "KOLHAPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "90200"
+  },
+  {
+    "id": "28993",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9500"
+  },
+  {
+    "id": "28994",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "43900"
+  },
+  {
+    "id": "28995",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "4200"
+  },
+  {
+    "id": "28996",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "43900"
+  },
+  {
+    "id": "28997",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "10900"
+  },
+  {
+    "id": "28998",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "50200"
+  },
+  {
+    "id": "28999",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "5800"
+  },
+  {
+    "id": "29000",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "50200"
+  },
+  {
+    "id": "29001",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "13600"
+  },
+  {
+    "id": "29002",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "25600"
+  },
+  {
+    "id": "29003",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "11200"
+  },
+  {
+    "id": "29004",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "20600"
+  },
+  {
+    "id": "29005",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "15700"
+  },
+  {
+    "id": "29006",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "59900"
+  },
+  {
+    "id": "29007",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "14100"
+  },
+  {
+    "id": "29008",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "56400"
+  },
+  {
+    "id": "29009",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "8900"
+  },
+  {
+    "id": "29010",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "59900"
+  },
+  {
+    "id": "29011",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "7300"
+  },
+  {
+    "id": "29012",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "LATUR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "56400"
+  },
+  {
+    "id": "29013",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "MUMBAI SUB",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "0"
+  },
+  {
+    "id": "29014",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "MUMBAI SUB",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "0"
+  },
+  {
+    "id": "29015",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "MUMBAI SUB",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "0"
+  },
+  {
+    "id": "29016",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "MUMBAI SUB",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "0"
+  },
+  {
+    "id": "29017",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "MUMBAI SUB",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "0"
+  },
+  {
+    "id": "29018",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "67600"
+  },
+  {
+    "id": "29019",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "81000"
+  },
+  {
+    "id": "29020",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "52600"
+  },
+  {
+    "id": "29021",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "71000"
+  },
+  {
+    "id": "29022",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "67400"
+  },
+  {
+    "id": "29023",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "79800"
+  },
+  {
+    "id": "29024",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "51700"
+  },
+  {
+    "id": "29025",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "71500"
+  },
+  {
+    "id": "29026",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "47000"
+  },
+  {
+    "id": "29027",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "88500"
+  },
+  {
+    "id": "29028",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "38900"
+  },
+  {
+    "id": "29029",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "71000"
+  },
+  {
+    "id": "29030",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "56900"
+  },
+  {
+    "id": "29031",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "70500"
+  },
+  {
+    "id": "29032",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "57600"
+  },
+  {
+    "id": "29033",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "45900"
+  },
+  {
+    "id": "29034",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "58200"
+  },
+  {
+    "id": "29035",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "70500"
+  },
+  {
+    "id": "29036",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "59000"
+  },
+  {
+    "id": "29037",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NAGPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "45900"
+  },
+  {
+    "id": "29038",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "21900"
+  },
+  {
+    "id": "29039",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "68300"
+  },
+  {
+    "id": "29040",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "22700"
+  },
+  {
+    "id": "29041",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "44500"
+  },
+  {
+    "id": "29042",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "21700"
+  },
+  {
+    "id": "29043",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "65900"
+  },
+  {
+    "id": "29044",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "18400"
+  },
+  {
+    "id": "29045",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "46500"
+  },
+  {
+    "id": "29046",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "25900"
+  },
+  {
+    "id": "29047",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "48600"
+  },
+  {
+    "id": "29048",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "21400"
+  },
+  {
+    "id": "29049",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "39000"
+  },
+  {
+    "id": "29050",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "22000"
+  },
+  {
+    "id": "29051",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "71800"
+  },
+  {
+    "id": "29052",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "17800"
+  },
+  {
+    "id": "29053",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "52800"
+  },
+  {
+    "id": "29054",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "25200"
+  },
+  {
+    "id": "29055",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "71800"
+  },
+  {
+    "id": "29056",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "21100"
+  },
+  {
+    "id": "29057",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDED",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "52800"
+  },
+  {
+    "id": "29058",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "2000"
+  },
+  {
+    "id": "29059",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "48800"
+  },
+  {
+    "id": "29060",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "8900"
+  },
+  {
+    "id": "29061",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "40000"
+  },
+  {
+    "id": "29062",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "1900"
+  },
+  {
+    "id": "29063",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "51600"
+  },
+  {
+    "id": "29064",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "10200"
+  },
+  {
+    "id": "29065",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "41600"
+  },
+  {
+    "id": "29066",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9300"
+  },
+  {
+    "id": "29067",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "28900"
+  },
+  {
+    "id": "29068",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2600"
+  },
+  {
+    "id": "29069",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "32500"
+  },
+  {
+    "id": "29070",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "12600"
+  },
+  {
+    "id": "29071",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "28900"
+  },
+  {
+    "id": "29072",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "5900"
+  },
+  {
+    "id": "29073",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "32500"
+  },
+  {
+    "id": "29074",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2005",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "1900"
+  },
+  {
+    "id": "29075",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2005",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "51600"
+  },
+  {
+    "id": "29076",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2005",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "10200"
+  },
+  {
+    "id": "29077",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NANDURBAR",
+    "year": "2005",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "41600"
+  },
+  {
+    "id": "29078",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "16000"
+  },
+  {
+    "id": "29079",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "219600"
+  },
+  {
+    "id": "29080",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "13900"
+  },
+  {
+    "id": "29081",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "181500"
+  },
+  {
+    "id": "29082",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "15300"
+  },
+  {
+    "id": "29083",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "226700"
+  },
+  {
+    "id": "29084",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "16100"
+  },
+  {
+    "id": "29085",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "185500"
+  },
+  {
+    "id": "29086",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "79200"
+  },
+  {
+    "id": "29087",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "148800"
+  },
+  {
+    "id": "29088",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "65400"
+  },
+  {
+    "id": "29089",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "119600"
+  },
+  {
+    "id": "29090",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "57800"
+  },
+  {
+    "id": "29091",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "162500"
+  },
+  {
+    "id": "29092",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "34900"
+  },
+  {
+    "id": "29093",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "147200"
+  },
+  {
+    "id": "29094",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "82700"
+  },
+  {
+    "id": "29095",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "162500"
+  },
+  {
+    "id": "29096",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "60100"
+  },
+  {
+    "id": "29097",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "NASIK",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "147200"
+  },
+  {
+    "id": "29098",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "20000"
+  },
+  {
+    "id": "29099",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "113900"
+  },
+  {
+    "id": "29100",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "20700"
+  },
+  {
+    "id": "29101",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "87500"
+  },
+  {
+    "id": "29102",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "22100"
+  },
+  {
+    "id": "29103",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "114100"
+  },
+  {
+    "id": "29104",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "18700"
+  },
+  {
+    "id": "29105",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "92100"
+  },
+  {
+    "id": "29106",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "42400"
+  },
+  {
+    "id": "29107",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "79600"
+  },
+  {
+    "id": "29108",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "35000"
+  },
+  {
+    "id": "29109",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "64000"
+  },
+  {
+    "id": "29110",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "23600"
+  },
+  {
+    "id": "29111",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "105200"
+  },
+  {
+    "id": "29112",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "18200"
+  },
+  {
+    "id": "29113",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "85400"
+  },
+  {
+    "id": "29114",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "19700"
+  },
+  {
+    "id": "29115",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "105200"
+  },
+  {
+    "id": "29116",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "14400"
+  },
+  {
+    "id": "29117",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "OSMANABAD",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "85400"
+  },
+  {
+    "id": "29118",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "42900"
+  },
+  {
+    "id": "29119",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "94500"
+  },
+  {
+    "id": "29120",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "39700"
+  },
+  {
+    "id": "29121",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "54500"
+  },
+  {
+    "id": "29122",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "20400"
+  },
+  {
+    "id": "29123",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "44900"
+  },
+  {
+    "id": "29124",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9200"
+  },
+  {
+    "id": "29125",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "34900"
+  },
+  {
+    "id": "29126",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "38700"
+  },
+  {
+    "id": "29127",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "72800"
+  },
+  {
+    "id": "29128",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "32100"
+  },
+  {
+    "id": "29129",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "58400"
+  },
+  {
+    "id": "29130",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "25500"
+  },
+  {
+    "id": "29131",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "53600"
+  },
+  {
+    "id": "29132",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "16700"
+  },
+  {
+    "id": "29133",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "41500"
+  },
+  {
+    "id": "29134",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "32800"
+  },
+  {
+    "id": "29135",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "53600"
+  },
+  {
+    "id": "29136",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "24000"
+  },
+  {
+    "id": "29137",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PARBHANI",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "41500"
+  },
+  {
+    "id": "29138",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "145300"
+  },
+  {
+    "id": "29139",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "166400"
+  },
+  {
+    "id": "29140",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "100600"
+  },
+  {
+    "id": "29141",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "161000"
+  },
+  {
+    "id": "29142",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "144500"
+  },
+  {
+    "id": "29143",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "168400"
+  },
+  {
+    "id": "29144",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "94800"
+  },
+  {
+    "id": "29145",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "168400"
+  },
+  {
+    "id": "29146",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "99100"
+  },
+  {
+    "id": "29147",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "186200"
+  },
+  {
+    "id": "29148",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "81900"
+  },
+  {
+    "id": "29149",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "149600"
+  },
+  {
+    "id": "29150",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "156700"
+  },
+  {
+    "id": "29151",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "184500"
+  },
+  {
+    "id": "29152",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "134500"
+  },
+  {
+    "id": "29153",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "156400"
+  },
+  {
+    "id": "29154",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "160400"
+  },
+  {
+    "id": "29155",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "184500"
+  },
+  {
+    "id": "29156",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "138400"
+  },
+  {
+    "id": "29157",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "PUNE",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "156400"
+  },
+  {
+    "id": "29158",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9700"
+  },
+  {
+    "id": "29159",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "4700"
+  },
+  {
+    "id": "29160",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "8000"
+  },
+  {
+    "id": "29161",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "3900"
+  },
+  {
+    "id": "29162",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9100"
+  },
+  {
+    "id": "29163",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "4300"
+  },
+  {
+    "id": "29164",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6900"
+  },
+  {
+    "id": "29165",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "4200"
+  },
+  {
+    "id": "29166",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4400"
+  },
+  {
+    "id": "29167",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "8400"
+  },
+  {
+    "id": "29168",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "3700"
+  },
+  {
+    "id": "29169",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "6700"
+  },
+  {
+    "id": "29170",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "6800"
+  },
+  {
+    "id": "29171",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "11400"
+  },
+  {
+    "id": "29172",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6300"
+  },
+  {
+    "id": "29173",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "9400"
+  },
+  {
+    "id": "29174",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "8300"
+  },
+  {
+    "id": "29175",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "11400"
+  },
+  {
+    "id": "29176",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "7900"
+  },
+  {
+    "id": "29177",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RAIGAD",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "9400"
+  },
+  {
+    "id": "29178",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "1400"
+  },
+  {
+    "id": "29179",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "2700"
+  },
+  {
+    "id": "29180",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "900"
+  },
+  {
+    "id": "29181",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "2200"
+  },
+  {
+    "id": "29182",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "2700"
+  },
+  {
+    "id": "29183",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "2700"
+  },
+  {
+    "id": "29184",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "1800"
+  },
+  {
+    "id": "29185",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "2700"
+  },
+  {
+    "id": "29186",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "900"
+  },
+  {
+    "id": "29187",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "1700"
+  },
+  {
+    "id": "29188",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "700"
+  },
+  {
+    "id": "29189",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "1400"
+  },
+  {
+    "id": "29190",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5200"
+  },
+  {
+    "id": "29191",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "7600"
+  },
+  {
+    "id": "29192",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "5900"
+  },
+  {
+    "id": "29193",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "5800"
+  },
+  {
+    "id": "29194",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "3800"
+  },
+  {
+    "id": "29195",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "7600"
+  },
+  {
+    "id": "29196",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "4500"
+  },
+  {
+    "id": "29197",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "RATNAGIRI",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "5800"
+  },
+  {
+    "id": "29198",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "42400"
+  },
+  {
+    "id": "29199",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "111200"
+  },
+  {
+    "id": "29200",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "27100"
+  },
+  {
+    "id": "29201",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "111200"
+  },
+  {
+    "id": "29202",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "41300"
+  },
+  {
+    "id": "29203",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "109200"
+  },
+  {
+    "id": "29204",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "26300"
+  },
+  {
+    "id": "29205",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "109200"
+  },
+  {
+    "id": "29206",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "50800"
+  },
+  {
+    "id": "29207",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "95600"
+  },
+  {
+    "id": "29208",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "42000"
+  },
+  {
+    "id": "29209",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "76800"
+  },
+  {
+    "id": "29210",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "49700"
+  },
+  {
+    "id": "29211",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "124200"
+  },
+  {
+    "id": "29212",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "45000"
+  },
+  {
+    "id": "29213",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "113400"
+  },
+  {
+    "id": "29214",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "53500"
+  },
+  {
+    "id": "29215",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "124200"
+  },
+  {
+    "id": "29216",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "48800"
+  },
+  {
+    "id": "29217",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SANGLI",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "113400"
+  },
+  {
+    "id": "29218",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "71800"
+  },
+  {
+    "id": "29219",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "154000"
+  },
+  {
+    "id": "29220",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "58800"
+  },
+  {
+    "id": "29221",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "114000"
+  },
+  {
+    "id": "29222",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "68700"
+  },
+  {
+    "id": "29223",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "147400"
+  },
+  {
+    "id": "29224",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "48200"
+  },
+  {
+    "id": "29225",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "115400"
+  },
+  {
+    "id": "29226",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "77300"
+  },
+  {
+    "id": "29227",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "145400"
+  },
+  {
+    "id": "29228",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "63900"
+  },
+  {
+    "id": "29229",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "116800"
+  },
+  {
+    "id": "29230",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "85200"
+  },
+  {
+    "id": "29231",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "137200"
+  },
+  {
+    "id": "29232",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "67100"
+  },
+  {
+    "id": "29233",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "102500"
+  },
+  {
+    "id": "29234",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "86500"
+  },
+  {
+    "id": "29235",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "137200"
+  },
+  {
+    "id": "29236",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "68500"
+  },
+  {
+    "id": "29237",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SATARA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "102500"
+  },
+  {
+    "id": "29238",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "33600"
+  },
+  {
+    "id": "29239",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "300"
+  },
+  {
+    "id": "29240",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "30500"
+  },
+  {
+    "id": "29241",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "300"
+  },
+  {
+    "id": "29242",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "36300"
+  },
+  {
+    "id": "29243",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "200"
+  },
+  {
+    "id": "29244",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "33000"
+  },
+  {
+    "id": "29245",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "200"
+  },
+  {
+    "id": "29246",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "11000"
+  },
+  {
+    "id": "29247",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20600"
+  },
+  {
+    "id": "29248",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9100"
+  },
+  {
+    "id": "29249",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "16500"
+  },
+  {
+    "id": "29250",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "8700"
+  },
+  {
+    "id": "29251",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "10400"
+  },
+  {
+    "id": "29252",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "7200"
+  },
+  {
+    "id": "29253",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "8900"
+  },
+  {
+    "id": "29254",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "10900"
+  },
+  {
+    "id": "29255",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "10400"
+  },
+  {
+    "id": "29256",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9500"
+  },
+  {
+    "id": "29257",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SINDHUDURG",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "8900"
+  },
+  {
+    "id": "29258",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "60900"
+  },
+  {
+    "id": "29259",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "227800"
+  },
+  {
+    "id": "29260",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "61900"
+  },
+  {
+    "id": "29261",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "188500"
+  },
+  {
+    "id": "29262",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "62200"
+  },
+  {
+    "id": "29263",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "227700"
+  },
+  {
+    "id": "29264",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "60700"
+  },
+  {
+    "id": "29265",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "191000"
+  },
+  {
+    "id": "29266",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "89700"
+  },
+  {
+    "id": "29267",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "168700"
+  },
+  {
+    "id": "29268",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "74200"
+  },
+  {
+    "id": "29269",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "135500"
+  },
+  {
+    "id": "29270",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "77500"
+  },
+  {
+    "id": "29271",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "183100"
+  },
+  {
+    "id": "29272",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "59600"
+  },
+  {
+    "id": "29273",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "163200"
+  },
+  {
+    "id": "29274",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "78800"
+  },
+  {
+    "id": "29275",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "183100"
+  },
+  {
+    "id": "29276",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "61000"
+  },
+  {
+    "id": "29277",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "SOLAPUR",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "163200"
+  },
+  {
+    "id": "29278",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "2200"
+  },
+  {
+    "id": "29279",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "18600"
+  },
+  {
+    "id": "29280",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "200"
+  },
+  {
+    "id": "29281",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "18600"
+  },
+  {
+    "id": "29282",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "2800"
+  },
+  {
+    "id": "29283",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "18000"
+  },
+  {
+    "id": "29284",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "1000"
+  },
+  {
+    "id": "29285",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "18000"
+  },
+  {
+    "id": "29286",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5700"
+  },
+  {
+    "id": "29287",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "10800"
+  },
+  {
+    "id": "29288",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "4700"
+  },
+  {
+    "id": "29289",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "8700"
+  },
+  {
+    "id": "29290",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "5600"
+  },
+  {
+    "id": "29291",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "15500"
+  },
+  {
+    "id": "29292",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "5400"
+  },
+  {
+    "id": "29293",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "13600"
+  },
+  {
+    "id": "29294",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "6300"
+  },
+  {
+    "id": "29295",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "15500"
+  },
+  {
+    "id": "29296",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6100"
+  },
+  {
+    "id": "29297",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "THANE",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "13600"
+  },
+  {
+    "id": "29298",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4400"
+  },
+  {
+    "id": "29299",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "34800"
+  },
+  {
+    "id": "29300",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6500"
+  },
+  {
+    "id": "29301",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "22500"
+  },
+  {
+    "id": "29302",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4500"
+  },
+  {
+    "id": "29303",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "36300"
+  },
+  {
+    "id": "29304",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "4600"
+  },
+  {
+    "id": "29305",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "26300"
+  },
+  {
+    "id": "29306",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "11000"
+  },
+  {
+    "id": "29307",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20700"
+  },
+  {
+    "id": "29308",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9100"
+  },
+  {
+    "id": "29309",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "16600"
+  },
+  {
+    "id": "29310",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4100"
+  },
+  {
+    "id": "29311",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "34500"
+  },
+  {
+    "id": "29312",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2800"
+  },
+  {
+    "id": "29313",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "26300"
+  },
+  {
+    "id": "29314",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "3600"
+  },
+  {
+    "id": "29315",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "34500"
+  },
+  {
+    "id": "29316",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2300"
+  },
+  {
+    "id": "29317",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WARDHA",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "26300"
+  },
+  {
+    "id": "29318",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4000"
+  },
+  {
+    "id": "29319",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "18600"
+  },
+  {
+    "id": "29320",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2400"
+  },
+  {
+    "id": "29321",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "17000"
+  },
+  {
+    "id": "29322",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4300"
+  },
+  {
+    "id": "29323",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20400"
+  },
+  {
+    "id": "29324",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2600"
+  },
+  {
+    "id": "29325",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "19100"
+  },
+  {
+    "id": "29326",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4400"
+  },
+  {
+    "id": "29327",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "19200"
+  },
+  {
+    "id": "29328",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "3400"
+  },
+  {
+    "id": "29329",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "17200"
+  },
+  {
+    "id": "29330",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "3600"
+  },
+  {
+    "id": "29331",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "19200"
+  },
+  {
+    "id": "29332",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2600"
+  },
+  {
+    "id": "29333",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "17200"
+  },
+  {
+    "id": "29334",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2005",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "4300"
+  },
+  {
+    "id": "29335",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2005",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "20400"
+  },
+  {
+    "id": "29336",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2005",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "2600"
+  },
+  {
+    "id": "29337",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "WASHIM",
+    "year": "2005",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "19100"
+  },
+  {
+    "id": "29338",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1998",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9600"
+  },
+  {
+    "id": "29339",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1998",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "55500"
+  },
+  {
+    "id": "29340",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1998",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "11100"
+  },
+  {
+    "id": "29341",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1998",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "46000"
+  },
+  {
+    "id": "29342",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1999",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "9000"
+  },
+  {
+    "id": "29343",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1999",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "52600"
+  },
+  {
+    "id": "29344",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1999",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "10800"
+  },
+  {
+    "id": "29345",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "1999",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "42600"
+  },
+  {
+    "id": "29346",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2000",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "22100"
+  },
+  {
+    "id": "29347",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2000",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "41400"
+  },
+  {
+    "id": "29348",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2000",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "18200"
+  },
+  {
+    "id": "29349",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2000",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "33300"
+  },
+  {
+    "id": "29350",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2001",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "7700"
+  },
+  {
+    "id": "29351",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2001",
+    "irrigationsource": "Gross_Wells_Otherwells",
+    "irrigatedareainha": "46200"
+  },
+  {
+    "id": "29352",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2001",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "6600"
+  },
+  {
+    "id": "29353",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2001",
+    "irrigationsource": "Net_Wells_Otherwells",
+    "irrigatedareainha": "39500"
+  },
+  {
+    "id": "29354",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2002",
+    "irrigationsource": "Gross_Canals_Govt.",
+    "irrigatedareainha": "10600"
+  },
+  {
+    "id": "29355",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2002",
+    "irrigationsource": "Gross_Wells_Tubewells",
+    "irrigatedareainha": "46200"
+  },
+  {
+    "id": "29356",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2002",
+    "irrigationsource": "Net_Canals_Govt.",
+    "irrigatedareainha": "9500"
+  },
+  {
+    "id": "29357",
+    "timestamp_": "2016-02-25T14:33:23Z",
+    "state": "MAHARASHTRA",
+    "district": "YEVATMAL",
+    "year": "2002",
+    "irrigationsource": "Net_Wells_Tubewells",
+    "irrigatedareainha": "39500"
+  }
+]

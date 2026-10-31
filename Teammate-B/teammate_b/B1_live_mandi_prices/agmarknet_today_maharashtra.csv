@@ -1,0 +1,1135 @@
+State,District,Market,Commodity,Variety,Grade,Arrival_Date,Min_x0020_Price,Max_x0020_Price,Modal_x0020_Price
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ",Groundnut,Other,Non-FAQ,30/10/2026,5800,7405,6800
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ",Soyabean,Other,Local,30/10/2026,6500,6860,6725
+Maharashtra,Beed,"APMC Beed",Soyabean,Yellow,FAQ,30/10/2026,6700,6925,6842
+Maharashtra,Chandrapur,"APMC Sindevahi",Paddy(Common),Other,FAQ,30/10/2026,2600,2650,2600
+Maharashtra,Amarawati,"Varud(Rajura Bazar)","Red gram/Arhar/Tur(whole)",Other,Non-FAQ,30/10/2026,7810,7810,7810
+Maharashtra,Ahilyanagar,"APMC Kopargaon ",Wheat,Other,FAQ,30/10/2026,3069,3636,3499
+Maharashtra,Ahilyanagar,"APMC Kopargaon ",Maize,Other,FAQ,30/10/2026,2420,2860,2624
+Maharashtra,Ahilyanagar,"APMC Kopargaon ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6000,7200,6701
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Papaya,Other,Local,30/10/2026,1500,2500,2000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Guava,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Cauliflower,Other,Local,30/10/2026,600,1000,800
+Maharashtra,Ahilyanagar,"APMC Karjat ",Wheat,Other,FAQ,30/10/2026,3000,3500,3250
+Maharashtra,Ahilyanagar,"Shevgaon(Bodhegaon) ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,3000,3000,3000
+Maharashtra,Akola,"APMC Akola ",Ginger(Green),Other,Local,30/10/2026,4000,6000,4500
+Maharashtra,Akola,"APMC Akola ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,2800,3175,2915
+Maharashtra,Akola,"APMC Akola ",Maize,Yellow,Non-FAQ,30/10/2026,1500,1500,1500
+Maharashtra,Akola,"APMC Akola ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6065,7155,6850
+Maharashtra,Akola,"APMC Akola ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,2000,3500,3000
+Maharashtra,Akola,"APMC Akola ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8860,10275,9965
+Maharashtra,Akola,"APMC Murtizapur ",Wheat,Other,FAQ,30/10/2026,2655,3045,2850
+Maharashtra,Amarawati,"APMC Amarawati ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8400,9800,9100
+Maharashtra,Amarawati,"APMC Amarawati ",Groundnut,Other,FAQ,30/10/2026,10000,11000,10500
+Maharashtra,Amarawati,"APMC Chandur Railway","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9300,9725,9500
+Maharashtra,Amarawati,"APMC Daryapur ","Bengal Gram(Gram)(Whole)","Average (Whole)",FAQ,30/10/2026,6000,7110,6905
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Beetroot,Other,Local,30/10/2026,2000,2500,2250
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2500,3000,2750
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Pumpkin,Other,Local,30/10/2026,1000,1500,1250
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Methi(Leaves),Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Spinach,Other,Local,30/10/2026,1000,1500,1250
+Maharashtra,Beed,"APMC Ambejogai ",Jowar(Sorghum),Other,FAQ,30/10/2026,5000,5000,5000
+Maharashtra,Buldhana,"APMC Malkapur ",Wheat,Other,FAQ,30/10/2026,2740,3751,3605
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Tomato,Other,Local,30/10/2026,800,1600,1200
+Maharashtra,Dharashiv,"APMC Bhoom ",Soyabean,Yellow,FAQ,30/10/2026,6700,6700,6700
+Maharashtra,Dharashiv,"APMC Dharashiv","Bitter gourd",Other,Local,30/10/2026,600,3000,1800
+Maharashtra,Dharashiv,"APMC Dharashiv",Cabbage,Other,Local,30/10/2026,600,1300,950
+Maharashtra,Dharashiv,"APMC Dharashiv","Chilly Capsicum",Other,Local,30/10/2026,700,4000,2350
+Maharashtra,Dharashiv,"APMC Dharashiv",Ridgeguard(Tori),Other,Local,30/10/2026,600,6000,3300
+Maharashtra,Dharashiv,"APMC Dharashiv",Cauliflower,Other,Local,30/10/2026,600,2500,1550
+Maharashtra,Dharashiv,"APMC Dharashiv","Green Chilli",Other,Local,30/10/2026,3500,6000,4750
+Maharashtra,Dharashiv,"APMC Tuljapur ",Soyabean,Other,Local,30/10/2026,6500,6850,6800
+Maharashtra,Dharashiv,"APMC Umarga ",Soyabean,Yellow,FAQ,30/10/2026,6500,6910,6750
+Maharashtra,Jalgaon,"APMC Pachora ",Jowar(Sorghum),Other,Local,30/10/2026,4500,5400,5000
+Maharashtra,Jalgaon,"APMC Pachora ","Sunflower/Sunflower Seed",Other,Non-FAQ,30/10/2026,6691,6691,6691
+Maharashtra,Jalgaon,"APMC Bhusaval ",Papaya,Other,Local,30/10/2026,2000,2000,2000
+Maharashtra,Jalgaon,"APMC Bhusaval ",Cauliflower,Other,Local,30/10/2026,500,1000,800
+Maharashtra,Jalgaon,"APMC Bhusaval ",Onion,Unhali,Local,30/10/2026,4000,4500,4200
+Maharashtra,Jalgaon,"APMC Bhusaval ","Bitter gourd",Other,Local,30/10/2026,2500,2500,2500
+Maharashtra,Jalgaon,"APMC Bhusaval ",Coriander(Leaves),Other,Local,30/10/2026,6000,7000,6500
+Maharashtra,Jalgaon,"Jamner(Neri) ",Maize,"Deshi Red",Non-FAQ,30/10/2026,2000,2200,2100
+Maharashtra,Jalgaon," PACHORA(BHADGAON)",Maize,Other,FAQ,30/10/2026,2500,2801,2651
+Maharashtra,Jalna,"APMC Jalana ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3300,3669,3300
+Maharashtra,Jalna,"APMC Jalana ",Wheat,Other,FAQ,30/10/2026,3100,4200,3255
+Maharashtra,Jalna,"APMC Jalana ","Bengal Gram(Gram)(Whole)","Kabul Small",FAQ,30/10/2026,8325,8325,8325
+Maharashtra,Jalna,"APMC Jalana ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6800,7025,6800
+Maharashtra,Jalna,"APMC Jalana ","Bengal Gram(Gram)(Whole)",Other,Non-FAQ,30/10/2026,5000,5000,5000
+Maharashtra,Jalna,"APMC Jalana ",Mustard,Other,FAQ,30/10/2026,9500,9500,9500
+Maharashtra,Amarawati,"APMC Achalpur ",Soyabean,Other,Local,30/10/2026,6600,6800,6700
+Maharashtra,Jalgaon,"APMC Amalner","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3200,3375,3375
+Maharashtra,Jalgaon,"APMC Amalner",Maize,"Deshi Red",FAQ,30/10/2026,2500,2941,2941
+Maharashtra,Latur,"APMC Ahmedpur",Maize,Other,FAQ,30/10/2026,3151,3165,3158
+Maharashtra,Latur,"APMC  Latur",Safflower,Other,Non-FAQ,30/10/2026,4200,6775,6610
+Maharashtra,Latur,"APMC Aurad Shahajani ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9501,9501,9501
+Maharashtra,Latur,"APMC Aurad Shahajani ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8700,9600,9150
+Maharashtra,Latur,"APMC Aurad Shahajani ",Safflower,Other,Non-FAQ,30/10/2026,6251,6651,6451
+Maharashtra,Mumbai,"APMC Mumbai ",Mustard,Other,FAQ,30/10/2026,9000,10500,9750
+Maharashtra,Mumbai,"APMC Mumbai ",Almond(Badam),Other,Local,30/10/2026,80000,130000,105000
+Maharashtra,Mumbai,"APMC Mumbai ","Sabu Dan",Other,Local,30/10/2026,6000,7000,6600
+Maharashtra,Mumbai,"APMC Mumbai ","Bengal Gram Dal(Chana Dal)",Other,Local,30/10/2026,9100,10500,10000
+Maharashtra,Mumbai,"APMC Mumbai ","Masur Dal",Other,Local,30/10/2026,7200,8000,7700
+Maharashtra,Mumbai,"APMC Mumbai ","Green Gram(Moong)(Whole)",Other,FAQ,30/10/2026,9500,14000,12000
+Maharashtra,Mumbai,"APMC Mumbai ","Green Gram Dal(Moong Dal)",Other,Local,30/10/2026,10000,13000,11700
+Maharashtra,Mumbai,"APMC Mumbai ",Coconut,Other,FAQ,30/10/2026,3020,5000,4010
+Maharashtra,Mumbai,"APMC Mumbai ",Spinach,Other,Local,30/10/2026,800,1300,1050
+Maharashtra,Mumbai,"APMC Mumbai ","Pointed gourd(Parval)",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Mumbai,"APMC Mumbai ",Drumstick,Other,Local,30/10/2026,7000,8000,7500
+Maharashtra,Mumbai,"APMC Mumbai ",Brinjal,Other,Local,30/10/2026,1600,3000,2300
+Maharashtra,Mumbai,"APMC Mumbai ","Corriander seed",Other,Local,30/10/2026,14000,18000,16000
+Maharashtra,Mumbai,"APMC Mumbai ",Turmeric,Other,Local,30/10/2026,20000,28000,24000
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Chikoos(Sapota),Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Papaya,Other,Local,30/10/2026,1200,3500,2350
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Guava,Other,Local,30/10/2026,5000,12000,8500
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Seetapal,Other,Local,30/10/2026,6000,8000,7000
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Pineapple,Other,Local,30/10/2026,2000,5000,3500
+Maharashtra,Nagpur,"APMC Nagpur ",Soyabean,Other,Local,30/10/2026,6300,6880,6675
+Maharashtra,Nagpur,"APMC Nagpur ","Corriander seed",Other,Local,30/10/2026,13500,14500,14250
+Maharashtra,Nagpur,"APMC Nagpur ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6900,7250,7162
+Maharashtra,Nagpur,"APMC Savner ",Soyabean,Yellow,FAQ,30/10/2026,6700,7190,7000
+Maharashtra,Nanded,"APMC Bhokar",Soyabean,Yellow,FAQ,30/10/2026,6000,7011,6505
+Maharashtra,Nagpur,"APMC Katol ",Soyabean,Yellow,FAQ,30/10/2026,5900,7100,6500
+Maharashtra,Dharashiv,"APMC Paranda ",Maize,Other,FAQ,30/10/2026,2700,2775,2750
+Maharashtra,Nandurbar,"APMC Nandurbar ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2890,2890,2890
+Maharashtra,Nandurbar,"APMC Nandurbar ",Wheat,Other,FAQ,30/10/2026,2650,2905,2775
+Maharashtra,Nandurbar,"APMC Nandurbar ",Maize,Other,FAQ,30/10/2026,2675,3061,3061
+Maharashtra,Nandurbar,"APMC Shahada ",Jowar(Sorghum),Other,Local,30/10/2026,2372,4235,3799
+Maharashtra,Nandurbar,"APMC Shahada ",Maize,"Deshi Red",FAQ,30/10/2026,2410,2746,2586
+Maharashtra,Jalna,"APMC Ambad (Vadigodri) ",Wheat,Other,Non-FAQ,30/10/2026,1985,2400,2100
+Maharashtra,Nashik,"APMC Nandgaon ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,8780,10500,10150
+Maharashtra,Nashik,"APMC Sinner ",Wheat,Other,FAQ,30/10/2026,3420,3615,3500
+Maharashtra,Nashik,"APMC Devala ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7700,7900,7900
+Maharashtra,Nashik,"APMC Pimpalgaon Baswant ",Onion,Unhali,Local,30/10/2026,2000,5600,4250
+Maharashtra,Nashik,"APMC Pimpalgaon Baswant ",Pomegranate,Other,Local,30/10/2026,250,15750,11000
+Maharashtra,Nashik,"Lasalgaon(Niphad) ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,2941,3350,3100
+Maharashtra,Jalgaon,"APMC Jalgaon",Ridgeguard(Tori),Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Jalgaon,"APMC Jalgaon",Brinjal,Other,Local,30/10/2026,1000,3000,2000
+Maharashtra,Jalgaon,"APMC Jalgaon",Jowar(Sorghum),Other,Local,30/10/2026,6355,6745,6500
+Maharashtra,Jalgaon,"APMC Jalgaon","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7105,7105,7105
+Maharashtra,Jalgaon,"APMC Jalgaon",Lime,Other,Local,30/10/2026,6000,8000,7000
+Maharashtra,Jalgaon,"APMC Jalgaon",Seetapal,Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Jalgaon,"APMC Jalgaon","Amla(Nelli Kai)",Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Jalgaon,"APMC Jalgaon",Coriander(Leaves),Other,Local,30/10/2026,5000,7000,6000
+Maharashtra,Nanded,"APMC Loha ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,2800,3701,3644
+Maharashtra,Nanded,"APMC Loha ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,8891,9950,9000
+Maharashtra,Nashik,"APMC Nampur",Onion,Unhali,Local,30/10/2026,1500,4290,3600
+Maharashtra,Thane,"APMC Kalyan ","Ground Nut Seed",Other,Local,30/10/2026,11000,14000,12500
+Maharashtra,Thane,"APMC Kalyan ",Cauliflower,Other,Local,30/10/2026,700,1600,1150
+Maharashtra,Thane,"APMC Kalyan ",Guar,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Thane,"APMC Kalyan ",Onion,"1st Sort",Local,30/10/2026,4000,4800,4400
+Maharashtra,Beed,"APMC Gevrai ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3215,3700,3250
+Maharashtra,Beed,"APMC Gevrai ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2830,2830,2830
+Maharashtra,Beed,"APMC Gevrai ",Jowar(Sorghum),Red,Local,30/10/2026,4000,7851,5925
+Maharashtra,Parbhani,"Bori ",Soyabean,Yellow,FAQ,30/10/2026,6250,6775,6650
+Maharashtra,Pune,"APMC Pune ",Grapes,Other,Local,30/10/2026,4000,14000,9000
+Maharashtra,Pune,"APMC Pune ","Mousambi(Sweet Lime)",Other,Local,30/10/2026,4000,8000,6000
+Maharashtra,Pune,"APMC Pune ",Papaya,Other,Local,30/10/2026,1000,2500,1700
+Maharashtra,Pune,"APMC Pune ","Green Chilli",Other,Local,30/10/2026,3000,5000,4000
+Maharashtra,Pune,"APMC Pune ",Seetapal,Other,Local,30/10/2026,3000,7000,5000
+Maharashtra,Pune,"APMC Pune ",Beetroot,Other,Local,30/10/2026,600,2000,1300
+Maharashtra,Pune,"APMC Pune ",Raddish,Other,Local,30/10/2026,5,25,15
+Maharashtra,Pune,"APMC Pune ","Sweet Potato",Other,Local,30/10/2026,1500,3000,2250
+Maharashtra,Pune,"APMC Khed ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2000,4500,3500
+Maharashtra,Pune,"APMC Khed ","Bottle gourd",Other,Local,30/10/2026,500,2000,1000
+Maharashtra,Pune,"APMC Khed ",Guar,Other,Local,30/10/2026,4000,7000,5500
+Maharashtra,Pune,"APMC Khed ",Cucumbar(Kheera),Other,Local,30/10/2026,600,4000,2500
+Maharashtra,Pune,"APMC Khed ",Onion,Fursungi,Local,30/10/2026,2000,4200,3500
+Maharashtra,Pune,"APMC Khed ",Tomato,Local,Local,30/10/2026,300,1500,1000
+Maharashtra,Parbhani,"APMC Pathari",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,5000,6100,6100
+Maharashtra,Parbhani,"APMC Pathari","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,8001,8001,8001
+Maharashtra,Pune,"APMC Indapur ",Guava,Other,Local,30/10/2026,1500,6100,2000
+Maharashtra,Pune,"APMC Indapur ",Seetapal,Other,Local,30/10/2026,2500,7500,5500
+Maharashtra,Pune,"APMC Indapur ",Onion,Red,Local,30/10/2026,1500,4300,2500
+Maharashtra,Nashik,"APMC Lasalgaon ",Maize,Other,FAQ,30/10/2026,2600,3000,2900
+Maharashtra,Nashik,"APMC Lasalgaon ",Maize,Other,Non-FAQ,30/10/2026,2000,2000,2000
+Maharashtra,Nagpur,"APMC Hingna",Orange,Other,Local,30/10/2026,2500,2500,2500
+Maharashtra,Nagpur,"APMC Hingna",Brinjal,Other,Local,30/10/2026,200,2000,1148
+Maharashtra,Nagpur,"APMC Hingna",Cauliflower,Other,Local,30/10/2026,500,2000,1233
+Maharashtra,Nagpur,"APMC Hingna",Pumpkin,Other,Local,30/10/2026,1600,1600,1600
+Maharashtra,Nagpur,"APMC Hingna",Coriander(Leaves),Other,Local,30/10/2026,2000,7000,5111
+Maharashtra,Pune,"Khed(Chakan) ",Guar,Other,Local,30/10/2026,3000,5000,4000
+Maharashtra,Pune,"Khed(Chakan) ",Drumstick,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Pune,"Khed(Chakan) ",Ridgeguard(Tori),Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Khed(Chakan) ","Peas Wet",Other,Local,30/10/2026,8000,12000,10000
+Maharashtra,Pune,"Khed(Chakan) ",Ginger(Green),Other,Local,30/10/2026,5000,7000,6000
+Maharashtra,Pune,"Pune(Khadiki) ","Sweet Pumpkin",Other,Local,30/10/2026,700,1000,850
+Maharashtra,Pune,"Pune(Khadiki) ",Onion,Local,Local,30/10/2026,1000,2800,1900
+Maharashtra,Pune,"Junnar(Alephata) ",Onion,Chinchwad,Local,30/10/2026,1500,4705,3700
+Maharashtra,Pune,"Junnar(Narayangaon) ",Ginger(Green),Other,Local,30/10/2026,2000,8500,5300
+Maharashtra,Pune,"Junnar(Narayangaon) ",Carrot,Other,Local,30/10/2026,500,2500,1500
+Maharashtra,Pune,"Junnar(Narayangaon) ",Onion,Chinchwad,Local,30/10/2026,1000,4500,2800
+Maharashtra,Pune,"Junnar(Narayangaon) ",Ridgeguard(Tori),Other,Local,30/10/2026,400,3300,1800
+Maharashtra,Pune,"Junnar(Narayangaon) ","Peas Wet",Other,Local,30/10/2026,5500,14000,9500
+Maharashtra,Pune,"Pune(Manjri) ",Papaya,Other,Local,30/10/2026,1500,3500,2500
+Maharashtra,Pune,"Pune(Manjri) ",Seetapal,Other,Local,30/10/2026,4000,8000,6000
+Maharashtra,Pune,"Pune(Manjri) ","Onion Green",Other,Local,30/10/2026,6,15,9
+Maharashtra,Pune,"Pune(Manjri) ",Cabbage,Other,Local,30/10/2026,300,600,400
+Maharashtra,Pune,"Pune(Moshi) ",Chikoos(Sapota),Other,Local,30/10/2026,4000,4000,4000
+Maharashtra,Pune,"Pune(Moshi) ",Pear(Marasebu),Other,Local,30/10/2026,8000,8000,8000
+Maharashtra,Pune,"Pune(Moshi) ",Apple,Other,Local,30/10/2026,10000,10000,10000
+Maharashtra,Pune,"Pune(Moshi) ",Beans,Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Pune,"Pune(Moshi) ",Methi(Leaves),Other,Local,30/10/2026,25,30,28
+Maharashtra,Pune,"Pune(Moshi) ",Ridgeguard(Tori),Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Guar,Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Cabbage,Other,Local,30/10/2026,800,1200,1000
+Maharashtra,Sangli,"APMC Sangli ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,10000,12000,11000
+Maharashtra,Sangli,"APMC Sangli ","Ground Nut Seed",Other,Local,30/10/2026,11900,15000,13450
+Maharashtra,Jalgaon,"APMC Chalisgaon ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,2900,3413,3100
+Maharashtra,Nagpur,"APMC Kalmeshwar ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1520,2000,1840
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Cauliflower,Other,Local,30/10/2026,615,1000,805
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Cucumbar(Kheera),Other,Local,30/10/2026,1535,2000,1855
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Tomato,Other,Local,30/10/2026,1510,2000,1820
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Raddish,Other,Local,30/10/2026,1560,2000,1830
+Maharashtra,Buldhana,"APMC Mehekar ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6500,7000,6800
+Maharashtra,Buldhana,"APMC Mehekar ",Wheat,Other,FAQ,30/10/2026,2700,3000,2750
+Maharashtra,Satara,"APMC Vai ",Potato,Local,Local,30/10/2026,1800,2100,2000
+Maharashtra,Satara,"APMC Vai ",Cauliflower,Other,Local,30/10/2026,1800,2000,1900
+Maharashtra,Satara,"APMC Vai ","Green Chilli",Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Solapur,"APMC Barshi ",Soyabean,Other,Local,30/10/2026,6800,6825,6800
+Maharashtra,Solapur,"APMC Solapur ",Jowar(Sorghum),Other,FAQ,30/10/2026,5950,8210,7350
+Maharashtra,Solapur,"APMC Solapur ",Gur(Jaggery),Yellow,Local,30/10/2026,4400,5701,5301
+Maharashtra,Solapur,"APMC Solapur ",Chikoos(Sapota),Other,Local,30/10/2026,1000,7000,4000
+Maharashtra,Solapur,"APMC Solapur ",Beetroot,Other,Local,30/10/2026,800,2500,1500
+Maharashtra,Solapur,"APMC Solapur ",Guar,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Solapur,"APMC Solapur ",Cucumbar(Kheera),Other,Local,30/10/2026,600,5000,2500
+Maharashtra,Solapur,"APMC Pandharpur ",Tomato,Other,Local,30/10/2026,500,1400,1000
+Maharashtra,Solapur,"APMC Sangola ",Pomegranate,Other,Local,30/10/2026,3000,17500,10000
+Maharashtra,Solapur,"APMC Karmala ","Sunflower/Sunflower Seed",Other,Non-FAQ,30/10/2026,7500,7500,7500
+Maharashtra,Solapur,"APMC Mangal Wedha ","Bitter gourd",Other,Local,30/10/2026,2200,2700,2200
+Maharashtra,Solapur,"APMC Mangal Wedha ","Green Chilli",Other,Local,30/10/2026,3500,5500,4500
+Maharashtra,Solapur,"APMC Akluj ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2500,3500,3000
+Maharashtra,Solapur,"APMC Akluj ",Cucumbar(Kheera),Other,Local,30/10/2026,1200,2500,2000
+Maharashtra,Solapur,"Barshi(Vairag) ",Soyabean,Other,Local,30/10/2026,6801,6801,6801
+Maharashtra,Solapur,"APMC Dudhani ","Sunflower/Sunflower Seed",Other,Non-FAQ,30/10/2026,6500,7475,7090
+Maharashtra,Wardha,"APMC Hinganghat ",Wheat,Other,FAQ,30/10/2026,2750,3000,2850
+Maharashtra,Wardha,"APMC Hinganghat ",Soyabean,Yellow,FAQ,30/10/2026,6400,7115,6700
+Maharashtra,Wardha,"APMC Wardha ",Cotton,Other,FAQ,30/10/2026,9250,9550,9375
+Maharashtra,Washim,"APMC Washim ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,2275,2640,2450
+Maharashtra,Washim,"APMC Washim ","Bengal Gram(Gram)(Whole)","Average (Whole)",FAQ,30/10/2026,6300,7075,6800
+Maharashtra,Yavatmal,"APMC Yavatmal ",Soyabean,Yellow,FAQ,30/10/2026,6250,7090,6670
+Maharashtra,Yavatmal,"APMC Vani",Soyabean,Yellow,FAQ,30/10/2026,6300,6950,6750
+Maharashtra,Yavatmal,"Umarked(Danki) ",Soyabean,Yellow,FAQ,30/10/2026,6500,6700,6600
+Maharashtra,Ahilyanagar,"Omchatinya Multi State Agro Purpose Co-Op Society, Dist Ahilyanagar",Maize,Other,Local,30/10/2026,2800,2925,2900
+Maharashtra,Nashik,"Dindori(Vani) ",Onion,Unhali,Local,30/10/2026,3801,4761,4251
+Maharashtra,Nashik,"Perfect Krishi Market Yard Pvt Ltd, Dist Nashik",Pomegranate,Other,Local,30/10/2026,1375,13700,9250
+Maharashtra,Parbhani,"Shree Salasar Krushi Bazar, Dist Parbhani","Bengal Gram(Gram)(Whole)",Other,Local,30/10/2026,6800,6800,6800
+Maharashtra,Yavatmal,"Ramdev Krushi Bazaar, Digras road, Manora, Dist Washim",Soyabean,Other,Local,30/10/2026,6750,7100,6873
+Maharashtra,Chandrapur,"APMC Nagbhid",Paddy(Common),Other,FAQ,30/10/2026,4500,4500,4500
+Maharashtra,Parbhani,"APMC Jintur ",Soyabean,Yellow,FAQ,30/10/2026,6555,7031,6900
+Maharashtra,Pune,"Pune(Pimpri) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,4500,4500,4500
+Maharashtra,Pune,"Pune(Pimpri) ",Mint(Pudina),Other,Local,30/10/2026,7,8,8
+Maharashtra,Pune,"Pune(Pimpri) ",Tomato,Local,Local,30/10/2026,1000,1000,1000
+Maharashtra,Buldhana,"APMC Chikali ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,1400,2000,1700
+Maharashtra,Buldhana,"APMC Chikali ","Bengal Gram(Gram)(Whole)","Kabul Small",FAQ,30/10/2026,7050,8500,7775
+Maharashtra,Buldhana,"APMC Chikali ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,8900,11002,9951
+Maharashtra,Buldhana,"APMC Chikali ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8250,9200,8725
+Maharashtra,Washim,"APMC Manora ","Bengal Gram(Gram)(Whole)",Other,Non-FAQ,30/10/2026,5100,5100,5100
+Maharashtra,Washim,"APMC Manora ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8799,9601,9402
+Maharashtra,Washim,"APMC Manora ",Soyabean,Other,Local,30/10/2026,6600,7120,6860
+Maharashtra,Ahilyanagar,"APMC Rahata ",Beetroot,Other,Local,30/10/2026,1000,1000,1000
+Maharashtra,Ahilyanagar,"APMC Rahata ","Bottle gourd",Other,Local,30/10/2026,500,700,600
+Maharashtra,Ahilyanagar,"APMC Rahata ",Guar,Other,Local,30/10/2026,4000,10000,7000
+Maharashtra,Ahilyanagar,"APMC Rahata ",Onion,Other,Local,30/10/2026,800,5200,3800
+Maharashtra,Ahilyanagar,"APMC Rahata ",Cabbage,Other,Local,30/10/2026,500,700,600
+Maharashtra,Ahilyanagar,"APMC Rahata ",Garlic,Other,Local,30/10/2026,8000,12000,10000
+Maharashtra,Ahilyanagar,"APMC Rahata ",Spinach,Other,Local,30/10/2026,10,10,10
+Maharashtra,Ahilyanagar,"APMC Rahata ",Brinjal,Other,Local,30/10/2026,1000,3000,2000
+Maharashtra,Raigad,"APMC Mangaon ",Rice,Other,Local,30/10/2026,2000,4800,3800
+Maharashtra,Raigad,"APMC Pen ","Bottle gourd",Other,Local,30/10/2026,3400,3600,3400
+Maharashtra,Ahilyanagar,"APMC Jamkhed ",Wheat,Other,Non-FAQ,30/10/2026,2400,2600,2500
+Maharashtra,Ahilyanagar,"APMC Jamkhed ",Maize,Other,FAQ,30/10/2026,2500,2800,2650
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ",Wheat,Other,FAQ,30/10/2026,2800,3800,2980
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,7700,8770,8500
+Maharashtra,Beed,"APMC Beed","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9200,9200,9200
+Maharashtra,Ahilyanagar,"APMC Sangamner ",Onion,Red,Local,30/10/2026,1200,5200,3200
+Maharashtra,Ahilyanagar,"APMC Kopargaon ",Soyabean,Other,Local,30/10/2026,6666,6921,6767
+Maharashtra,Ahilyanagar,"APMC Kopargaon ",Onion,Unhali,Local,30/10/2026,1000,4301,3950
+Maharashtra,Ahilyanagar,"APMC Shrirampur ","Mousambi(Sweet Lime)",Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Ahilyanagar,"APMC Shrirampur ","Bottle gourd",Other,Local,30/10/2026,400,600,500
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Methi(Leaves),Other,Local,30/10/2026,20,25,22
+Maharashtra,Akola,"APMC Akola ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9025,9025,9025
+Maharashtra,Amarawati,"APMC Amarawati ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2300,2600,2450
+Maharashtra,Amarawati,"APMC Amarawati ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9500,10100,9800
+Maharashtra,Amarawati,"APMC Amarawati ",Soyabean,Other,Local,30/10/2026,6600,6911,6755
+Maharashtra,Amarawati,"APMC Chandur Railway","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6700,7000,7000
+Maharashtra,Amarawati,"APMC Daryapur ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8500,9850,9700
+Maharashtra,Amarawati,"APMC Daryapur ",Soyabean,Yellow,FAQ,30/10/2026,5750,7075,6850
+Maharashtra,Amarawati,"APMC Nandgaon Khandeshwar ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6800,7350,7000
+Maharashtra,Amarawati,"APMC Nandgaon Khandeshwar ","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,7575,7955,7700
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Cucumbar(Kheera),Other,Local,30/10/2026,1600,2200,1900
+Maharashtra,Beed,"APMC Ambejogai ",Wheat,Red,FAQ,30/10/2026,3500,3500,3500
+Maharashtra,Beed,"APMC Ambejogai ",Maize,"Deshi Red",FAQ,30/10/2026,3000,3000,3000
+Maharashtra,Beed,"APMC Majalgaon ",Wheat,Other,FAQ,30/10/2026,3000,4401,3411
+Maharashtra,Buldhana,"APMC Malkapur ",Maize,Yellow,FAQ,30/10/2026,2750,3000,2900
+Maharashtra,Chandrapur,"APMC Brahmpuri ",Paddy(Common),Other,FAQ,30/10/2026,3800,4000,3900
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1500,2000,1800
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Onion,Other,Local,30/10/2026,4700,6000,5500
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Garlic,Other,Local,30/10/2026,15000,21000,16000
+Maharashtra,Dharashiv,"APMC Dharashiv",Onion,Red,Local,30/10/2026,1000,4500,2750
+Maharashtra,Dharashiv,"APMC Dharashiv",Brinjal,Other,Local,30/10/2026,600,5000,2800
+Maharashtra,Dharashiv,"APMC Dharashiv",Ginger(Green),Other,Local,30/10/2026,3000,6000,4500
+Maharashtra,Dharashiv,"APMC Dharashiv","Sweet Pumpkin",Other,Local,30/10/2026,600,1400,1000
+Maharashtra,"Chattrapati Sambhajinagar","APMC Sillod ",Soyabean,Other,Local,30/10/2026,6800,7000,6900
+Maharashtra,Dharashiv,"APMC Tuljapur ",Wheat,Other,FAQ,30/10/2026,2610,2700,2650
+Maharashtra,Dharashiv,"APMC Umarga ",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,4550,5700,5500
+Maharashtra,Dharashiv,"APMC Umarga ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6110,6110,6110
+Maharashtra,Dhule,"APMC Dhule ",Onion,Red,Local,30/10/2026,3550,4550,4000
+Maharashtra,Gondiya,"APMC Gondiya ",Paddy(Common),Other,FAQ,30/10/2026,2503,3000,2751
+Maharashtra,Gondiya,"APMC Gondiya ",Paddy(Common),Other,Non-FAQ,30/10/2026,2171,2252,2211
+Maharashtra,Jalgaon,Jalgaon(Masawat),Maize,"Deshi Red",Non-FAQ,30/10/2026,2275,2275,2275
+Maharashtra,Jalgaon,"APMC Pachora ",Wheat,Other,Non-FAQ,30/10/2026,2600,2608,2605
+Maharashtra,Jalgaon,"APMC Pachora ",Maize,Other,Non-FAQ,30/10/2026,2400,2408,2405
+Maharashtra,Jalgaon,"APMC Bhusaval ",Beetroot,Other,Local,30/10/2026,1500,1500,1500
+Maharashtra,Jalgaon,"APMC Bhusaval ",Brinjal,Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Hingoli,"APMC Hingoli",Wheat,Sharbati,FAQ,30/10/2026,3500,4050,3775
+Maharashtra,Jalna,"APMC Jalana ",Jowar(Sorghum),Other,Local,30/10/2026,2900,8401,5200
+Maharashtra,Jalna,"APMC Jalana ",Maize,"Deshi Red",FAQ,30/10/2026,2442,3100,2660
+Maharashtra,Jalna,"APMC Jalana ","Green Gram(Moong)(Whole)",Other,FAQ,30/10/2026,8800,8800,8800
+Maharashtra,Jalna,"APMC Jalana ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8399,9000,9000
+Maharashtra,Jalna,"APMC Partur ",Soyabean,Yellow,FAQ,30/10/2026,6500,7000,6876
+Maharashtra,Latur,"APMC Ahmedpur","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6260,7000,6704
+Maharashtra,Latur,"APMC Ahmedpur","Green Gram(Moong)(Whole)",Other,FAQ,30/10/2026,8780,10500,9640
+Maharashtra,Kolhapur,Kolhapur(Laxmipuri),Wheat,Other,FAQ,30/10/2026,3300,4400,3850
+Maharashtra,Kolhapur,Kolhapur(Laxmipuri),Jowar(Sorghum),Other,Local,30/10/2026,4400,6900,5650
+Maharashtra,Latur,"APMC  Latur","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,7203,8001,7600
+Maharashtra,Latur,"APMC Aurad Shahajani ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7000,7112,7106
+Maharashtra,Amarawati,"APMC Chandur Bazar ",Soyabean,Yellow,FAQ,30/10/2026,6500,7200,6760
+Maharashtra,Mumbai,"APMC Mumbai ","Cummin Seed(Jeera)",Other,Local,30/10/2026,25000,27000,26000
+Maharashtra,Mumbai,"APMC Mumbai ","Methi Seeds",Methiseeds,Local,30/10/2026,8500,10500,9500
+Maharashtra,Mumbai,"APMC Mumbai ",Cardamom,Other,Local,30/10/2026,225000,400000,312500
+Maharashtra,Mumbai,"APMC Mumbai ",Cinamon(Dalchini),Other,Local,30/10/2026,20000,38000,29000
+Maharashtra,Mumbai,"APMC Mumbai ",Rice,Other,Local,30/10/2026,8000,12000,11000
+Maharashtra,Mumbai,"APMC Mumbai ",Lentil(Masur)(Whole),Other,FAQ,30/10/2026,7400,7400,7400
+Maharashtra,Mumbai,"APMC Mumbai ","Black Gram Dal(Urd Dal)",Other,Local,30/10/2026,11000,14000,12700
+Maharashtra,Mumbai,"APMC Mumbai ","Green Peas",Other,Local,30/10/2026,4800,9000,7200
+Maharashtra,Mumbai,"APMC Mumbai ",Carrot,Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Mumbai,"APMC Mumbai ",Beans,Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Mumbai,"APMC Mumbai ","Bitter gourd",Other,Local,30/10/2026,1600,2000,1800
+Maharashtra,Mumbai,"APMC Mumbai ",Snakeguard,Other,Local,30/10/2026,1600,2400,2000
+Maharashtra,Mumbai,"APMC Mumbai ",Tomato,Other,Local,30/10/2026,800,1000,900
+Maharashtra,Mumbai,"APMC Mumbai ","Tamarind Fruit",Other,Local,30/10/2026,9500,18000,16000
+Maharashtra,Nagpur,"APMC Nagpur ",Apple,Simla,Local,30/10/2026,6000,7000,6750
+Maharashtra,Nagpur,"APMC Nagpur ",Wheat,Other,FAQ,30/10/2026,2800,3034,2975
+Maharashtra,Nagpur,"APMC Nagpur ",Wheat,Sharbati,FAQ,30/10/2026,3200,3500,3425
+Maharashtra,Nagpur,"APMC Nagpur ",Rice,Other,Local,30/10/2026,7200,7500,7425
+Maharashtra,Nagpur,"APMC Savner ",Cotton,Other,Local,30/10/2026,8500,9000,8800
+Maharashtra,Nagpur,"APMC Savner ",Wheat,Other,FAQ,30/10/2026,2610,2788,2700
+Maharashtra,Nagpur,"APMC Savner ",Maize,Other,FAQ,30/10/2026,2410,2886,2500
+Maharashtra,"Chattrapati Sambhajinagar","APMC Gangapur ",Wheat,Other,FAQ,30/10/2026,3100,3270,3100
+Maharashtra,Nagpur,"APMC Katol ",Groundnut,Other,FAQ,30/10/2026,7600,12500,9500
+Maharashtra,Kolhapur,"APMC Kolhapur",Onion,Other,Local,30/10/2026,1500,5000,3200
+Maharashtra,Nandurbar,"APMC Shahada ",Maize,"Deshi White",FAQ,30/10/2026,2450,2900,2726
+Maharashtra,Nandurbar,"APMC Taloda ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,3400,3991,3500
+Maharashtra,Jalna,"APMC Ambad (Vadigodri) ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2151,2584,2296
+Maharashtra,Nashik,"APMC Nandgaon ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,3100,4300,3650
+Maharashtra,Nashik,"APMC Sinner ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3155,3155,3155
+Maharashtra,Nashik,"APMC Sinner ",Maize,Other,FAQ,30/10/2026,2700,3075,2900
+Maharashtra,Nashik,"APMC Sinner ",Rice,"1009 Kar",Local,30/10/2026,2870,2870,2870
+Maharashtra,Nashik,"APMC Sinner ",Onion,Unhali,Local,30/10/2026,2000,4650,4000
+Maharashtra,Nashik,"APMC Devala ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8500,8600,8550
+Maharashtra,Nashik,"Lasalgaon(Niphad) ",Onion,Unhali,Local,30/10/2026,1900,4280,4000
+Maharashtra,Jalgaon,"APMC Jalgaon",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,2200,2200,2200
+Maharashtra,Jalgaon,"APMC Jalgaon","Bengal Gram(Gram)(Whole)",Other,Non-FAQ,30/10/2026,5600,5600,5600
+Maharashtra,Jalgaon,"APMC Jalgaon",Guava,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Jalgaon,"APMC Jalgaon",Cucumbar(Kheera),Other,Local,30/10/2026,2000,2500,2200
+Maharashtra,Jalgaon,"APMC Jalgaon","Bitter gourd",Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Jalgaon,"APMC Jalgaon",Methi(Leaves),Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Nanded,"APMC Loha ",Soyabean,Other,Local,30/10/2026,6900,7053,7031
+Maharashtra,Thane,"APMC Kalyan ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7500,9500,8500
+Maharashtra,Thane,"APMC Kalyan ",Brinjal,Other,Local,30/10/2026,2700,3500,3000
+Maharashtra,Thane,"APMC Kalyan ",Cow,Other,Local,30/10/2026,50000,70000,60000
+Maharashtra,Thane,"APMC Ulhasnagar ",Rice,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Pune,"APMC Pune ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9600,11400,10500
+Maharashtra,Pune,"APMC Pune ","Ground Nut Seed",Local,Local,30/10/2026,13200,14200,13700
+Maharashtra,Pune,"APMC Pune ",Pineapple,Other,Local,30/10/2026,1600,3300,2400
+Maharashtra,Pune,"APMC Pune ","Water Melon",Other,Local,30/10/2026,1000,1500,1200
+Maharashtra,Pune,"APMC Pune ",Banana,Other,Local,30/10/2026,500,2000,1200
+Maharashtra,Pune,"APMC Pune ",Lime,Other,Local,30/10/2026,400,3000,1700
+Maharashtra,Pune,"APMC Pune ","Jack Fruit(Ripe)",Other,Local,30/10/2026,1000,3000,2000
+Maharashtra,Pune,"APMC Pune ","Amla(Nelli Kai)",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Pune,"APMC Pune ","Bottle gourd",Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Pune,"APMC Pune ",Carrot,Other,Local,30/10/2026,1000,3000,2000
+Maharashtra,Pune,"APMC Pune ",Drumstick,Other,Local,30/10/2026,1000,7000,4000
+Maharashtra,Pune,"APMC Khed ",Cabbage,Other,Local,30/10/2026,300,800,600
+Maharashtra,Parbhani,"APMC Pathari","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3260,3260,3260
+Maharashtra,Nashik,"APMC Lasalgaon ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,2610,3952,3300
+Maharashtra,Nashik,"APMC Lasalgaon ",Soyabean,Other,Local,30/10/2026,3618,6915,6861
+Maharashtra,Nagpur,"APMC Hingna",Potato,Local,Local,30/10/2026,1500,1500,1500
+Maharashtra,Nagpur,"APMC Hingna",Raddish,Other,Local,30/10/2026,1500,3000,2285
+Maharashtra,Nagpur,"APMC Hingna","Green Chilli",Other,Local,30/10/2026,2000,4500,3416
+Maharashtra,Nagpur,"APMC Hingna",Guar,Other,Local,30/10/2026,1700,3500,2707
+Maharashtra,Pune,"Khed(Chakan) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2000,3500,2500
+Maharashtra,Pune,"Khed(Chakan) ",Cauliflower,Other,Local,30/10/2026,500,800,700
+Maharashtra,Pune,"Khed(Chakan) ",Carrot,Other,Local,30/10/2026,1500,2500,2000
+Maharashtra,Pune,"Pune(Khadiki) ","Bottle gourd",Other,Local,30/10/2026,700,1300,1000
+Maharashtra,Pune,"Pune(Khadiki) ","Chilly Capsicum",Other,Local,30/10/2026,1300,1700,1500
+Maharashtra,Pune,"Junnar(Narayangaon) ",Beetroot,Other,Local,30/10/2026,300,2000,1100
+Maharashtra,Pune,"Junnar(Narayangaon) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,400,3300,1800
+Maharashtra,Pune,"Junnar(Narayangaon) ",Cauliflower,Other,Local,30/10/2026,250,750,500
+Maharashtra,Pune,"Junnar(Narayangaon) ",Beans,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Pune,"Junnar(Narayangaon) ",Cucumbar(Kheera),Other,Local,30/10/2026,300,3800,2000
+Maharashtra,Pune,"Pune(Manjri) ",Beans,Other,Local,30/10/2026,5000,8000,7000
+Maharashtra,Pune,"Pune(Manjri) ",Onion,Local,Local,30/10/2026,2000,5000,3500
+Maharashtra,Pune,"Pune(Manjri) ",Raddish,Other,Local,30/10/2026,8,20,15
+Maharashtra,Pune,"Pune(Manjri) ",Drumstick,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Pune,"Pune(Moshi) ","Water Melon",Other,Local,30/10/2026,1000,1000,1000
+Maharashtra,Pune,"Pune(Moshi) ",Orange,Other,Local,30/10/2026,5000,15000,10000
+Maharashtra,Pune,"Pune(Moshi) ",Seetapal,Other,Local,30/10/2026,4000,4000,4000
+Maharashtra,Pune,"Pune(Moshi) ",Ginger(Green),Other,Local,30/10/2026,3000,7000,5000
+Maharashtra,Pune,"Pune(Moshi) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Moshi) ",Cucumbar(Kheera),Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Moshi) ",Cabbage,Other,Local,30/10/2026,500,1000,750
+Maharashtra,Pune,"Pune(Moshi) ",Garlic,Other,Local,30/10/2026,7000,10000,8500
+Maharashtra,Pune,"Pune(Moshi) ",Banana,Other,Local,30/10/2026,3000,7000,5000
+Maharashtra,Pune,"Pune(Moshi) ",Raddish,Other,Local,30/10/2026,15,15,15
+Maharashtra,Raigad,"APMC Panvel ","Bottle gourd",Other,Local,30/10/2026,2500,3000,2750
+Maharashtra,Raigad,"APMC Panvel ",Carrot,Other,Local,30/10/2026,5000,6000,5500
+Maharashtra,Raigad,"APMC Panvel ",Guar,Other,Local,30/10/2026,7000,8000,7500
+Maharashtra,Raigad,"APMC Panvel ",Tomato,Other,Local,30/10/2026,1500,2000,1750
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Cauliflower,Other,Local,30/10/2026,3000,3500,3300
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ","Chilly Capsicum",Other,Local,30/10/2026,3500,5000,4000
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ","Green Chilli",Other,Local,30/10/2026,3500,5000,4500
+Maharashtra,Sangli,"APMC Sangli ",Wheat,Other,FAQ,30/10/2026,4000,5100,4550
+Maharashtra,Sangli,"APMC Sangli ",Jowar(Sorghum),Other,FAQ,30/10/2026,4023,5000,4512
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Cabbage,Other,Local,30/10/2026,430,800,610
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Pumpkin,Other,Local,30/10/2026,1065,1500,1345
+Maharashtra,Nagpur,"APMC Kalmeshwar ","Green Chilli",Other,Local,30/10/2026,2525,3000,2815
+Maharashtra,Sangli,"APMC Tasgaon ",Maize,Other,FAQ,30/10/2026,2430,2500,2480
+Maharashtra,Sangli,"APMC Tasgaon ",Wheat,Other,FAQ,30/10/2026,3280,4000,3620
+Maharashtra,Sangli,"APMC Vita ",Brinjal,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Sangli,"APMC Palus ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,3500,4000,3500
+Maharashtra,Sangli,"APMC Palus ",Cabbage,Other,Local,30/10/2026,600,800,700
+Maharashtra,Sangli,"APMC Palus ","Chilly Capsicum",Other,Local,30/10/2026,3500,4000,3500
+Maharashtra,Satara,"APMC Vai ",Ridgeguard(Tori),Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Satara,"APMC Vai ",Tomato,Local,Local,30/10/2026,900,1500,1200
+Maharashtra,Satara,"APMC Vai ","Bottle gourd",Other,Local,30/10/2026,1500,2000,1800
+Maharashtra,Solapur,"APMC Solapur ",Rice,Other,Local,30/10/2026,3630,7590,4450
+Maharashtra,Solapur,"APMC Solapur ","Mousambi(Sweet Lime)",Other,Local,30/10/2026,1000,4000,3000
+Maharashtra,Solapur,"APMC Solapur ",Methi(Leaves),Other,Local,30/10/2026,800,1800,1400
+Maharashtra,Solapur,"APMC Solapur ",Spinach,Other,Local,30/10/2026,400,600,500
+Maharashtra,Solapur,"APMC Solapur ",Tomato,Other,Local,30/10/2026,300,2200,1300
+Maharashtra,Solapur,"APMC Kurdwadi ",Maize,Other,FAQ,30/10/2026,3011,3050,3025
+Maharashtra,Solapur,"APMC Mangal Wedha ",Onion,Local,Local,30/10/2026,1000,5500,4000
+Maharashtra,Solapur,"APMC Mangal Wedha ",Brinjal,Other,Local,30/10/2026,500,5300,2500
+Maharashtra,Solapur,"APMC Akluj ",Brinjal,Other,Local,30/10/2026,1200,2800,2500
+Maharashtra,Solapur,"APMC Dudhani ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8700,9500,9129
+Maharashtra,Wardha,"APMC Hinganghat ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9100,10380,9700
+Maharashtra,Wardha,"APMC Arvi ",Soyabean,Yellow,FAQ,30/10/2026,5750,6970,6650
+Maharashtra,Wardha,"APMC Wardha ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9500,9500,9500
+Maharashtra,Washim,"APMC Karanja ","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,7510,8700,8300
+Maharashtra,Washim,"APMC Risod ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6500,6900,6700
+Maharashtra,Washim,"APMC Risod ",Soyabean,Other,Local,30/10/2026,6700,7000,6850
+Maharashtra,Washim,"APMC Washim ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,2770,3451,3150
+Maharashtra,Washim,"APMC Washim ",Soyabean,Yellow,FAQ,30/10/2026,6630,7400,7050
+Maharashtra,Washim,"Washim(Ansing) ",Soyabean,Yellow,FAQ,30/10/2026,6700,7000,6800
+Maharashtra,Yavatmal,"APMC Ghatanji",Soyabean,Yellow,FAQ,30/10/2026,6500,7005,6850
+Maharashtra,Yavatmal,"APMC Kalamb",Soyabean,Yellow,FAQ,30/10/2026,6500,7000,6700
+Maharashtra,Ahilyanagar,"Omchatinya Multi State Agro Purpose Co-Op Society, Dist Ahilyanagar",Onion,Other,Local,30/10/2026,1000,5000,3800
+Maharashtra,Chandrapur,"APMC Varora ",Soyabean,Yellow,FAQ,30/10/2026,6200,6800,6500
+Maharashtra,Pune,"Pune(Pimpri) ","Bottle gourd",Other,Local,30/10/2026,3000,3000,3000
+Maharashtra,Pune,"Pune(Pimpri) ",Coriander(Leaves),Other,Local,30/10/2026,8,10,9
+Maharashtra,Mumbai,"Mumbai-Onion & Potato Market ",Potato,Other,Local,30/10/2026,600,1200,900
+Maharashtra,Ahilyanagar,"APMC Shevgaon ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2800,2800,2800
+Maharashtra,Ahilyanagar,"APMC Shevgaon ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,3000,3500,3500
+Maharashtra,Buldhana,"APMC Chikali ",Wheat,Other,Non-FAQ,30/10/2026,2300,2600,2450
+Maharashtra,Buldhana,"APMC Chikali ",Soyabean,Yellow,FAQ,30/10/2026,6100,7012,6556
+Maharashtra,Washim,"APMC Manora ","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,8500,8500,8500
+Maharashtra,Wardha,"Sindi (Selu)","Bengal Gram(Gram)(Whole)",Other,Non-FAQ,30/10/2026,4000,4500,4250
+Maharashtra,Nashik,"APMC Umrane",Onion,Red,Local,30/10/2026,1000,5858,4500
+Maharashtra,Buldhana,"Maharaja Agresen Pvt Krushi Utappan Bazar Samati, Dist Buldhana",Soyabean,Other,Local,30/10/2026,6600,7000,6819
+Maharashtra,Washim,"Krushna Krishi Bazar, Washim","Red gram/Arhar/Tur(whole)",Other,Local,30/10/2026,9000,11000,10986
+Maharashtra,Ahilyanagar,"APMC Rahata ",Pomegranate,Other,Local,30/10/2026,1000,20500,7000
+Maharashtra,Ahilyanagar,"APMC Rahata ",Seetapal,Other,Local,30/10/2026,1000,10000,5500
+Maharashtra,Ahilyanagar,"APMC Rahata ",Cauliflower,Other,Local,30/10/2026,500,1000,750
+Maharashtra,Ahilyanagar,"APMC Rahata ",Beans,Other,Local,30/10/2026,4000,4000,4000
+Maharashtra,Raigad,"APMC Murud ",Rice,Other,Local,30/10/2026,4000,4500,4250
+Maharashtra,Ahilyanagar,"APMC Jamkhed ",Soyabean,Yellow,Non-FAQ,30/10/2026,4800,5200,5000
+Maharashtra,Beed,"APMC Beed",Wheat,Other,FAQ,30/10/2026,2900,4201,3211
+Maharashtra,Ahilyanagar,"APMC Sangamner ",Onion,Unhali,Local,30/10/2026,1000,4800,2900
+Maharashtra,Amarawati,"Varud(Rajura Bazar)","Green Chilli",Other,Local,30/10/2026,3000,3000,3000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Brinjal,Other,Local,30/10/2026,2500,3500,3000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ","Green Chilli",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Ahilyanagar,"APMC Karjat ",Jowar(Sorghum),Other,Local,30/10/2026,5000,8000,6500
+Maharashtra,Akola,"APMC Akola ",Garlic,Other,Local,30/10/2026,10000,20000,15000
+Maharashtra,Akola,"APMC Akola ",Safflower,Other,Non-FAQ,30/10/2026,5100,5100,5100
+Maharashtra,Akola,"APMC Akola ",Wheat,Other,FAQ,30/10/2026,2975,3500,3190
+Maharashtra,Akola,"APMC Murtizapur ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9000,9760,9380
+Maharashtra,Akola,"APMC Murtizapur ",Soyabean,Yellow,FAQ,30/10/2026,6200,7090,6645
+Maharashtra,Amarawati,"APMC Chandur Railway",Soyabean,Yellow,FAQ,30/10/2026,6500,7000,6800
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Cauliflower,Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Guar,Other,Local,30/10/2026,5000,5500,5250
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Cabbage,Other,Local,30/10/2026,600,1200,900
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Coriander(Leaves),Other,Local,30/10/2026,2000,2500,2250
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Garlic,Other,Local,30/10/2026,7000,23000,15000
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ","Chilly Capsicum",Other,Local,30/10/2026,2500,3000,2750
+Maharashtra,Beed,"APMC Ambejogai ",Soyabean,Yellow,FAQ,30/10/2026,6950,6980,6970
+Maharashtra,Beed,"APMC Majalgaon ",Soyabean,Other,Local,30/10/2026,5000,7006,6800
+Maharashtra,Buldhana,"APMC Lonar ",Wheat,Other,FAQ,30/10/2026,3000,3420,3210
+Maharashtra,Chandrapur,"APMC  Rajura",Soyabean,Yellow,FAQ,30/10/2026,6790,6985,6910
+Maharashtra,Chandrapur,"APMC Bhadrawati ",Cotton,Other,Local,30/10/2026,9000,9225,9112
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Ginger(Green),Other,Local,30/10/2026,8000,8500,8300
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Cucumbar(Kheera),Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Raddish,Other,Local,30/10/2026,2000,2000,2000
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ",Jowar(Sorghum),Other,FAQ,30/10/2026,6000,6975,6488
+Maharashtra,"Chattrapati Sambhajinagar","APMC Sillod ",Wheat,Other,FAQ,30/10/2026,2650,3000,2800
+Maharashtra,Dhule,"APMC Dhule ",Wheat,Other,FAQ,30/10/2026,3000,3800,3400
+Maharashtra,Jalgaon,"APMC Pachora ",Wheat,Other,FAQ,30/10/2026,2610,3500,3000
+Maharashtra,Jalgaon,"APMC Bhusaval ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2500,3000,3000
+Maharashtra,Jalgaon,"APMC Bhusaval ",Guar,Other,Local,30/10/2026,7000,7000,7000
+Maharashtra,Jalgaon,"APMC Bhusaval ",Methi(Leaves),Other,Local,30/10/2026,4500,5000,5000
+Maharashtra,Jalgaon,"APMC Bhusaval ",Spinach,Other,Local,30/10/2026,1200,1500,1500
+Maharashtra,Jalgaon,"APMC Bhusaval ","Peas Wet",Other,Local,30/10/2026,8000,8000,8000
+Maharashtra,Jalgaon,"APMC Bhusaval ","Green Chilli",Other,Local,30/10/2026,5000,6000,6000
+Maharashtra,Jalgaon,"APMC Jamner ",Maize,"Deshi Red",Non-FAQ,30/10/2026,2000,2200,2100
+Maharashtra,Jalna,"APMC Jalana ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2300,2300,2300
+Maharashtra,Jalna,"APMC Jalana ",Soyabean,Yellow,FAQ,30/10/2026,6850,7327,6850
+Maharashtra,Ahilyanagar,"APMC Parner ",Onion,Unhali,Local,30/10/2026,1000,5500,4400
+Maharashtra,Ahilyanagar,"Rahuri(Vambori) ",Wheat,Other,FAQ,30/10/2026,3650,3650,3650
+Maharashtra,Ahilyanagar,"Rahuri(Vambori) ",Jowar(Sorghum),Other,Local,30/10/2026,6000,6000,6000
+Maharashtra,Buldhana,"APMC Buldhana","Black Gram(Urd Beans)(Whole)",Other,Non-FAQ,30/10/2026,7000,7500,7250
+Maharashtra,Buldhana,"APMC Buldhana",Soyabean,Yellow,FAQ,30/10/2026,6000,6900,6450
+Maharashtra,Jalgaon,"APMC Amalner",Wheat,Other,FAQ,30/10/2026,3100,3500,3500
+Maharashtra,Jalgaon,"APMC Amalner",Jowar(Sorghum),Other,Local,30/10/2026,5900,6565,6565
+Maharashtra,Jalgaon,"APMC Amalner",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,3200,3717,3717
+Maharashtra,Kolhapur,Kolhapur(Laxmipuri),Rice,"1009 Kar",Local,30/10/2026,3400,9600,6500
+Maharashtra,Latur,"APMC  Latur",Soyabean,Yellow,FAQ,30/10/2026,6875,7291,7020
+Maharashtra,Latur,"APMC Aurad Shahajani ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,8000,8775,8400
+Maharashtra,Amarawati,"APMC Chandur Bazar ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9300,10100,9750
+Maharashtra,Latur,"APMC Udgir ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9300,9500,9400
+Maharashtra,Latur,"APMC Udgir ",Soyabean,Other,FAQ,30/10/2026,6991,7043,7017
+Maharashtra,Mumbai,"APMC Mumbai ",Cashewnuts,Other,Local,30/10/2026,90000,150000,120000
+Maharashtra,Mumbai,"APMC Mumbai ","Chili Red",Other,Local,30/10/2026,26000,30000,28000
+Maharashtra,Mumbai,"APMC Mumbai ",Jowar(Sorghum),Other,Local,30/10/2026,3200,8500,6700
+Maharashtra,Mumbai,"APMC Mumbai ",Maize,Other,FAQ,30/10/2026,3000,4000,3700
+Maharashtra,Mumbai,"APMC Mumbai ",Gur(Jaggery),Other,Local,30/10/2026,5700,7100,6400
+Maharashtra,Mumbai,"APMC Mumbai ","French Beans(Frasbean)",Other,Local,30/10/2026,3000,3600,3300
+Maharashtra,Mumbai,"APMC Mumbai ",Guar,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Mumbai,"APMC Mumbai ","Onion Green",Other,Local,30/10/2026,700,1400,1050
+Maharashtra,Mumbai,"APMC Mumbai ","Banana - Green",Other,Local,30/10/2026,2600,3200,2900
+Maharashtra,Mumbai,"APMC Mumbai ",Cabbage,Other,Local,30/10/2026,300,500,400
+Maharashtra,Mumbai,"APMC Mumbai ",Methi(Leaves),Other,Local,30/10/2026,1600,2000,1800
+Maharashtra,Mumbai,"APMC Mumbai ",Mint(Pudina),Other,Local,30/10/2026,700,800,750
+Maharashtra,Mumbai,"APMC Mumbai ",Ridgeguard(Tori),Other,Local,30/10/2026,1600,2600,2100
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Orange,Other,Local,30/10/2026,4000,10000,7000
+Maharashtra,Nagpur,"APMC Nagpur ",Pineapple,Other,Local,30/10/2026,1000,3000,2500
+Maharashtra,Nagpur,"APMC Nagpur ",Apple,Other,Local,30/10/2026,11000,13000,12500
+Maharashtra,Nanded,"APMC Bhokar",Wheat,Other,Non-FAQ,30/10/2026,2555,2555,2555
+Maharashtra,"Chattrapati Sambhajinagar","APMC Gangapur ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2240,2840,2240
+Maharashtra,"Chattrapati Sambhajinagar","APMC Gangapur ",Soyabean,Yellow,FAQ,30/10/2026,6700,6740,6721
+Maharashtra,Nagpur,"APMC Katol ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7100,7180,7180
+Maharashtra,Dharashiv,"APMC Paranda ",Soyabean,Other,Local,30/10/2026,6480,6505,6500
+Maharashtra,Nanded,"APMC Hadgaon",Soyabean,Yellow,FAQ,30/10/2026,6600,6900,6800
+Maharashtra,Nanded,"APMC Kinwat ",Cotton,Other,Local,30/10/2026,8730,9060,8920
+Maharashtra,Nandurbar,"APMC Nandurbar ",Soyabean,Other,Local,30/10/2026,5500,6840,6175
+Maharashtra,Nashik,"APMC Yeola ",Onion,Unhali,Local,30/10/2026,1800,4416,3675
+Maharashtra,Nashik,"APMC Manmad ",Onion,Unhali,Local,30/10/2026,1800,3970,3850
+Maharashtra,Nashik,"APMC Kalvan ",Maize,Other,Non-FAQ,30/10/2026,2100,2401,2375
+Maharashtra,Nashik,"APMC Kalvan ",Onion,Unhali,Local,30/10/2026,2400,5400,4000
+Maharashtra,Jalna,"APMC Ambad (Vadigodri) ",Soyabean,Other,Local,30/10/2026,6101,6795,6400
+Maharashtra,Nashik,"APMC Nandgaon ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,2900,4261,2950
+Maharashtra,Nashik,"APMC Sinner ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7325,8200,8000
+Maharashtra,Nashik,"Lasalgaon(Niphad) ","Black Gram(Urd Beans)(Whole)",Other,Non-FAQ,30/10/2026,7500,7500,7500
+Maharashtra,Nashik,"Lasalgaon(Niphad) ",Groundnut,Other,Non-FAQ,30/10/2026,4051,4051,4051
+Maharashtra,Nashik,"Lasalgaon(Niphad) ",Soyabean,Other,Local,30/10/2026,5400,6852,6800
+Maharashtra,Jalgaon,"APMC Jalgaon",Tomato,Other,Local,30/10/2026,500,1000,700
+Maharashtra,Jalgaon,"APMC Jalgaon","Green Chilli",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Jalgaon,"APMC Jalgaon","Sweet Pumpkin",Other,Local,30/10/2026,800,1000,900
+Maharashtra,Jalgaon,"APMC Jalgaon",Ginger(Green),Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Jalgaon,"APMC Jalgaon",Onion,Red,Local,30/10/2026,1277,4750,3025
+Maharashtra,Nashik,"Lasalgaon(Vinchur) ",Maize,Other,FAQ,30/10/2026,2410,2965,2850
+Maharashtra,Thane,"APMC Kalyan ","Sweet Pumpkin",Other,Local,30/10/2026,1200,1300,1250
+Maharashtra,Thane,"APMC Kalyan ","Bottle gourd",Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Thane,"APMC Kalyan ",Cabbage,Other,Local,30/10/2026,700,1200,750
+Maharashtra,Thane,"APMC Kalyan ","Chilly Capsicum",Other,Local,30/10/2026,2500,3500,3000
+Maharashtra,Thane,"APMC Kalyan ","She Buffalo",Other,Local,30/10/2026,85000,104000,100000
+Maharashtra,Thane,"APMC Ulhasnagar ",Wheat,Other,FAQ,30/10/2026,3400,3800,3600
+Maharashtra,Pune,"APMC Pune ",Lentil(Masur)(Whole),Other,FAQ,30/10/2026,7500,7800,7650
+Maharashtra,Pune,"APMC Pune ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,9500,10500,10000
+Maharashtra,Pune,"APMC Pune ","Green Peas",Other,Local,30/10/2026,5400,6600,6000
+Maharashtra,Pune,"APMC Pune ",Chikoos(Sapota),Other,Local,30/10/2026,2500,5000,3700
+Maharashtra,Pune,"APMC Pune ",Pomegranate,Other,Local,30/10/2026,2500,15000,8700
+Maharashtra,Pune,"APMC Pune ",Guava,Other,Local,30/10/2026,2500,5000,3700
+Maharashtra,Pune,"APMC Pune ",Plum,Other,Local,30/10/2026,5000,13000,9000
+Maharashtra,Pune,"APMC Pune ","Bitter gourd",Other,Local,30/10/2026,1600,3000,2300
+Maharashtra,Pune,"APMC Pune ","Elephant Yam(Suran)/Amorphophallus",Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"APMC Pune ",Tomato,Local,Local,30/10/2026,500,1200,850
+Maharashtra,Pune,"APMC Pune ","Corriander seed",Other,Local,30/10/2026,14000,18000,16000
+Maharashtra,Pune,"APMC Pune ","Ragi(Finger Millet)",Other,FAQ,30/10/2026,5300,5900,5600
+Maharashtra,Pune,"APMC Pune ",Cauliflower,Other,Local,30/10/2026,500,1000,750
+Maharashtra,Pune,"APMC Pune ",Guar,Other,Local,30/10/2026,2000,6000,4000
+Maharashtra,Pune,"APMC Pune ",Pumpkin,Other,Local,30/10/2026,1000,2500,1750
+Maharashtra,Pune,"APMC Pune ",Rajgir,Other,Local,30/10/2026,5,8,6
+Maharashtra,Pune,"APMC Khed ",Potato,Other,Local,30/10/2026,1000,1500,1250
+Maharashtra,Pune,"APMC Khed ","Bitter gourd",Other,Local,30/10/2026,1000,4000,3000
+Maharashtra,Pune,"APMC Khed ","Chilly Capsicum",Other,Local,30/10/2026,1200,4000,2500
+Maharashtra,Pune,"APMC Khed ",Brinjal,Other,Local,30/10/2026,1500,5500,4500
+Maharashtra,Amarawati,"APMC Dhamngaon-Railway ",Cotton,LRA,FAQ,30/10/2026,9300,9450,9400
+Maharashtra,Amarawati,"APMC Dhamngaon-Railway ",Soyabean,Yellow,FAQ,30/10/2026,6740,6970,6800
+Maharashtra,Nagpur,"APMC Hingna",Ginger(Green),Other,Local,30/10/2026,7000,7000,7000
+Maharashtra,Nagpur,"APMC Hingna",Spinach,Other,Local,30/10/2026,1000,3000,1876
+Maharashtra,Nagpur,"APMC Hingna","Bhindi(Ladies Finger)",Other,Local,30/10/2026,800,3500,2147
+Maharashtra,Nagpur,"APMC Hingna","Bottle gourd",Other,Local,30/10/2026,400,1000,771
+Maharashtra,Nagpur,"APMC Hingna",Cucumbar(Kheera),Other,Local,30/10/2026,2500,3000,2666
+Maharashtra,Nagpur,"APMC Hingna","Bitter gourd",Other,Local,30/10/2026,3000,5000,4166
+Maharashtra,Pune,"Khed(Chakan) ",Methi(Leaves),Other,Local,30/10/2026,1300,2200,1700
+Maharashtra,Pune,"Khed(Chakan) ","Chilly Capsicum",Other,Local,30/10/2026,2000,5000,3500
+Maharashtra,Pune,"Khed(Chakan) ",Tomato,Other,Local,30/10/2026,700,1300,1000
+Maharashtra,Pune,"Khed(Chakan) ",Brinjal,Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Khadiki) ",Cucumbar(Kheera),Other,Local,30/10/2026,1300,1600,1450
+Maharashtra,Pune,"Pune(Khadiki) ","Green Chilli",Other,Local,30/10/2026,2000,2500,2250
+Maharashtra,Pune,"Junnar(Narayangaon) ","Bitter gourd",Other,Local,30/10/2026,500,4000,2100
+Maharashtra,Pune,"Junnar(Narayangaon) ",Garlic,Other,Local,30/10/2026,5500,16000,10000
+Maharashtra,Pune,"Pune(Manjri) ",Guava,Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Manjri) ","Bottle gourd",Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Pune,"Pune(Manjri) ",Cauliflower,Other,Local,30/10/2026,600,1000,800
+Maharashtra,Pune,"Pune(Manjri) ",Carrot,Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Manjri) ","Chilly Capsicum",Other,Local,30/10/2026,2000,6000,4000
+Maharashtra,Pune,"Pune(Moshi) ",Pomegranate,Other,Local,30/10/2026,10000,10000,10000
+Maharashtra,Pune,"Pune(Moshi) ",Papaya,Other,Local,30/10/2026,3000,3000,3000
+Maharashtra,Pune,"Pune(Moshi) ",Onion,Local,Local,30/10/2026,2000,4200,3100
+Maharashtra,Pune,"Pune(Moshi) ","Onion Green",Other,Local,30/10/2026,30,30,30
+Maharashtra,Pune,"Pune(Moshi) ","Green Chilli",Other,Local,30/10/2026,3000,5000,4000
+Maharashtra,Pune,"Pune(Moshi) ","Pointed gourd(Parval)",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Pune,"Pune(Moshi) ",Mint(Pudina),Other,Local,30/10/2026,10,10,10
+Maharashtra,Pune,"Pune(Moshi) ",Drumstick,Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Raigad,"APMC Panvel ","Bitter gourd",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Raigad,"APMC Panvel ",Ridgeguard(Tori),Other,Local,30/10/2026,5000,6000,5500
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,5000,5500,5200
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Tomato,Other,Local,30/10/2026,600,700,650
+Maharashtra,Sangli,"APMC Sangli ",Rice,Other,Local,30/10/2026,5000,11000,8000
+Maharashtra,Sangli,"APMC Sangli ",Gur(Jaggery),Other,Local,30/10/2026,4400,5110,4755
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Methi(Leaves),Other,Local,30/10/2026,3555,4000,3865
+Maharashtra,Buldhana,"APMC Mehekar ",Soyabean,Other,Local,30/10/2026,6200,7090,6950
+Maharashtra,Sangli,"APMC Tasgaon ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6000,6400,6300
+Maharashtra,Sangli,"APMC Tasgaon ",Soyabean,Yellow,FAQ,30/10/2026,6250,6800,6730
+Maharashtra,Satara,"APMC Vai ",Cucumbar(Kheera),Other,Local,30/10/2026,3000,3500,3250
+Maharashtra,Satara,"APMC Vai ",Onion,Local,Local,30/10/2026,2000,5000,3500
+Maharashtra,Satara,"APMC Vai ",Cabbage,Other,Local,30/10/2026,750,800,775
+Maharashtra,Satara,"APMC Vai ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,4000,4500,4200
+Maharashtra,Solapur,"APMC Barshi ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9000,9500,9300
+Maharashtra,Solapur,"APMC Solapur ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,8000,8000,8000
+Maharashtra,Solapur,"APMC Solapur ",Pineapple,Other,Local,30/10/2026,1000,3500,2000
+Maharashtra,Solapur,"APMC Solapur ",Pomegranate,Other,Local,30/10/2026,1000,20000,4800
+Maharashtra,Solapur,"APMC Solapur ",Lime,Other,Local,30/10/2026,2000,10400,6500
+Maharashtra,Solapur,"APMC Solapur ",Seetapal,Other,Local,30/10/2026,3000,18000,6000
+Maharashtra,Solapur,"APMC Solapur ",Potato,Local,Local,30/10/2026,1000,1350,1100
+Maharashtra,Solapur,"APMC Solapur ",Cauliflower,Other,Local,30/10/2026,640,1800,1200
+Maharashtra,Solapur,"APMC Solapur ","Onion Green",Other,Local,30/10/2026,400,1000,600
+Maharashtra,Solapur,"APMC Kurdwadi ",Wheat,Other,FAQ,30/10/2026,4100,4100,4100
+Maharashtra,Solapur,"APMC Mangal Wedha ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1500,3500,2500
+Maharashtra,Solapur,"APMC Mangal Wedha ",Ridgeguard(Tori),Other,Local,30/10/2026,2000,5700,5000
+Maharashtra,Solapur,"APMC Akluj ",Cabbage,Other,Local,30/10/2026,400,700,600
+Maharashtra,Solapur,"APMC Akluj ","Chilly Capsicum",Other,Local,30/10/2026,1500,3000,2500
+Maharashtra,Solapur,"APMC Akluj ",Drumstick,Other,Local,30/10/2026,2500,5500,5000
+Maharashtra,Solapur,"APMC Akluj ",Ridgeguard(Tori),Other,Local,30/10/2026,2000,3800,3200
+Maharashtra,Solapur,"APMC Akluj ",Lime,Other,Local,30/10/2026,7000,12000,10000
+Maharashtra,Solapur,"APMC Dudhani ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6800,7300,7083
+Maharashtra,Solapur,"APMC Dudhani ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,7000,7500,7500
+Maharashtra,Wardha,"APMC Hinganghat ",Cotton,Other,FAQ,30/10/2026,9000,9385,9200
+Maharashtra,Wardha,"APMC Arvi ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,5960,6990,6600
+Maharashtra,Wardha,"APMC Pulgaon ",Cotton,Other,FAQ,30/10/2026,9150,9400,9200
+Maharashtra,Wardha,"APMC Sindi ",Soyabean,Yellow,FAQ,30/10/2026,6000,7000,6500
+Maharashtra,Washim,"APMC Karanja ",Wheat,Other,FAQ,30/10/2026,2990,3540,3205
+Maharashtra,Washim,"APMC Risod ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8870,9800,9300
+Maharashtra,Yavatmal,"APMC Yavatmal ",Wheat,Other,FAQ,30/10/2026,3000,3050,3025
+Maharashtra,Yavatmal,"APMC Yavatmal ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9610,9755,9682
+Maharashtra,Yavatmal,"APMC Digras","Bengal Gram(Gram)(Whole)","Average (Whole)",FAQ,30/10/2026,7145,7145,7145
+Maharashtra,Yavatmal,"APMC Digras","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9405,9990,9885
+Maharashtra,Parbhani,"Shree Salasar Krushi Bazar, Dist Parbhani",Soyabean,Other,Local,30/10/2026,6725,6920,6850
+Maharashtra,Chandrapur,"APMC Varora ",Cotton,Desi,Local,30/10/2026,9000,9330,9200
+Maharashtra,Pune,"Pune(Pimpri) ",Cauliflower,Other,Local,30/10/2026,1000,1000,1000
+Maharashtra,Buldhana,"APMC Deoulgaon Raja ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,8700,8700,8700
+Maharashtra,Ahilyanagar,"APMC Shevgaon ",Soyabean,Yellow,FAQ,30/10/2026,6700,6750,6750
+Maharashtra,Wardha,"Sindi (Selu)","Red gram/Arhar/Tur(whole)",Other,Non-FAQ,30/10/2026,8400,8400,8400
+Maharashtra,Bhandara,"APMC Bhandara ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7500,7500,7500
+Maharashtra,Ahilyanagar,"APMC Rahata ",Wheat,Other,FAQ,30/10/2026,2650,2800,2700
+Maharashtra,Ahilyanagar,"APMC Rahata ",Jowar(Sorghum),Other,Local,30/10/2026,2791,2791,2791
+Maharashtra,Ahilyanagar,"APMC Rahata ",Lime,Other,Local,30/10/2026,4000,9000,6500
+Maharashtra,Ahilyanagar,"APMC Rahata ",Orange,Other,Local,30/10/2026,500,2600,1500
+Maharashtra,Ahilyanagar,"APMC Rahata ","Bitter gourd",Other,Local,30/10/2026,1500,2000,1750
+Maharashtra,Ahilyanagar,"APMC Jamkhed ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9000,9500,9250
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,2950,3600,3200
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ",Jowar(Sorghum),Other,Local,30/10/2026,5405,5405,5405
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,8800,9900,9100
+Maharashtra,Beed,"APMC Beed",Jowar(Sorghum),Other,FAQ,30/10/2026,4100,7856,5747
+Maharashtra,Yavatmal,"APMC Pusad",Soyabean,Other,Local,30/10/2026,6900,7120,7050
+Maharashtra,Ahilyanagar,Karjat(Rashin),Maize,Yellow,FAQ,30/10/2026,2500,2950,2700
+Maharashtra,Ahilyanagar,"APMC Sangamner ",Pomegranate,Other,Local,30/10/2026,1000,9000,5000
+Maharashtra,Ahilyanagar,"APMC Sangamner ",Tomato,Other,Local,30/10/2026,500,2000,1250
+Maharashtra,Amarawati,"Varud(Rajura Bazar)",Soyabean,Yellow,FAQ,30/10/2026,6500,7200,6855
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Chikoos(Sapota),Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Lime,Other,Local,30/10/2026,8000,10000,9000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Garlic,Other,Local,30/10/2026,8000,12000,10000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Spinach,Other,Local,30/10/2026,10,15,12
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Ridgeguard(Tori),Other,Local,30/10/2026,3000,3500,3250
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Tomato,Other,Local,30/10/2026,1000,1500,1250
+Maharashtra,Ahilyanagar,"APMC Karjat ",Maize,Other,FAQ,30/10/2026,2500,3000,2700
+Maharashtra,Akola,"APMC Akola ",Soyabean,Yellow,FAQ,30/10/2026,6000,6930,6800
+Maharashtra,Akola,"APMC Akola ","Sesamum(Sesame,Gingelly,Til)",Other,FAQ,30/10/2026,13500,13500,13500
+Maharashtra,Amarawati,"APMC Amarawati ",Maize,"Deshi Red",FAQ,30/10/2026,2500,2800,2650
+Maharashtra,Amarawati,"APMC Morshi ",Soyabean,Other,Local,30/10/2026,6700,6950,6825
+Maharashtra,Amarawati,"APMC Nandgaon Khandeshwar ",Soyabean,Yellow,FAQ,30/10/2026,6750,7010,6900
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Ginger(Green),Other,Local,30/10/2026,5000,7000,6000
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Carrot,Other,Local,30/10/2026,2200,2800,2500
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Onion,Red,Local,30/10/2026,3500,5500,4500
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Tomato,Local,Local,30/10/2026,1200,2000,1600
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Brinjal,Other,Local,30/10/2026,1000,1500,1250
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ","Green Chilli",Other,Local,30/10/2026,3200,4200,3700
+Maharashtra,Beed,"APMC Majalgaon ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3200,4400,3800
+Maharashtra,Buldhana,"APMC Malkapur ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,2225,3340,3110
+Maharashtra,Buldhana,"APMC Malkapur ","Bengal Gram(Gram)(Whole)","Average (Whole)",FAQ,30/10/2026,6000,7375,6900
+Maharashtra,Chandrapur,"APMC Chandrapur ",Soyabean,Other,Local,30/10/2026,6000,6845,6620
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Cauliflower,Other,Local,30/10/2026,500,1000,800
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Methi(Leaves),Other,Local,30/10/2026,3000,4000,3000
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,7000,7000,7000
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ",Soyabean,Other,Local,30/10/2026,6599,6850,6724
+Maharashtra,Dharashiv,"APMC Dharashiv",Cucumbar(Kheera),Other,Local,30/10/2026,600,3500,2750
+Maharashtra,Dharashiv,"APMC Dharashiv",Methi(Leaves),Other,Local,30/10/2026,500,1500,1000
+Maharashtra,Dharashiv,"APMC Dharashiv",Tomato,Other,Local,30/10/2026,250,2000,1125
+Maharashtra,Dharashiv,"APMC Dharashiv",Carrot,Other,Local,30/10/2026,3000,7000,5000
+Maharashtra,Dharashiv,"APMC Tuljapur ",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,4000,7500,6500
+Maharashtra,Dhule,"APMC Dhule ",Maize,Yellow,FAQ,30/10/2026,2500,2938,2730
+Maharashtra,Dhule,"APMC Dhule ",Soyabean,Other,Local,30/10/2026,6575,6885,6700
+Maharashtra,Jalgaon,"APMC Pachora ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,2900,3200,3100
+Maharashtra,Jalgaon,"APMC Bhusaval ",Carrot,Other,Local,30/10/2026,2000,2000,2000
+Maharashtra,Jalgaon,"APMC Bhusaval ","Chilly Capsicum",Other,Local,30/10/2026,2500,2500,2500
+Maharashtra,Jalgaon,"APMC Bhusaval ",Tomato,Other,Local,30/10/2026,1000,1500,1200
+Maharashtra,Hingoli,"APMC Hingoli",Soyabean,Other,Local,30/10/2026,6600,7025,6812
+Maharashtra,Jalna,"APMC Jalana ","Red gram/Arhar/Tur(whole)",Other,Non-FAQ,30/10/2026,7000,7000,7000
+Maharashtra,Jalna,"APMC Jalana ",Gur(Jaggery),Yellow,Local,30/10/2026,4271,4765,4373
+Maharashtra,Ahilyanagar,"Rahuri(Vambori) ",Soyabean,Other,Local,30/10/2026,6680,6888,6776
+Maharashtra,Jalgaon,"APMC Amalner",Soyabean,Other,Local,30/10/2026,6472,6824,6824
+Maharashtra,Latur,"APMC Ahmedpur",Jowar(Sorghum),Other,FAQ,30/10/2026,4023,6311,5167
+Maharashtra,Latur,"APMC Ahmedpur",Soyabean,Yellow,FAQ,30/10/2026,6500,7035,6965
+Maharashtra,Latur,"APMC Aurad Shahajani ",Soyabean,Yellow,FAQ,30/10/2026,6850,6934,6892
+Maharashtra,Amarawati,"APMC Chandur Bazar ",Maize,Other,Non-FAQ,30/10/2026,1700,2400,2100
+Maharashtra,Latur,"APMC Udgir ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,8780,8780,8780
+Maharashtra,Mumbai,"APMC Mumbai ",Raddish,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Mumbai,"APMC Mumbai ",Arecanut(Betelnut/Supari),Other,Local,30/10/2026,38000,90000,64000
+Maharashtra,Mumbai,"APMC Mumbai ","Black pepper",Other,Local,30/10/2026,65000,90000,77500
+Maharashtra,Mumbai,"APMC Mumbai ",Wheat,Other,FAQ,30/10/2026,3000,5500,4250
+Maharashtra,Mumbai,"APMC Mumbai ","Red gram split/Arhar dal/Tur dal",Other,Local,30/10/2026,11000,14000,12700
+Maharashtra,Mumbai,"APMC Mumbai ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9000,12000,10800
+Maharashtra,Mumbai,"APMC Mumbai ","Green Peas","White Fozi",Local,30/10/2026,5200,6500,6000
+Maharashtra,Mumbai,"APMC Mumbai ","Ground Nut Seed",Other,Local,30/10/2026,8000,14000,11000
+Maharashtra,Mumbai,"APMC Mumbai ",Sugar,Other,Local,30/10/2026,4900,5150,5025
+Maharashtra,Mumbai,"APMC Mumbai ","Amla(Nelli Kai)",Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Mumbai,"APMC Mumbai ",Beetroot,Other,Local,30/10/2026,1600,2000,1800
+Maharashtra,Mumbai,"APMC Mumbai ","Bottle gourd",Other,Local,30/10/2026,1200,1600,1400
+Maharashtra,Mumbai,"APMC Mumbai ",Cauliflower,Other,Local,30/10/2026,400,600,500
+Maharashtra,Mumbai,"APMC Mumbai ",Mango(Raw-Ripe),Other,Local,30/10/2026,5000,7000,6000
+Maharashtra,Mumbai,"APMC Mumbai ",Cucumbar(Kheera),Other,Local,30/10/2026,1800,2400,2100
+Maharashtra,Mumbai,"APMC Mumbai ",Pumpkin,Other,Local,30/10/2026,1000,1400,1200
+Maharashtra,Mumbai,"APMC Mumbai ","Sweet Potato",Other,Local,30/10/2026,1800,3000,2400
+Maharashtra,Mumbai,"APMC Mumbai ","Peas Wet",Other,Local,30/10/2026,11000,13000,12000
+Maharashtra,Mumbai,"Mumbai- Fruit Market ","Water Melon",Other,Local,30/10/2026,1800,2000,1900
+Maharashtra,Mumbai,"Mumbai- Fruit Market ","Karbuja(Musk Melon)",Other,Local,30/10/2026,2800,3000,2900
+Maharashtra,Nagpur,"APMC Nagpur ",Orange,Other,Local,30/10/2026,1200,3000,2550
+Maharashtra,Nagpur,"APMC Nagpur ",Mustard,Other,FAQ,30/10/2026,6800,7000,6950
+Maharashtra,Nagpur,"APMC Nagpur ",Pomegranate,Other,Local,30/10/2026,2000,6000,5000
+Maharashtra,"Chattrapati Sambhajinagar","APMC Gangapur ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,8501,8501,8501
+Maharashtra,Nanded,"APMC Kinwat ",Soyabean,Yellow,FAQ,30/10/2026,6470,6710,6640
+Maharashtra,Nandurbar,"APMC Nandurbar ",Cotton,Other,Local,30/10/2026,8700,9050,8875
+Maharashtra,Nandurbar,"APMC Nandurbar ",Maize,Other,Non-FAQ,30/10/2026,2231,2231,2231
+Maharashtra,Nandurbar,"APMC Shahada ",Soyabean,Other,Local,30/10/2026,6201,7025,6621
+Maharashtra,Nashik,"APMC Kalvan ",Maize,Other,FAQ,30/10/2026,2421,2952,2800
+Maharashtra,Nashik,"APMC Devala ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3050,3050,3050
+Maharashtra,Nashik,"APMC Devala ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,2960,3530,3050
+Maharashtra,Nashik,"APMC Devala ",Maize,Yellow,FAQ,30/10/2026,2410,2825,2600
+Maharashtra,Nashik,"APMC Devala ","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,9350,10400,10400
+Maharashtra,Nashik,"APMC Devala ",Onion,Unhali,Local,30/10/2026,1000,4500,3950
+Maharashtra,Nashik,"Lasalgaon(Niphad) ",Maize,"Deshi Red",FAQ,30/10/2026,2611,2990,2970
+Maharashtra,Jalgaon,"APMC Jalgaon",Raddish,Other,Local,30/10/2026,2000,2000,2000
+Maharashtra,Jalgaon,"APMC Jalgaon",Spinach,Other,Local,30/10/2026,3000,3000,3000
+Maharashtra,Jalgaon,"APMC Jalgaon","Bengal Gram(Gram)(Whole)","Average (Whole)",FAQ,30/10/2026,8500,8500,8500
+Maharashtra,Jalgaon,"APMC Jalgaon",Orange,Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Jalgaon,"APMC Jalgaon",Potato,Other,Local,30/10/2026,800,1200,1000
+Maharashtra,Jalgaon,"APMC Jalgaon","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Jalgaon,"APMC Jalgaon",Carrot,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Jalgaon,"APMC Jalgaon",Cabbage,Other,Local,30/10/2026,400,600,500
+Maharashtra,Nashik,"Lasalgaon(Vinchur) ",Onion,Unhali,Local,30/10/2026,1500,4701,4200
+Maharashtra,Thane,"APMC Kalyan ",Rice,Other,Local,30/10/2026,9500,10500,10000
+Maharashtra,Thane,"APMC Kalyan ","Green Gram(Moong)(Whole)",Other,FAQ,30/10/2026,12000,14000,13000
+Maharashtra,Thane,"APMC Kalyan ","Green Peas",Other,Local,30/10/2026,12000,16000,14000
+Maharashtra,Thane,"APMC Kalyan ",Garlic,Other,Local,30/10/2026,11000,20000,15500
+Maharashtra,Thane,"APMC Kalyan ","Corriander seed",Other,Local,30/10/2026,11000,14000,12500
+Maharashtra,Thane,"APMC Kalyan ","Green Chilli",Other,Local,30/10/2026,3200,4800,4000
+Maharashtra,Beed,"APMC Gevrai ",Wheat,Other,FAQ,30/10/2026,3000,3975,3487
+Maharashtra,Beed,"APMC Gevrai ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6150,7196,6673
+Maharashtra,Beed,"APMC Gevrai ","Green Gram(Moong)(Whole)",Other,FAQ,30/10/2026,9000,9350,9175
+Maharashtra,Pune,"APMC Pune ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,8500,9200,8850
+Maharashtra,Pune,"APMC Pune ",Gur(Jaggery),Other,Local,30/10/2026,4951,5075,5013
+Maharashtra,Pune,"APMC Pune ",Cabbage,Other,Local,30/10/2026,400,700,550
+Maharashtra,Pune,"APMC Pune ","Little gourd(Kundru)",Other,Local,30/10/2026,2000,3500,2750
+Maharashtra,Pune,"APMC Pune ",Brinjal,Other,Local,30/10/2026,1400,3000,2200
+Maharashtra,Pune,"APMC Pune ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3300,3800,3550
+Maharashtra,Pune,"APMC Pune ",Maize,"Deshi Red",FAQ,30/10/2026,2800,3000,2900
+Maharashtra,Pune,"APMC Pune ","Tender Coconut",Other,Local,30/10/2026,1300,2000,1600
+Maharashtra,Pune,"APMC Pune ",Ginger(Green),Other,Local,30/10/2026,2000,6000,4000
+Maharashtra,Pune,"APMC Pune ",Potato,Local,Local,30/10/2026,600,3000,1100
+Maharashtra,Pune,"APMC Pune ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1600,5000,3300
+Maharashtra,Pune,"APMC Pune ","Onion Green",Other,Local,30/10/2026,8,20,14
+Maharashtra,Pune,"APMC Pune ","Chilly Capsicum",Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"APMC Pune ","Pointed gourd(Parval)",Other,Local,30/10/2026,2000,5000,3500
+Maharashtra,Pune,"APMC Khed ",Methi(Leaves),Other,Local,30/10/2026,1500,2500,2000
+Maharashtra,Pune,"APMC Khed ","Green Chilli",Other,Local,30/10/2026,3000,7500,5000
+Maharashtra,Amarawati,"APMC Dhamngaon-Railway ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9410,9720,9690
+Maharashtra,Nashik,"APMC Lasalgaon ",Onion,Red,Local,30/10/2026,2625,5000,4400
+Maharashtra,Nashik,"APMC Lasalgaon ",Onion,Unhali,Local,30/10/2026,1720,4691,4300
+Maharashtra,Nagpur,"APMC Hingna",Guava,Other,Local,30/10/2026,2500,2500,2500
+Maharashtra,Nagpur,"APMC Hingna",Tomato,Local,Local,30/10/2026,500,2750,1792
+Maharashtra,Pune,"Khed(Chakan) ","Bottle gourd",Other,Local,30/10/2026,1000,1500,1200
+Maharashtra,Pune,"Khed(Chakan) ",Onion,Other,Local,30/10/2026,1700,4300,3500
+Maharashtra,Pune,"Khed(Chakan) ","Bitter gourd",Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Pune,"Khed(Chakan) ",Cabbage,Other,Local,30/10/2026,400,600,500
+Maharashtra,Pune,"Khed(Chakan) ",Garlic,Other,Local,30/10/2026,8000,16000,14000
+Maharashtra,Pune,"Khed(Chakan) ",Spinach,Other,Local,30/10/2026,800,1400,1000
+Maharashtra,Pune,"Khed(Chakan) ","Green Chilli",Other,Local,30/10/2026,4000,7000,6000
+Maharashtra,Pune,"Pune(Khadiki) ",Potato,Local,Local,30/10/2026,700,1200,950
+Maharashtra,Pune,"Pune(Khadiki) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1500,2000,1750
+Maharashtra,Pune,"Pune(Khadiki) ",Cauliflower,Other,Local,30/10/2026,600,1000,800
+Maharashtra,Pune,"Pune(Khadiki) ",Carrot,Other,Local,30/10/2026,1200,1700,1450
+Maharashtra,Pune,"Pune(Khadiki) ",Guar,Other,Local,30/10/2026,1800,2200,2000
+Maharashtra,Pune,"Pune(Khadiki) ",Spinach,Other,Local,30/10/2026,4,6,5
+Maharashtra,Pune,"Pune(Khadiki) ",Ridgeguard(Tori),Other,Local,30/10/2026,1300,1700,1500
+Maharashtra,Pune,"Pune(Khadiki) ",Tomato,Local,Local,30/10/2026,700,1300,1000
+Maharashtra,Nashik,"APMC Chandwad ",Onion,Unhali,Local,30/10/2026,1935,4530,4050
+Maharashtra,Pune,"Junnar(Narayangaon) ","Green Chilli",Other,Local,30/10/2026,500,8000,4100
+Maharashtra,Pune,"Junnar(Narayangaon) ",Guar,Other,Local,30/10/2026,600,7000,3850
+Maharashtra,Pune,"Junnar(Narayangaon) ",Cabbage,Other,Local,30/10/2026,100,400,250
+Maharashtra,Pune,"Junnar(Narayangaon) ","Little gourd(Kundru)",Other,Local,30/10/2026,500,3000,1800
+Maharashtra,Pune,"Pune(Manjri) ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,4000,7000,5000
+Maharashtra,Pune,"Pune(Manjri) ",Guar,Other,Local,30/10/2026,5000,7000,6000
+Maharashtra,Pune,"Pune(Manjri) ",Cucumbar(Kheera),Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Moshi) ",Lime,Other,Local,30/10/2026,12000,15000,13500
+Maharashtra,Pune,"Pune(Moshi) ","Mousambi(Sweet Lime)",Other,Local,30/10/2026,3500,3500,3500
+Maharashtra,Pune,"Pune(Moshi) ",Potato,Local,Local,30/10/2026,1000,1200,1100
+Maharashtra,Pune,"Pune(Moshi) ",Beetroot,Other,Local,30/10/2026,1500,2000,1750
+Maharashtra,Pune,"Pune(Moshi) ","Bottle gourd",Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Pune,"Pune(Moshi) ",Guar,Other,Local,30/10/2026,3000,6000,4500
+Maharashtra,Pune,"Pune(Moshi) ","Peas Wet",Other,Local,30/10/2026,8000,10000,9000
+Maharashtra,Pune,"Pune(Moshi) ",Spinach,Other,Local,30/10/2026,15,15,15
+Maharashtra,Pune,"Pune(Moshi) ",Tomato,Local,Local,30/10/2026,500,700,600
+Maharashtra,Raigad,"APMC Panvel ",Beans,Other,Local,30/10/2026,5000,6000,5500
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Carrot,Other,Local,30/10/2026,3000,4500,4000
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Ginger(Green),Other,Local,30/10/2026,6000,7000,6500
+Maharashtra,Sangli,"APMC Sangli ",Turmeric,Rajapuri,Local,30/10/2026,14500,27200,20850
+Maharashtra,Jalgaon,"APMC Chalisgaon ",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,2800,3000,2900
+Maharashtra,Nanded,"APMC Naigaon ",Soyabean,Yellow,FAQ,30/10/2026,6700,7000,6800
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Brinjal,Other,Local,30/10/2026,650,1000,830
+Maharashtra,Buldhana,"APMC Mehekar ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9000,9600,9500
+Maharashtra,Sangli,"APMC Tasgaon ",Jowar(Sorghum),Other,Local,30/10/2026,4000,4500,4250
+Maharashtra,Sangli,"APMC Vita ",Tomato,Other,Local,30/10/2026,500,1200,1000
+Maharashtra,Sangli,"APMC Vita ","Green Chilli",Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Sangli,"APMC Palus ",Ginger(Green),Other,Local,30/10/2026,3000,7000,5500
+Maharashtra,Sangli,"APMC Palus ",Cucumbar(Kheera),Other,Local,30/10/2026,2000,2500,2000
+Maharashtra,Satara,"APMC Vai ",Guar,Other,Local,30/10/2026,5000,6000,5500
+Maharashtra,Satara,"APMC Vai ",Brinjal,Other,Local,30/10/2026,2000,3000,2500
+Maharashtra,Solapur,"APMC Barshi ",Wheat,Other,FAQ,30/10/2026,3000,3000,3000
+Maharashtra,Solapur,"APMC Barshi ",Jowar(Sorghum),Other,Local,30/10/2026,4800,9100,7500
+Maharashtra,Solapur,"APMC Barshi ",Turmeric,Other,Local,30/10/2026,15000,15000,15000
+Maharashtra,Solapur,"APMC Solapur ",Wheat,Sharbati,FAQ,30/10/2026,2745,4360,3715
+Maharashtra,Solapur,"APMC Solapur ",Soyabean,Other,Local,30/10/2026,5501,6955,6800
+Maharashtra,Solapur,"APMC Solapur ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1000,6000,2500
+Maharashtra,Solapur,"APMC Solapur ","Bitter gourd",Other,Local,30/10/2026,1000,4500,2000
+Maharashtra,Solapur,"APMC Solapur ","Chilly Capsicum",Other,Local,30/10/2026,800,3500,1800
+Maharashtra,Solapur,"APMC Solapur ","Green Chilli",Other,Local,30/10/2026,2000,4500,3000
+Maharashtra,Solapur,"APMC Karmala ",Wheat,Other,FAQ,30/10/2026,2800,3200,3200
+Maharashtra,Solapur,"APMC Karmala ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9300,9300,9300
+Maharashtra,Solapur,"APMC Akluj ",Pomegranate,Other,Local,30/10/2026,6500,30100,11100
+Maharashtra,Solapur,"APMC Akluj ",Beetroot,Other,Local,30/10/2026,2000,3500,3000
+Maharashtra,Solapur,"APMC Akluj ",Onion,Red,Local,30/10/2026,1500,5000,3800
+Maharashtra,Solapur,"APMC Akluj ",Methi(Leaves),Other,Local,30/10/2026,20,30,25
+Maharashtra,Solapur,"APMC Akluj ",Tomato,Local,Local,30/10/2026,700,1400,1200
+Maharashtra,Solapur,"APMC Akluj ",Ginger(Green),Other,Local,30/10/2026,5000,7000,6000
+Maharashtra,Solapur,"APMC Dudhani ",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,4500,8405,6731
+Maharashtra,Wardha,"APMC Arvi ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9000,9600,9100
+Maharashtra,Wardha,"APMC Wardha ",Wheat,Other,FAQ,30/10/2026,3000,3050,3025
+Maharashtra,Wardha,"APMC Ashti ",Soyabean,Yellow,FAQ,30/10/2026,6500,6985,6700
+Maharashtra,Washim,"APMC Karanja ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6300,7240,6995
+Maharashtra,Washim,"Washim(Ansing) ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,2750,3100,2950
+Maharashtra,Yavatmal,"APMC Ghatanji",Cotton,LRA,FAQ,30/10/2026,9000,9300,9150
+Maharashtra,Yavatmal,"APMC Umarkhed ",Wheat,Other,Non-FAQ,30/10/2026,2200,2400,2300
+Maharashtra,Yavatmal,"APMC Babhulgaon ",Soyabean,Yellow,FAQ,30/10/2026,6600,6960,6751
+Maharashtra,Yavatmal,"APMC Digras",Wheat,Other,FAQ,30/10/2026,2925,3075,2925
+Maharashtra,Yavatmal,"APMC Digras",Soyabean,Yellow,FAQ,30/10/2026,6845,7050,6985
+Maharashtra,Ahilyanagar,"Omchatinya Multi State Agro Purpose Co-Op Society, Dist Ahilyanagar","Black Gram(Urd Beans)(Whole)",Other,Local,30/10/2026,9500,9500,9500
+Maharashtra,Yavatmal,"Mahesh Krushi Utpanna Bazar, Digras, Dist Yeotmal",Soyabean,Other,Local,30/10/2026,4000,7150,6801
+Maharashtra,Pune,"Pune(Pimpri) ",Beans,Other,Local,30/10/2026,7000,7000,7000
+Maharashtra,Pune,"Pune(Pimpri) ",Onion,Local,Local,30/10/2026,4300,4500,4400
+Maharashtra,Pune,"Pune(Pimpri) ",Cabbage,Other,Local,30/10/2026,500,800,650
+Maharashtra,Buldhana,"APMC Deoulgaon Raja ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3001,3001,3001
+Maharashtra,Buldhana,"APMC Deoulgaon Raja ",Wheat,Other,FAQ,30/10/2026,3401,3401,3401
+Maharashtra,Buldhana,"APMC Deoulgaon Raja ",Jowar(Sorghum),Other,Local,30/10/2026,5501,5501,5501
+Maharashtra,Buldhana,"APMC Deoulgaon Raja ",Soyabean,Yellow,FAQ,30/10/2026,6700,6851,6800
+Maharashtra,Buldhana,"APMC Chikali ","Bengal Gram(Gram)(Whole)","Average (Whole)",FAQ,30/10/2026,6050,6900,6475
+Maharashtra,Washim,"Krushna Krishi Bazar, Washim",Soyabean,Other,Local,30/10/2026,6000,7100,6742
+Maharashtra,Washim,"Krushna Krishi Bazar, Washim","Bengal Gram(Gram)(Whole)",Other,Local,30/10/2026,6000,7100,7023
+Maharashtra,Bhandara,"APMC Bhandara ",Rice,"1009 Kar",Local,30/10/2026,6000,6000,6000
+Maharashtra,Ahilyanagar,"APMC Rahata ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,2500,4000,3250
+Maharashtra,Ahilyanagar,"APMC Rahata ",Carrot,Other,Local,30/10/2026,2000,2000,2000
+Maharashtra,Ahilyanagar,"APMC Rahata ",Cucumbar(Kheera),Other,Local,30/10/2026,1200,2750,1975
+Maharashtra,Ahilyanagar,"APMC Rahata ","Chilly Capsicum",Other,Local,30/10/2026,1000,4000,2500
+Maharashtra,Ahilyanagar,"APMC Jamkhed ",Soyabean,Yellow,FAQ,30/10/2026,6000,6900,6450
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2435,2800,2600
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6105,7105,6820
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8795,8795,8795
+Maharashtra,"Chattrapati Sambhajinagar","APMC Vaijpur ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8830,8830,8830
+Maharashtra,Beed,"APMC Beed","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,3500,3900,3718
+Maharashtra,Beed,"APMC Beed","Green Gram(Moong)(Whole)","Green (Whole)",FAQ,30/10/2026,9200,9301,9250
+Maharashtra,Beed,"APMC Beed","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8600,9800,8733
+Maharashtra,Amarawati,"Varud(Rajura Bazar)","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6940,7100,7045
+Maharashtra,Amarawati,"Varud(Rajura Bazar)","Bengal Gram(Gram)(Whole)","Kabul Small",FAQ,30/10/2026,6760,7000,6880
+Maharashtra,Nanded,"Naigaon(Kuntur) ",Soyabean,Yellow,FAQ,30/10/2026,6700,7010,6900
+Maharashtra,Ahilyanagar,"APMC Kopargaon ",Onion,Red,Local,30/10/2026,1750,4068,3700
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Seetapal,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Ginger(Green),Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Potato,Other,Local,30/10/2026,1200,1600,1400
+Maharashtra,Ahilyanagar,"APMC Shrirampur ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Cucumbar(Kheera),Other,Local,30/10/2026,1500,2500,2000
+Maharashtra,Ahilyanagar,"APMC Shrirampur ","Bitter gourd",Other,Local,30/10/2026,1500,2000,1750
+Maharashtra,Ahilyanagar,"APMC Shrirampur ",Cabbage,Other,Local,30/10/2026,400,600,500
+Maharashtra,Ahilyanagar,"APMC Shrirampur ","Chilly Capsicum",Other,Local,30/10/2026,2500,3000,2750
+Maharashtra,Ahilyanagar,"APMC Karjat ",Onion,Local,Local,30/10/2026,2000,4000,3000
+Maharashtra,Akola,"APMC Akola ",Potato,Other,Local,30/10/2026,600,1200,900
+Maharashtra,Akola,"APMC Akola ",Onion,Other,Local,30/10/2026,2500,5300,3500
+Maharashtra,Akola,"APMC Akola ",Wheat,Sharbati,FAQ,30/10/2026,3500,4050,3900
+Maharashtra,Akola,"APMC Murtizapur ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6500,7380,6940
+Maharashtra,Amarawati,"APMC Amarawati ",Wheat,Other,FAQ,30/10/2026,2610,2850,2730
+Maharashtra,Amarawati,"APMC Amarawati ",Jowar(Sorghum),Other,Local,30/10/2026,2400,2700,2550
+Maharashtra,Amarawati,"APMC Amarawati ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6800,7300,7050
+Maharashtra,Amarawati,"APMC Amarawati ","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,7800,8350,8075
+Maharashtra,Amarawati,"APMC Amarawati ","Sesamum(Sesame,Gingelly,Til)",White,FAQ,30/10/2026,10500,11300,10900
+Maharashtra,Amarawati,"APMC Chandur Railway",Wheat,Other,Non-FAQ,30/10/2026,2600,2600,2600
+Maharashtra,Amarawati,"APMC Daryapur ",Cotton,Other,FAQ,30/10/2026,9200,9300,9250
+Maharashtra,Amarawati,"APMC Nandgaon Khandeshwar ",Wheat,Other,FAQ,30/10/2026,2645,2835,2750
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ",Potato,Local,Local,30/10/2026,800,1500,1150
+Maharashtra,Amarawati,"Amrawati(Frui & Veg. Market) ","Bitter gourd",Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Beed,"APMC Majalgaon ",Jowar(Sorghum),Red,Local,30/10/2026,2700,9101,7000
+Maharashtra,Buldhana,"APMC Malkapur ",Maize,Yellow,Non-FAQ,30/10/2026,2350,2350,2350
+Maharashtra,Buldhana,"APMC Malkapur ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,10000,10375,10100
+Maharashtra,Buldhana,"APMC Malkapur ","Red gram/Arhar/Tur(whole)",Other,Non-FAQ,30/10/2026,8000,8000,8000
+Maharashtra,Buldhana,"APMC Malkapur ",Soyabean,Yellow,FAQ,30/10/2026,6860,6995,6900
+Maharashtra,Buldhana,"APMC Malkapur ",Soyabean,Yellow,Non-FAQ,30/10/2026,5700,5700,5700
+Maharashtra,Chandrapur,"APMC Gondpimpri ",Paddy(Common),Other,FAQ,30/10/2026,4050,4400,4250
+Maharashtra,Chandrapur,"APMC Bhadrawati ",Soyabean,Yellow,FAQ,30/10/2026,6800,6800,6800
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Carrot,Other,Local,30/10/2026,3000,3000,3000
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Pumpkin,Other,Local,30/10/2026,800,1000,900
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ",Coriander(Leaves),Other,Local,30/10/2026,4000,7000,5000
+Maharashtra,Chandrapur,"Chandrapur(Ganjwad) ","Chilly Capsicum",Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2576,2576,2576
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ",Wheat,Other,FAQ,30/10/2026,2721,3400,3060
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ",Maize,Yellow,FAQ,30/10/2026,2430,2916,2673
+Maharashtra,"Chattrapati Sambhajinagar","APMC Chattrapati Sambhajinagar ","Bengal Gram(Gram)(Whole)",Other,Non-FAQ,30/10/2026,5000,5000,5000
+Maharashtra,Dharashiv,"APMC Dharashiv",Lime,Other,Local,30/10/2026,2000,10000,6000
+Maharashtra,Dharashiv,"APMC Dharashiv",Guava,Other,Local,30/10/2026,1500,3500,2500
+Maharashtra,Dharashiv,"APMC Dharashiv",Beans,Other,Local,30/10/2026,4000,5500,4750
+Maharashtra,Dharashiv,"APMC Dharashiv",Coriander(Leaves),Other,Local,30/10/2026,800,2600,1700
+Maharashtra,Dharashiv,"APMC Dharashiv","Karbuja(Musk Melon)",Other,Local,30/10/2026,800,1500,1150
+Maharashtra,Dharashiv,"APMC Dharashiv","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1500,4000,2750
+Maharashtra,"Chattrapati Sambhajinagar","APMC Sillod ",Maize,Yellow,FAQ,30/10/2026,2500,2800,2600
+Maharashtra,Dharashiv,"APMC Tuljapur ","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,8200,9500,9000
+Maharashtra,Gadchiroli,"APMC Gadchiroli ",Paddy(Common),Other,FAQ,30/10/2026,3360,4010,3570
+Maharashtra,Gadchiroli,"APMC Armori ",Paddy(Common),Other,FAQ,30/10/2026,3190,4130,3620
+Maharashtra,Gondiya,"APMC Amgaon ",Paddy(Common),Other,FAQ,30/10/2026,3700,4500,4100
+Maharashtra,Gondiya,"APMC Amgaon ",Paddy(Common),Other,Non-FAQ,30/10/2026,2100,2190,2145
+Maharashtra,Jalgaon,"APMC Pachora ","Bajra(Pearl Millet/Cumbu)",Other,Non-FAQ,30/10/2026,2400,2851,2611
+Maharashtra,Jalgaon,"APMC Pachora ",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,2450,3530,3000
+Maharashtra,Jalgaon,"APMC Pachora ",Maize,Other,FAQ,30/10/2026,2410,2885,2651
+Maharashtra,Jalgaon,"APMC Pachora ",Soyabean,Other,Local,30/10/2026,6175,7040,6521
+Maharashtra,Jalgaon,"APMC Bhusaval ",Lime,Other,Local,30/10/2026,5000,8000,7500
+Maharashtra,Jalgaon,"APMC Bhusaval ",Potato,Other,Local,30/10/2026,1200,2000,1500
+Maharashtra,Jalgaon,"APMC Bhusaval ",Cucumbar(Kheera),Other,Local,30/10/2026,1000,1500,1200
+Maharashtra,Jalgaon,"APMC Bhusaval ",Cabbage,Other,Local,30/10/2026,800,1200,1000
+Maharashtra,Jalgaon,"APMC Bhusaval ","Little gourd(Kundru)",Other,Local,30/10/2026,2500,2500,2500
+Maharashtra,Jalgaon,"APMC  Yawal",Maize,Yellow,FAQ,30/10/2026,2500,2940,2730
+Maharashtra,Jalgaon,"APMC  Yawal",Banana,Other,Local,30/10/2026,1250,1800,1260
+Maharashtra,Hingoli,"APMC Hingoli","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6500,6900,6700
+Maharashtra,Hingoli,"APMC Hingoli",Turmeric,Other,Local,30/10/2026,19100,21800,20450
+Maharashtra,Jalna,"APMC Jalana ","Green Gram(Moong)(Whole)",Other,Non-FAQ,30/10/2026,8700,8700,8700
+Maharashtra,Jalna,"APMC Jalana ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9500,10200,9500
+Maharashtra,Jalna,"APMC Jalana ",Soyabean,Yellow,Non-FAQ,30/10/2026,5600,5600,5600
+Maharashtra,Ahilyanagar,"Rahuri(Vambori) ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6601,6601,6601
+Maharashtra,Amarawati,"APMC Achalpur ",Maize,Other,FAQ,30/10/2026,2410,2850,2625
+Maharashtra,Latur,"APMC Ahmedpur","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8450,9575,9012
+Maharashtra,Latur,"APMC  Latur","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,8500,10500,9900
+Maharashtra,Latur,"APMC  Latur","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6600,7400,7250
+Maharashtra,Latur,"APMC  Latur","Black Gram(Urd Beans)(Whole)",Other,FAQ,30/10/2026,9470,9841,9650
+Maharashtra,Latur,"APMC Aurad Shahajani ",Jowar(Sorghum),"Jowar ( White)",Local,30/10/2026,2800,2800,2800
+Maharashtra,Latur,"Latur(Murud) ",Soyabean,Yellow,FAQ,30/10/2026,6600,7000,6800
+Maharashtra,Amarawati,"APMC Chandur Bazar ",Wheat,Other,FAQ,30/10/2026,2650,3000,2800
+Maharashtra,Amarawati,"APMC Chandur Bazar ",Maize,Other,FAQ,30/10/2026,2450,3000,2700
+Maharashtra,Amarawati,"APMC Chandur Bazar ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6500,7150,6800
+Maharashtra,Latur,"APMC Udgir ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,10200,10460,10330
+Maharashtra,Mumbai,"APMC Mumbai ","Chilly Capsicum",Other,Local,30/10/2026,1600,3200,2400
+Maharashtra,Mumbai,"APMC Mumbai ","Green Chilli",Other,Local,30/10/2026,5000,8000,6500
+Maharashtra,Mumbai,"APMC Mumbai ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,2900,3700,3450
+Maharashtra,Mumbai,"APMC Mumbai ",Cowpea(Lobia/Karamani),Other,Local,30/10/2026,7000,10500,9100
+Maharashtra,Mumbai,"APMC Mumbai ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,8500,9800,9300
+Maharashtra,Mumbai,"APMC Mumbai ",Lime,Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Mumbai,"APMC Mumbai ",Ginger(Green),Other,Local,30/10/2026,5000,16000,10500
+Maharashtra,Mumbai,"APMC Mumbai ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,3600,4000,3800
+Maharashtra,Mumbai,"APMC Mumbai ","Sweet Pumpkin",Other,Local,30/10/2026,600,1000,800
+Maharashtra,Mumbai,"APMC Mumbai ",Coriander(Leaves),Other,Local,30/10/2026,1500,2500,2000
+Maharashtra,Mumbai,"APMC Mumbai ","Elephant Yam(Suran)/Amorphophallus",Other,Local,30/10/2026,2000,2400,2200
+Maharashtra,Mumbai,"APMC Mumbai ","Little gourd(Kundru)",Other,Local,30/10/2026,1400,3000,2200
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Pomegranate,Other,Local,30/10/2026,12000,15000,13500
+Maharashtra,Mumbai,"Mumbai- Fruit Market ","Mousambi(Sweet Lime)",Other,Local,30/10/2026,2000,5000,3500
+Maharashtra,Mumbai,"Mumbai- Fruit Market ",Apple,Other,Local,30/10/2026,10000,14000,12000
+Maharashtra,Nagpur,"APMC Nagpur ",Chikoos(Sapota),Other,Local,30/10/2026,1000,3000,2500
+Maharashtra,Nagpur,"APMC Nagpur ","Mousambi(Sweet Lime)",Other,Local,30/10/2026,900,2200,1875
+Maharashtra,Nagpur,"APMC Nagpur ","Chili Red",Other,Local,30/10/2026,14000,18000,17000
+Maharashtra,Nagpur,"APMC Nagpur ",Maize,Other,FAQ,30/10/2026,2500,2750,2687
+Maharashtra,Nagpur,"APMC Savner ",Maize,Other,Non-FAQ,30/10/2026,1800,2400,2300
+Maharashtra,Nagpur,"APMC Katol ",Maize,Other,FAQ,30/10/2026,2500,2625,2600
+Maharashtra,Nanded,Hadgaon(Tamsa),Soyabean,Yellow,FAQ,30/10/2026,6600,6900,6800
+Maharashtra,Nandurbar,"APMC Nandurbar ",Jowar(Sorghum),Other,Local,30/10/2026,3025,4651,3825
+Maharashtra,Nandurbar,"APMC Taloda ",Soyabean,Yellow,FAQ,30/10/2026,5900,6841,6500
+Maharashtra,Jalna,"APMC Ambad (Vadigodri) ",Jowar(Sorghum),Other,Non-FAQ,30/10/2026,2000,3700,2370
+Maharashtra,Nashik,"APMC Nandgaon ",Soyabean,Yellow,FAQ,30/10/2026,5708,6861,6650
+Maharashtra,Nashik,"APMC Sinner ",Soyabean,Other,Local,30/10/2026,6685,6900,6800
+Maharashtra,Nashik,"Lasalgaon(Niphad) ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6600,6600,6600
+Maharashtra,Jalgaon,"APMC Jalgaon",Soyabean,Other,Local,30/10/2026,6200,6725,6540
+Maharashtra,Jalgaon,"APMC Jalgaon",Pomegranate,Other,Local,30/10/2026,18000,18000,18000
+Maharashtra,Jalgaon,"APMC Jalgaon",Cauliflower,Other,Local,30/10/2026,800,1200,1000
+Maharashtra,Jalgaon,"APMC Jalgaon",Guar,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Jalgaon,"APMC Jalgaon",Mango(Raw-Ripe),Other,Local,30/10/2026,9000,9000,9000
+Maharashtra,Jalgaon,"APMC Jalgaon",Garlic,Other,Local,30/10/2026,14000,26000,20000
+Maharashtra,Nanded,"APMC Loha ",Wheat,Other,FAQ,30/10/2026,2900,3301,3300
+Maharashtra,Nanded,"APMC Loha ",Jowar(Sorghum),Other,Local,30/10/2026,4000,7600,6700
+Maharashtra,Nanded,"APMC Loha ",Turmeric,Rajapuri,Local,30/10/2026,12700,21500,19000
+Maharashtra,Nashik,"Lasalgaon(Vinchur) ",Soyabean,Other,Local,30/10/2026,5000,6870,6811
+Maharashtra,Nashik,"Lasalgaon(Vinchur) ",Onion,Red,Local,30/10/2026,3476,4900,4652
+Maharashtra,Thane,"APMC Kalyan ","Bajra(Pearl Millet/Cumbu)",Other,FAQ,30/10/2026,4000,5000,4500
+Maharashtra,Thane,"APMC Kalyan ",Wheat,Sharbati,FAQ,30/10/2026,3500,4500,4000
+Maharashtra,Thane,"APMC Kalyan ",Mataki,Other,Local,30/10/2026,9500,10000,9750
+Maharashtra,Thane,"APMC Kalyan ","Black Gram(Urd Beans)(Whole)","Mogan Medium",FAQ,30/10/2026,13000,15000,14000
+Maharashtra,Thane,"APMC Kalyan ",Potato,Other,Local,30/10/2026,900,1400,1100
+Maharashtra,Thane,"APMC Kalyan ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,1500,2500,2000
+Maharashtra,Thane,"APMC Kalyan ",Beans,Other,Local,30/10/2026,3800,5200,4500
+Maharashtra,Palghar,"APMC  VASAI",Rice,"1009 Kar",Local,30/10/2026,3250,4920,4050
+Maharashtra,Palghar,"APMC Palghar ",Rice,"1009 Kar",Local,30/10/2026,4850,4850,4850
+Maharashtra,Beed,"APMC Gevrai ",Soyabean,Yellow,FAQ,30/10/2026,6500,7000,6750
+Maharashtra,Nashik,"Pimpalgaon Baswant(Saykheda) ",Onion,Unhali,Local,30/10/2026,3061,4400,3900
+Maharashtra,Pune,"APMC Pune ",Pear(Marasebu),Other,Local,30/10/2026,6000,8000,7000
+Maharashtra,Pune,"APMC Pune ",Apple,Other,Local,30/10/2026,4000,15000,9500
+Maharashtra,Pune,"APMC Pune ","Peas Wet",Other,Local,30/10/2026,6000,12000,9000
+Maharashtra,Pune,"APMC Pune ",Jowar(Sorghum),Other,FAQ,30/10/2026,6600,7800,7200
+Maharashtra,Pune,"APMC Pune ",Orange,Other,Local,30/10/2026,5000,10000,7500
+Maharashtra,Pune,"APMC Pune ","Sweet Pumpkin",Other,Local,30/10/2026,500,1500,1000
+Maharashtra,Pune,"APMC Pune ",Beans,Other,Local,30/10/2026,3000,8000,5500
+Maharashtra,Pune,"APMC Pune ",Mango(Raw-Ripe),Other,Local,30/10/2026,2000,8000,5000
+Maharashtra,Pune,"APMC Pune ",Cucumbar(Kheera),Other,Local,30/10/2026,1000,3200,2100
+Maharashtra,Pune,"APMC Pune ",Onion,Local,Local,30/10/2026,1000,4500,2750
+Maharashtra,Pune,"APMC Pune ",Garlic,Other,Local,30/10/2026,5000,25000,15000
+Maharashtra,Pune,"APMC Pune ",Snakeguard,Other,Local,30/10/2026,2000,2500,2250
+Maharashtra,Pune,"APMC Pune ",Ridgeguard(Tori),Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"APMC Khed ",Cauliflower,Other,Local,30/10/2026,300,800,600
+Maharashtra,Parbhani,"APMC Pathari",Soyabean,Yellow,FAQ,30/10/2026,6500,6900,6800
+Maharashtra,Pune,"APMC Indapur ",Pomegranate,Other,Local,30/10/2026,2000,22500,4800
+Maharashtra,Nagpur,"APMC Hingna",Lime,Other,Local,30/10/2026,6000,6000,6000
+Maharashtra,Nagpur,"APMC Hingna",Ridgeguard(Tori),Other,Local,30/10/2026,2500,3000,2750
+Maharashtra,Nagpur,"APMC Hingna",Cabbage,Other,Local,30/10/2026,1000,1500,1200
+Maharashtra,Nagpur,"APMC Hingna",Methi(Leaves),Other,Local,30/10/2026,2000,5000,3690
+Maharashtra,Pune,"Khed(Chakan) ",Potato,Other,Local,30/10/2026,1000,1600,1200
+Maharashtra,Pune,"Khed(Chakan) ",Cucumbar(Kheera),Other,Local,30/10/2026,1500,2200,1800
+Maharashtra,Pune,"Pune(Khadiki) ",Beans,Other,Local,30/10/2026,1700,2000,1850
+Maharashtra,Pune,"Pune(Khadiki) ","Bitter gourd",Other,Local,30/10/2026,1300,1700,1500
+Maharashtra,Pune,"Pune(Khadiki) ",Cabbage,Other,Local,30/10/2026,500,800,650
+Maharashtra,Pune,"Pune(Khadiki) ",Coriander(Leaves),Other,Local,30/10/2026,5,7,6
+Maharashtra,Pune,"Pune(Khadiki) ",Brinjal,Other,Local,30/10/2026,1400,1800,1600
+Maharashtra,Pune,"Junnar(Narayangaon) ","Bottle gourd",Other,Local,30/10/2026,200,1200,600
+Maharashtra,Pune,"Junnar(Narayangaon) ","Chilly Capsicum",Other,Local,30/10/2026,500,4100,2200
+Maharashtra,Pune,"Junnar(Narayangaon) ",Drumstick,Other,Local,30/10/2026,500,6100,3200
+Maharashtra,Pune,"Junnar(Narayangaon) ",Brinjal,Other,Local,30/10/2026,400,3500,1850
+Maharashtra,Pune,"Pune(Manjri) ",Chikoos(Sapota),Other,Local,30/10/2026,3000,7000,5000
+Maharashtra,Pune,"Pune(Manjri) ",Potato,Other,Local,30/10/2026,1400,1700,1500
+Maharashtra,Pune,"Pune(Manjri) ","Bitter gourd",Other,Local,30/10/2026,2000,4000,3000
+Maharashtra,Pune,"Pune(Manjri) ",Rajgir,Other,Local,30/10/2026,5,7,6
+Maharashtra,Pune,"Pune(Manjri) ",Ridgeguard(Tori),Other,Local,30/10/2026,3000,5000,4000
+Maharashtra,Pune,"Pune(Manjri) ",Tomato,Other,Local,30/10/2026,500,1500,1000
+Maharashtra,Pune,"Pune(Manjri) ",Brinjal,Other,Local,30/10/2026,1500,4500,3500
+Maharashtra,Pune,"Pune(Manjri) ","Green Chilli",Other,Local,30/10/2026,4000,6000,5000
+Maharashtra,Pune,"Pune(Moshi) ",Pineapple,Other,Local,30/10/2026,4000,4000,4000
+Maharashtra,Pune,"Pune(Moshi) ",Cauliflower,Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Pune,"Pune(Moshi) ",Carrot,Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Pune,"Pune(Moshi) ","Bitter gourd",Other,Local,30/10/2026,3000,5000,4000
+Maharashtra,Pune,"Pune(Moshi) ",Brinjal,Other,Local,30/10/2026,1000,2000,1500
+Maharashtra,Pune,"Pune(Moshi) ","Chilly Capsicum",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Raigad,"APMC Panvel ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,3500,4000,3750
+Maharashtra,Raigad,"APMC Panvel ",Cucumbar(Kheera),Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Raigad,"APMC Alibagh ",Rice,Other,Local,30/10/2026,4000,4500,4250
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ","French Beans(Frasbean)",Other,Local,30/10/2026,3000,5000,4500
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Cucumbar(Kheera),Other,Local,30/10/2026,3500,4500,4000
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ","Bitter gourd",Other,Local,30/10/2026,2500,3000,2800
+Maharashtra,Ratnagiri,"APMC Ratnagiri (Nachane) ",Brinjal,Other,Local,30/10/2026,2500,3000,2800
+Maharashtra,Sangli,"APMC Sangli ",Jowar(Sorghum),Other,Local,30/10/2026,5000,11000,8000
+Maharashtra,Sangli,"APMC Sangli ",Soyabean,Other,Local,30/10/2026,6400,7400,6900
+Maharashtra,Jalgaon,"APMC Chalisgaon ",Wheat,Other,FAQ,30/10/2026,2650,3700,2800
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Coriander(Leaves),Other,Local,30/10/2026,4540,5000,4860
+Maharashtra,Nagpur,"APMC Kalmeshwar ",Spinach,Other,Local,30/10/2026,1570,2000,1840
+Maharashtra,Sangli,"APMC Vita ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,3000,3500,3000
+Maharashtra,Sangli,"APMC Palus ",Brinjal,Other,Local,30/10/2026,3000,3500,3000
+Maharashtra,Sangli,"APMC Palus ","Green Chilli",Other,Local,30/10/2026,4000,5000,4500
+Maharashtra,Sangli,"APMC Palus ","Bitter gourd",Other,Local,30/10/2026,2000,2500,2000
+Maharashtra,Sangli,"APMC Palus ",Ridgeguard(Tori),Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Sangli,"Sangli(Miraj) ",Maize,"Deshi Red",FAQ,30/10/2026,3100,3350,3250
+Maharashtra,Satara,"APMC Vai ",Ginger(Green),Other,Local,30/10/2026,9000,14000,10500
+Maharashtra,Satara,"APMC Vai ","Bitter gourd",Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Solapur,"APMC Solapur ","Water Melon",Other,Local,30/10/2026,500,2000,1000
+Maharashtra,Solapur,"APMC Solapur ",Guava,Other,Local,30/10/2026,1000,4000,2500
+Maharashtra,Solapur,"APMC Solapur ",Apple,Other,Local,30/10/2026,5000,9200,6500
+Maharashtra,Solapur,"APMC Solapur ","Karbuja(Musk Melon)",Other,Local,30/10/2026,1000,4000,2500
+Maharashtra,Solapur,"APMC Solapur ",Carrot,Other,Local,30/10/2026,900,5000,2000
+Maharashtra,Solapur,"APMC Solapur ",Beans,Other,Local,30/10/2026,3500,4200,4000
+Maharashtra,Solapur,"APMC Solapur ",Onion,Red,Local,30/10/2026,300,8000,2800
+Maharashtra,Solapur,"APMC Solapur ",Cabbage,Other,Local,30/10/2026,250,500,300
+Maharashtra,Solapur,"APMC Solapur ",Ridgeguard(Tori),Other,Local,30/10/2026,1000,4000,2000
+Maharashtra,Solapur,"APMC Solapur ",Brinjal,Other,Local,30/10/2026,500,5000,2500
+Maharashtra,Solapur,"APMC Karmala ",Maize,Other,FAQ,30/10/2026,2761,2925,2875
+Maharashtra,Solapur,"APMC Mangal Wedha ",Cucumbar(Kheera),Other,Local,30/10/2026,2200,5700,5000
+Maharashtra,Solapur,"APMC Mangal Wedha ",Tomato,Local,Local,30/10/2026,500,2000,1400
+Maharashtra,Solapur,"APMC Akluj ",Chikoos(Sapota),Other,Local,30/10/2026,4000,7000,6000
+Maharashtra,Solapur,"APMC Akluj ",Potato,Other,Local,30/10/2026,1600,1800,1700
+Maharashtra,Solapur,"APMC Akluj ",Carrot,Other,Local,30/10/2026,3000,4000,3500
+Maharashtra,Solapur,"APMC Akluj ","Bitter gourd",Other,Local,30/10/2026,2000,3000,2700
+Maharashtra,Solapur,"APMC Akluj ",Spinach,Other,Local,30/10/2026,10,13,12
+Maharashtra,Solapur,"APMC Akluj ","Green Chilli",Other,Local,30/10/2026,2500,4000,3500
+Maharashtra,Solapur,"APMC Akluj ","Water Melon",Other,Local,30/10/2026,500,800,700
+Maharashtra,Solapur,"APMC Dudhani ","Black Gram(Urd Beans)(Whole)",Other,Non-FAQ,30/10/2026,6900,6900,6900
+Maharashtra,Solapur,"APMC Dudhani ",Maize,Other,FAQ,30/10/2026,3050,3050,3050
+Maharashtra,Solapur,"APMC Dudhani ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9180,10880,9852
+Maharashtra,Wardha,"APMC Hinganghat ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6600,7325,7000
+Maharashtra,Wardha,"APMC Hinganghat ","Green Gram(Moong)(Whole)","Green (Whole)",Non-FAQ,30/10/2026,2100,7300,5200
+Maharashtra,Wardha,"APMC Pulgaon ",Soyabean,Yellow,FAQ,30/10/2026,6500,7000,6800
+Maharashtra,Wardha,"APMC Wardha ","Bengal Gram(Gram)(Whole)",Other,FAQ,30/10/2026,6855,7000,6925
+Maharashtra,Wardha,"APMC Wardha ",Soyabean,Yellow,FAQ,30/10/2026,6850,7150,7050
+Maharashtra,Washim,"APMC Karanja ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9005,9900,9500
+Maharashtra,Washim,"APMC Karanja ",Soyabean,Other,Local,30/10/2026,6695,7040,6875
+Maharashtra,Washim,"APMC Malegaon(Washim) ",Soyabean,Other,Local,30/10/2026,6500,7000,6900
+Maharashtra,Washim,"Washim(Ansing) ","Red gram/Arhar/Tur(whole)",Other,FAQ,30/10/2026,9250,9550,9350
+Maharashtra,Yavatmal,"APMC Umarkhed ",Soyabean,Yellow,FAQ,30/10/2026,6500,6700,6600
+Maharashtra,Yavatmal,"Umarked(Danki) ","Red gram/Arhar/Tur(whole)",Other,Non-FAQ,30/10/2026,7000,7200,7100
+Maharashtra,Ahilyanagar,"Omchatinya Multi State Agro Purpose Co-Op Society, Dist Ahilyanagar",Wheat,Other,Local,30/10/2026,3500,3500,3500
+Maharashtra,Ahilyanagar,"Omchatinya Multi State Agro Purpose Co-Op Society, Dist Ahilyanagar",Soyabean,Other,Local,30/10/2026,6800,7000,6800
+Maharashtra,Nanded,"Shetkari Khajgi Bajar Parisar, Tal Bhokar, Dist Nanded",Cotton,LH-900,Local,30/10/2026,9100,9150,9123
+Maharashtra,Solapur,"Perfect Krushi Market Yard, Tal Madha, Dist Solapur",Pomegranate,Other,Local,30/10/2026,1425,15300,10400
+Maharashtra,Wardha,"Sai Agro Infratrade Pvt Agri Market, Dist Wardha",Soyabean,Other,Local,30/10/2026,6500,6700,6584
+Maharashtra,Yavatmal,"Mahesh Krushi Utpanna Bazar, Digras, Dist Yeotmal","Red gram/Arhar/Tur(whole)",Other,Local,30/10/2026,9800,9800,9800
+Maharashtra,Chandrapur,"APMC Savali ",Paddy(Common),Other,FAQ,30/10/2026,3800,4150,4050
+Maharashtra,Pune,"Pune(Pimpri) ",Spinach,Other,Local,30/10/2026,6,8,7
+Maharashtra,Wardha,"Ashti(Karanja) ",Soyabean,Yellow,FAQ,30/10/2026,6700,6985,6800
+Maharashtra,Mumbai,"Mumbai-Onion & Potato Market ",Onion,Other,Local,30/10/2026,2400,4400,3400
+Maharashtra,Washim,"APMC Manora ","Red gram/Arhar/Tur(whole)",Other,Non-FAQ,30/10/2026,5199,8300,6749
+Maharashtra,Wardha,"Sindi (Selu)",Soyabean,Yellow,FAQ,30/10/2026,6200,7000,6600
+Maharashtra,Nashik,"APMC Umrane",Onion,Unhali,Local,30/10/2026,1000,4450,3600
+Maharashtra,Bhandara,"APMC Bhandara ",Wheat,"Maharashtra 2189",FAQ,30/10/2026,2800,2800,2800
+Maharashtra,Ahilyanagar,"APMC Rahata ",Maize,Other,Non-FAQ,30/10/2026,2200,2200,2200
+Maharashtra,Ahilyanagar,"APMC Rahata ",Soyabean,Other,Local,30/10/2026,6300,6871,6600
+Maharashtra,Ahilyanagar,"APMC Rahata ",Ginger(Green),Other,Local,30/10/2026,6000,6000,6000
+Maharashtra,Ahilyanagar,"APMC Rahata ",Methi(Leaves),Other,Local,30/10/2026,15,20,18
+Maharashtra,Ahilyanagar,"APMC Rahata ",Drumstick,Other,Local,30/10/2026,2500,4000,3250
+Maharashtra,Ahilyanagar,"APMC Rahata ",Tomato,Other,Local,30/10/2026,500,1000,750
+Maharashtra,Ahilyanagar,"APMC Rahata ","Little gourd(Kundru)",Other,Local,30/10/2026,1000,1500,1250
+Maharashtra,Ahilyanagar,"APMC Rahata ","Green Chilli",Other,Local,30/10/2026,3000,5000,4000
+Maharashtra,Raigad,"APMC Pen ","Bhindi(Ladies Finger)",Other,Local,30/10/2026,3600,3800,3600
+Maharashtra,Raigad,"APMC Pen ",Brinjal,Other,Local,30/10/2026,3800,4000,3800

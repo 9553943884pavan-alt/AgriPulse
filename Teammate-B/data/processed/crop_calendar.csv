@@ -1,0 +1,27 @@
+crop_id,crop,season,sowing_start,sowing_end,harvest_start,harvest_end,sowing_start_month,sowing_end_month,harvest_start_month,harvest_end_month,duration_days,source_authority
+soybean,Soybean,Kharif,June 15,July 15,October 01,October 31,6,7,10,10,105,"MPKV Rahuri / VNMKV Parbhani Krishi Darshani"
+cotton,Cotton,Kharif,June 01,July 15,November 01,January 31,6,7,11,1,165,"Dr. PDKV Akola / CICR Nagpur"
+rice,Rice (Paddy),Kharif,June 10,July 20,October 15,November 20,6,7,10,11,130,"Dr. BSKKV Dapoli / MPKV Rahuri"
+jowar_kharif,Jowar (Kharif),Kharif,June 15,July 15,October 15,November 15,6,7,10,11,115,"MPKV Rahuri / VNMKV Parbhani"
+jowar,Jowar (Rabi Maldandi),Rabi,September 15,October 31,January 20,February 28,9,10,1,2,125,"MPKV Rahuri (Solapur/Pune Rabi Jowar Zone)"
+bajra,Bajra (Pearl Millet),Kharif,June 15,July 20,September 15,October 15,6,7,9,10,90,"MPKV Rahuri / AICRP Pearl Millet Dhule"
+maize,Maize (Kharif),Kharif,June 15,July 20,September 25,October 31,6,7,9,10,105,MPKV Rahuri
+maize_rabi,Maize (Rabi),Rabi,October 15,November 30,February 15,March 31,10,11,2,3,115,MPKV Rahuri
+pigeonpeas,"Tur / Arhar (Pigeon Pea)",Kharif,June 15,July 15,December 15,January 31,6,7,12,1,170,"Dr. PDKV Akola / VNMKV Parbhani"
+chickpea,"Gram / Chana (Chickpea)",Rabi,October 10,November 25,February 01,March 15,10,11,2,3,110,"MPKV Rahuri / Dr. PDKV Akola"
+mungbean,Moong (Green Gram),Kharif,June 15,July 10,August 25,September 20,6,7,8,9,70,"VNMKV Parbhani / Dr. PDKV Akola"
+blackgram,Urad (Black Gram),Kharif,June 15,July 10,September 01,September 25,6,7,9,9,75,"VNMKV Parbhani / Dr. PDKV Akola"
+wheat,Wheat,Rabi,November 01,December 05,March 01,April 10,11,12,3,4,120,MPKV Rahuri (Niphad Wheat Research Station)
+groundnut,Groundnut (Kharif),Kharif,June 15,July 15,October 01,November 05,6,7,10,11,110,MPKV Rahuri
+groundnut_summer,Groundnut (Summer),Summer,January 15,February 15,May 01,May 31,1,2,5,5,110,MPKV Rahuri
+sugarcane,"Sugarcane (Suru / Adsali)",Whole Year,December 15,February 15,December 01,March 31,12,2,12,3,365,"VSI Pune / MPKV Rahuri Padegaon"
+onion_kharif,Onion (Kharif),Kharif,June 01,July 15,October 15,November 30,6,7,10,11,110,ICAR-DOGR Rajgurunagar (Pune)
+onion,"Onion (Rabi / Unhali)",Rabi,November 15,December 31,April 01,May 15,11,12,4,5,130,ICAR-DOGR Rajgurunagar (Pune)
+lentil,Masoor (Lentil),Rabi,October 20,November 25,February 10,March 15,10,11,2,3,110,ICAR Crop Calendar
+mothbeans,Matki (Moth Bean),Kharif,June 20,July 20,September 15,October 15,6,7,9,10,85,MPKV Rahuri
+pomegranate,"Pomegranate (Hasta/Ambia/Mrig)",Whole Year,January 01,December 31,January 01,December 31,1,12,1,12,180,ICAR-NRCP Solapur
+banana,Banana,Whole Year,June 01,October 31,June 01,December 31,6,10,6,12,330,MPKV Banana Research Station Jalgaon
+grapes,Grapes,Whole Year,October 01,November 15,February 01,April 15,10,11,2,4,140,ICAR-NRC Grapes Pune
+orange,"Orange (Ambia/Mrig Bahar)",Whole Year,June 01,November 30,November 01,March 31,6,11,11,3,240,ICAR-CCRI Nagpur
+watermelon,Watermelon,Summer,January 01,February 28,March 25,May 20,1,2,3,5,85,MPKV Rahuri
+muskmelon,Muskmelon,Summer,January 01,February 28,March 25,May 20,1,2,3,5,85,MPKV Rahuri

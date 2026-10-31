@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1190" width="1800" height="1190">
+<defs>
+  <filter id="soft" x="-5%" y="-5%" width="110%" height="115%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.14"/>
+  </filter>
+  <marker id="arrE" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#455A64"/>
+  </marker>
+  <marker id="arrS" viewBox="0 0 10 10" refX="1.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#455A64"/>
+  </marker>
+  <linearGradient id="titleBg" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#1F2A37"/><stop offset="1" stop-color="#34495E"/>
+  </linearGradient>
+</defs>
+<rect width="1800" height="1190" fill="#FFFFFF"/>
+<rect x="540" y="16" width="720" height="66" rx="14" fill="url(#titleBg)" stroke="#0F1720" stroke-width="1.5" filter="url(#soft)"/>
+<text x="900" y="48" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="25" font-weight="800" fill="#FFFFFF" text-anchor="middle" >AgriPulse: End-to-End System Architecture</text>
+<text x="900" y="70" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#CFD8DC" text-anchor="middle" >From the farmer's voice to a climate-resilient farm plan</text>
+<rect x="30" y="100" width="1420" height="150" rx="16" fill="#FFF4E0" stroke="#F5A623" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="56" cy="122" r="13" fill="#F5A623"/>
+<text x="56" y="127" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >1</text>
+<text x="78" y="128" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#8A4B00" text-anchor="start" letter-spacing="0.4">DATA SOURCES  (live APIs and official datasets, no mock data)</text>
+<rect x="50.0" y="144" width="261.6" height="92" rx="10" fill="#FFFFFF" stroke="#F5A623" stroke-width="1.8" filter="url(#soft)"/>
+<text x="61.0" y="171" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🌦️</text>
+<text x="92.0" y="169" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Open-Meteo</text>
+<text x="63.0" y="191" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• 16-day forecast + ET₀</text>
+<text x="63.0" y="207" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• ERA5 history 2010-2025</text>
+<text x="63.0" y="223" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Free API, no key</text>
+<rect x="329.6" y="144" width="261.6" height="92" rx="10" fill="#FFFFFF" stroke="#F5A623" stroke-width="1.8" filter="url(#soft)"/>
+<text x="340.6" y="171" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🧪</text>
+<text x="371.6" y="169" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Soil Data</text>
+<text x="342.6" y="191" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Soil Health Card N, P, K, pH</text>
+<text x="342.6" y="207" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• ISRIC SoilGrids pH, texture</text>
+<text x="342.6" y="223" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• District averages</text>
+<rect x="609.2" y="144" width="261.6" height="92" rx="10" fill="#FFFFFF" stroke="#F5A623" stroke-width="1.8" filter="url(#soft)"/>
+<text x="620.2" y="171" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >💧</text>
+<text x="651.2" y="169" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Water Data</text>
+<text x="622.2" y="191" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• CGWB groundwater category</text>
+<text x="622.2" y="207" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• CWC reservoir storage</text>
+<text x="622.2" y="223" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Irrigation census, FAO-56 Kc</text>
+<rect x="888.8000000000001" y="144" width="261.6" height="92" rx="10" fill="#FFFFFF" stroke="#F5A623" stroke-width="1.8" filter="url(#soft)"/>
+<text x="899.8000000000001" y="171" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >💰</text>
+<text x="930.8000000000001" y="169" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Market Data</text>
+<text x="901.8000000000001" y="191" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Agmarknet live mandi prices</text>
+<text x="901.8000000000001" y="207" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Monthly price history, MSP</text>
+<text x="901.8000000000001" y="223" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• data.gov.in API key</text>
+<rect x="1168.4" y="144" width="261.6" height="92" rx="10" fill="#FFFFFF" stroke="#F5A623" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1179.4" y="171" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🌾</text>
+<text x="1210.4" y="169" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Agronomy Data</text>
+<text x="1181.4" y="191" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• DES district crop yields</text>
+<text x="1181.4" y="207" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• DES/CACP cost of cultivation</text>
+<text x="1181.4" y="223" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Fertilizer, seed, crop calendar</text>
+<rect x="30" y="278" width="930" height="170" rx="16" fill="#E8F1FC" stroke="#4A90D9" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="56" cy="300" r="13" fill="#4A90D9"/>
+<text x="56" y="305" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >2</text>
+<text x="78" y="306" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#10406F" text-anchor="start" letter-spacing="0.4">DATA INGESTION LAYER</text>
+<rect x="50.0" y="324" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#4A90D9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="61.0" y="351" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🔌</text>
+<text x="92.0" y="349" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >API Connector</text>
+<text x="63.0" y="371" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Keys only from .env</text>
+<text x="63.0" y="387" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Rate-limit handling</text>
+<text x="63.0" y="403" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Retries and timeouts</text>
+<rect x="277.0" y="324" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#4A90D9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="288.0" y="351" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >⚡</text>
+<text x="319.0" y="349" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Async Fetcher</text>
+<text x="290.0" y="371" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Parallel httpx calls</text>
+<text x="290.0" y="387" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Prefetch on location</text>
+<text x="290.0" y="403" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Per-stage timing</text>
+<rect x="504.0" y="324" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#4A90D9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="515.0" y="351" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🛡️</text>
+<text x="546.0" y="349" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Data Validator</text>
+<text x="517.0" y="371" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Unit and range checks</text>
+<text x="517.0" y="387" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• District name resolver</text>
+<text x="517.0" y="403" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Missing stays missing</text>
+<rect x="731.0" y="324" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#4A90D9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="742.0" y="351" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🗄️</text>
+<text x="773.0" y="349" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Source-tagged Cache</text>
+<text x="744.0" y="371" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• value + source + date</text>
+<text x="744.0" y="387" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Stale fallback: as of</text>
+<text x="744.0" y="403" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• No mock data, ever</text>
+<rect x="30" y="473" width="930" height="170" rx="16" fill="#FDE8EE" stroke="#E0457B" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="56" cy="495" r="13" fill="#E0457B"/>
+<text x="56" y="500" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >3</text>
+<text x="78" y="501" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#7A0F36" text-anchor="start" letter-spacing="0.4">DATA PROCESSING &amp; FEATURE ENGINEERING</text>
+<rect x="50.0" y="519" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#E0457B" stroke-width="1.8" filter="url(#soft)"/>
+<text x="61.0" y="546" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🧹</text>
+<text x="92.0" y="544" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Data Cleaning</text>
+<text x="63.0" y="566" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Drop total / other rows</text>
+<text x="63.0" y="582" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Remove impossible yields</text>
+<text x="63.0" y="598" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Unit checks per crop</text>
+<rect x="277.0" y="519" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#E0457B" stroke-width="1.8" filter="url(#soft)"/>
+<text x="288.0" y="546" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🛠️</text>
+<text x="319.0" y="544" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Feature Engineering</text>
+<text x="290.0" y="566" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Season-aligned weather</text>
+<text x="290.0" y="582" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Dry spells, heat-stress days</text>
+<text x="290.0" y="598" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Past-only yield lags</text>
+<rect x="504.0" y="519" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#E0457B" stroke-width="1.8" filter="url(#soft)"/>
+<text x="515.0" y="546" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >✂️</text>
+<text x="546.0" y="544" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Time-based Split</text>
+<text x="517.0" y="566" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Train on earlier years</text>
+<text x="517.0" y="582" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Test on later years</text>
+<text x="517.0" y="598" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• No production leakage</text>
+<rect x="731.0" y="519" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#E0457B" stroke-width="1.8" filter="url(#soft)"/>
+<text x="742.0" y="546" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >📦</text>
+<text x="773.0" y="544" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Processed Dataset</text>
+<text x="744.0" y="566" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• yield_training.csv</text>
+<text x="744.0" y="582" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• districts.csv (36 districts)</text>
+<text x="744.0" y="598" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Every file in SOURCES.md</text>
+<rect x="30" y="668" width="930" height="170" rx="16" fill="#F0E8FA" stroke="#8E5BD0" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="56" cy="690" r="13" fill="#8E5BD0"/>
+<text x="56" y="695" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >4</text>
+<text x="78" y="696" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#42197A" text-anchor="start" letter-spacing="0.4">ML &amp; SCIENCE LAYER</text>
+<rect x="50.0" y="714" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#8E5BD0" stroke-width="1.8" filter="url(#soft)"/>
+<text x="61.0" y="741" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🌱</text>
+<text x="92.0" y="739" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Crop Suitability</text>
+<text x="63.0" y="761" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Filters: district, season, water</text>
+<text x="63.0" y="777" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Score = yield vs normal yield</text>
+<text x="63.0" y="793" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• SHAP on our yield model</text>
+<rect x="277.0" y="714" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#8E5BD0" stroke-width="1.8" filter="url(#soft)"/>
+<text x="288.0" y="741" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >📈</text>
+<text x="319.0" y="739" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Yield Model</text>
+<text x="290.0" y="761" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Gradient boosting</text>
+<text x="290.0" y="777" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Clipped to district max</text>
+<text x="290.0" y="793" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Out-of-time MAE</text>
+<rect x="504.0" y="714" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#8E5BD0" stroke-width="1.8" filter="url(#soft)"/>
+<text x="515.0" y="741" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🌦️</text>
+<text x="546.0" y="739" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Climate Scenarios</text>
+<text x="517.0" y="761" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Drought = P10 rainfall</text>
+<text x="517.0" y="777" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Normal = P50, Excess = P90</text>
+<text x="517.0" y="793" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• 15 years of ERA5</text>
+<rect x="731.0" y="714" width="209.0" height="108" rx="10" fill="#FFFFFF" stroke="#8E5BD0" stroke-width="1.8" filter="url(#soft)"/>
+<text x="742.0" y="741" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >💧</text>
+<text x="773.0" y="739" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Water &amp; Fertilizer</text>
+<text x="744.0" y="761" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Need = Kc × ET₀ - rain</text>
+<text x="744.0" y="777" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• yield = a + b·f - c·f²</text>
+<text x="744.0" y="793" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Optimal dose f*</text>
+<rect x="1000" y="278" width="450" height="560" rx="16" fill="#E8F6EA" stroke="#4CAF50" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="1026" cy="300" r="13" fill="#4CAF50"/>
+<text x="1026" y="305" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >5</text>
+<text x="1048" y="306" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#1B5E20" text-anchor="start" letter-spacing="0.4">AGENT SYSTEM  (LangGraph)</text>
+<rect x="1100" y="326" width="250" height="74" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1111" y="353" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >👨‍🌾</text>
+<text x="1142" y="351" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Farmer Query</text>
+<text x="1113" y="373" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Voice or text: Marathi / Hindi / English</text>
+<text x="1113" y="389" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Sarvam speech-to-text</text>
+<rect x="1100" y="420" width="250" height="89" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1111" y="447" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🧾</text>
+<text x="1142" y="445" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Profile Extraction</text>
+<text x="1113" y="467" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• LLMs: Gemini, Groq, Sarvam</text>
+<text x="1113" y="483" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Location, land, budget, water source</text>
+<text x="1113" y="499" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• One follow-up question if missing</text>
+<rect x="1020" y="529" width="130" height="74" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1031" y="556" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🌐</text>
+<text x="1062" y="554" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Data Tool</text>
+<text x="1033" y="576" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Weather, soil</text>
+<text x="1033" y="592" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Water, prices</text>
+<rect x="1160" y="529" width="130" height="74" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1171" y="556" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🧠</text>
+<text x="1202" y="554" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Model Tool</text>
+<text x="1173" y="576" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Crops, yield</text>
+<text x="1173" y="592" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Scenarios</text>
+<rect x="1300" y="529" width="130" height="74" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1311" y="556" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >💾</text>
+<text x="1342" y="554" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Memory</text>
+<text x="1313" y="576" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Farm profile</text>
+<text x="1313" y="592" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Last plan</text>
+<rect x="1020" y="623" width="410" height="89" rx="10" fill="#FFF5F8" stroke="#C2185B" stroke-width="3" filter="url(#soft)"/>
+<text x="1031" y="650" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >⚙️</text>
+<text x="1062" y="648" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Optimizer: QP · LP · Traditional</text>
+<text x="1033" y="670" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• QP: expected profit - risk - saturation</text>
+<text x="1033" y="686" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Limits: land, budget, water, 65% per crop</text>
+<text x="1033" y="702" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Compares 4 strategies in 3 climate scenarios</text>
+<rect x="1255" y="615" width="140.4" height="22" rx="11" fill="#C2185B" stroke="#C2185B" stroke-width="0"/>
+<text x="1325.2" y="630" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle" >↻ self-correct ×3</text>
+<rect x="1020" y="732" width="410" height="89" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1031" y="759" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >💬</text>
+<text x="1062" y="757" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Response Generator</text>
+<text x="1033" y="779" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Plan explained in the farmer's language</text>
+<text x="1033" y="795" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Grounding check: numbers must match tools</text>
+<text x="1033" y="811" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Fallback template if every LLM is down</text>
+<line x1="1225" y1="400" x2="1225" y2="420" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="1225" y1="509" x2="1225" y2="529" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="1225" y1="603" x2="1225" y2="623" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="1225" y1="712" x2="1225" y2="732" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<rect x="1480" y="278" width="290" height="560" rx="16" fill="#F8E6F9" stroke="#B04FC9" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="1506" cy="300" r="13" fill="#B04FC9"/>
+<text x="1506" y="305" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >6</text>
+<text x="1528" y="306" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#5B1470" text-anchor="start" letter-spacing="0.4">USER INTERFACE</text>
+<rect x="1500" y="328" width="250" height="128" rx="10" fill="#FFFFFF" stroke="#B04FC9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1511" y="355" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🖥️</text>
+<text x="1542" y="353" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Web App</text>
+<text x="1513" y="375" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• React + Vite + Tailwind</text>
+<text x="1513" y="391" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Voice-first chat, mobile-first</text>
+<text x="1513" y="407" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Editable farm profile card</text>
+<text x="1513" y="423" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Plan, scenarios, strategies</text>
+<rect x="1500" y="474" width="250" height="98" rx="10" fill="#FFFFFF" stroke="#B04FC9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1511" y="501" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🔊</text>
+<text x="1542" y="499" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Voice (Sarvam AI)</text>
+<text x="1513" y="521" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Speech-to-text for input</text>
+<text x="1513" y="537" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Text-to-speech for the reply</text>
+<text x="1513" y="553" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Marathi · Hindi · English</text>
+<rect x="1500" y="590" width="250" height="106" rx="10" fill="#FFFFFF" stroke="#B04FC9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1511" y="617" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🧭</text>
+<text x="1542" y="615" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Trust &amp; Transparency</text>
+<text x="1513" y="637" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Live agent steps (SSE trace)</text>
+<text x="1513" y="653" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Source badge on every number</text>
+<text x="1513" y="669" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Water gauge, risk slider</text>
+<rect x="1500" y="714" width="250" height="100" rx="10" fill="#FFFFFF" stroke="#B04FC9" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1511" y="741" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🔌</text>
+<text x="1542" y="739" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >API Endpoints</text>
+<text x="1513" y="761" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• FastAPI + Pydantic</text>
+<text x="1513" y="777" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• REST + SSE streaming</text>
+<text x="1513" y="793" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• /api/agent/chat · /api/plan</text>
+<line x1="1625" y1="456" x2="1625" y2="474" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<line x1="1625" y1="572" x2="1625" y2="590" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<line x1="1625" y1="696" x2="1625" y2="714" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<rect x="30" y="868" width="1740" height="168" rx="16" fill="#E3F6F5" stroke="#26A69A" stroke-width="2.5" filter="url(#soft)"/>
+<circle cx="56" cy="890" r="13" fill="#26A69A"/>
+<text x="56" y="895" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle" >7</text>
+<text x="78" y="896" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="800" fill="#0B4F49" text-anchor="start" letter-spacing="0.4">STORAGE, MONITORING &amp; FEEDBACK</text>
+<rect x="50.0" y="914" width="554.6666666666666" height="104" rx="10" fill="#FFFFFF" stroke="#26A69A" stroke-width="1.8" filter="url(#soft)"/>
+<text x="61.0" y="941" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🗃️</text>
+<text x="92.0" y="939" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Data Store</text>
+<text x="63.0" y="961" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• data/raw, processed, samples: official files</text>
+<text x="63.0" y="977" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• SQLite: real-response cache + agent memory</text>
+<text x="63.0" y="993" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• SOURCES.md: URL, publisher, licence, date</text>
+<rect x="622.6666666666666" y="914" width="554.6666666666666" height="104" rx="10" fill="#FFFFFF" stroke="#26A69A" stroke-width="1.8" filter="url(#soft)"/>
+<text x="633.6666666666666" y="941" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >📊</text>
+<text x="664.6666666666666" y="939" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Monitoring</text>
+<text x="635.6666666666666" y="961" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Latency per pipeline stage (Server-Timing)</text>
+<text x="635.6666666666666" y="977" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Live API health: green / amber / red</text>
+<text x="635.6666666666666" y="993" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Every value: live, cached or official dataset</text>
+<rect x="1195.3333333333333" y="914" width="554.6666666666666" height="104" rx="10" fill="#FFFFFF" stroke="#26A69A" stroke-width="1.8" filter="url(#soft)"/>
+<text x="1206.3333333333333" y="941" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🔁</text>
+<text x="1237.3333333333333" y="939" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Feedback Loop</text>
+<text x="1208.3333333333333" y="961" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Follow-ups re-run the plan with one change</text>
+<text x="1208.3333333333333" y="977" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Farmer edits update the stored profile</text>
+<text x="1208.3333333333333" y="993" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Real out-of-time results guide retraining</text>
+<line x1="180" y1="236" x2="180" y2="278" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="460" y1="236" x2="460" y2="278" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="740" y1="236" x2="740" y2="278" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="930" y1="236" x2="930" y2="278" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="1300" y1="236" x2="1300" y2="278" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="150" y1="448" x2="150" y2="473" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="380" y1="448" x2="380" y2="473" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="610" y1="448" x2="610" y2="473" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="840" y1="448" x2="840" y2="473" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="150" y1="643" x2="150" y2="668" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="380" y1="643" x2="380" y2="668" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="610" y1="643" x2="610" y2="668" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="840" y1="643" x2="840" y2="668" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="960" y1="365" x2="1000" y2="365" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="960" y1="755" x2="1000" y2="755" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<line x1="1450" y1="560" x2="1480" y2="560" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<line x1="300" y1="838" x2="300" y2="868" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="700" y1="838" x2="700" y2="868" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<line x1="1225" y1="838" x2="1225" y2="868" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<line x1="1625" y1="838" x2="1625" y2="868" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<path d="M30,960 L12,960 L12,753 L30,753" fill="none" stroke="#455A64" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#arrE)"/>
+<text x="22" y="858" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" fill="#455A64" text-anchor="middle" transform="rotate(-90 22 858)">retrain</text>
+<text x="1000" y="361" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="1" font-weight="400" fill="#37474F" text-anchor="start" ></text>
+<text x="980" y="355" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#455A64" text-anchor="middle" >live</text>
+<text x="980" y="745" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#455A64" text-anchor="middle" >model</text>
+<text x="980" y="774" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#455A64" text-anchor="middle" >calls</text>
+<rect x="30" y="1058" width="1740" height="100" rx="14" fill="#F5F6F8" stroke="#CFD8DC" stroke-width="1.5"/>
+<text x="52" y="1084" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="800" fill="#263238" text-anchor="start" >Flow Legend</text>
+<line x1="52" y1="1108" x2="108" y2="1108" stroke="#455A64" stroke-width="2.2" marker-end="url(#arrE)"/>
+<text x="116" y="1112" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Data flow</text>
+<line x1="220" y1="1108" x2="276" y2="1108" stroke="#455A64" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#arrE)"/>
+<text x="284" y="1112" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Feedback / control</text>
+<line x1="430" y1="1108" x2="486" y2="1108" stroke="#455A64" stroke-width="2.2" marker-start="url(#arrS)" marker-end="url(#arrE)"/>
+<text x="494" y="1112" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Two-way flow</text>
+<rect x="618" y="1096" width="40" height="24" rx="6" fill="#FFFFFF" stroke="#78909C" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="668" y="1112" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Layer boundary</text>
+<line x1="800" y1="1068" x2="800" y2="1148" stroke="#B0BEC5" stroke-width="1.5"/>
+<text x="826" y="1084" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="14" font-weight="800" fill="#263238" text-anchor="start" >Key Benefits</text>
+<circle cx="834" cy="1104" r="9" fill="#43A047"/>
+<text x="834" y="1108" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >✓</text>
+<text x="850" y="1108" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >No mock data: every value has a source and date</text>
+<circle cx="1304" cy="1104" r="9" fill="#43A047"/>
+<text x="1304" y="1108" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >✓</text>
+<text x="1320" y="1108" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Climate-resilient plans (Drought · Normal · Excess)</text>
+<circle cx="834" cy="1130" r="9" fill="#43A047"/>
+<text x="834" y="1134" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >✓</text>
+<text x="850" y="1134" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Agent that self-corrects and remembers the farm</text>
+<circle cx="1304" cy="1130" r="9" fill="#43A047"/>
+<text x="1304" y="1134" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >✓</text>
+<text x="1320" y="1134" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#37474F" text-anchor="start" >Voice in and out: Marathi, Hindi, English</text>
+</svg>

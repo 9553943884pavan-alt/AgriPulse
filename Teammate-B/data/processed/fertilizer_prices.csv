@@ -1,0 +1,8 @@
+fertilizer_id,fertilizer,bag_size_kg,mrp_rs,price_rs_per_kg,n_pct,p2o5_pct,k2o_pct,s_pct,source_notification
+urea,Neem Coated Urea,45,266.5,5.92,46,0,0,0,"Department of Fertilizers, Govt of India Statutory MRP"
+dap,DAP (Di-Ammonium Phosphate),50,1350,27,18,46,0,0,Department of Fertilizers NBS Notification
+mop,MOP (Muriate of Potash),50,1655,33.1,0,0,60,0,Department of Fertilizers NBS Notification
+ssp,SSP (Single Super Phosphate),50,550,11,0,16,0,11,Department of Fertilizers NBS Notification
+npk_10_26_26,NPK 10:26:26 Complex,50,1470,29.4,10,26,26,0,Department of Fertilizers NBS Notification
+npk_12_32_16,NPK 12:32:16 Complex,50,1470,29.4,12,32,16,0,Department of Fertilizers NBS Notification
+npk_20_20_0_13,NPK 20:20:0:13 (Ammonium Phosphate Sulphate),50,1300,26,20,20,0,13,Department of Fertilizers NBS Notification

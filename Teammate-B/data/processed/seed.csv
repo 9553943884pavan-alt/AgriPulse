@@ -1,0 +1,15 @@
+crop_id,crop,season,variety,seed_rate_kg_per_acre,seed_rate_kg_per_ha,seed_price_rs_per_kg,seed_cost_rs_per_acre,seed_cost_rs_per_ha,source_agency
+soybean,Soybean,Kharif,"JS-9305 / MAUS-158 / Phule Kimaya",26,65,76,1976,4940,Mahabeej (Maharashtra State Seeds Corp) & VNMKV Parbhani
+cotton,Cotton (Bt Hybrid),Kharif,"BG-II Hybrid (2 packets/acre)",0.9,2.25,1920,1728,4320,Govt of India Statutory Bt Cotton Seed Price Notification
+rice,Rice (Paddy),Kharif,"Indrayani / Ratnagiri-24 / MTU-1010",16,40,52,832,2080,Mahabeej & MPKV Rahuri
+jowar,Jowar (Sorghum),"Kharif/Rabi","Phule Vasudha / Maldandi M-35-1",4,10,95,380,950,Mahabeej & MPKV Rahuri
+bajra,Bajra (Pearl Millet),Kharif,"Dhanashakti / Phule Mahashakti",1.6,4,180,288,720,Mahabeej & MPKV Rahuri
+maize,Maize,"Kharif/Rabi","Rajarshi / Single Cross Hybrid",8,20,210,1680,4200,Mahabeej & MPKV Rahuri
+pigeonpeas,"Tur / Arhar (Pigeon Pea)",Kharif,"BDN-711 / PKV-Tara / Vipula",6,15,145,870,2175,Mahabeej & VNMKV Parbhani
+chickpea,"Gram / Chana (Chickpea)",Rabi,"Vijay / Digvijay / Jaki-9218",30,75,82,2460,6150,Mahabeej & MPKV Rahuri
+mungbean,Moong (Green Gram),Kharif,"BM-2003-2 / Phule Vaibhav",6,15,155,930,2325,Mahabeej & VNMKV Parbhani
+blackgram,Urad (Black Gram),Kharif,"TAU-1 / AKU-15",6,15,150,900,2250,Mahabeej & Dr. PDKV Akola
+wheat,Wheat,Rabi,"Phule Samadhan / Trimbak / Lok-1",40,100,46,1840,4600,Mahabeej & MPKV Niphad
+groundnut,Groundnut (Kernel),"Kharif/Summer","TAG-24 / Phule Unnati / JL-501",40,100,135,5400,13500,Mahabeej & MPKV Jalgaon
+sugarcane,Sugarcane (2-Eye Bud Setts),Whole Year,"Co-86032 (Nira) / CoM-0265 (Phule 265)",3000,7500,3.4,10200,25500,VSI Pune & MPKV Padegaon
+onion,Onion,"Kharif/Rabi","Bhima Super / Bhima Kiran / N-53",3.6,9,1850,6660,16650,ICAR-DOGR Rajgurunagar (Pune)

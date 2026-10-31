@@ -1,0 +1,126 @@
+{
+  "datagov": {
+    "ok": true,
+    "status": 200,
+    "total": 17322,
+    "ms": 565
+  },
+  "sarvam_chat": {
+    "mr": {
+      "ok": false,
+      "status": 200,
+      "model": "sarvam-105b",
+      "text": null,
+      "usage": {
+        "completion_tokens": 1500,
+        "prompt_tokens": 174,
+        "total_tokens": 1674,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 1499,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "created_cache_tokens": 160,
+          "multimodal_tokens": null
+        }
+      },
+      "err": null,
+      "ms": 18013
+    },
+    "hi": {
+      "ok": false,
+      "status": 200,
+      "model": "sarvam-105b",
+      "text": null,
+      "usage": {
+        "completion_tokens": 1500,
+        "prompt_tokens": 174,
+        "total_tokens": 1674,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 1499,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "created_cache_tokens": 160,
+          "multimodal_tokens": null
+        }
+      },
+      "err": null,
+      "ms": 17098
+    },
+    "en": {
+      "ok": false,
+      "status": 200,
+      "model": "sarvam-105b",
+      "text": null,
+      "usage": {
+        "completion_tokens": 1500,
+        "prompt_tokens": 174,
+        "total_tokens": 1674,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 1499,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "created_cache_tokens": 160,
+          "multimodal_tokens": null
+        }
+      },
+      "err": null,
+      "ms": 17717
+    }
+  },
+  "sarvam_translate": {
+    "mr": {
+      "ok": true,
+      "status": 200,
+      "translated_text": "बीड जिल्ह्यात मातीतील नायट्रोजनचे प्रमाण 268.5 कि.ग्रॅ./हेक्टर इतके कमी आहे, त्यामुळे शिफारस केलेल्या युरियाच्या मात्रेचा वापर करा. आज बीडमध्ये सोयाबीनचे सरासरी दर 6,842 रुपये क्विंटल आहे.",
+      "err": null,
+      "ms": 1022
+    },
+    "hi": {
+      "ok": true,
+      "status": 200,
+      "translated_text": "बीड जिले में मिट्टी में नाइट्रोजन की मात्रा 268.5 कि.ग्रा./हेक्टेयर है इसलिए अनुशंसित यूरिया की मात्रा लागू करें। आज एपीएमसी बीड सोयाबीन का औसत मूल्य 6,842 रुपये प्रति क्विंटल है।",
+      "err": null,
+      "ms": 898
+    }
+  },
+  "sarvam_tts": {
+    "mr": {
+      "ok": true,
+      "status": 200,
+      "audioBytes": 572050,
+      "err": null,
+      "ms": 3201
+    },
+    "hi": {
+      "ok": true,
+      "status": 200,
+      "audioBytes": 602156,
+      "err": null,
+      "ms": 3235
+    }
+  },
+  "gemini_chat": {
+    "mr": {
+      "ok": true,
+      "status": 200,
+      "model": "gemini-3.8-flash",
+      "ms": 37420,
+      "text": "बीड जिल्ह्यातील मातीमध्ये नत्राचे प्रमाण २६८.५ किलो प्रति हेक्टर (कमी) असल्याने तुम्हाला नत्राकडे लक्ष देणे गरजेचे आहे. बीड कृषी उत्पन्न बाजार समितीत ३०/१०/२०२६ रोजी सोयाबीनचा दर ६८४२ रुपये प्रति क्विंटल नोंदवला गेला आहे. सोयाबीनचे नियोजन करताना हा बाजारभाव आणि जमिनीतील नत्राची ही कमी पातळी लक्षात ठेवा."
+    }
+  }
+}

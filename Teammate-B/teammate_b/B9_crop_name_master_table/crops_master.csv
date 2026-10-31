@@ -1,0 +1,30 @@
+crop_id,display_name_en,display_name_mr,display_name_hi,kaggle_label,agmarknet_commodity,des_crop_name,season,is_maharashtra_crop
+soybean,Soybean,सोयाबीन,सोयाबीन,,Soyabean,Soyabean,Kharif,true
+cotton,Cotton,कापूस,कपास,cotton,Cotton,Cotton(lint),Kharif,true
+rice,Rice (Paddy),"भात / तांदूळ","धान / चावल",rice,Paddy(Common),Rice,Kharif,true
+jowar,Jowar (Sorghum),ज्वारी,ज्वार,,Jowar(Sorghum),Jowar,"Kharif/Rabi",true
+bajra,Bajra (Pearl Millet),बाजरी,बाजरा,,"Bajra(Pearl Millet/Cumbu)",Bajra,Kharif,true
+maize,Maize (Corn),मका,मक्का,maize,Maize,Maize,"Kharif/Rabi",true
+pigeonpeas,"Tur / Arhar (Pigeon Pea)",तूर,"अरहर / तूर",pigeonpeas,"Red gram/Arhar/Tur(whole)","Arhar/Tur",Kharif,true
+chickpea,"Gram / Chana (Chickpea)",हरभरा,चना,chickpea,Bengal Gram(Gram)(Whole),Gram,Rabi,true
+mungbean,Moong (Green Gram),मूग,मूंग,mungbean,Green Gram(Moong)(Whole),Moong(Green Gram),Kharif,true
+blackgram,Urad (Black Gram),उडीद,उड़द,blackgram,Black Gram(Urd Beans)(Whole),Urad,Kharif,true
+wheat,Wheat,गहू,गेहूं,,Wheat,Wheat,Rabi,true
+groundnut,Groundnut (Peanut),भुईमूग,मूंगफली,,Groundnut,Groundnut,"Kharif/Summer",true
+sugarcane,Sugarcane,ऊस,गन्ना,,Gur(Jaggery),Sugarcane,Whole Year,true
+onion,Onion,कांदा,प्याज,,Onion,Onion,"Kharif/Rabi",true
+lentil,Masoor (Lentil),मसूर,मसूर,lentil,Lentil(Masur)(Whole),Masoor,Rabi,true
+mothbeans,Matki (Moth Bean),मटकी,मोठ,mothbeans,Moth,Moth,Kharif,true
+kidneybeans,Rajma (Kidney Bean),राजमा,राजमा,kidneybeans,French Beans(Frasbean),Other Kharif pulses,"Kharif/Rabi",true
+pomegranate,Pomegranate,डाळिंब,अनार,pomegranate,Pomegranate,Pomegranate,Whole Year,true
+banana,Banana,केळी,केला,banana,Banana,Banana,Whole Year,true
+mango,Mango,आंबा,आम,mango,Mango,Mango,Whole Year,true
+grapes,Grapes,द्राक्षे,अंगूर,grapes,Grapes,Grapes,Whole Year,true
+orange,Orange (Nagpur Mandarin),संत्री,संतरा,orange,Orange,Orange,Whole Year,true
+papaya,Papaya,पपई,पपीता,papaya,Papaya,Papaya,Whole Year,true
+watermelon,Watermelon,कलिंगड,तरबूज,watermelon,Water Melon,Watermelon,Summer,true
+muskmelon,Muskmelon,खरबूज,खरबूजा,muskmelon,Karbuja(Musk Melon),Muskmelon,Summer,true
+coconut,Coconut,नारळ,नारियल,coconut,Coconut,Coconut,Whole Year,true
+apple,Apple (Excluded in MH),सफरचंद,सेब,apple,Apple,Apple,Whole Year,false
+coffee,Coffee (Excluded in MH),कॉफी,कॉफी,coffee,Coffee,Coffee,Whole Year,false
+jute,Jute (Excluded in MH),"ताग / ज्यूट",जूट,jute,Jute,Jute,Kharif,false

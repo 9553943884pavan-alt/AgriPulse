@@ -1,0 +1,17 @@
+crop_id,crop,state,season,reference_year,seed_rs_per_ha,fertilizer_rs_per_ha,manure_rs_per_ha,human_labour_rs_per_ha,bullock_labour_rs_per_ha,machine_labour_rs_per_ha,irrigation_rs_per_ha,pesticide_rs_per_ha,interest_rs_per_ha,cost_a2_fl_rs_per_ha,cost_c2_rs_per_ha,source_report
+soybean,Soybean,Maharashtra,Kharif,2022-23,4850,5420,2150,18400,3850,9650,1250,3680,1480,50730,68450,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+cotton,Cotton,Maharashtra,Kharif,2022-23,4200,8650,3400,34500,5200,10800,3850,7450,2340,80390,108200,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+rice,Rice (Paddy),Maharashtra,Kharif,2022-23,3650,6840,2900,32600,4100,9400,2800,2150,1930,66370,88900,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+jowar,Jowar (Sorghum),Maharashtra,"Kharif/Rabi",2022-23,1450,3920,1800,16800,3600,6850,1650,950,1110,38130,51800,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+bajra,Bajra (Pearl Millet),Maharashtra,Kharif,2022-23,1280,3450,1400,15200,2900,6400,1100,680,970,33380,44900,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+maize,Maize,Maharashtra,"Kharif/Rabi",2022-23,4100,6950,2400,21500,3100,8900,3200,2350,1575,54075,72600,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+pigeonpeas,"Tur / Arhar (Pigeon Pea)",Maharashtra,Kharif,2022-23,2450,4680,1950,20800,3900,8450,1850,4850,1465,50395,69200,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+chickpea,"Gram / Chana (Chickpea)",Maharashtra,Rabi,2022-23,5600,4120,1200,15900,2450,8200,3450,3250,1325,45495,62400,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+mungbean,Moong (Green Gram),Maharashtra,Kharif,2022-23,2650,3180,1100,13800,2600,6100,650,2100,965,33145,44800,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+blackgram,Urad (Black Gram),Maharashtra,Kharif,2022-23,2750,3250,1150,14200,2750,6250,700,2250,995,34295,46100,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+wheat,Wheat,Maharashtra,Rabi,2022-23,5200,6450,1850,19400,2100,10200,6850,1450,1605,55105,74800,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+groundnut,Groundnut,Maharashtra,"Kharif/Summer",2022-23,14500,5400,3200,26400,3800,9800,4200,2650,2100,72050,95400,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+sugarcane,Sugarcane,Maharashtra,Whole Year,2022-23,24500,22800,11500,68400,4500,28600,24500,6800,5750,197350,268500,"DES/CACP Cost of Cultivation Survey - Maharashtra"
+onion,Onion,Maharashtra,"Kharif/Rabi",2022-23,16800,11400,6500,42500,2800,12400,8600,6400,3220,110620,146800,"DES/MPKV Rahuri Cost of Cultivation Bulletin"
+pomegranate,Pomegranate,Maharashtra,Whole Year,2022-23,12000,28500,14000,58000,1500,16500,18500,32000,5430,186430,248000,"MPKV Rahuri / ICAR-NRCP Solapur Economics Bulletin"
+banana,Banana,Maharashtra,Whole Year,2022-23,32000,26400,12500,52000,1800,14800,22400,11500,5200,178600,236000,MPKV Rahuri Jalgaon Banana Economics Report
