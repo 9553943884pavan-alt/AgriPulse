@@ -1,4 +1,4 @@
-# Backend SPECS: Data Layer, Services and API
+﻿# Backend SPECS: Data Layer, Services and API
 
 **Owner:** Teammate A. Note that `backend/app/ml` and `backend/app/agent` sit in this tree but are **written and owned by the ML lead**; everything else here is Teammate A's. Whoever owns the file with the failing line fixes it; if that is unclear, the person whose test went red first opens the pull request and tags the other.
 
@@ -69,7 +69,7 @@ backend/
 | P0.2 | **Data intake**: put the teammates' Drive folders into `data/` and `docs/data_reports/` using the checklist below | ML | Checklist all ticked | ⬜ |
 | P0.3 | Scrub the key text out of every report (`<DATA_GOV_IN_API_KEY>`), including the Drive originals | A + B | `check_data.py` finds no key in any tracked file | ⬜ |
 | P0.4 | Root `.gitignore` and `.env.example` (`SARVAM_API_KEY`, the three Sarvam model ids, `SARVAM_FALLBACK_MODELS`, `DATA_GOV_IN_API_KEY`, `STATE`, `CORS_ORIGINS`, `CACHE_DB_PATH`) | A | `.env` ignored, names listed, no Gemini or Groq key anywhere | ⬜ |
-| P0.5 | Backend skeleton as in section 2: pytest, ruff, `requirements.txt` | A | `pytest` green on an empty test | ⬜ |
+| P0.5 | Backend skeleton as in section 2: pytest, ruff, `requirements.txt` | A | `pytest` green on an empty test | ✅ |
 | P0.6 | CI: GitHub Actions runs backend and frontend tests on every pull request | A | PR shows a green check | ⬜ |
 
 ### Data intake checklist (P0.2)
@@ -450,49 +450,49 @@ Rows reference the **feature ids** `F1`-`F18` in [`frontend/SPECS.md`](../fronte
 ### 7.1 Contracts
 | ID | Task | Done when | Dependency | Status |
 |---|---|---|---|---|
-| C.1 | `schemas.py` with every type in section 5.1 **and** every type the ML interface uses, so nothing is referenced but undefined: `SourcedValue`, `FarmProfile`, `Location`, `Season`, `Scenario` (incl. `analogue_year` and the all-year samples), `Candidate`, `ExcludedCrop`, `CropOption`, `Suitability`, `SuitabilityFactor`, `YieldPrediction`, `WaterNeed`, `WaterBudget`, `FertilizerPlan`, `CostBreakdown`, `Allocation`, `OptimizerInputs`, `StrategyResult`, `Infeasibility`, `Impact`, `PlanResult`, `TraceEvent`, `ChatMessage`, `Message` (code + params), `Error` | Reviewed by all three; no type is used anywhere without being defined here | P0.5 | ⬜ |
+| C.1 | `schemas.py` with every type in section 5.1 **and** every type the ML interface uses, so nothing is referenced but undefined: `SourcedValue`, `FarmProfile`, `Location`, `Season`, `Scenario` (incl. `analogue_year` and the all-year samples), `Candidate`, `ExcludedCrop`, `CropOption`, `Suitability`, `SuitabilityFactor`, `YieldPrediction`, `WaterNeed`, `WaterBudget`, `FertilizerPlan`, `CostBreakdown`, `Allocation`, `OptimizerInputs`, `StrategyResult`, `Infeasibility`, `Impact`, `PlanResult`, `TraceEvent`, `ChatMessage`, `Message` (code + params), `Error` | Reviewed by all three; no type is used anywhere without being defined here | P0.5 | ✅ |
 | C.2 | `docs/API_CONTRACT.md` generated from the OpenAPI file, **plus two example sets**: `docs/api_examples/contract/` (hand-written by the three of us at C.1 time, so the frontend is never blocked) and `docs/api_examples/live/` (captured from a real run as soon as M2 lands, and then the only set the frontend uses). Contract examples are an interface agreement, not product data, so they do not break the no-mock-data rule; they must never be bundled into a build | Frontend can build every screen from the contract set on day 1, and switches to the live set at M2 | C.1 | ⬜ |
-| C.4 | **SSE payloads are in the OpenAPI file too.** `TraceEvent`, `PlanResult`, `question`, `message` and `done` are declared as response models of a documented, non-streaming endpoint `GET /api/schemas/sse-events` that returns one example of each. OpenAPI cannot describe a stream, so without this the frontend would have to hand-write the types it parses, which its rule 4 forbids | The generated TypeScript types include every SSE payload | C.1 | ⬜ |
-| C.3 | Function stubs for ML calls (signatures in [`ml/SPECS.md`](../ml/SPECS.md) section 10) that raise `NotImplementedError` | Merged before ML code | C.1 | ⬜ |
+| C.4 | **SSE payloads are in the OpenAPI file too.** `TraceEvent`, `PlanResult`, `question`, `message` and `done` are declared as response models of a documented, non-streaming endpoint `GET /api/schemas/sse-events` that returns one example of each. OpenAPI cannot describe a stream, so without this the frontend would have to hand-write the types it parses, which its rule 4 forbids | The generated TypeScript types include every SSE payload | C.1 | ✅ |
+| C.3 | Function stubs for ML calls (signatures in [`ml/SPECS.md`](../ml/SPECS.md) section 10) that raise `NotImplementedError` | Merged before ML code | C.1 | ✅ |
 
 C.2, C.3 and C.4 may be done in parallel after C.1 merges. No feature work may start before all four land.
 
 ### 7.2 Data layer
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| DATA.1 | Loaders for every file in 4.1 (typed, units checked, cached in memory) | Each loader has a test | ⬜ |
-| DATA.2 | District resolver: any spelling → canonical district through `name_variants` | Every district column in every file resolves | ⬜ |
+| DATA.1 | Loaders for every file in 4.1 (typed, units checked, cached in memory) | Each loader has a test | ✅ |
+| DATA.2 | District resolver: any spelling → canonical district through `name_variants` | Every district column in every file resolves | ✅ |
 | DATA.3 | Data tests: 36 districts, every file in `SOURCES.md`, value ranges, no API keys in `data/` or `docs/` | Green in CI | ⬜ |
 
 ### 7.3 Services
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| SVC.1 | Core: async `httpx` client, TTL + SQLite cache with stale fallback, per-stage timing, error types | Tests for expiry, stale fallback, timeout | ⬜ |
-| SVC.2 | Location: place → lat/lon + canonical district | Works for 10 sample villages, incl. renamed districts | ⬜ |
-| SVC.3 | Weather: 16-day forecast with ET₀ + recent rain | Returns `SourcedValue`s | ⬜ |
-| SVC.4 | Soil: Soil Health Card district N, P, K, pH (data) + SoilGrids pH and texture (live, optional); farmer soil test overrides both | Missing → "unavailable", never a guess | ⬜ |
-| SVC.5 | Prices: Agmarknet live with the fallback chain in 4.2; crop excluded if no real price. **Sugarcane** is sold to sugar mills, not at mandis: price it at the official FRP in `msp.csv` (₹355/q for 2025-26), never at jaggery prices | Never returns an invented price | ⬜ |
-| SVC.6 | Costs: itemized cost per acre from `cost_of_cultivation.csv`, seed from `seed.csv`, fertilizer at the dose from ML.8; reference year shown | Itemized cost per acre | ⬜ |
-| SVC.7 | Water budget: rain (recent + forecast + scenario) + groundwater share (capped by CGWB category) + canal share (reservoir %); formula in [`ml/SPECS.md`](../ml/SPECS.md) section 6 | Unit-tested; returns each part with its source | ⬜ |
-| SVC.8 | District context service for E9 and E10 | Matches the contract | ⬜ |
+| SVC.1 | Core: async `httpx` client, TTL + SQLite cache with stale fallback, per-stage timing, error types | Tests for expiry, stale fallback, timeout | ✅ |
+| SVC.2 | Location: place → lat/lon + canonical district | Works for 10 sample villages, incl. renamed districts | ✅ |
+| SVC.3 | Weather: 16-day forecast with ET₀ + recent rain | Returns `SourcedValue`s | ✅ |
+| SVC.4 | Soil: Soil Health Card district N, P, K, pH (data) + SoilGrids pH and texture (live, optional); farmer soil test overrides both | Missing → "unavailable", never a guess | ✅ |
+| SVC.5 | Prices: Agmarknet live with the fallback chain in 4.2; crop excluded if no real price. **Sugarcane** is sold to sugar mills, not at mandis: price it at the official FRP in `msp.csv` (₹355/q for 2025-26), never at jaggery prices | Never returns an invented price | ✅ |
+| SVC.6 | Costs: itemized cost per acre from `cost_of_cultivation.csv`, seed from `seed.csv`, fertilizer at the dose from ML.8; reference year shown | Itemized cost per acre | ✅ |
+| SVC.7 | Water budget: rain (recent + forecast + scenario) + groundwater share (capped by CGWB category) + canal share (reservoir %); formula in [`ml/SPECS.md`](../ml/SPECS.md) section 6 | Unit-tested; returns each part with its source | ✅ |
+| SVC.8 | District context service for E9 and E10 | Matches the contract | ✅ |
 | SVC.8b | **Reservoir refresh is a backend duty, not an ML one.** `ml/data_prep/build_reservoir_from_bulletin.py` reads the CWC weekly bulletin PDF (data.gov.in has no CWC data after Jan 2023). The bulletin URL carries an unguessable id, so the script probes the ids for the most recent Thursday. A: run it weekly and on demo morning, and keep the `observation_date` visible in the UI | Table dated within the last 8 days at demo time | ⬜ |
-| SVC.9 | Speech service: Sarvam speech-to-text and text-to-speech with the fallbacks in 4.2 | Marathi and Hindi samples work | ⬜ |
-| SVC.10 | Pipeline `run_plan(profile) -> PlanResult`: services → ML → optimizer → impact metrics. **This is the only orchestration path.** The agent's `gather_data`, `recommend`, `predict_yield` and `optimize` nodes call the *same* functions through `run_plan`'s stages, so `/api/plan` and `/api/agent/chat` can never return different plans for the same profile. A test asserts the two are identical for a fixed profile | One end-to-end test on a real sample, plus the E1-vs-E2 equality test | ⬜ |
-| SVC.11 | Plan store: keep inputs of each plan for E3 and E4 (24 h) | Re-optimize makes no external calls | ⬜ |
+| SVC.9 | Speech service: Sarvam speech-to-text and text-to-speech with the fallbacks in 4.2 | Marathi and Hindi samples work | ✅ |
+| SVC.10 | Pipeline `run_plan(profile) -> PlanResult`: services → ML → optimizer → impact metrics. **This is the only orchestration path.** The agent's `gather_data`, `recommend`, `predict_yield` and `optimize` nodes call the *same* functions through `run_plan`'s stages, so `/api/plan` and `/api/agent/chat` can never return different plans for the same profile. A test asserts the two are identical for a fixed profile | One end-to-end test on a real sample, plus the E1-vs-E2 equality test | ✅ |
+| SVC.11 | Plan store: keep inputs of each plan for E3 and E4 (24 h) | Re-optimize makes no external calls | ✅ |
 
 ### 7.4 API
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| API.1 | E1 SSE chat with the event order in 5.2, heartbeat and cancel | Matches C.2; tested with a fake agent first | ⬜ |
-| API.2 | E2 `/api/plan` | Warm response under 5 s | ⬜ |
-| API.3 | E3 reoptimize | Under 1.5 s, no external calls | ⬜ |
-| API.4 | E4 threads | Reload restores profile and plan | ⬜ |
-| API.5 | E5 transcribe and E6 speak | Size and duration limits enforced | ⬜ |
-| API.6 | E7 prefetch | Failure never blocks a plan | ⬜ |
-| API.7 | E8 to E10 locations, districts, context | Matches the contract | ⬜ |
-| API.8 | E11 sources and E12 health | Health cached for 60 s | ⬜ |
-| API.9 | E13 health + warm-up (load models and data at startup) | First request after start is fast | ⬜ |
-| API.10 | Error format, CORS, size limits, rate limits | Every error follows 5.1; tested | ⬜ |
+| API.1 | E1 SSE chat with the event order in 5.2, heartbeat and cancel | Matches C.2; tested with a fake agent first | ✅ |
+| API.2 | E2 `/api/plan` | Warm response under 5 s | ✅ |
+| API.3 | E3 reoptimize | Under 1.5 s, no external calls | ✅ |
+| API.4 | E4 threads | Reload restores profile and plan | ✅ |
+| API.5 | E5 transcribe and E6 speak | Size and duration limits enforced | ✅ |
+| API.6 | E7 prefetch | Failure never blocks a plan | ✅ |
+| API.7 | E8 to E10 locations, districts, context | Matches the contract | ✅ |
+| API.8 | E11 sources and E12 health | Health cached for 60 s | ✅ |
+| API.9 | E13 health + warm-up (load models and data at startup) | First request after start is fast | ✅ |
+| API.10 | Error format, CORS, size limits, rate limits | Every error follows 5.1; tested | ✅ |
 
 ### 7.5 Quality and deployment
 | ID | Task | Done when | Status |
