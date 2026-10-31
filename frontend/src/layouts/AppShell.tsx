@@ -1,10 +1,6 @@
 /**
- * AppShell — 3-column layout matching the reference image.
- *
- * [Sidebar ~280px] [Chat ~52%] [Right panel ~30%]
- *
- * The entire shell is viewport-height. Each column manages its own scrolling.
- * The TopBar (landscape banner) sits above the 3-column area.
+ * AppShell — Modern responsive dashboard layout.
+ * [Full-height Forest Green Sidebar] | [TopBar + Main Content Area]
  */
 
 import { useEffect } from 'react'
@@ -27,18 +23,23 @@ export function AppShell() {
   }, [language, i18n])
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-[#F7FAF1]">
-      <TopBar />
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
+    <div className="h-screen flex overflow-hidden bg-page text-ink antialiased">
+      {/* Full-height Desktop Sidebar */}
+      <Sidebar />
+
+      {/* Main Column */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <TopBar />
         <main
           id="main-content"
-          className="flex-1 overflow-hidden"
+          className="flex-1 overflow-hidden relative"
           tabIndex={-1}
         >
           <Outlet />
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
       <BottomNav />
     </div>
   )

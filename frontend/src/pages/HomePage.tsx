@@ -193,14 +193,16 @@ export function HomePage() {
     <div className="flex h-full overflow-hidden">
 
       {/* ═══════════════════════════════════════════════════════════
-          CENTER — Chat panel (~52%)
+          CENTER — Chat panel (~50%)
       ════════════════════════════════════════════════════════════ */}
       <div
-        className="flex flex-col min-h-0 overflow-hidden relative"
+        className="flex flex-col min-h-0 overflow-hidden relative flex-shrink-0"
         style={{
-          flex: '0 0 52%',
-          background: '#F7FAF1',
-          borderRight: '1px solid #d1fae5',
+          width: '50%',
+          maxWidth: '720px',
+          minWidth: '420px',
+          background: '#F7F8EE',
+          borderRight: '1px solid #D9EBCB',
         }}
       >
         {/* Botanical leaf decorations */}
@@ -213,29 +215,29 @@ export function HomePage() {
         <div
           className="flex items-center justify-between px-6 py-4 flex-shrink-0 z-10"
           style={{
-            background: 'rgba(247,250,241,0.95)',
+            background: 'rgba(247,248,238,0.95)',
             backdropFilter: 'blur(8px)',
-            borderBottom: '1px solid #d1fae5',
+            borderBottom: '1px solid #D9EBCB',
           }}
         >
           <div className="flex items-center gap-3">
-            {/* Large leaf SVG icon — matches reference */}
+            {/* Large leaf SVG icon — matches theme */}
             <div
               className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md"
-              style={{ background: 'linear-gradient(135deg, #064E3B, #15803D)' }}
+              style={{ background: 'linear-gradient(135deg, #073B2B, #16834A)' }}
             >
               <svg viewBox="0 0 24 24" className="w-7 h-7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 22C12 22 4 16 4 9C4 5.134 7.582 2 12 2C16.418 2 20 5.134 20 9C20 16 12 22 12 22Z" fill="#4ade80" />
-                <path d="M12 22V9" stroke="#064E3B" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M12 14C14 12 17 11 19 12" stroke="#064E3B" strokeWidth="1.2" strokeLinecap="round" />
-                <path d="M12 10C10 8 7 7 5 8" stroke="#064E3B" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M12 22C12 22 4 16 4 9C4 5.134 7.582 2 12 2C16.418 2 20 5.134 20 9C20 16 12 22 12 22Z" fill="#16834A" />
+                <path d="M12 22V9" stroke="#073B2B" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M12 14C14 12 17 11 19 12" stroke="#073B2B" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M12 10C10 8 7 7 5 8" stroke="#073B2B" strokeWidth="1.2" strokeLinecap="round" />
               </svg>
             </div>
             <div>
-              <h1 className="text-[18px] font-bold leading-tight" style={{ color: '#172B24' }}>
-                Talk to <span style={{ color: '#15803D' }}>AgriPulse</span>
+              <h1 className="text-[18px] font-bold leading-tight" style={{ color: '#09231A' }}>
+                Talk to <span style={{ color: '#16834A' }}>AgriPulse</span>
               </h1>
-              <p className="text-xs mt-0.5 leading-tight" style={{ color: '#64748B' }}>
+              <p className="text-xs mt-0.5 leading-tight" style={{ color: '#52685E' }}>
                 {t('home.subtitle')}
               </p>
             </div>
@@ -244,16 +246,16 @@ export function HomePage() {
             type="button"
             aria-label="Toggle audio output"
             className="w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
-            style={{ background: '#DCFCE7', border: '1px solid #86efac' }}
+            style={{ background: '#D9EBCB', border: '1px solid #bcd8a6' }}
           >
-            <Volume2 className="w-4 h-4" style={{ color: '#15803D' }} aria-hidden="true" />
+            <Volume2 className="w-4 h-4" style={{ color: '#073B2B' }} aria-hidden="true" />
           </button>
         </div>
 
         {/* ── Suggested chips ──────────────────────────────────── */}
         <div
           className="flex-shrink-0 px-5 pt-3 pb-2"
-          style={{ borderBottom: chatMessages.length <= 1 ? '1px solid #d1fae5' : 'none' }}
+          style={{ borderBottom: chatMessages.length <= 1 ? '1px solid #D9EBCB' : 'none' }}
         >
           <div
             className={`gap-2 ${chatMessages.length <= 1 ? 'flex flex-wrap' : 'flex overflow-x-auto pb-1 hide-scrollbar'}`}
@@ -284,7 +286,7 @@ export function HomePage() {
           className="flex-1 overflow-y-auto min-h-0 px-5 py-4 space-y-5 bg-nature-content"
           style={{
             scrollbarWidth: 'thin',
-            scrollbarColor: '#86efac transparent',
+            scrollbarColor: '#16834A transparent',
           }}
         >
           {chatMessages.map((msg, i) => (
@@ -303,15 +305,15 @@ export function HomePage() {
                   style={
                     msg.role === 'farmer'
                       ? {
-                          background: '#064E3B',
+                          background: '#073B2B',
                           color: '#fff',
                           borderBottomRightRadius: 4,
                           maxWidth: '100%',
                         }
                       : {
                           background: '#FFFFFF',
-                          color: '#172B24',
-                          border: '1px solid #e5f0e5',
+                          color: '#09231A',
+                          border: '1px solid #D9EBCB',
                           borderBottomLeftRadius: 4,
                         }
                   }
@@ -321,17 +323,17 @@ export function HomePage() {
 
                 {/* Timestamp + actions */}
                 <div className="flex items-center gap-2 mt-1 px-1">
-                  <span className="text-[10px]" style={{ color: '#94a3b8' }}>{msg.ts}</span>
+                  <span className="text-[10px]" style={{ color: '#52685E' }}>{msg.ts}</span>
                   {msg.role === 'agent' && (
                     <div className="flex items-center gap-1">
-                      <button type="button" aria-label="Copy" onClick={() => void navigator.clipboard.writeText(msg.text)} className="p-1 rounded hover:bg-green-50 transition-colors">
-                        <Copy className="w-3 h-3" style={{ color: '#94a3b8' }} />
+                      <button type="button" aria-label="Copy" onClick={() => void navigator.clipboard.writeText(msg.text)} className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
+                        <Copy className="w-3 h-3" style={{ color: '#52685E' }} />
                       </button>
-                      <button type="button" aria-label="Like" className="p-1 rounded hover:bg-green-50 transition-colors">
-                        <ThumbsUp className="w-3 h-3" style={{ color: '#94a3b8' }} />
+                      <button type="button" aria-label="Like" className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
+                        <ThumbsUp className="w-3 h-3" style={{ color: '#52685E' }} />
                       </button>
-                      <button type="button" aria-label="Dislike" className="p-1 rounded hover:bg-green-50 transition-colors">
-                        <ThumbsDown className="w-3 h-3" style={{ color: '#94a3b8' }} />
+                      <button type="button" aria-label="Dislike" className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
+                        <ThumbsDown className="w-3 h-3" style={{ color: '#52685E' }} />
                       </button>
                     </div>
                   )}
@@ -349,7 +351,7 @@ export function HomePage() {
               <AgentAvatar />
               <div
                 className="rounded-2xl px-4 py-3 shadow-sm"
-                style={{ background: '#fff', border: '1px solid #e5f0e5', borderBottomLeftRadius: 4 }}
+                style={{ background: '#fff', border: '1px solid #D9EBCB', borderBottomLeftRadius: 4 }}
               >
               <div className="flex gap-1.5 items-center py-1">
                   {[0, 1, 2].map((i) => (
@@ -357,7 +359,7 @@ export function HomePage() {
                       key={i}
                       className="w-2 h-2 rounded-full"
                       style={{
-                        background: '#22C55E',
+                        background: '#16834A',
                         animation: `typingDot 1.2s ease-in-out ${i * 0.2}s infinite`,
                       }}
                     />
@@ -378,9 +380,9 @@ export function HomePage() {
         <div
           className="flex items-center gap-3 px-4 py-3 flex-shrink-0"
           style={{
-            background: 'rgba(247,250,241,0.97)',
+            background: 'rgba(247,248,238,0.97)',
             backdropFilter: 'blur(8px)',
-            borderTop: '1px solid #d1fae5',
+            borderTop: '1px solid #D9EBCB',
           }}
         >
           {/* Mic — large dark-green circle (52px matches reference) */}
@@ -390,12 +392,7 @@ export function HomePage() {
 
           {/* Text input — pill shaped */}
           <div
-            className="flex-1 flex items-center rounded-full px-4 py-2.5"
-            style={{
-              background: '#fff',
-              border: '1.5px solid #d1fae5',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-            }}
+            className="flex-1 flex items-center rounded-full px-4 py-2.5 bg-white border border-sage-mist shadow-xs focus-within:ring-2 focus-within:ring-fresh-leaf transition-all"
           >
             <input
               ref={inputRef}
@@ -407,18 +404,17 @@ export function HomePage() {
               disabled={isStreaming}
               aria-label="Chat message"
               className="flex-1 bg-transparent text-sm outline-none placeholder-gray-400"
-              style={{ color: '#172B24' }}
+              style={{ color: '#09231A' }}
             />
           </div>
 
-          {/* Send — large dark-green circle (52px) */}
+          {/* Send — Forest Green circle (#073B2B) */}
           <button
             type="button"
             onClick={() => sendMessage(inputText)}
             disabled={!inputText.trim() || isStreaming}
             aria-label="Send message"
-            className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-md transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ background: '#064E3B' }}
+            className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-md transition-all hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed bg-forest hover:bg-fresh-leaf text-white"
           >
             <Send className="w-5 h-5 text-white" aria-hidden="true" />
           </button>
@@ -426,44 +422,39 @@ export function HomePage() {
       </div>
 
       {/* ═══════════════════════════════════════════════════════════
-          RIGHT — Trace + Plan (~30% + remaining)
+          RIGHT — Trace + Plan (takes all remaining space)
       ════════════════════════════════════════════════════════════ */}
       <div
-        className="flex-1 flex flex-col gap-4 p-4 overflow-y-auto"
+        className="flex-1 min-w-0 flex flex-col gap-4 p-4 lg:p-5 overflow-y-auto bg-warm-cream w-full"
         style={{
-          background: '#f8fdf8',
-          maxWidth: 380,
-          minWidth: 280,
           scrollbarWidth: 'thin',
-          scrollbarColor: '#86efac transparent',
+          scrollbarColor: '#16834A transparent',
         }}
       >
 
         {/* ── Agent Execution Trace ────────────────────────────── */}
         <div
-          className="rounded-2xl p-4 flex-shrink-0"
-          style={{ background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.08)', border: '1px solid #e5f0e5' }}
+          className="rounded-2xl p-4 lg:p-5 flex-shrink-0 bg-white border border-sage-mist/80 shadow-card w-full"
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: '#fef9c3' }}
+                className="w-8 h-8 rounded-lg flex items-center justify-center bg-sunrise-gold/20"
               >
-                <Zap className="w-4 h-4" style={{ color: '#f59e0b' }} aria-hidden="true" />
+                <Zap className="w-4 h-4 text-sunrise-gold" aria-hidden="true" />
               </div>
-              <span className="text-sm font-bold" style={{ color: '#172B24' }}>
+              <span className="text-sm font-bold text-ink">
                 {t('home.trace_title')}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span
                 className="w-2 h-2 rounded-full"
-                style={{ background: isStreaming ? '#22C55E' : '#94a3b8' }}
+                style={{ background: isStreaming ? '#16834A' : '#52685E' }}
                 aria-hidden="true"
               />
-              <span className="text-xs font-medium" style={{ color: isStreaming ? '#15803D' : '#64748B' }}>
+              <span className="text-xs font-medium" style={{ color: isStreaming ? '#16834A' : '#52685E' }}>
                 {isStreaming ? t('misc.live') : t('misc.done')}
               </span>
             </div>
@@ -480,38 +471,35 @@ export function HomePage() {
         {/* ── Current Plan Preview ─────────────────────────────── */}
         {plan && (
           <div
-            className="rounded-2xl p-4"
-            style={{ background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.08)', border: '1px solid #e5f0e5' }}
+            className="rounded-2xl p-4 lg:p-5 bg-white border border-sage-mist/80 shadow-card w-full"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
-                  style={{ background: '#DCFCE7' }}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center bg-sage-mist/70 text-forest"
                 >
-                  <Sprout className="w-4 h-4" style={{ color: '#15803D' }} aria-hidden="true" />
+                  <Sprout className="w-4 h-4" aria-hidden="true" />
                 </div>
                 <div>
-                  <span className="text-sm font-bold block" style={{ color: '#172B24' }}>
+                  <span className="text-sm font-bold block text-ink">
                     {t('home.plan_preview')}
                   </span>
-                  <span className="text-[11px]" style={{ color: '#64748B' }}>
+                  <span className="text-[11px] text-muted">
                     {t('misc.plan_preview_hint')}
                   </span>
                 </div>
               </div>
               <Link
                 to="/dashboard"
-                className="text-xs font-semibold hover:underline flex-shrink-0"
-                style={{ color: '#15803D' }}
+                className="text-xs font-semibold hover:underline flex-shrink-0 text-fresh-leaf"
               >
                 {t('misc.view_full_plan')} →
               </Link>
             </div>
 
-            {/* Crop cards — 3 horizontal */}
-            <div className="grid grid-cols-3 gap-2">
+            {/* Crop cards — 3 horizontal / responsive */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {(plan.strategies.find((s) => s.id === plan.recommended_strategy)?.allocations ?? [])
                 .slice(0, 3)
                 .map((alloc) => {
@@ -522,34 +510,32 @@ export function HomePage() {
                   const waterLow = waterM3 * 1000 / 100000 < 2
                   const waterMed = !waterLow && waterM3 * 1000 / 100000 < 4
                   const waterLabel = waterLow ? 'Low water' : waterMed ? 'Medium water' : 'High water'
-                  const waterColor = waterLow ? '#22C55E' : waterMed ? '#0ea5e9' : '#f59e0b'
+                  const waterColor = waterLow ? '#16834A' : waterMed ? '#0ea5e9' : '#f59e0b'
 
                   return (
                     <div
                       key={alloc.crop_id}
-                      className="rounded-xl p-3 flex flex-col items-center gap-1.5 transition-shadow hover:shadow-md"
-                      style={{ border: '1px solid #e5f0e5', background: '#FAFFF8' }}
+                      className="rounded-xl p-3.5 flex flex-col items-center gap-1.5 transition-shadow hover:shadow-md border border-sage-mist/80 bg-[#FAFFF8]"
                     >
                       {/* Crop illustration */}
                       <div
-                        className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
-                        style={{ background: '#DCFCE7' }}
+                        className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl bg-sage-mist/50"
                       >
                         {getCropEmoji(alloc.crop_id)}
                       </div>
 
-                      <p className="text-xs font-bold text-center truncate w-full" style={{ color: '#172B24' }}>
+                      <p className="text-xs font-bold text-center truncate w-full text-ink">
                         {crop.names[lang]}
                       </p>
-                      <p className="text-[10px]" style={{ color: '#64748B' }}>
+                      <p className="text-[10px] text-muted">
                         {alloc.acres} {t('units.acres')}
                       </p>
 
-                      <div className="w-full rounded-lg px-2 py-1 text-center" style={{ background: '#DCFCE7' }}>
-                        <p className="text-[10px] font-medium" style={{ color: '#64748B' }}>
+                      <div className="w-full rounded-lg px-2 py-1 text-center bg-sage-mist/40 border border-sage-mist/60">
+                        <p className="text-[10px] font-medium text-muted">
                           Est. Profit
                         </p>
-                        <p className="text-xs font-bold" style={{ color: '#064E3B' }}>
+                        <p className="text-xs font-bold text-forest">
                           ₹{Math.round(profitVal).toLocaleString('en-IN')}
                         </p>
                       </div>
@@ -565,12 +551,33 @@ export function HomePage() {
           </div>
         )}
 
-        {/* Summary tiles if plan exists */}
+        {/* ── Performance & Impact Summary ─────────────────────── */}
         {plan && (
           <div
-            className="rounded-2xl p-4"
-            style={{ background: '#fff', boxShadow: '0 1px 4px rgba(0,0,0,0.08)', border: '1px solid #e5f0e5' }}
+            className="rounded-2xl p-4 lg:p-5 bg-white border border-sage-mist/80 shadow-card w-full"
           >
+            {/* Header matching Current Plan Preview */}
+            <div className="flex items-center justify-between mb-3.5">
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center bg-sage-mist/70 text-forest"
+                >
+                  <BarChart2 className="w-4 h-4" aria-hidden="true" />
+                </div>
+                <div>
+                  <span className="text-sm font-bold block text-ink">
+                    Plan Impact & Resource Summary
+                  </span>
+                  <span className="text-[11px] text-muted">
+                    Key economic returns and resource benchmarks vs traditional farming
+                  </span>
+                </div>
+              </div>
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-sage-mist/60 text-forest border border-sage-mist capitalize">
+                {selectedScenario} Scenario
+              </span>
+            </div>
+
             <SummaryTiles plan={plan} scenario={selectedScenario} compact />
           </div>
         )}

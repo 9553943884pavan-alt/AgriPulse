@@ -45,6 +45,16 @@ htmlcov/
 .nox/
 .mypy_cache/
 .ruff_cache/
+*.tsbuildinfo
+
+# Mock data & mock servers (no mock data permitted in production)
+*mock*
+mock_server.py
+**/mock_server.py
+mock_data/
+**/mock_data/
+*dummy*
+*fake*
 
 # Jupyter notebooks
 .ipynb_checkpoints/

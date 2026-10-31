@@ -62,12 +62,12 @@ export function FarmProfilePage() {
   const riskValue = form.risk_appetite === 'safe' ? 0 : form.risk_appetite === 'balanced' ? 50 : 100
 
   return (
-    <div className="h-full overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#86efac transparent' }}>
+    <div className="h-full overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16834A transparent' }}>
     <div className="max-w-5xl mx-auto px-4 lg:px-6 py-6">
       {/* Page header */}
       <div className="mb-6 flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-xl bg-primary-soft flex items-center justify-center">
+          <div className="w-11 h-11 rounded-xl bg-sage-mist/70 text-forest flex items-center justify-center shadow-xs border border-sage-mist">
             <span className="text-xl" aria-hidden="true">📋</span>
           </div>
           <div>
@@ -76,7 +76,7 @@ export function FarmProfilePage() {
           </div>
         </div>
         {/* Context hint */}
-        <div className="hidden lg:flex items-center gap-2 text-sm text-primary bg-primary-soft rounded-xl px-4 py-2 max-w-xs">
+        <div className="hidden lg:flex items-center gap-2 text-sm text-forest bg-sage-mist/60 border border-sage-mist rounded-xl px-4 py-2.5 max-w-xs shadow-xs">
           <span aria-hidden="true">ℹ️</span>
           <span>{t('misc.profile_hint')}</span>
         </div>
