@@ -70,7 +70,7 @@ backend/
 | P0.3 | Scrub the key text out of every report (`<DATA_GOV_IN_API_KEY>`), including the Drive originals | A + B | `check_data.py` finds no key in any tracked file | ⬜ |
 | P0.4 | Root `.gitignore` and `.env.example` (`SARVAM_API_KEY`, the three Sarvam model ids, `SARVAM_FALLBACK_MODELS`, `DATA_GOV_IN_API_KEY`, `STATE`, `CORS_ORIGINS`, `CACHE_DB_PATH`) | A | `.env` ignored, names listed, no Gemini or Groq key anywhere | ⬜ |
 | P0.5 | Backend skeleton as in section 2: pytest, ruff, `requirements.txt` | A | `pytest` green on an empty test | ✅ |
-| P0.6 | CI: GitHub Actions runs backend and frontend tests on every pull request | A | PR shows a green check | ⬜ |
+| P0.6 | CI: GitHub Actions runs backend and frontend tests on every pull request | A | PR shows a green check | ✅ |
 
 ### Data intake checklist (P0.2)
 - [ ] Data in `data/raw/`, `data/processed/`, `data/samples/`; reports in `docs/data_reports/teammate_a/` and `teammate_b/`
@@ -462,7 +462,7 @@ C.2, C.3 and C.4 may be done in parallel after C.1 merges. No feature work may s
 |---|---|---|---|
 | DATA.1 | Loaders for every file in 4.1 (typed, units checked, cached in memory) | Each loader has a test | ✅ |
 | DATA.2 | District resolver: any spelling → canonical district through `name_variants` | Every district column in every file resolves | ✅ |
-| DATA.3 | Data tests: 36 districts, every file in `SOURCES.md`, value ranges, no API keys in `data/` or `docs/` | Green in CI | ⬜ |
+| DATA.3 | Data tests: 36 districts, every file in `SOURCES.md`, value ranges, no API keys in `data/` or `docs/` | Green in CI | ✅ |
 
 ### 7.3 Services
 | ID | Task | Done when | Status |
@@ -475,7 +475,7 @@ C.2, C.3 and C.4 may be done in parallel after C.1 merges. No feature work may s
 | SVC.6 | Costs: itemized cost per acre from `cost_of_cultivation.csv`, seed from `seed.csv`, fertilizer at the dose from ML.8; reference year shown | Itemized cost per acre | ✅ |
 | SVC.7 | Water budget: rain (recent + forecast + scenario) + groundwater share (capped by CGWB category) + canal share (reservoir %); formula in [`ml/SPECS.md`](../ml/SPECS.md) section 6 | Unit-tested; returns each part with its source | ✅ |
 | SVC.8 | District context service for E9 and E10 | Matches the contract | ✅ |
-| SVC.8b | **Reservoir refresh is a backend duty, not an ML one.** `ml/data_prep/build_reservoir_from_bulletin.py` reads the CWC weekly bulletin PDF (data.gov.in has no CWC data after Jan 2023). The bulletin URL carries an unguessable id, so the script probes the ids for the most recent Thursday. A: run it weekly and on demo morning, and keep the `observation_date` visible in the UI | Table dated within the last 8 days at demo time | ⬜ |
+| SVC.8b | **Reservoir refresh is a backend duty, not an ML one.** `ml/data_prep/build_reservoir_from_bulletin.py` reads the CWC weekly bulletin PDF (data.gov.in has no CWC data after Jan 2023). The bulletin URL carries an unguessable id, so the script probes the ids for the most recent Thursday. A: run it weekly and on demo morning, and keep the `observation_date` visible in the UI | Table dated within the last 8 days at demo time | ✅ |
 | SVC.9 | Speech service: Sarvam speech-to-text and text-to-speech with the fallbacks in 4.2 | Marathi and Hindi samples work | ✅ |
 | SVC.10 | Pipeline `run_plan(profile) -> PlanResult`: services → ML → optimizer → impact metrics. **This is the only orchestration path.** The agent's `gather_data`, `recommend`, `predict_yield` and `optimize` nodes call the *same* functions through `run_plan`'s stages, so `/api/plan` and `/api/agent/chat` can never return different plans for the same profile. A test asserts the two are identical for a fixed profile | One end-to-end test on a real sample, plus the E1-vs-E2 equality test | ✅ |
 | SVC.11 | Plan store: keep inputs of each plan for E3 and E4 (24 h) | Re-optimize makes no external calls | ✅ |
