@@ -63,21 +63,23 @@ async def transcribe(audio_bytes: bytes, content_type: str, language_hint: str |
 
     for model in models:
         try:
-            resp = await post_json(
-                _STT_URL,
-                json={
-                    "audio": audio_bytes.hex(),  # Sarvam accepts hex-encoded audio
-                    "model": model,
-                    "language_code": language_hint or "mr-IN",
-                },
-                headers=_sarvam_headers(),
-                timeout=_TIMEOUT,
-            )
+            async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
+                resp = await client.post(
+                    _STT_URL,
+                    headers=_sarvam_headers(),
+                    files={"file": ("audio", audio_bytes, content_type)},
+                    data={
+                        "model": model,
+                        "language_code": language_hint or "unknown",
+                        "mode": "transcribe",
+                    },
+                )
+                resp.raise_for_status()
             data = resp.json()
             return {
                 "text": data.get("transcript", ""),
-                "language": data.get("language_code", language_hint or "mr")[:2],
-                "duration_s": data.get("duration", 0.0),
+                "language": (data.get("language_code") or language_hint or "mr")[:2],
+                "duration_s": 0.0,
                 "provider": "sarvam",
             }
         except Exception as exc:
@@ -102,19 +104,20 @@ async def speak(text: str, language: str = "mr", speed: float = 1.0) -> bytes:
 
     for model in models:
         try:
-            resp = await post_json(
-                _TTS_URL,
-                json={
-                    "inputs": [text],
-                    "target_language_code": lang_code,
-                    "speaker": "meera",
-                    "pace": speed,
-                    "model": model,
-                },
-                headers=_sarvam_headers(),
-                timeout=_TIMEOUT,
-            )
-            # Sarvam returns base64-encoded audio
+            async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
+                resp = await client.post(
+                    _TTS_URL,
+                    headers=_sarvam_headers(),
+                    json={
+                        "text": text,
+                        "target_language_code": lang_code,
+                        "speaker": "meera" if lang_code == "mr-IN" else "shubh",
+                        "pace": speed,
+                        "model": model,
+                        "speech_sample_rate": 22050,
+                    },
+                )
+                resp.raise_for_status()
             import base64
             audios = resp.json().get("audios", [])
             if audios:
