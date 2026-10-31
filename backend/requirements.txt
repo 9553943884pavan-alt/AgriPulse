@@ -20,7 +20,7 @@ aiosqlite==0.20.0
 # ── ML / optimizer (owned by ML lead; stubs compile without these but
 #    the full pipeline needs them) ────────────────────────────────────────────
 scikit-learn==1.6.0
-shap==0.54.1
+shap>=0.46.0,<=0.54.1
 cvxpy==1.6.0
 scipy==1.15.0
 lightgbm==4.5.0
