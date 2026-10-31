@@ -80,9 +80,12 @@ out/
 # *.h5
 
 # Local databases, logs & temporary files
+*.db
 *.log
 *.sqlite3
 *.db-journal
+*.db-wal
+*.db-shm
 *.tmp
 temp/
 tmp/

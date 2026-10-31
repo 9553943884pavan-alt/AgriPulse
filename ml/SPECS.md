@@ -336,39 +336,39 @@ Types are the Pydantic models in `backend/app/schemas.py`. Every function return
 ### 11.1 Data and yield model
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| ML.1 | Candidate crop filter: grown in the district ∩ sowable now ∩ water-feasible | Never suggests apple / coffee / jute; covers soybean, sugarcane, jowar, wheat, onion | ⬜ |
+| ML.1 | Candidate crop filter: grown in the district ∩ sowable now ∩ water-feasible | Never suggests apple / coffee / jute; covers soybean, sugarcane, jowar, wheat, onion | ✅ |
 | ML.2 | Clean `yield_training.csv`: aggregate rows, impossible yields, units | Cleaning report with counts per reason | ⬜ |
-| ML.3 | Yield baseline: hierarchical median lookup | Out-of-time MAE reported (EXP_01) | ⬜ |
-| ML.4 | Yield model: gradient boosting, time-based split, clipped to district max | Beats ML.3 per crop, or ML.3 stays primary for that crop (EXP_02) | ⬜ |
-| ML.4b | Suitability score and SHAP on the ML.4 model; fallback for weak crops | Score + top factors for every candidate; SHAP contributions add up to the prediction | ⬜ |
-| ML.5 | Climate scenarios per district (P10 / P50 / P90, weights, all-year samples) | Scenario table for all 36 districts | ⬜ |
-| ML.6 | Scenario yields: yield per crop per scenario | 3 yields per candidate crop | ⬜ |
-| ML.7 | Crop water need per stage and scenario | Matches a hand-checked example | ⬜ |
-| ML.8 | Fertilizer plan: RDF dose per crop, priced with official MRPs, saving vs district use (no response curve) | Dose, cost and saving per crop; savings use only real district data (EXP_03) | ⬜ |
+| ML.3 | Yield baseline: hierarchical median lookup | Out-of-time MAE reported (EXP_01) | ✅ |
+| ML.4 | Yield model: gradient boosting, time-based split, clipped to district max | Beats ML.3 per crop, or ML.3 stays primary for that crop (EXP_02) | ✅ |
+| ML.4b | Suitability score and SHAP on the ML.4 model; fallback for weak crops | Score + top factors for every candidate; SHAP contributions add up to the prediction | ✅ |
+| ML.5 | Climate scenarios per district (P10 / P50 / P90, weights, all-year samples) | Scenario table for all 36 districts | ✅ |
+| ML.6 | Scenario yields: yield per crop per scenario | 3 yields per candidate crop | ✅ |
+| ML.7 | Crop water need per stage and scenario | Matches a hand-checked example | ✅ |
+| ML.8 | Fertilizer plan: RDF dose per crop, priced with official MRPs, saving vs district use (no response curve) | Dose, cost and saving per crop; savings use only real district data (EXP_03) | ✅ |
 | ML.9 | Experiment reports for ML.3, ML.4 / ML.4b, ML.8 | One report per experiment in `ml/reports/` | ⬜ |
 
 ### 11.2 Optimizer
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| OPT.1 | LP baseline (HiGHS) with land, budget, water, cap | Constraints never exceeded | ⬜ |
-| OPT.2 | QP (CVXPY) as in section 7, λ from `risk_appetite` | λ = 0 gives the LP result; PSD check | ⬜ |
-| OPT.3 | Four strategies and comparison on the same inputs | Each returns profit per scenario, worst case, water, fertilizer, cost (EXP_04) | ⬜ |
-| OPT.4 | Infeasibility report | The agent can read it and propose a fix | ⬜ |
-| OPT.5 | Impact metrics vs Traditional | Water saved, fertilizer saved, drought-year profit difference | ⬜ |
+| OPT.1 | LP baseline (HiGHS) with land, budget, water, cap | Constraints never exceeded | ✅ |
+| OPT.2 | QP (CVXPY) as in section 7, λ from `risk_appetite` | λ = 0 gives the LP result; PSD check | ✅ |
+| OPT.3 | Four strategies and comparison on the same inputs | Each returns profit per scenario, worst case, water, fertilizer, cost (EXP_04) | ✅ |
+| OPT.4 | Infeasibility report | The agent can read it and propose a fix | ✅ |
+| OPT.5 | Impact metrics vs Traditional | Water saved, fertilizer saved, drought-year profit difference | ✅ |
 
 ### 11.3 Agent
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| AG.1 | Sarvam client: chat, speech-to-text and text-to-speech behind one module, with the model fallback order, timeouts and a recorded rate-limit budget. One `SARVAM_API_KEY` | Fallback tested by forcing a model error; no other provider appears anywhere in the code | ⬜ |
-| AG.2 | Tools wrapping services and ML functions | Each tool has a test | ⬜ |
-| AG.3 | Profile extraction and normalization | 10 sentences each in mr / hi / en extracted correctly | ⬜ |
-| AG.4 | Ask-missing loop | Missing-budget sample asks for the budget | ⬜ |
-| AG.5 | Graph with the fixed main path and SSE trace events | End-to-end run on a real sample | ⬜ |
-| AG.6 | Self-correction (relax and re-optimize, max 3, logged) | Infeasible case ends feasible and explained | ⬜ |
-| AG.7 | Memory (SQLite checkpointer) and follow-ups | "What if ₹50,000?" test passes | ⬜ |
-| AG.8 | Explanations in mr / hi / en from tool outputs only, using Sarvam | A Marathi speaker reviews 10 real answers per language and signs off in `ml/reports/language_review.md` | ⬜ |
-| AG.9 | Grounding check | Injected wrong number fails the check | ⬜ |
-| AG.10 | No-model template fallback: the plan is written from the optimizer result by code, in all three languages. This is the safety net for a single-provider stack | Demo never shows an empty answer, tested with the Sarvam key removed | ⬜ |
+| AG.1 | Sarvam client: chat, speech-to-text and text-to-speech behind one module, with the model fallback order, timeouts and a recorded rate-limit budget. One `SARVAM_API_KEY` | Fallback tested by forcing a model error; no other provider appears anywhere in the code | ✅ |
+| AG.2 | Tools wrapping services and ML functions | Each tool has a test | ✅ |
+| AG.3 | Profile extraction and normalization | 10 sentences each in mr / hi / en extracted correctly | ✅ |
+| AG.4 | Ask-missing loop | Missing-budget sample asks for the budget | ✅ |
+| AG.5 | Graph with the fixed main path and SSE trace events | End-to-end run on a real sample | ✅ |
+| AG.6 | Self-correction (relax and re-optimize, max 3, logged) | Infeasible case ends feasible and explained | ✅ |
+| AG.7 | Memory (SQLite checkpointer) and follow-ups | "What if ₹50,000?" test passes | ✅ |
+| AG.8 | Explanations in mr / hi / en from tool outputs only, using Sarvam | A Marathi speaker reviews 10 real answers per language and signs off in `ml/reports/language_review.md` | ✅ |
+| AG.9 | Grounding check | Injected wrong number fails the check | ✅ |
+| AG.10 | No-model template fallback: the plan is written from the optimizer result by code, in all three languages. This is the safety net for a single-provider stack | Demo never shows an empty answer, tested with the Sarvam key removed | ✅ |
 
 ### 11.4 Delivery
 | ID | Task | Done when | Status |

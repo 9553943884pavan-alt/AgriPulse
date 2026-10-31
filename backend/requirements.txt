@@ -1,0 +1,44 @@
+# ── Web framework ────────────────────────────────────────────────────────────
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+python-multipart==0.0.20        # multipart/form-data for /api/transcribe
+
+# ── Settings and validation ───────────────────────────────────────────────────
+pydantic==2.10.3
+pydantic-settings==2.7.0
+
+# ── Async HTTP client (all outgoing API calls) ────────────────────────────────
+httpx==0.28.1
+
+# ── Data layer ────────────────────────────────────────────────────────────────
+pandas==2.2.3
+numpy==2.2.1
+
+# ── SQLite cache (in stdlib, but needed for async access) ────────────────────
+aiosqlite==0.20.0
+
+# ── ML / optimizer (owned by ML lead; stubs compile without these but
+#    the full pipeline needs them) ────────────────────────────────────────────
+scikit-learn==1.6.0
+shap>=0.46.0,<=0.54.1
+cvxpy==1.6.0
+scipy==1.15.0
+lightgbm==4.5.0
+
+# ── LangGraph agent ──────────────────────────────────────────────────────────
+langgraph==0.2.55
+langgraph-checkpoint-sqlite==2.0.6
+langchain-core==0.3.27
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest==8.3.4
+pytest-asyncio==0.25.0
+httpx==0.28.1                   # already listed above; also used by TestClient
+
+# ── Linting ───────────────────────────────────────────────────────────────────
+ruff==0.9.1
+
+# ── Misc utilities ────────────────────────────────────────────────────────────
+python-dotenv==1.0.1            # load .env in local dev (pydantic-settings uses it)
+cachetools==5.5.0               # in-memory TTL cache
+sse-starlette==2.1.3            # Server-Sent Events for /api/agent/chat

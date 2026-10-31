@@ -1,0 +1,42 @@
+{
+  "model_name": "AgriPulse Yield Model A (Shipped)",
+  "algorithm": "HistGradientBoostingRegressor",
+  "training_data": "Teammate-B\\data\\processed\\yield_training.csv",
+  "rows": 11576,
+  "years": "1997-2014",
+  "target": "yield_t_per_ha",
+  "out_of_time_evaluation": {
+    "train_years": "1997-2011",
+    "test_years": "2012-2014",
+    "test_samples": 1687,
+    "mae_t_per_ha": 0.9956,
+    "rmse_t_per_ha": 3.9301,
+    "wape_pct": 22.41,
+    "r2": 0.9403
+  },
+  "categorical_features": [
+    "district",
+    "crop_id",
+    "season",
+    "groundwater_category"
+  ],
+  "numerical_features": [
+    "season_rainfall_mm",
+    "rainfall_departure_pct",
+    "rainy_days",
+    "max_dry_spell_days",
+    "mean_temp_c",
+    "max_temp_c",
+    "heat_stress_days",
+    "et0_total_mm",
+    "mean_humidity_pct",
+    "soil_n_kg_ha",
+    "soil_p_kg_ha",
+    "soil_k_kg_ha",
+    "soil_ph",
+    "organic_carbon_pct",
+    "irrigated_pct",
+    "groundwater_extraction_pct",
+    "fertilizer_use_kg_per_ha"
+  ]
+}
