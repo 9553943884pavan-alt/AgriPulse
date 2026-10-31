@@ -115,8 +115,8 @@ Every loader: typed columns, units checked, loaded once and cached in memory, re
 | **Geocoding** | Open-Meteo geocoding (`countryCode=IN`), then resolve `admin2` through `districts.csv` | 5 s, 1 retry | Cached place; else ask the farmer for the district |
 | **SoilGrids** | `rest.isric.org/soilgrids/v2.0/properties/query`; convert pH ÷ 10, nitrogen ÷ 100, soc ÷ 10 | 6 s, 0 retries | Skip; use Soil Health Card district values |
 | **Agmarknet prices** | data.gov.in resource `9ef84268-d588-465a-a308-a864a43d0070`, filters `state`, `district`, `commodity`; prices in ₹/quintal | 6 s, 2 retries | District → state → nearest mandi → last cached quote with date → **crop excluded** |
-| **CWC reservoirs** | Official CWC weekly bulletin PDF (`rsms.cwc.gov.in/admin/storage/bulletins/bulletin-DD-MM-YYYY-<id>.pdf`, every Thursday), read by `ml/data_prep/build_reservoir_from_bulletin.py` into `data/processed/reservoir_storage.csv`. (data.gov.in only serves January 2023.) Refresh weekly and before the demo | n/a (file) | Last table, shown with its `observation_date` |
-| **Sarvam speech** | speech-to-text and text-to-speech endpoints; model ids from the B10 report | 10 s | STT: ask the farmer to type; TTS: the browser voice on the frontend |
+| **CWC reservoirs** | Official CWC weekly bulletin PDF (`rsms.cwc.gov.in/admin/storage/bulletins/bulletin-DD-MM-YYYY-<id>.pdf`, every Thursday), read by `ml/data_prep/build_reservoir_from_bulletin.py` into `data/processed/reservoir_storage.csv`. (data.gov.in only serves January 2023.) Refresh weekly and before the demo. The `<id>` part of the filename is unpredictable; `build_reservoir_from_bulletin.py` probes a small set of candidate ids for the most recent Thursday until one returns HTTP 200, then parses that PDF. | n/a (file) | Last table, shown with its `observation_date` |
+| **Sarvam speech** | speech-to-text and text-to-speech endpoints; model ids from the B10 report; STT accepts `webm/ogg/wav/mp3/mp4` (mp4 = audio/mp4; required for iOS Safari, which has no webm support in MediaRecorder) | 10 s | STT: ask the farmer to type; TTS: the browser voice on the frontend |
 | **Sarvam models** | Chat, speech-to-text and text-to-speech, header `api-subscription-key`. One provider for all three | 15 s | Next model in `SARVAM_FALLBACK_MODELS`; then the template answer (ML AG.10), which needs no model |
 
 All outgoing calls: async `httpx`, per-call timeout, retry with backoff, and per-stage timing recorded for the trace and `Server-Timing`.
@@ -203,6 +203,11 @@ Interactive docs at `/docs` (FastAPI OpenAPI). The Pydantic models in `schemas.p
   "yield_quintal_per_acre": { "drought": 3.1, "normal": 4.4, "excess": 3.8 },
   "price": { "value": 4600, "unit": "rs_per_quintal", "source": "Agmarknet (data.gov.in)", "source_url": "…", "as_of": "2026-10-31", "status": "live" },
   "expected_harvest_price": { "value": 4830, "unit": "rs_per_quintal", "source": "today's price × seasonal ratio 1.05 from 4 years of monthly history, floored at MSP", "as_of": "2026-10-31", "status": "computed" },
+  "seasonal_ratio": { "value": 1.05, "unit": "ratio",
+                      "source": "4 years of monthly Agmarknet history (Beed, soybean)",
+                      "as_of": "2026-10-31", "status": "computed",
+                      "history_years": 4,
+                      "note": "1.0 used and flagged when fewer than 3 years of history exist" },
   "duration_days": 110, "harvest_month": "2027-02",
   "msp": { "value": 4892, "unit": "rs_per_quintal", "source": "CACP", "source_url": "…", "as_of": "2025-26", "status": "official_dataset" },
   "cost_per_acre": { "total_rs": 21400, "seed": 1950, "fertilizer": 2200, "manure": 860, "labour": 9300,
@@ -244,14 +249,17 @@ Interactive docs at `/docs` (FastAPI OpenAPI). The Pydantic models in `schemas.p
 
 **PlanResult**: the full answer.
 ```json
-{ "plan_id": "pl_8f3a2c", "thread_id": "th_41d9", "version": 1,
+{ "plan_id": "pl_8f3a2c", "thread_id": "th_41d9", "version": 1, "previous_version": null,
   "created_at": "2026-11-02T09:15:00+05:30",
   "profile": { FarmProfile },
   "location": { Location },
   "season": { "name": "Kharif", "sowing_window": { "start": "2026-06-10", "end": "2026-07-20" }, "status": "official_dataset" },
-  "scenarios": [ { "id": "drought", "label": "Drought", "season_rain_mm": {SourcedValue}, "probability": 0.2 },
-                 { "id": "normal", "label": "Normal", "season_rain_mm": {SourcedValue}, "probability": 0.6 },
-                 { "id": "excess", "label": "Excess rain", "season_rain_mm": {SourcedValue}, "probability": 0.2 } ],
+  "scenarios": [ { "id": "drought", "label": "Drought", "season_rain_mm": {SourcedValue}, "probability": 0.2,
+                   "analogue_year": 2002, "all_year_samples": [{SourcedValue}] },
+                 { "id": "normal", "label": "Normal", "season_rain_mm": {SourcedValue}, "probability": 0.6,
+                   "analogue_year": 2019, "all_year_samples": [{SourcedValue}] },
+                 { "id": "excess", "label": "Excess rain", "season_rain_mm": {SourcedValue}, "probability": 0.2,
+                   "analogue_year": 2005, "all_year_samples": [{SourcedValue}] } ],
   "crops": [ {CropOption}, ... ],
   "excluded_crops": [ { "crop_id": "onion", "reason_code": "no_real_price", "message": "No Agmarknet price found for Beed or nearby mandis." } ],
   "water": { WaterBudget },
@@ -285,7 +293,7 @@ Interactive docs at `/docs` (FastAPI OpenAPI). The Pydantic models in `schemas.p
 "warnings":       [ { "code": "CACHED_PRICES", "params": { "as_of": "2026-10-30" } } ]
 ```
 `reason_code` ∈ `NO_REAL_PRICE | NO_YIELD_DATA | NOT_SOWABLE_NOW | NOT_GROWN_IN_DISTRICT | WATER_INFEASIBLE | OVER_BUDGET`.
-`warnings[].code` ∈ `CACHED_PRICES | CACHED_WEATHER | ASSUMED_IRRIGATION | ASSUMED_BOREWELL | DISTRICT_AVERAGE_SOIL | OLD_COST_YEAR | PRICE_NOT_ADJUSTED | SINGLE_CROP_ELIGIBLE`.
+`warnings[].code` ∈ `CACHED_PRICES | CACHED_WEATHER | ASSUMED_IRRIGATION | ASSUMED_BOREWELL | DISTRICT_AVERAGE_SOIL | OLD_COST_YEAR | PRICE_NOT_ADJUSTED | SINGLE_CROP_ELIGIBLE | SINGLE_SEASON_COMPARISON`.
 `relaxations_applied[].step` ∈ `CAP_TO_1 | REDUCE_AREA | DROP_WATER_HUNGRY_CROP | USE_NORMAL_SCENARIO_WATER`.
 
 **Error** (every non-2xx response)
@@ -308,6 +316,10 @@ Codes: `VALIDATION_ERROR` 422 · `LOCATION_NOT_FOUND` 422 · `DISTRICT_NOT_AGRIC
   "suggestion_code": "PLANT_LESS_LAND", "suggestion_params": { "feasible_acres": 4.1 } }
 ```
 The frontend has a defined screen for both; neither is ever a blank page.
+
+`Scenario.analogue_year` is the real calendar year chosen as the P10 / P50 / P90 representative (Rabi ranked on `0.5 x Rabi rain + 0.5 x preceding Kharif rain`). `all_year_samples` is the list of all historical years' water-index values used to derive the percentile, returned as `SourcedValue` items with `status = official_dataset`. This field is ML-computed and API-visible so the frontend can show the analogue-year label on the scenario toggle.
+
+`previous_version` is `null` on the first version of a plan and on any version produced by E2 `/api/plan` directly. It is the integer previous version number on re-optimised plans (E3) and on chat follow-ups that change a fact. The frontend uses it to compute diff chips ("Profit − Rs. 4,000") without storing the old plan itself.
 
 ### 5.2 Endpoints
 
@@ -344,7 +356,7 @@ Response `Content-Type: text/event-stream`. Each event: `event: <name>` + `data:
 | `question` | `{ "text": "तुमच्याकडे शेतीसाठी किती पैसे आहेत?", "field": "budget_rs", "language": "mr" }` | Required field missing; the turn ends after this |
 | `trace` | `TraceEvent` | Every tool call and graph step (running, then ok/failed) |
 | `plan` | `PlanResult` | When the plan is ready (and after every relaxation attempt, flagged in `trace`) |
-| `message` | `{ "text": "…", "language": "mr", "provider": "gemini" }` | The agent's answer text |
+| `message` | `{ "text": "…", "language": "mr", "provider": "sarvam-chat" }` | The agent's answer text |
 | `error` | `Error` | A failure the agent could not handle |
 | `done` | `{ "ms": 4180 }` | Always the last event |
 
@@ -367,7 +379,7 @@ Response: `PlanResult` with the same `plan_id`, `version` + 1, new `strategies`,
 Response: `{ "thread_id", "profile": FarmProfile, "plan": PlanResult | null, "messages": [ { "role": "farmer|agent", "text", "language", "at" } ] }`.
 
 #### E5 `POST /api/transcribe`
-`multipart/form-data`: `audio` (webm/ogg/wav/mp3, at most 10 MB, at most 60 s), `language_hint` (`mr` | `hi` | `en`, optional).
+`multipart/form-data`: `audio` (webm/ogg/wav/mp3/mp4, at most 10 MB, at most 60 s; mp4 = audio/mp4 for iOS Safari), `language_hint` (`mr` | `hi` | `en`, optional).
 Response: `{ "text": "…", "language": "mr", "duration_s": 6.4, "provider": "sarvam" }`.
 
 #### E6 `POST /api/speak`
@@ -380,7 +392,12 @@ Request: `{ "location_text": "Beed" }`. Response: `{ "status": "warmed", "distri
 Response: `{ "results": [ { "resolved_name": "Beed, Maharashtra", "district": "Beed", "state": "Maharashtra", "latitude": 18.99, "longitude": 75.91 } ] }`.
 
 #### E9 `GET /api/districts`
-Response: `{ "districts": [ { "district": "Beed", "names": { "mr": "बीड", "hi": "बीड", "en": "Beed" }, "latitude": 18.99, "longitude": 75.91, "groundwater_category": "Over-exploited", "status_color": "red" } ] }`.
+Response: `{ "districts": [ { "district": "Beed", "names": { "mr": "बीड", "hi": "बीड", "en": "Beed" },
+                              "latitude": 18.99, "longitude": 75.91,
+                              "groundwater_category": "Over-exploited", "status_color": "red",
+                              "is_agricultural_district": true } ] }`.
+
+`is_agricultural_district` is `false` for Mumbai City and Mumbai Suburban (no DES crop statistics exist). The frontend map greys those two districts; the backend returns `DISTRICT_NOT_AGRICULTURAL` 422 if the farmer selects one.
 
 #### E10 `GET /api/districts/{district}/context`
 Response: `{ "district", "groundwater": { "category": {SourcedValue}, "extraction_pct": {SourcedValue}, "depth_post_monsoon_m": {SourcedValue} }, "reservoirs": [ { "name", "live_storage_pct": {SourcedValue} } ], "recent_rain": { "last_90d_mm": {SourcedValue}, "departure_90d_pct": {SourcedValue}, "category": "Deficient" }, "irrigation": { "borewell_share_pct": {SourcedValue}, "canal_share_pct": {SourcedValue}, "drip_adoption_pct": {SourcedValue} } }`.
@@ -431,12 +448,14 @@ Rows reference the **feature ids** `F1`-`F18` in [`frontend/SPECS.md`](../fronte
 ## 7. Tasks
 
 ### 7.1 Contracts
-| ID | Task | Done when | Status |
-|---|---|---|---|
-| C.1 | `schemas.py` with every type in section 5.1 **and** every type the ML interface uses, so nothing is referenced but undefined: `SourcedValue`, `FarmProfile`, `Location`, `Season`, `Scenario` (incl. `analogue_year` and the all-year samples), `Candidate`, `ExcludedCrop`, `CropOption`, `Suitability`, `SuitabilityFactor`, `YieldPrediction`, `WaterNeed`, `WaterBudget`, `FertilizerPlan`, `CostBreakdown`, `Allocation`, `OptimizerInputs`, `StrategyResult`, `Infeasibility`, `Impact`, `PlanResult`, `TraceEvent`, `ChatMessage`, `Message` (code + params), `Error` | Reviewed by all three; no type is used anywhere without being defined here | ⬜ |
-| C.2 | `docs/API_CONTRACT.md` generated from the OpenAPI file, **plus two example sets**: `docs/api_examples/contract/` (hand-written by the three of us at C.1 time, so the frontend is never blocked) and `docs/api_examples/live/` (captured from a real run as soon as M2 lands, and then the only set the frontend uses). Contract examples are an interface agreement, not product data, so they do not break the no-mock-data rule; they must never be bundled into a build | Frontend can build every screen from the contract set on day 1, and switches to the live set at M2 | ⬜ |
-| C.4 | **SSE payloads are in the OpenAPI file too.** `TraceEvent`, `PlanResult`, `question`, `message` and `done` are declared as response models of a documented, non-streaming endpoint `GET /api/schemas/sse-events` that returns one example of each. OpenAPI cannot describe a stream, so without this the frontend would have to hand-write the types it parses, which its rule 4 forbids | The generated TypeScript types include every SSE payload | ⬜ |
-| C.3 | Function stubs for ML calls (signatures in [`ml/SPECS.md`](../ml/SPECS.md) section 10) that raise `NotImplementedError` | Merged before ML code | ⬜ |
+| ID | Task | Done when | Dependency | Status |
+|---|---|---|---|---|
+| C.1 | `schemas.py` with every type in section 5.1 **and** every type the ML interface uses, so nothing is referenced but undefined: `SourcedValue`, `FarmProfile`, `Location`, `Season`, `Scenario` (incl. `analogue_year` and the all-year samples), `Candidate`, `ExcludedCrop`, `CropOption`, `Suitability`, `SuitabilityFactor`, `YieldPrediction`, `WaterNeed`, `WaterBudget`, `FertilizerPlan`, `CostBreakdown`, `Allocation`, `OptimizerInputs`, `StrategyResult`, `Infeasibility`, `Impact`, `PlanResult`, `TraceEvent`, `ChatMessage`, `Message` (code + params), `Error` | Reviewed by all three; no type is used anywhere without being defined here | P0.5 | ⬜ |
+| C.2 | `docs/API_CONTRACT.md` generated from the OpenAPI file, **plus two example sets**: `docs/api_examples/contract/` (hand-written by the three of us at C.1 time, so the frontend is never blocked) and `docs/api_examples/live/` (captured from a real run as soon as M2 lands, and then the only set the frontend uses). Contract examples are an interface agreement, not product data, so they do not break the no-mock-data rule; they must never be bundled into a build | Frontend can build every screen from the contract set on day 1, and switches to the live set at M2 | C.1 | ⬜ |
+| C.4 | **SSE payloads are in the OpenAPI file too.** `TraceEvent`, `PlanResult`, `question`, `message` and `done` are declared as response models of a documented, non-streaming endpoint `GET /api/schemas/sse-events` that returns one example of each. OpenAPI cannot describe a stream, so without this the frontend would have to hand-write the types it parses, which its rule 4 forbids | The generated TypeScript types include every SSE payload | C.1 | ⬜ |
+| C.3 | Function stubs for ML calls (signatures in [`ml/SPECS.md`](../ml/SPECS.md) section 10) that raise `NotImplementedError` | Merged before ML code | C.1 | ⬜ |
+
+C.2, C.3 and C.4 may be done in parallel after C.1 merges. No feature work may start before all four land.
 
 ### 7.2 Data layer
 | ID | Task | Done when | Status |
@@ -487,3 +506,18 @@ Rows reference the **feature ids** `F1`-`F18` in [`frontend/SPECS.md`](../fronte
 ## 8. Lessons from the old prototype (v1)
 **Re-create:** cache with stale fallback · per-stage timing (`Server-Timing`) · prefetch while the farmer is still talking · unit conversions (1 ha = 2.47105 acres, 1 tonne = 10 quintals, ₹/quintal) · strict validation of LLM output.
 **Do not repeat:** mock soil, mock prices or hardcoded costs as fallbacks · hidden defaults (cost, price, yield, default crop list) · one 340-line endpoint doing everything · district names that failed to join (Aurangabad → Chhatrapati Sambhajinagar) · a "simulated plan" banner (not needed: there is no mock data).
+
+### Honest limits -- must be visible in the UI and on the sources page
+
+The following are known limitations. Each must appear in `warnings[]` or on the sources
+page (E11), not hidden in internal docs only.
+
+| Limitation | Where to surface |
+|---|---|
+| Costs are 2022-23 compared against a 2026 budget; no inflation adjustment | `OLD_COST_YEAR` warning on every plan |
+| Soil, irrigation and groundwater are one value per district; two farmers in the same district get the same predicted yield | District context popup (E10) and sources page |
+| Scenario probabilities (0.2 / 0.6 / 0.2) are fixed modelling defaults, not weather forecasts | `assumption` status on `Scenario.probability` |
+| Prices shown are today's Agmarknet quotes; harvest-time price is estimated via seasonal ratio | `seasonal_ratio` field on `CropOption`; `computed` status on `expected_harvest_price` |
+| Sugarcane and other multi-season crops are compared on a single-season per-acre basis | `SINGLE_SEASON_COMPARISON` warning when sugarcane is in any allocation |
+| Rice and tur may have fewer than 3 years of price history in some districts; seasonal ratio defaults to 1.0 | `seasonal_ratio.note` field; `PRICE_NOT_ADJUSTED` warning |
+| Changing the language picker after a plan is generated does not re-translate `explanation.text` or trace summaries; a new conversation is required | UI note in the language picker |
