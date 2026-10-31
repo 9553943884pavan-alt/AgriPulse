@@ -26,6 +26,18 @@ async def lifespan(app: FastAPI):
     count = load_all()
     app.state.data_files_loaded = count
     app.state.models_loaded = False   # set True once ML models load (Phase ML)
+
+    # Compile and attach the LangGraph agent graph
+    try:
+        from app.agent.graph import get_compiled_graph
+        app.state.agent_graph = await get_compiled_graph()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(
+            "LangGraph agent failed to initialise (langgraph not installed?): %s", exc
+        )
+        app.state.agent_graph = None
+
     app.state.ready = True
     yield
     from app.core.cache import close_db

@@ -69,4 +69,19 @@ async def reoptimize(plan_id: str, body: dict) -> PlanResult:
     if new_plan.thread_id:
         await cache.set_memory(new_plan.thread_id, "profile", stored_profile)
 
+    # Write patched fields back to the LangGraph checkpointer so the next
+    # chat turn (E1) reads the updated profile. This is the only place outside
+    # the graph that writes to the checkpointer (per memory.py contract).
+    if new_plan.thread_id:
+        patch = {k: body[k] for k in ("risk_appetite", "budget_rs", "land_acres") if k in body}
+        if patch:
+            try:
+                from app.agent.memory import update_profile_fields
+                await update_profile_fields(new_plan.thread_id, patch)
+            except Exception as exc:
+                import logging
+                logging.getLogger(__name__).warning(
+                    "E3 checkpointer write-back failed (non-fatal): %s", exc
+                )
+
     return new_plan
