@@ -11,7 +11,8 @@
 
 | Version | What changed |
 |---|---|
-| v2 (current) | 14 bugs fixed: type names corrected against `schemas.py`, stub signatures aligned, Sarvam API params fixed from live docs, LangGraph API versions pinned, grounding tolerance fixed |
+| v3 (current) | 12 issues fixed: tools section added with correct schema types + single-path rule; Phase A9 "always agree" note; long-duration crop normalization in optimizer + AgentState + prompts; profile_patch + merge_patch node; E3 write-back in memory; ask_missing clarified as rule-based template; all 9 WARN_ codes + CANAL_DUTY added to constants; iOS mp4 safety note in client |
+| v2 | 14 bugs fixed: type names corrected against `schemas.py`, stub signatures aligned, Sarvam API params fixed from live docs, LangGraph API versions pinned, grounding tolerance fixed |
 | v1 | Initial draft |
 
 ---
@@ -335,12 +336,12 @@ def fertilizer_plan(
 ```python
 def candidate_crops(
     profile: FarmProfile,
-    location: Location,          # NOT LocationResult
-    season: Season,
-    water: list[WaterBudget],    # NOT singular WaterBudget
+    location: Location,           # Pydantic type from schemas.py (not LocationResult)
+    season: Season,               # Season object, not a plain string
+    water: list[WaterBudget],     # one WaterBudget per scenario (drought/normal/excess)
     today: date | None = None,
 ) -> tuple[list[Candidate], list[ExcludedCrop]]:
-    """Three-gate filter (ML.1):
+    """ML.1 -- Three-gate filter.
 
     Gate 1 — grown in district:
       DES area from district_crop_yields.csv > threshold in recent years
@@ -353,8 +354,12 @@ def candidate_crops(
       Exclude with ExcludedReasonCode = 'NOT_SOWABLE_NOW'.
 
     Gate 3 — water-feasible:
-      Call crop_water_need(crop_id, season, normal_scenario, efficiency).
-      Compare need vs available water in normal WaterBudget.
+      Call crop_water_need(crop_id, season, drought_scenario, efficiency).
+      Compare need vs available water in the DROUGHT WaterBudget (most conservative).
+      A crop that fits drought also fits normal and excess.
+      Crops that fail only at drought are NOT excluded here; they are marked
+      water-stressed and the optimizer handles them via the drought-safe strategy
+      constraint.
       Exclude with ExcludedReasonCode = 'WATER_INFEASIBLE'.
 
     Also exclude with 'NO_REAL_PRICE' when price_history_monthly.csv has never
@@ -393,6 +398,15 @@ class Optimizer:
       'qp_drought_safe'  — QP with water limit from drought WaterBudget
 
     Decision variable: x_i = acres of crop_i  (x_i ≥ 0)
+    Long-duration crop normalization (ml/SPECS §3A):
+      For crops with duration_days > 120 (sugarcane, banana, orange, pomegranate):
+        margin(i, s) is divided by (duration_days / 365) before entering the objective,
+        so a 12-month crop competes on the same per-acre-per-year basis as a 4-month crop.
+      The StrategyResult.allocations[].profit_rs carries the SEASON total.
+      A separate field profit_rs_per_acre_per_year (= profit_rs / (duration_days / 365)) is
+      returned so the frontend can label it clearly.
+      The SINGLE_SEASON_COMPARISON warning (see constants.py WARN_SINGLE_SEASON_COMPARISON)
+      is emitted on every plan that includes sugarcane in any allocation.
     Objective (QP):
       max  Σ_s p_s · Σ_i margin(i,s) · x_i  −  λ · x'Σx  −  Σ_i γ_i · x_i²
       margin(i,s) = yield(i,s) [quintal/acre] × expected_harvest_price_i − cost_per_acre_i
@@ -456,6 +470,16 @@ class Optimizer:
 Scope: chat completions ONLY.
 STT and TTS remain in app/services/speech.py (already correct after v1 fix).
 Do NOT add STT/TTS here — it would duplicate the service layer.
+
+STT/TTS contract note for speech.py callers:
+  IMPORTANT -- forward content_type verbatim as the multipart part's Content-Type.
+  NEVER hardcode "audio/webm".
+
+  Accepted MIME types (matches E5 contract in backend/SPECS §5.2):
+    audio/webm · audio/ogg · audio/wav · audio/mpeg · audio/mp4
+
+  iOS Safari (MediaRecorder API) produces audio/mp4 and has no webm support.
+  A hardcoded "audio/webm" breaks the mic for any judge or user on an iPhone.
 
 Chat endpoint: POST https://api.sarvam.ai/v2/chat/completions
 Auth: api-subscription-key: <SARVAM_API_KEY>
@@ -536,7 +560,31 @@ class SarvamClient:
 
 ---
 
-### Phase A2 — LangGraph graph (`backend/app/agent/graph.py`)
+### Phase A2 — Tools (`backend/app/agent/tools.py`)
+
+Each tool wraps a backend service or ML function. All return `SourcedValue`-bearing dicts.
+
+```python
+# AG.2 -- one tool per service / ML function
+get_location(location_text: str) -> Location
+get_weather(district: str) -> dict[str, SourcedValue]
+get_soil(district: str) -> dict[str, SourcedValue]
+get_water_budget(profile: FarmProfile, location: Location, scenarios: list[Scenario]) -> list[WaterBudget]
+get_prices(district: str, crop_ids: list[str]) -> dict[str, SourcedValue]
+get_costs(district: str, crop_ids: list[str]) -> dict[str, CostBreakdown]
+recommend_crops(profile: FarmProfile, location: Location, season: Season, water: list[WaterBudget]) -> tuple[list[Candidate], list[ExcludedCrop]]  # ML.1+ML.4b
+predict_yield(crop_id: str, location: Location, season: Season, conditions: Scenario) -> YieldPrediction  # ML.4
+optimize_plan(strategy: str, inputs: OptimizerInputs) -> StrategyResult
+compare_strategies(inputs: OptimizerInputs) -> list[StrategyResult]
+```
+
+> **Single-path rule (backend/IMPLEMENTATION_PLAN §cross-cutting rule 6):** `tools.py` wrappers do **not** duplicate or reimplement service logic. Each tool calls the corresponding function in `app/services/` (for live data) or `app/ml/` (for ML computations). Because both `/api/plan` (E2) and `/api/agent/chat` (E1) invoke the same underlying functions, they are guaranteed to return identical plans for the same profile. **Never copy-paste a service function into a tool.** If you need to change the logic, change it in `app/services/` or `app/ml/` — the agent picks it up automatically.
+
+Every tool logs its call duration into the trace; `gather_data` runs them in parallel via `asyncio.gather`.
+
+---
+
+### Phase A3 — LangGraph graph (`backend/app/agent/graph.py`)
 
 ```python
 """AG.5 — LangGraph StateGraph.
@@ -554,6 +602,7 @@ from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 def build_graph() -> StateGraph:
     graph = StateGraph(AgentState)
     graph.add_node("route", route_node)
+    graph.add_node("merge_patch", merge_patch_node)
     graph.add_node("extract_profile", extract_profile_node)
     graph.add_node("ask_missing", ask_missing_node)
     graph.add_node("gather_data", gather_data_node)
@@ -584,6 +633,10 @@ async def get_compiled_graph(db_path: str):
 ```
 START → route
 route → "answer_from_memory" (if route == "follow_up" or "question")
+  │ new plan                                     │
+  │                                              │
+  ├── profile_patch set (card edit) ──► merge_patch ──► gather_data (cached, fast)
+  │     (no LLM call; skips extract_profile)
 route → "extract_profile"    (if route == "new_plan")
 
 answer_from_memory → respond → save_memory → END
@@ -614,9 +667,22 @@ grounding_check → explain                (if not grounded and retry_count < 2)
 respond → save_memory → END
 ```
 
+#### LLM calls budget: at most 3 per plan
+- `extract_profile` (1 call) — structured output, JSON schema enforced
+- `explain` (1 call, 1 retry on grounding fail) — generates text only
+- `route` — rule-based: checks whether required profile fields are known and whether
+  the message contains a changed fact or number. No LLM call.
+- `ask_missing` — rule-based **translated template** per field (implemented in
+  `prompts.py` as a dict of field → question in mr/hi/en). **NOT an LLM call.**
+  ⚠️ ml/SPECS §8.4 table row for `ask_missing` implies it may use the LLM — that is
+  a known inconsistency in ml/SPECS; the prose in §8.4 below the table is authoritative:
+  "route and ask_missing are rule-based". This plan follows the prose. Keeping
+  ask_missing as a template saves 1 LLM call and keeps the 3-call budget safe even
+  on a retry.
+
 ---
 
-### Phase A3 — AgentState schema
+### Phase A4 — AgentState schema
 
 ```python
 from __future__ import annotations
@@ -633,7 +699,10 @@ class AgentState(TypedDict):
     thread_id: str
     message: str
     language: Literal["mr", "hi", "en"]
-    route: Literal["new_plan", "follow_up", "question"]  # NOT bare str
+    profile_patch: dict | None           # set by E1 when the farmer edits the profile card
+                                         # directly (no natural-language message); merged
+                                         # into profile by route node without an LLM call
+    route: Literal["new_plan", "follow_up", "patch", "question"]  # NOT bare str
 
     # Profile
     profile: FarmProfile | None
@@ -652,6 +721,7 @@ class AgentState(TypedDict):
     candidates: list[Candidate]
     excluded: list[ExcludedCrop]
     scenario_yields: dict        # crop_id → {"drought": YieldPrediction, ...}
+    long_duration_crops: set[str]        # crop_ids with duration_days > 120 (sugarcane, banana, etc.)
 
     # Optimizer results
     strategies: list[StrategyResult]
@@ -671,7 +741,7 @@ class AgentState(TypedDict):
 
 ---
 
-### Phase A4 — Node implementations (`backend/app/agent/nodes.py`)
+### Phase A5 — Node implementations (`backend/app/agent/nodes.py`)
 
 #### `route` (rule-based)
 
@@ -713,6 +783,19 @@ async def extract_profile_node(state: AgentState) -> AgentState:
     Missing required fields → state["missing"] (never invented).
     On SarvamAllModelsFailed: parse state["message"] with regex fallback
       (extract numbers for land/budget, first capitalised word for location).
+    """
+```
+
+```python
+async def merge_patch(state: AgentState) -> AgentState:
+    """No LLM -- plain code.
+
+    Called when E1 sends profile_patch (the farmer edited the profile card directly).
+    Merges the patch dict into state.profile, marks all patched fields as
+    farmer_input in defaults_used, clears state.profile_patch, and sets
+    route = 'follow_up' so gather_data reuses the upstream cache.
+
+    This keeps re-runs after a card edit under 1.5 s (same target as E3 reoptimize).
     """
 ```
 
@@ -796,7 +879,7 @@ def grounding_check_node(state: AgentState) -> AgentState:
 
 ---
 
-### Phase A5 — Memory (`backend/app/agent/memory.py`)
+### Phase A6 — Memory (`backend/app/agent/memory.py`)
 
 ```python
 """AG.7 — Async LangGraph SQLite checkpointer.
@@ -818,9 +901,32 @@ Follow-up: a message with a changed fact passes through extract_profile again
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 ```
 
+```python
+async def update_profile_fields(thread_id: str, patch: dict) -> None:
+    """E3 reoptimize write-back (called from backend/app/api/plan.py, NOT from the agent).
+
+    When the farmer moves the risk slider or changes budget/land via E3:
+      1. E3 re-optimizes with the new value (fast, no external API calls).
+      2. E3 calls THIS function to write the patched field back into the
+         LangGraph checkpointer for this thread_id.
+      3. The NEXT chat turn reads the updated profile from memory.
+
+    Without this, the profile-card slider and the plan slider can disagree:
+    E3 changes risk to "safe", but the next "what if I have less money?" question
+    starts from the old "balanced" risk because the checkpointer was never updated.
+
+    Implementation note: load the LangGraph checkpoint, deep-merge the patch
+    into profile, and save it back. Do not trigger any graph node.
+    """
+    saver = AsyncSqliteSaver.from_conn_string(settings.CACHE_DB_PATH)
+    # load -> merge -> save
+```
+
+> Cross-reference: `backend/app/api/plan.py` (E3 endpoint) must import and `await update_profile_fields(thread_id, patch)` after a successful re-optimize. This is the **only** place outside the graph that is allowed to write to the checkpointer.
+
 ---
 
-### Phase A6 — Template fallback (`backend/app/agent/templates.py`)
+### Phase A7 — Template fallback (`backend/app/agent/templates.py`)
 
 ```python
 """AG.10 — No-LLM explanation builder.
@@ -851,7 +957,7 @@ grounded is set to False.
 
 ---
 
-### Phase A7 — Prompts (`backend/app/agent/prompts.py`)
+### Phase A8 — Prompts (`backend/app/agent/prompts.py`)
 
 ```python
 """Prompt constants for extract_profile and explain.
@@ -863,6 +969,10 @@ Rules that apply to every prompt:
 3. explain: lists all source numbers inline in the user prompt, so the model
    sees them and cannot hallucinate different values.
 4. Language variable is injected per call — prompts are templates, not hardcoded strings.
+5. For any crop with `duration_days > 120`, the explanation must state the
+   **per-acre-per-year** profit figure (not just the per-season figure) and say that
+   the crop "occupies the land for N months". This keeps the comparison with
+   single-season crops honest.
 """
 
 EXTRACT_PROFILE_SYSTEM: dict[str, str] = {
@@ -880,7 +990,7 @@ EXPLAIN_SYSTEM: dict[str, str] = {
 
 ---
 
-### Phase A8 — Backend integration
+### Phase A9 — Backend integration
 
 **File to edit:** `backend/app/api/agent.py`
 
@@ -960,6 +1070,8 @@ def _langgraph_event_to_sse(event: dict) -> dict | None:
     """
 ```
 
+> **Why the agent and `/api/plan` always agree:** the `graph.astream_events` call executes the LangGraph nodes, which call `tools.py` wrappers, which call `app/services/` and `app/ml/` functions — the **exact same functions** that `pipeline.py -> run_plan()` calls for E2. There is no second copy of any logic. The E1-vs-E2 equality test in `tests/test_pipeline.py` asserts this for a fixed profile.
+
 ---
 
 ## 5. Tests required (per ML SPECS §9)
@@ -1028,7 +1140,6 @@ CATEGORY_CAP: Final[dict] = {                     # assumption; cite CGWB/GSDA b
     "Critical": 0.4,
     "Over-exploited": 0.15,
 }
-CANAL_DUTY_M3_PER_ACRE: Final = 1200.0            # assumption; cite MH WRD tables
 
 # Optimizer
 DIVERSIFICATION_CAP: Final[dict] = {1: 1.0, 2: 0.80}
@@ -1059,9 +1170,28 @@ NON_AGRICULTURAL_DISTRICTS: Final[frozenset] = frozenset({
     "Mumbai City", "Mumbai Suburban"
 })
 
+CANAL_DUTY: float | None = None
+# m3 per acre per season for canal-irrigated farms.
+# Source: Maharashtra WRD duty tables -- NOT YET CITED in SOURCES.md.
+# When None: canal_share = 0 even when canal_access=True; a WARN_ASSUMED_BOREWELL
+# warning (or a new WARN_CANAL_DUTY_UNKNOWN) is emitted. Set to the real value
+# once the citation is in SOURCES.md and update status from assumption -> measured.
+
 # Demo districts (section 9A of ml/SPECS.md)
 DEMO_DISTRICTS: Final = ("Jalgaon", "Pune", "Ahilyanagar")
 DEMO_DISTRICT_BACKUP: Final = "Nashik"
+
+# Warning codes -- emit from optimizer/pipeline; must match backend/SPECS §5.1 Literal
+# (9 codes total; frontend i18n key per code)
+WARN_CACHED_PRICES              = "CACHED_PRICES"
+WARN_CACHED_WEATHER             = "CACHED_WEATHER"
+WARN_ASSUMED_IRRIGATION         = "ASSUMED_IRRIGATION"
+WARN_ASSUMED_BOREWELL           = "ASSUMED_BOREWELL"
+WARN_DISTRICT_AVERAGE_SOIL      = "DISTRICT_AVERAGE_SOIL"
+WARN_OLD_COST_YEAR              = "OLD_COST_YEAR"       # always emit; costs are 2022-23
+WARN_PRICE_NOT_ADJUSTED         = "PRICE_NOT_ADJUSTED"  # < MIN_PRICE_YEARS history
+WARN_SINGLE_CROP_ELIGIBLE       = "SINGLE_CROP_ELIGIBLE"
+WARN_SINGLE_SEASON_COMPARISON   = "SINGLE_SEASON_COMPARISON"  # always emit when sugarcane in any allocation
 ```
 
 ---
