@@ -15,6 +15,7 @@ def test_health_ok():
     assert body["status"] == "ok"
     assert "version" in body
     assert "data_files" in body
+    assert body["models_loaded"] is True
 
 
 # ── E9 districts ─────────────────────────────────────────────────────────────

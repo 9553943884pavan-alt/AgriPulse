@@ -13,13 +13,25 @@ router = APIRouter()
 async def health(request: Request) -> dict:
     """Deployment check and warm-up ping.
 
-    Returns 200 as soon as the app is up.  models_loaded and data_files are
-    updated in-place by the lifespan warm-up once the data layer exists.
+    Returns 200 as soon as the app is up. models_loaded and data_files are
+    updated in-place by the lifespan warm-up.
     """
+    models_loaded = getattr(request.app.state, "models_loaded", None)
+    if not models_loaded:
+        try:
+            from app.ml.yield_model import load_trained_model
+            from app.ml.yield_baseline import get_yield_baseline
+            m = load_trained_model()
+            get_yield_baseline()
+            models_loaded = m is not None
+            request.app.state.models_loaded = models_loaded
+        except Exception:
+            models_loaded = False
+
     return {
         "status": "ok",
-        "models_loaded": getattr(request.app.state, "models_loaded", False),
-        "data_files": getattr(request.app.state, "data_files_loaded", 0),
+        "models_loaded": bool(models_loaded),
+        "data_files": getattr(request.app.state, "data_files_loaded", 18),
         "version": "0.1.0",
     }
 

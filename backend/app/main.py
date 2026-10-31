@@ -33,7 +33,18 @@ async def lifespan(app: FastAPI):
     from app.data.loaders import load_all
     count = load_all()
     app.state.data_files_loaded = count
-    app.state.models_loaded = False   # set True once ML models load (Phase ML)
+
+    # Pre-warm ML models (Model A and Hierarchical Median Baseline)
+    try:
+        from app.ml.yield_model import load_trained_model
+        from app.ml.yield_baseline import get_yield_baseline
+        m = load_trained_model()
+        get_yield_baseline()
+        app.state.models_loaded = m is not None
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("Failed to pre-warm ML models: %s", exc)
+        app.state.models_loaded = False
 
     # Compile and attach the LangGraph agent graph
     try:
