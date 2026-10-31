@@ -62,7 +62,7 @@
   * SHAP values on that model show *why* a crop suits this season (e.g. "rainfall above normal: +0.3 t/ha, long dry spell: −0.2 t/ha"), and the agent explains it in the farmer's language.
 * **🌦️ Climate-Scenario Quadratic Programming**
   * Drought, Normal and Excess-rain scenarios are built from 15+ years of district weather history (ERA5).
-  * The QP objective balances **expected profit**, **risk** (profit variation across years and price history), the **fertilizer response curve** (*yield = a + b·f − c·f²*) and **market saturation**.
+  * The QP objective balances **expected profit**, **risk** (profit variation across years and price history), the **university-recommended fertilizer dose** (priced at official MRPs) and **market saturation**.
   * Four strategies are compared side by side: **Traditional crop mix**, **LP max-profit**, **QP balanced** and **QP drought-safe**.
 * **💧 Real Water Accounting**
   * Available water = rainfall (recent + forecast + scenario) + groundwater share (capped by the official CGWB block category) + canal share (reservoir storage).
@@ -73,8 +73,9 @@
 * **🎙️ Zero-Friction Farmer UX**
   * Voice-first, mobile-first, with local-language labels and numbers in acres, quintals and rupees.
   * **Sarvam AI** (built for Indian languages) powers both voice input (speech-to-text) and voice output (text-to-speech) in Marathi, Hindi and English.
-* **🧠 Multi-Provider LLM Agent**
-  * The agent runs on **Gemini** and **Groq** models, with automatic fallback from one to the other if a provider is slow or rate-limited. Sarvam's language models are being evaluated as an agent option for better Marathi and Hindi understanding.
+* **🇮🇳 Built on Indian AI models, end to end**
+  * **Sarvam AI** is the only model provider: the agent's reasoning, the speech-to-text that hears the farmer, and the text-to-speech that answers them. Models built for Indian languages are not an add-on here, they are the foundation.
+  * If a model call fails, the next Sarvam model is tried, and if every one fails the plan is still explained by a template written from the optimizer's own numbers. The farmer always gets an answer.
 * **📐 Indian Agricultural Unit Conversions**
   * Government data in hectares and tonnes is converted into farmer units (**acres and quintals**) throughout.
 
@@ -107,7 +108,7 @@
 | 1 | **Data Sources** | Live APIs and official datasets only: weather, soil, water, mandi prices, costs and yields. No mock data |
 | 2 | **Data Ingestion** | Secure API connection, parallel async fetching, validation, and a cache that keeps the source and date of every value |
 | 3 | **Data Processing & Feature Engineering** | Cleaning, season-aligned weather features, leak-free time-based split, processed datasets |
-| 4 | **ML & Science** | Crop filters from official data, yield model with a yield-based suitability score and SHAP explanations, Drought / Normal / Excess climate scenarios, crop water need and fertilizer response curves |
+| 4 | **ML & Science** | Crop filters from official data, yield model with a yield-based suitability score and SHAP explanations, Drought / Normal / Excess climate scenarios, crop water need and fertilizer plan (university recommended doses) |
 | 5 | **Agent System** | LangGraph agent: extracts the farm profile, calls tools, runs the QP / LP optimizer, corrects infeasible plans and explains the result |
 | 6 | **User Interface** | Voice-first React app with Sarvam speech in and out, live agent trace, source badges and a FastAPI backend |
 | 7 | **Storage, Monitoring & Feedback** | Data store and real-response cache, latency and API-health monitoring, follow-up and retraining loop |
@@ -148,7 +149,7 @@ flowchart TB
         GRAPH["Graph nodes +<br/>conditional edges"]
         TOOLS["Tools"]
         MEM[("Memory<br/>SQLite checkpointer")]
-        ROUTER["LLM router<br/>Gemini · Groq · Sarvam"]
+        ROUTER["Sarvam chat model<br/>+ model fallback"]
     end
 
     subgraph SV["🌐 DATA SERVICES"]
@@ -185,7 +186,7 @@ flowchart TB
     subgraph EXT["☁️ EXTERNAL SERVICES"]
         direction LR
         SARVAM["Sarvam AI<br/>speech"]
-        LLMS["Gemini · Groq<br/>LLMs"]
+        LLMS["Sarvam AI<br/>chat · STT · TTS"]
         OM["Open-Meteo"]
         GOV["data.gov.in<br/>Agmarknet · CWC"]
         SG["SoilGrids"]
@@ -386,7 +387,7 @@ flowchart TD
     style ANSG fill:#F4FAF4,stroke:#2E7D32,stroke-width:2px,stroke-dasharray: 5 3
 ```
 
-**LLM router:** `extract_profile`, `relax_constraint`, `explain` and `answer_from_memory` call Gemini first, then Groq, then Sarvam if a provider fails or times out. If every LLM is down, the template explanation is used, so the farmer always gets an answer.
+**Model use:** only two steps call a model, `extract_profile` (understanding what the farmer said) and `explain` (writing the answer), with one retry if the grounding check fails: **at most 3 calls per plan**. Choosing how to fix an infeasible plan is plain code, not a model decision, so it is fast and repeatable. Every call goes to **Sarvam AI**; if a model fails, the next Sarvam model is tried, and if all fail the template explanation is used.
 
 ### Recommendation and plan explanations
 
@@ -407,11 +408,10 @@ API keys are kept only in a local `.env` file that is never committed. `.env.exa
 
 ## Detailed Resources Required
 * **Machine Learning & Math:**
-  * Scikit-Learn gradient boosting for yield with a time-based train/test split, SHAP (TreeExplainer) for explanations, SciPy (fertilizer response curve fitting, LP baseline), CVXPY (Quadratic Programming).
+  * Scikit-Learn gradient boosting for yield with a time-based train/test split, SHAP (TreeExplainer) for explanations, SciPy (LP baseline), CVXPY (Quadratic Programming).
 * **Agentic AI & Language:**
   * LangGraph (tool calling, checkpointed memory).
-  * **Agent LLMs:** Google Gemini and Groq models (automatic fallback between them); Sarvam language models as an additional agent option where they perform well.
-  * **Sarvam AI speech:** speech-to-text for the farmer's voice input and text-to-speech for the spoken reply, in Marathi, Hindi and English.
+  * **Sarvam AI, the single model provider:** chat models for the agent's reasoning, speech-to-text for the farmer's voice, and text-to-speech for the spoken reply, in Marathi, Hindi and English.
 * **Data Sources (Official Datasets):**
   * *DES district-wise crop production statistics* (historical yields).
   * *DES/CACP Cost of Cultivation* (itemized costs per crop).
@@ -442,6 +442,37 @@ API keys are kept only in a local `.env` file that is never committed. `.env.exa
   * **Status:** under development. The live link will be added here after deployment.
   * **Build plan and progress:** [`frontend/SPECS.md`](frontend/SPECS.md) · [`backend/SPECS.md`](backend/SPECS.md) · [`ml/SPECS.md`](ml/SPECS.md)
   * **Data collection guide:** [`DATA_COLLECTION.md`](DATA_COLLECTION.md); every dataset is logged in `data/SOURCES.md`.
+
+---
+
+## What AgriPulse Cannot Do (Known Limitations)
+
+Every number in AgriPulse comes from a real API or an official dataset. Those sources have real limits, and we would rather state them than let a judge or a farmer discover them. Each limit below is visible in the app as well, next to the number it affects.
+
+**About the yield prediction**
+1. **The official district yield data ends in 2014.** The Directorate of Economics & Statistics has published no district-level crop statistics after that year, and we verified this against the live data.gov.in API. The yield model is therefore trained on 1997-2014 and validated on 2012-2014. It is a historical model applied to today's weather, not a model fitted on recent harvests.
+2. **34 of Maharashtra's 36 districts can be planned.** Mumbai City and Mumbai Suburban have no agricultural statistics, so the app says so plainly instead of guessing.
+3. **Soil, irrigation and groundwater are one value per district.** Two farmers in the same district get the same predicted yield even if one has a borewell and the other is rainfed. Their water budget and costs do differ; the yield does not. A farmer's own soil test narrows which crops are suitable but does not change the yield figure.
+4. **SHAP shows what the model relied on, not cause and effect.** "Rainfall raised this yield by 1.2 quintals" means the model leaned on rainfall, not that rainfall proved to cause it.
+
+**About the money**
+5. **Cultivation costs are from the 2022-23 DES/CACP survey** and are compared against a 2026 budget, with no inflation adjustment. Fertilizer and seed are the exceptions: they are priced at today's official rates.
+6. **Prices are today's mandi quotes, adjusted to the harvest month** by a seasonal ratio from four years of real monthly history. That is an adjustment, not a forecast. Where a crop has under three years of history (currently rice and tur), no adjustment is applied and the app says so.
+7. **Moth bean has no price history at all**, and rice and tur have only eight months, because Agmarknet renamed those commodities. They still get live prices; they get no price-risk term.
+8. **Costs are published per state, not per district.** Every district in Maharashtra uses the same cost per crop.
+
+**About the water and the weather**
+9. **The groundwater category is a district average.** The official CGWB data is finer, by block, and a district average can hide an over-exploited block inside a Semi-critical district. The app shows the block detail on the map and labels the planning figure as a district average.
+10. **How much of the rain a crop can actually use, and how much groundwater each category allows, are our assumptions** until we can cite a source for them. They carry an orange "assumption" badge wherever they affect a number.
+11. **Canal access is whatever the farmer tells us.** We have no command-area maps, so we cannot check it.
+12. **Reservoir levels come from the CWC weekly bulletin PDF** (29 Oct 2026 at the time of writing), because data.gov.in publishes no CWC reservoir data after January 2023. The observation date is always shown.
+
+**About the plan itself**
+13. **The three climate scenarios are real past years, not forecasts**, and their probabilities (20% / 60% / 20%) are a fixed default we chose, not a prediction of this season.
+14. **The "traditional plan" we compare against is the district's average crop mix**, not what this particular farmer grew last year.
+15. **Fertilizer advice is the state agricultural university's recommended dose.** We removed an earlier "yield response curve" dataset because its numbers sat exactly on a formula, which meant it was generated rather than measured.
+16. **Long-duration crops such as sugarcane are compared per acre per year**, not per season, so a 12-month crop is not unfairly ranked against a 4-month one.
+17. **A plan is only as good as the day's market reporting.** Mandis do not report every crop every day; a crop with no real price is left out and the reason is shown, rather than being given an invented price.
 
 ---
 

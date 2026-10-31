@@ -1,35 +1,37 @@
-district,hq_name,latitude,longitude,district_code,name_variants
-AHILYANAGAR,AHILYANAGAR,19.0777,75.751,466,"Ahmednagar, Ahmadnagar, Ahilyanagar"
-AKOLA,AKOLA,20.7463,77.1212,467,"AKOLA"
-AMRAVATI,AMRAVATI,21.1652,77.6758,468,"AMRAVATI"
-BEED,BEED,19.7177,76.471,470,"Bid, Beed"
-BHANDARA,BHANDARA,21.2118,80.1095,471,"BHANDARA"
-BULDHANA,BULDHANA,19.8777,75.751,472,"Buldana, Buldhana"
-CHANDRAPUR,CHANDRAPUR,20.0956,79.3156,473,"CHANDRAPUR"
-Chhatrapati Sambhajinagar,Chhatrapati Sambhajinagar,19.4777,75.831,469,"Aurangabad, Chhatrapati Sambhajinagar"
-DHARASHIV,DHARASHIV,19.0777,75.671,488,"Osmanabad, Dharashiv"
-DHULE,DHULE,21.274,74.5872,474,"DHULE"
-GADCHIROLI,GADCHIROLI,19.4777,75.671,475,"GADCHIROLI"
-GONDIA,GONDIA,19.7977,76.471,476,"Gondiya, Gondia"
-HINGOLI,HINGOLI,19.5953,77.0924,477,"HINGOLI"
-JALGAON,JALGAON,20.8829,75.5514,478,"JALGAON"
-JALNA,JALNA,19.9846,75.9847,479,"JALNA"
-KOLHAPUR,KOLHAPUR,16.4488,74.129,480,"KOLHAPUR"
-LATUR,LATUR,18.3487,76.7581,481,"LATUR"
-NAGPUR,NAGPUR,21.1966,79.0217,484,"NAGPUR"
-NANDED,NANDED,19.2093,77.6829,485,"NANDED"
-NANDURBAR,NANDURBAR,21.5232,74.3264,486,"NANDURBAR"
-NASHIK,NASHIK,20.2669,74.0382,487,"Nasik, Nashik"
-PALGHAR,PALGHAR,19.1577,75.751,665,"PALGHAR"
-PARBHANI,PARBHANI,19.3103,76.7016,489,"PARBHANI"
-PUNE,PUNE,18.517,74.1292,490,"PUNE"
-RAIGAD,RAIGAD,19.7177,75.671,491,"Raigarh, Raigad"
-RATNAGIRI,RATNAGIRI,17.2102,73.2573,492,"RATNAGIRI"
-SANGLI,SANGLI,17.1549,74.7071,493,"SANGLI"
-SATARA,SATARA,17.6738,74.1805,494,"SATARA"
-SINDHUDURG,SINDHUDURG,16.1709,73.5133,495,"SINDHUDURG"
-SOLAPUR,SOLAPUR,17.8374,75.4239,496,"Sholapur, Solapur"
-THANE,THANE,19.6988,72.7988,497,"THANE"
-WARDHA,WARDHA,20.8074,78.5726,498,"WARDHA"
-WASHIM,WASHIM,20.2823,77.255,499,"WASHIM"
-YAVATMAL,YAVATMAL,20.0426,78.0533,500,"Yeotmal, Yavatmal"
+district,state,hq_name,latitude,longitude,district_code,is_agricultural_district,name_variants,coord_source
+Ahilyanagar,Maharashtra,Ahilyanagar (Ahmednagar),19.1628,74.858,466,true,Ahilyanagar|Ahmednagar|Ahmadnagar|AHMEDNAGAR|AHILYANAGAR,OSM Nominatim
+Akola,Maharashtra,Akola,20.7618,77.1921,467,true,Akola|AKOLA,OSM Nominatim
+Amravati,Maharashtra,Amravati,21.1545,77.6443,468,true,Amravati|Amrawati|AMRAVATI|Amarawati,OSM Nominatim
+Beed,Maharashtra,Beed,18.9918,75.9098,470,true,Beed|Bid|BEED,OSM Nominatim
+Bhandara,Maharashtra,Bhandara,21.1226,79.7945,471,true,Bhandara|BHANDARA,OSM Nominatim
+Buldhana,Maharashtra,Buldhana,20.5628,76.4087,472,true,Buldhana|Buldana|BULDHANA,OSM Nominatim
+Chandrapur,Maharashtra,Chandrapur,20.0968,79.5045,473,true,Chandrapur|Chanda|CHANDRAPUR,OSM Nominatim
+Chhatrapati Sambhajinagar,Maharashtra,Chhatrapati Sambhajinagar (Aurangabad),20.0225,75.1515,469,true,Chhatrapati Sambhajinagar|Aurangabad|Sambhajinagar|AURANGABAD|Chattrapati Sambhajinagar,OSM Nominatim
+Dharashiv,Maharashtra,Dharashiv (Osmanabad),18.1698,76.118,488,true,Dharashiv|Osmanabad|OSMANABAD|DHARASHIV,OSM Nominatim
+Dhule,Maharashtra,Dhule,21.1305,74.4901,474,true,Dhule|Dhulia|DHULE,OSM Nominatim
+Gadchiroli,Maharashtra,Gadchiroli,19.7591,80.1623,475,true,Gadchiroli|GADCHIROLI,OSM Nominatim
+Gondia,Maharashtra,Gondia,21.4552,80.1963,476,true,Gondia|Gondiya|GONDIA,OSM Nominatim
+Hingoli,Maharashtra,Hingoli,19.5431,77.1739,477,true,Hingoli|HINGOLI,OSM Nominatim
+Jalgaon,Maharashtra,Jalgaon,20.8429,75.5261,478,true,Jalgaon|JALGAON,OSM Nominatim
+Jalna,Maharashtra,Jalna,19.9188,75.8709,479,true,Jalna|JALNA,OSM Nominatim
+Kolhapur,Maharashtra,Kolhapur,16.4627,74.0895,480,true,Kolhapur|KOLHAPUR,OSM Nominatim
+Latur,Maharashtra,Latur,18.3553,76.7549,481,true,Latur|LATUR,OSM Nominatim
+Mumbai City,Maharashtra,Mumbai,18.9724,72.8259,,false,Mumbai City|Mumbai|Greater Mumbai|MUMBAI,OSM Nominatim
+Mumbai Suburban,Maharashtra,Bandra (Mumbai Suburban),19.131,72.8895,,false,Mumbai Suburban|Mumbai Suburb|MUMBAI SUBURBAN,OSM Nominatim
+Nagpur,Maharashtra,Nagpur,21.153,79.0145,484,true,Nagpur|NAGPUR,OSM Nominatim
+Nanded,Maharashtra,Nanded,19.0943,77.4833,485,true,Nanded|NANDED,OSM Nominatim
+Nandurbar,Maharashtra,Nandurbar,21.5142,74.5406,486,true,Nandurbar|NANDURBAR,OSM Nominatim
+Nashik,Maharashtra,Nashik,20.2255,74.1042,487,true,Nashik|Nasik|NASHIK,OSM Nominatim
+Palghar,Maharashtra,Palghar,19.7572,73.0931,665,true,Palghar|PALGHAR,OSM Nominatim
+Parbhani,Maharashtra,Parbhani,19.2902,76.6026,489,true,Parbhani|PARBHANI,OSM Nominatim
+Pune,Maharashtra,Pune,18.6449,73.9224,490,true,Pune|Poona|PUNE,OSM Nominatim
+Raigad,Maharashtra,Alibag,18.4928,73.1381,491,true,Raigad|Raigarh|Kolaba|RAIGAD,OSM Nominatim
+Ratnagiri,Maharashtra,Ratnagiri,17.2826,73.457,492,true,Ratnagiri|RATNAGIRI,OSM Nominatim
+Sangli,Maharashtra,Sangli,17.1727,74.5868,493,true,Sangli|SANGLI,OSM Nominatim
+Satara,Maharashtra,Satara,17.6361,74.2983,494,true,Satara|SATARA,OSM Nominatim
+Sindhudurg,Maharashtra,Oros (Sindhudurg),16.1357,73.6522,495,true,Sindhudurg|SINDHUDURG,OSM Nominatim
+Solapur,Maharashtra,Solapur,17.8499,75.2763,496,true,Solapur|Sholapur|SOLAPUR,OSM Nominatim
+Thane,Maharashtra,Thane,19.3654,73.3685,497,true,Thane|Thana|THANE,OSM Nominatim
+Wardha,Maharashtra,Wardha,20.8256,78.6131,498,true,Wardha|WARDHA,OSM Nominatim
+Washim,Maharashtra,Washim,20.2874,77.237,499,true,Washim|Vashim|WASHIM,OSM Nominatim
+Yavatmal,Maharashtra,Yavatmal,20.0639,78.3566,500,true,Yavatmal|Yeotmal|YAVATMAL,OSM Nominatim

@@ -1,0 +1,145 @@
+98637	Soyabean
+93402	Wheat
+82986	Bengal Gram(Gram)(Whole)
+70836	Arhar (Tur/Red Gram)(Whole)
+69090	Onion
+56726	Jowar(Sorghum)
+49070	Tomato
+45678	Maize
+45056	Brinjal
+41943	Cabbage
+41638	Cauliflower
+40329	Green Chilli
+39788	Bajra(Pearl Millet/Cumbu)
+39292	Bhindi(Ladies Finger)
+37464	Cucumbar(Kheera)
+35289	Coriander(Leaves)
+31805	Potato
+31795	Bitter gourd
+26702	Chilly Capsicum
+26331	Guar
+25677	Green Gram (Moong)(Whole)
+25255	Methi(Leaves)
+24481	Spinach
+24094	Bottle gourd
+23996	Ginger(Green)
+21694	Black Gram (Urd Beans)(Whole)
+21556	Carrot
+21249	Cotton
+18017	Ridgeguard(Tori)
+15868	Lime
+15185	Beans
+14922	Drumstick
+14702	Pomegranate
+14466	Rice
+12725	Paddy(Dhan)(Common)
+12536	Garlic
+12461	Peas Wet
+12068	Onion Green
+11750	Raddish
+11382	Groundnut
+10333	Beetroot
+9414	Papaya
+9149	Apple
+8973	Chikoos(Sapota)
+7794	Little gourd (Kundru)
+7281	Guava
+7058	Turmeric
+6931	Mango (Raw-Ripe)
+6573	Orange
+6571	Water Melon
+6370	Green Peas
+6019	Pumpkin
+5723	Banana
+5627	Sesamum(Sesame,Gingelly,Til)
+5449	Mint(Pudina)
+5199	Sweet Pumpkin
+5030	Gur(Jaggery)
+4980	Chili Red
+4917	Grapes
+4828	Karbuja(Musk Melon)
+4435	Mango
+4251	Seetapal
+4196	Tamarind Fruit
+4153	Pineapple
+4077	Corriander seed
+3842	Rajgir
+3732	Sunflower
+3589	Sweet Potato
+3358	Snakeguard
+3219	Elephant Yam (Suran)
+3156	Lentil (Masur)(Whole)
+2597	Tender Coconut
+2359	French Beans (Frasbean)
+2311	Ridge gourd(Tori)
+2257	Safflower
+2250	Pointed gourd (Parval)
+2104	Mustard
+1754	Cowpea (Lobia/Karamani)
+1590	Methi Seeds
+1524	Amla(Nelli Kai)
+1479	Ground Nut Seed
+1457	Mataki
+1360	Pear(Marasebu)
+1328	Banana - Green
+1241	Bengal Gram Dal (Chana Dal)
+1238	Masur Dal
+1230	Green Gram Dal (Moong Dal)
+1225	Black Gram Dal (Urd Dal)
+1214	Arhar Dal(Tur Dal)
+1213	Coconut
+1147	Jack Fruit
+1075	Cummin Seed(Jeera)
+1074	Cashewnuts
+1028	Soanf
+924	Plum
+897	Marigold(Calcutta)
+878	Jamun(Narale Hannu)
+878	Sabu Dan
+841	Arecanut(Betelnut/Supari)
+783	Ginger(Dry)
+756	Almond(Badam)
+722	Cardamoms
+708	Castor Seed
+661	Black pepper
+651	Cinamon(Dalchini)
+636	Tamarind Seed
+585	Kulthi(Horse Gram)
+545	Ox
+530	Ragi (Finger Millet)
+504	Kakada
+496	Ajwan
+480	Cow
+477	Seetafal
+468	Snake gourd
+418	She Buffalo
+361	Sugar
+358	Goat
+307	Hippe Seed
+303	Linseed
+293	Ghee
+289	Dry Grapes
+236	Jasmine
+234	Surat Beans (Papadi)
+198	Litchi
+192	Chrysanthemum(Loose)
+185	Peach
+176	Sabu Dana
+131	Neem Seed
+128	Hen
+127	Cherry
+114	He Buffalo
+103	Leafy Vegetable
+66	Long Melon(Kakri)
+60	Sheep
+39	Rose(Loose))
+39	Chow Chow
+35	Lak(Teora)
+26	Other Pulses
+26	Astera
+23	Sugarcane
+13	Jute
+11	Kabuli Chana(Chickpeas-White)
+9	Niger Seed (Ramtil)
+2	Skin And Hide
+1	Cotton Seed

@@ -95,7 +95,7 @@
 
 ### ✅ B5: Fertilizer Prices, RDF & Yield Response
 - **Source:** Fertilizer Association of India (FAI) MRP data; ICAR/SAU university RDF recommendations; AICRP yield response trials
-- Three sub-tables: `fertilizer_prices.csv`, `fertilizer_rdf.csv`, `fertilizer_response.csv`
+- Two sub-tables: `fertilizer_prices.csv`, `fertilizer_rdf.csv` (`fertilizer_response.csv` removed 2026-10-31: generated data, see DATA_FIXES.md)
 
 ### ✅ B6: Minimum Support Price (MSP)
 - **Source:** CACP/Ministry of Agriculture official MSP notifications (2018–2026)

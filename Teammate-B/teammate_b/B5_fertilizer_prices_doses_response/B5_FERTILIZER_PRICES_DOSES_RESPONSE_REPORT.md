@@ -1,3 +1,5 @@
+> **UPDATE 2026-10-31:** `fertilizer_response.csv` (item 3 below) was **removed**. For all 14 crops the listed yields lie exactly on the quadratic (R² = 1.000000), so the points were generated from a formula and are not field-trial measurements. Items 1 and 2 (prices and recommended doses) are kept. See `Teammate-B/data/DATA_FIXES.md`.
+
 # B5 — Fertilizer Prices, RDF & Quadratic Yield Response (`fertilizer_*.csv`)
 
 ## Status: ☑ DONE & VERIFIED

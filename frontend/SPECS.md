@@ -13,11 +13,11 @@ Update the **Status** column in the same pull request that does the work.
 - **No mock, hardcoded or dummy data.** Every number on screen comes from the API and shows where it came from. Breaking this rule means instant disqualification.
 - **Scoring this part supports:** *Impact / USP (25)*: voice in local languages, drought-safe plans, water saved · *AI Reasoning (25)*: the live agent trace · *Live Demo Robustness (30)*: no blank screens, clear errors, works on a phone.
 - **Code rules for the frontend:**
-  1. **No invented numbers in the UI.** If a value is missing, show "Not available" with the reason from the API, never a placeholder number.
-  2. **Every number has a source badge** (section 6, F9).
-  3. **Sample responses are for development only.** While the backend is not ready, use the **real** responses saved in `docs/api_examples/` (captured from the running backend, see backend C.2), switched on by `VITE_USE_SAMPLES=true`. The production build must fail if this flag is on.
+  1. **No invented numbers in the UI.** If a value is missing, show "Not available" with the reason from the API, never a placeholder number. Assumed values (irrigation method, borewell yield) are allowed only when they arrive from the API in `defaults_used` and are shown with an orange `assumption` badge and an "assumed" chip; the app never invents one itself.
+  2. **Every farmer-visible number has a source badge** showing one of `live | cached | official_dataset | model | computed | farmer_input | assumption` (backend section 5.1). Ids, counts, durations and version numbers are not farmer-visible and carry none. The automated test checks exactly that set.
+  3. **Sample responses are for development only.** Day 1 uses `docs/api_examples/contract/` (the interface examples the three of us agree at C.1; an agreement, not product data). From M2 onward use `docs/api_examples/live/`, captured from a real backend run. Both are switched on by `VITE_USE_SAMPLES=true`, which lives **outside** `src/` and is imported through one module (`src/api/samples.ts`) that is tree-shaken away when the flag is off. The production build fails if the flag is set, and CI greps the built bundle for a known string from the sample files as a second check. The Playwright run (FE.T2) always runs with the flag off against the deployed backend.
   4. **Types come from the API.** Generate TypeScript types from the backend OpenAPI file; do not hand-write them.
-  5. **No keys in the frontend.** The browser never calls Sarvam, Gemini, Groq or data.gov.in directly; only our API.
+  5. **No keys in the frontend.** The browser never calls Sarvam or data.gov.in directly; only our API. Sarvam is the only model provider and it is reached through the backend.
   6. **Tests ship with the code.**
 
 ---
@@ -30,7 +30,7 @@ Update the **Status** column in the same pull request that does the work.
 |---|---|
 | **Talk first** | The mic is the biggest button on the first screen. Typing works the same way. |
 | **Icons plus words** | Every action and every number has an icon and a short label in the farmer's language. |
-| **Farmer units** | Acres, quintals, ₹ with Indian grouping (₹1,00,000). Never hectares, tonnes or "kg/ha". |
+| **Farmer units** | Acres, quintals, ₹ with Indian grouping (₹1,00,000). Never hectares, tonnes or "kg/ha". Water is shown as **tanker loads and inches of rain** next to the m3 figure (1 tanker = 10 m3), fertilizer as **bags** next to the kg, and soil values as Low / Medium / High next to the number, so no screen asks a farmer to read a scientific unit on its own. |
 | **One thing per screen on a phone** | Summary first; details open on tap. |
 | **Never a blank screen** | Skeletons while loading; the live trace shows progress; errors say what to do next. |
 | **Trust** | Source badge on every number; the agent's steps are visible; cached data is clearly marked. |
@@ -112,10 +112,12 @@ A collapsible timeline under the conversation, driven by `trace` events:
 ✔ Soil     Soil Health Card  ● official   0.0 s
 ⚠ Prices   Agmarknet         ● cached     0.9 s   "last quote 30 Oct"
 ✔ Water budget  CGWB + CWC               0.1 s
-✔ Crops    6 candidates                   0.2 s
+✔ Crops    5 Rabi candidates              0.2 s
 … Optimizing 4 strategies
 ```
-Rows: icon by status (spinner, ✔, ⚠ cached, ✖ failed in red with the fallback used), tool name, source badge, duration. A failed or relaxed step shows one plain sentence ("Water limit was too low, so I reduced the area by 0.4 acre").
+Rows: icon by status (spinner running, ✔ ok, ⚠ cached, ✖ failed in red with the fallback used, – skipped in grey with the reason), tool name, source badge, duration. A failed or relaxed step shows one plain sentence ("Water limit was too low, so I reduced the area by 0.4 acre").
+
+> **Every example on this page is a Rabi plan** (chickpea, jowar, wheat, lentil, grapes), because the specs were written on 31 Oct 2026 and those are the crops sowable or opening then (ml/SPECS.md section 3A). Screens must never be mocked up with crops that cannot be sown on the day of the demo. A crop whose sowing window has not opened yet shows an "opens 1 Nov" chip.
 
 ### S4. Plan dashboard
 **Desktop (> 1024 px)**
@@ -126,8 +128,8 @@ Rows: icon by status (spinner, ✔, ⚠ cached, ✖ failed in red with the fallb
 │ SCENARIO  (Normal) (Drought) (Excess rain)      Risk slider: Safe ─●─ Max profit │
 ├───────────────────────────────┼────────────────────────────────────────────┤
 │ LAND PLAN  donut: acres/crop  │ STRATEGY COMPARISON                         │
-│ Soybean 2.5 ac   Tur 1.5 ac   │ grouped bars: profit in Drought/Normal/Excess│
-│ Jowar 1.0 ac                  │ table: Traditional | LP | QP balanced ★ | QP drought-safe │
+│ Chickpea 2.5 ac  Jowar 1.5 ac │ grouped bars: profit in Drought/Normal/Excess│
+│ Wheat 1.0 ac (sowing opens 1 Nov) │ table: Traditional | LP | QP balanced ★ | QP drought-safe │
 ├───────────────────────────────┼────────────────────────────────────────────┤
 │ WATER GAUGE  need vs available│ COSTS  stacked bar per crop: seed, fertilizer, │
 │ rain / groundwater / canal    │ labour, irrigation, pesticide, interest       │
@@ -149,14 +151,14 @@ Block details
 | **Strategy comparison** | Table + grouped bar chart of the four strategies: expected profit, worst-year profit, water, fertilizer, cost. The recommended one is starred. Tap a column to switch the land plan to that strategy | `strategies` |
 | **Water gauge** | Semicircle gauge: water needed vs available, split into rain / groundwater / canal. Under it: groundwater category badge and "Traditional plan needs X m³ more" | `water` |
 | **Costs** | Stacked bar per crop with the itemized split and "reference year 2022-23" | `CropOption.cost_per_acre` |
-| **Crop cards** | Crop name (local language) · suitability label (good / average / poor) · yield in quintals per acre by scenario · price vs MSP · profit per acre. **"Why this crop?"** opens the top SHAP factors as plain sentences with arrows (↑ rainfall 742 mm, ↓ long dry spell) | `CropOption` |
+| **Crop cards** | Crop name (local language) · suitability label (good / average / poor) · yield in quintals per acre by scenario · today's price, expected harvest price and MSP · profit per acre · "occupies the land N months" for long-duration crops. **"Why this crop?"** renders `suitability.top_factors`: each `feature` is a fixed code (ml/SPECS.md section 3), and **the frontend owns one i18n sentence per code in mr / hi / en**, filled with the value and direction (↑ rainfall 742 mm, ↓ long dry spell). No LLM is involved, so this card is always translated and always consistent | `CropOption` |
 | **Excluded crops** | One line: "Onion not included: no real market price found." | `excluded_crops` |
 | **Map** | react-leaflet: farm pin, district colored by groundwater category (green safe → red over-exploited), tap for reservoir, rain departure | E9, E10 |
 | **Sources chip** | "● 14 live ● 2 cached ● 31 official dataset", opens S6 | `data_status` |
 | **Warnings** | Amber banner for `warnings` (for example "Prices are from 30 Oct") | `warnings` |
 
 ### S5. Conversation and follow-ups
-Chat thread under or beside the dashboard. The agent's answer: text, a 🔊 play button (spoken reply) and 3–4 key points with icons. Suggested follow-up chips: "What if I only have ₹50,000?", "Show the drought year", "Use drip irrigation". A follow-up re-runs the plan and highlights what changed (diff chips: "Profit −₹4,000", "Water −12%").
+Chat thread under or beside the dashboard. The agent's answer: text, a 🔊 play button (spoken reply) and 3–4 key points with icons. Suggested follow-up chips are built from the farmer's own plan, never from literals: "What if I had 30% less money?" renders with the farmer's actual budget (₹49,000 for a ₹70,000 budget), "Show the drought year", "Use drip irrigation". The amount in a chip is always derived from `profile`, so no invented number appears in the UI. A follow-up re-runs the plan and highlights what changed (diff chips: "Profit −₹4,000", "Water −12%").
 
 ### S6. Sources and data health
 List of all datasets and APIs: name, publisher, link, licence, date, type, and a live health dot (green, amber, red) with latency and "serving cached data" notes. Header: "No mock data: every number comes from these sources".
@@ -189,7 +191,7 @@ frontend/
 ```
 - **Server state:** TanStack Query. **UI state:** small Zustand store (thread id, language, selected scenario and strategy).
 - **Streaming:** `POST /api/agent/chat` read as a stream; each SSE event updates the trace, profile or plan in the store.
-- **Audio:** `MediaRecorder` (webm/opus) → `POST /api/transcribe`; reply audio from `POST /api/speak` played in an `<audio>` element; if speak fails, use the browser's `speechSynthesis`.
+- **Audio:** `MediaRecorder` with a format check, because **iOS Safari records `audio/mp4`, not webm**: the app picks the first of `audio/webm;codecs=opus`, `audio/mp4`, `audio/aac` that `isTypeSupported` accepts, and sends that. A judge on an iPhone must be able to use the mic, so FE.T3 includes one iOS check. Then `POST /api/transcribe`; reply audio from `POST /api/speak` played in an `<audio>` element; if speak fails, use the browser's `speechSynthesis`.
 - **Formatting helpers:** Indian number grouping (`en-IN`), ₹, acres, quintals; Devanagari digits optional per language.
 - **i18n:** all labels from JSON files; the language comes from the farmer's speech (API `language`) and can be changed in the picker; plan text comes from the API already in that language.
 - **Performance:** route-level code splitting (the map and charts load only on the plan page); mobile Lighthouse performance ≥ 85; first paint under 2 s on 4G.
@@ -202,14 +204,14 @@ frontend/
 | ID | Feature | What the user sees | Done when | Data (backend) | Status |
 |---|---|---|---|---|---|
 | F1 | **Voice and chat home** | S1 with big mic, typing, states; mic permission help | Works on a 360 px phone; recording ≤ 60 s | E5, E1 | ⬜ |
-| F2 | **Language picker + translations** | mr / hi / en for every label; language follows the farmer's speech | All labels translated; native-speaker review | `language` in responses | ⬜ |
+| F2 | **Language picker + translations** | mr / hi / en for every label. The language follows the farmer's speech and can be changed at any time. Backend messages arrive as `{code, params}` (backend 5.1), so warnings, excluded-crop reasons, relaxation steps and trace summaries are translated **in the app**, not sent as English. Changing the picker re-renders all of them instantly; the one piece that cannot change without a new request is the LLM `explanation.text`, so the app shows a "translate this answer" button that asks for it in the new language | All labels and every message code translated in three languages; native-speaker review | `language`, message codes | ⬜ |
 | F3 | **Farm profile card** | S2 with editable rows, "assumed" chips, missing fields highlighted | Edit re-runs the plan; voice correction works | `profile` event, `profile_patch` | ⬜ |
 | F4 | **Agent trace** | S3 live timeline with sources and durations | Rows appear as events stream; failures in red with fallback | `trace` events | ⬜ |
 | F5 | **Plan dashboard** | S4: summary, land plan, costs, crop cards with "why this crop", excluded crops | Every field from `PlanResult` shown; phone and desktop layouts | E1 `plan`, E2 | ⬜ |
 | F6 | **Scenario toggle + strategy comparison** | Normal / Drought / Excess chips; 4-strategy chart and table | Numbers change with the scenario; recommended strategy starred | `scenarios`, `strategies` | ⬜ |
 | F7 | **Water gauge** | Need vs available split by source; "water saved vs traditional" | Matches `water` and `impact` | `water`, `impact` | ⬜ |
 | F8 | **Risk slider** | Safe ↔ Max profit, live re-solve with an animated change | Under 2 s per change; keeps the scenario selected | E3 | ⬜ |
-| F9 | **Source badge on every number** | Dot (live / cached / official) + tap for source, link, date | No number without a badge (a test checks this) | `SourcedValue` | ⬜ |
+| F9 | **Source badge on every number** | Coloured dot per status (live, cached, official dataset, model, computed, farmer input, **assumption**) + tap for source, link and date. Assumption badges carry a short "this is our estimate, not a measurement" line | Every farmer-visible number has a badge (a test walks the rendered plan and fails on a bare number) | `SourcedValue` | ⬜ |
 | F10 | **Spoken reply** | 🔊 button on each answer, plays in the farmer's language; text always shown | Plays in mr and hi; falls back to browser speech | E6 | ⬜ |
 | F11 | **District map** | Farm pin, groundwater color, tap for context | Colors from the API; popup works on touch | E9, E10 | ⬜ |
 | F12 | **Sources and health page** | S6 with live status dots | Shows all datasets and APIs | E11, E12 | ⬜ |
@@ -217,6 +219,8 @@ frontend/
 | F14 | **Reload without losing the farm** | Same plan after refresh | State restored from the thread | E4 | ⬜ |
 | F15 | **Errors, empty and offline states** | S7 | Every API error code has a farmer-language message | `Error.user_message` | ⬜ |
 | F16 | **Prefetch trigger** | Invisible: as soon as a place is heard, warm the caches | Called once per new location; failure ignored | E7 | ⬜ |
+| F17 | **Location picker** | When a place is not found or is ambiguous, show suggestions to tap, and a map pin as the last resort | Farmer can always reach a valid district; non-agricultural districts (Mumbai City / Suburban) say so plainly instead of failing | E8, E9 | ⬜ |
+| F18 | **Server waking up** | On a cold start or a 503, poll health and show "waking up, a few seconds" with a retry, never a dead screen | Cold start on the deployed backend shows this, then the plan | E13 | ⬜ |
 
 ---
 

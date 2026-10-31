@@ -147,7 +147,7 @@
 <rect x="1100" y="420" width="250" height="89" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>
 <text x="1111" y="447" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif" font-size="21" font-weight="400" fill="#37474F" text-anchor="start" >🧾</text>
 <text x="1142" y="445" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#263238" text-anchor="start" >Profile Extraction</text>
-<text x="1113" y="467" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• LLMs: Gemini, Groq, Sarvam</text>
+<text x="1113" y="467" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Sarvam AI chat model</text>
 <text x="1113" y="483" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• Location, land, budget, water source</text>
 <text x="1113" y="499" font-family="'Segoe UI', 'Noto Sans', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#455A64" text-anchor="start" >• One follow-up question if missing</text>
 <rect x="1020" y="529" width="130" height="74" rx="10" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1.8" filter="url(#soft)"/>

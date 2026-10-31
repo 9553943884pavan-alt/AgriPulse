@@ -275,6 +275,8 @@ The farmer enters their **own** water source (number of borewells, pump size, ca
 - **Why:** yield doesn't keep rising with more fertilizer. It rises, flattens, then can fall. We fit this curve:
   > **yield = a + b·f − c·f²**
 
+  > **Update 2026-10-31:** no real dose-response trial data could be found, so the curve was dropped and the fertilizer plan uses the university recommended doses (see `ml/SPECS.md` section 6). The text below is kept as the original collection guide.
+
   This curve is the **"quadratic" in our Quadratic Programming optimizer**. It lets AgriPulse recommend the dose where *extra fertilizer stops paying for itself*, which is how we reduce fertilizer waste.
 - **⚠️ Risk:** yield-vs-dose data is the hardest to find. **Start this one first.** If you find only RDF and no response trials, tell the team early so we can plan the fallback.
 

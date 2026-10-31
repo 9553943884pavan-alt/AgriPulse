@@ -11,11 +11,11 @@ mungbean,Moong (Green Gram),मूग,मूंग,mungbean,Green Gram(Moong)(Wh
 blackgram,Urad (Black Gram),उडीद,उड़द,blackgram,Black Gram(Urd Beans)(Whole),Urad,Kharif,true
 wheat,Wheat,गहू,गेहूं,,Wheat,Wheat,Rabi,true
 groundnut,Groundnut (Peanut),भुईमूग,मूंगफली,,Groundnut,Groundnut,"Kharif/Summer",true
-sugarcane,Sugarcane,ऊस,गन्ना,,Gur(Jaggery),Sugarcane,Whole Year,true
+sugarcane,Sugarcane,ऊस,गन्ना,,,Sugarcane,Whole Year,true
 onion,Onion,कांदा,प्याज,,Onion,Onion,"Kharif/Rabi",true
 lentil,Masoor (Lentil),मसूर,मसूर,lentil,Lentil(Masur)(Whole),Masoor,Rabi,true
 mothbeans,Matki (Moth Bean),मटकी,मोठ,mothbeans,Moth,Moth,Kharif,true
-kidneybeans,Rajma (Kidney Bean),राजमा,राजमा,kidneybeans,French Beans(Frasbean),Other Kharif pulses,"Kharif/Rabi",true
+kidneybeans,Rajma (Kidney Bean),राजमा,राजमा,kidneybeans,French Beans(Frasbean),,"Kharif/Rabi",true
 pomegranate,Pomegranate,डाळिंब,अनार,pomegranate,Pomegranate,Pomegranate,Whole Year,true
 banana,Banana,केळी,केला,banana,Banana,Banana,Whole Year,true
 mango,Mango,आंबा,आम,mango,Mango,Mango,Whole Year,true
