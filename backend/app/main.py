@@ -1,7 +1,7 @@
 """FastAPI application entry point.
 
 Middleware: CORS, request-id injection, per-request timing, body-size limits.
-Routers are registered here; each lives in app/api/.
+All routers registered here.
 """
 
 import time
@@ -13,18 +13,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import settings
+from app.core.errors import AppError
 
-# ── Router imports (added as each phase is built) ────────────────────────────
-from app.api import health  # E13 — always present
+# ── Routers ───────────────────────────────────────────────────────────────────
+from app.api import agent, health, locations, plan, sources, speech, threads
 
 # ── Lifespan: warm up data loaders and ML models at startup ──────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Phase 1 / Phase 3 will register warm-up calls here.
-    # For now we just signal readiness.
+    from app.data.loaders import load_all
+    count = load_all()
+    app.state.data_files_loaded = count
+    app.state.models_loaded = False   # set True once ML models load (Phase ML)
     app.state.ready = True
     yield
+    from app.core.cache import close_db
+    from app.core.http_client import close_client
+    await close_client()
+    await close_db()
     app.state.ready = False
 
 
@@ -43,7 +50,6 @@ app = FastAPI(
 )
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
@@ -53,36 +59,25 @@ app.add_middleware(
 )
 
 # ── Request-size limit (JSON ≤ 64 KB; audio handled per-endpoint) ─────────────
-
-MAX_JSON_BYTES = 64 * 1024  # 64 KB
+MAX_JSON_BYTES = 64 * 1024
 
 @app.middleware("http")
 async def enforce_size_limit(request: Request, call_next):
     content_type = request.headers.get("content-type", "")
-    if "multipart" not in content_type:  # skip audio uploads
+    if "multipart" not in content_type:
         content_length = request.headers.get("content-length")
         if content_length and int(content_length) > MAX_JSON_BYTES:
             return JSONResponse(
                 status_code=413,
-                content={
-                    "error": {
-                        "code": "VALIDATION_ERROR",
-                        "message": "Request body too large (max 64 KB for JSON).",
-                        "user_message": {
-                            "mr": "विनंती खूप मोठी आहे.",
-                            "hi": "अनुरोध बहुत बड़ा है।",
-                            "en": "Request body too large.",
-                        },
-                        "retryable": False,
-                        "details": {},
-                    }
-                },
+                content={"error": {"code": "VALIDATION_ERROR",
+                                   "message": "Request body too large (max 64 KB).",
+                                   "user_message": {"mr": "विनंती खूप मोठी आहे.", "hi": "अनुरोध बहुत बड़ा है।", "en": "Request too large."},
+                                   "retryable": False, "details": {}}},
             )
     return await call_next(request)
 
 
-# ── Request-id and Server-Timing middleware ───────────────────────────────────
-
+# ── Request-id + Server-Timing ────────────────────────────────────────────────
 @app.middleware("http")
 async def add_request_id_and_timing(request: Request, call_next):
     request_id = str(uuid.uuid4())
@@ -95,11 +90,17 @@ async def add_request_id_and_timing(request: Request, call_next):
     return response
 
 
-# ── Routers ───────────────────────────────────────────────────────────────────
+# ── AppError exception handler ────────────────────────────────────────────────
+@app.exception_handler(AppError)
+async def app_error_handler(request: Request, exc: AppError):
+    return JSONResponse(status_code=exc.status_code, content=exc.to_response().model_dump())
 
-app.include_router(health.router, prefix="/api", tags=["health"])
 
-# The remaining routers are registered as each phase completes:
-# from app.api import agent, plan, threads, speech, prefetch, locations, sources
-# app.include_router(agent.router, prefix="/api", tags=["agent"])
-# … etc.
+# ── Router registration ────────────────────────────────────────────────────────
+app.include_router(health.router,    prefix="/api", tags=["health"])
+app.include_router(plan.router,      prefix="/api", tags=["plan"])
+app.include_router(agent.router,     prefix="/api", tags=["agent"])
+app.include_router(threads.router,   prefix="/api", tags=["threads"])
+app.include_router(speech.router,    prefix="/api", tags=["speech"])
+app.include_router(locations.router, prefix="/api", tags=["locations"])
+app.include_router(sources.router,   prefix="/api", tags=["sources"])
