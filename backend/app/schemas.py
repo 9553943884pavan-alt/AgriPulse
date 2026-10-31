@@ -419,6 +419,9 @@ class StrategyResult(BaseModel):
     binding_constraints: list[str]
     relaxations_applied: list[RelaxationApplied] = Field(default_factory=list)
     solver: SolverInfo | None = None
+    infeasibility: Any | None = None        # Infeasibility | None (forward ref)
+    traditional_exceeds: list[str] = Field(default_factory=list)  # limits the traditional mix breaks
+    solver: SolverInfo | None = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -445,7 +448,7 @@ class Infeasibility(BaseModel):
     violated: list[str]
     detail: list[ConstraintDetail]
     relaxations_tried: list[RelaxationTried]
-    suggestion_code: str
+    suggestion_code: str | None = None
     suggestion_params: dict[str, Any] = Field(default_factory=dict)
 
 

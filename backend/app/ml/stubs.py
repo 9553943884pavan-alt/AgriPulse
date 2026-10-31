@@ -100,11 +100,14 @@ def optimize(
     """OPT.1/OPT.2 — LP (HiGHS) or QP (CVXPY) optimizer.
     strategy: traditional | lp_max_profit | qp_balanced | qp_drought_safe
     """
-    raise NotImplementedError("optimize: ML lead to implement in app/ml/optimizer.py")
+    from app.ml.optimizer import optimize as _optimize
+    return _optimize(strategy, inputs)
 
 
 def compare_strategies(
     inputs: OptimizerInputs,
 ) -> list[StrategyResult]:
     """OPT.3 — Run all 4 strategies and compute impact vs Traditional."""
-    raise NotImplementedError("compare_strategies: ML lead to implement in app/ml/optimizer.py")
+    from app.ml.optimizer import compare_strategies as _compare
+    results, impact, warnings = _compare(inputs)
+    return results
