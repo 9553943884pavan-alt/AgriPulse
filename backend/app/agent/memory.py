@@ -25,21 +25,23 @@ logger = logging.getLogger(__name__)
 
 
 async def get_checkpointer():
-    """Return an initialised AsyncSqliteSaver for the shared cache DB.
+    """Return a MemorySaver for the graph checkpointer.
 
-    Call once at startup and pass the result to graph.compile(checkpointer=...).
+    MemorySaver is LangGraph's built-in in-process checkpointer — no threading
+    issues, no external dependencies. It keeps state for the lifetime of the
+    Python process (survives across requests in the same server process).
+
+    For persistent cross-restart memory, the agent also writes to the SQLite
+    agent_memory table via app/core/cache.py, which is the safe shared store.
+    AsyncSqliteSaver has thread-restart constraints in Python 3.13 that make
+    it unreliable as a compiled-graph checkpointer in the current version.
     """
     try:
-        from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver  # type: ignore[import]
+        from langgraph.checkpoint.memory import MemorySaver  # type: ignore[import]
+        return MemorySaver()
     except ImportError:
-        # langgraph < 0.2 fallback — warn loudly so it is not missed
-        logger.error(
-            "AsyncSqliteSaver not found. Install langgraph>=0.2 or pin "
-            "langgraph-checkpoint-sqlite. The agent will run WITHOUT memory."
-        )
+        logger.warning("MemorySaver not found — running without checkpointer")
         return None
-
-    return AsyncSqliteSaver.from_conn_string(settings.CACHE_DB_PATH)
 
 
 async def update_profile_fields(thread_id: str, patch: dict) -> None:
@@ -62,28 +64,26 @@ async def update_profile_fields(thread_id: str, patch: dict) -> None:
         return
 
     try:
-        saver = AsyncSqliteSaver.from_conn_string(settings.CACHE_DB_PATH)
-        # Load the most recent checkpoint for this thread
-        config = {"configurable": {"thread_id": thread_id}}
-        checkpoint = await saver.aget(config)
-        if checkpoint is None:
-            logger.warning("update_profile_fields: no checkpoint for thread_id=%s", thread_id)
-            return
+        async with AsyncSqliteSaver.from_conn_string(settings.CACHE_DB_PATH) as saver:
+            config = {"configurable": {"thread_id": thread_id}}
+            checkpoint = await saver.aget(config)
+            if checkpoint is None:
+                logger.warning("update_profile_fields: no checkpoint for thread_id=%s", thread_id)
+                return
 
-        # Deep-merge the patch into the profile field of the checkpoint state
-        state = checkpoint.get("channel_values", {})
-        profile_data: dict = {}
-        if "profile" in state:
-            p = state["profile"]
-            # Pydantic model or dict
-            profile_data = p.model_dump(mode="json") if hasattr(p, "model_dump") else dict(p)
-        profile_data.update(patch)
-        state["profile"] = profile_data
+            # Deep-merge the patch into the profile field of the checkpoint state
+            state = checkpoint.get("channel_values", {})
+            profile_data: dict = {}
+            if "profile" in state:
+                p = state["profile"]
+                profile_data = p.model_dump(mode="json") if hasattr(p, "model_dump") else dict(p)
+            profile_data.update(patch)
+            state["profile"] = profile_data
 
-        # Write back — preserve metadata, only update channel_values
-        new_checkpoint = {**checkpoint, "channel_values": state}
-        await saver.aput(config, new_checkpoint, {})
-        logger.info("update_profile_fields: wrote patch %s to thread %s", list(patch.keys()), thread_id)
+            # Write back — preserve metadata, only update channel_values
+            new_checkpoint = {**checkpoint, "channel_values": state}
+            await saver.aput(config, new_checkpoint, {})
+            logger.info("update_profile_fields: wrote patch %s to thread %s", list(patch.keys()), thread_id)
 
     except Exception as exc:
         # Never crash E3 because of a memory write failure

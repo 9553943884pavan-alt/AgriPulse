@@ -17,7 +17,6 @@ import httpx
 
 from app.config import settings
 from app.core.errors import AppError
-from app.core.http_client import post_json
 
 logger = logging.getLogger(__name__)
 

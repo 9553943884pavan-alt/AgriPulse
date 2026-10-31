@@ -185,12 +185,17 @@ async def extract_profile_node(state: dict) -> dict:
             max_tokens=400,
         )
         raw = client.extract_text(resp)
+        if not raw:
+            raise ValueError("Sarvam returned empty content")
         profile_data = json.loads(raw)
     except SarvamAllModelsFailed:
         logger.warning("extract_profile: all Sarvam models failed — using regex fallback")
         profile_data = _regex_profile_fallback(message)
-    except (json.JSONDecodeError, ValueError) as exc:
-        logger.warning("extract_profile: JSON parse error %s — using regex fallback", exc)
+    except (json.JSONDecodeError, ValueError, TypeError) as exc:
+        logger.warning("extract_profile: parse error %s — using regex fallback", exc)
+        profile_data = _regex_profile_fallback(message)
+    except Exception as exc:
+        logger.warning("extract_profile: unexpected error %s — using regex fallback", exc)
         profile_data = _regex_profile_fallback(message)
 
     # Post-LLM normalisation (plain code)
@@ -203,10 +208,24 @@ async def extract_profile_node(state: dict) -> dict:
         if not val:
             missing.append(field)
 
+    # Fill in placeholder values for required fields so Pydantic doesn't fail.
+    # The 'missing' list tells ask_missing_node to prompt the farmer for the real values.
+    safe_data = {k: v for k, v in profile_data.items() if k in FarmProfile.model_fields}
+    safe_data.setdefault("location_text", "unknown")  # placeholder until farmer provides it
+    safe_data.setdefault("land_acres", 0.0)
+    safe_data.setdefault("budget_rs", 0.0)
+
     duration_ms = int((_now() - t0).total_seconds() * 1000)
     trace.append(_trace("extract_profile", "llm", "ok", f"Extracted profile; missing={missing}", duration_ms))
 
-    return {"profile": FarmProfile(**{k: v for k, v in profile_data.items() if k in FarmProfile.model_fields}), "missing": missing, "trace": trace}
+    try:
+        profile_obj = FarmProfile(**safe_data)
+    except Exception as exc:
+        logger.warning("extract_profile: FarmProfile construction failed %s — empty profile", exc)
+        profile_obj = FarmProfile(location_text="unknown", land_acres=0.0, budget_rs=0.0)
+        missing = ["location_text", "land_acres", "budget_rs"]
+
+    return {"profile": profile_obj, "missing": missing, "trace": trace}
 
 
 def _regex_profile_fallback(message: str) -> dict:
@@ -631,10 +650,12 @@ async def explain_node(state: dict) -> dict:
             max_tokens=300,
         )
         raw = client.extract_text(resp)
+        if not raw:
+            raise ValueError("Sarvam returned empty content")
         parsed = json.loads(raw)
         explanation_text = parsed.get("text", "")
         provider = "sarvam"
-    except (SarvamAllModelsFailed, json.JSONDecodeError, ValueError):
+    except (SarvamAllModelsFailed, json.JSONDecodeError, ValueError, TypeError):
         # No LLM → template
         fallback = build_template_explanation(language, getattr(profile, "land_acres", 0), recommended, water_saved)
         trace.append(_trace("explain", "llm", "failed", "All models failed; using template"))
