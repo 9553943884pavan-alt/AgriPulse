@@ -32,11 +32,11 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
     )
   }
 
-  const recommended = plan.strategies.find((s) => s.id === plan.recommended_strategy)
-  const traditional = plan.strategies.find((s) => s.id === 'traditional')
+  const recommended = (plan.strategies ?? []).find((s) => s.id === plan.recommended_strategy) ?? plan.strategies?.[0]
+  const traditional = (plan.strategies ?? []).find((s) => s.id === 'traditional')
 
-  const expectedProfit = recommended?.profit_by_scenario_rs[scenario] ?? 0
-  const tradProfit = traditional?.profit_by_scenario_rs[scenario] ?? 0
+  const expectedProfit = recommended?.profit_by_scenario_rs?.[scenario] ?? 0
+  const tradProfit = traditional?.profit_by_scenario_rs?.[scenario] ?? 0
   const profitDeltaPct = tradProfit > 0 ? Math.round(((expectedProfit - tradProfit) / tradProfit) * 100) : null
   const profitDeltaRs = expectedProfit - tradProfit
 
@@ -47,7 +47,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
   const tradWaterM3 = wb?.need_m3?.traditional_plan?.value ?? 0
   const waterDeltaPct = tradWaterM3 > 0 ? Math.round(((waterNeedM3 - tradWaterM3) / tradWaterM3) * 100) : null
 
-  const cropCount = recommended?.allocations.length ?? plan.crops.length
+  const cropCount = recommended?.allocations?.length ?? plan.crops?.length ?? 0
   const waterLitres = waterNeedM3 * 1000
   const waterLakhL = (waterLitres / 100_000).toFixed(1)
 
@@ -75,7 +75,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
       icon: <Wheat className="w-5 h-5 text-forest" strokeWidth={2.2} aria-hidden="true" />,
       iconBg: 'bg-sage-mist/70 border border-sage-mist',
       label: t('dashboard.crop_area'),
-      value: `${plan.profile.land_acres}`,
+      value: `${plan.profile?.land_acres ?? 0}`,
       unit: t('units.acres'),
       subtext: '100% of registered acreage allocated',
       delta: {
@@ -85,7 +85,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
       },
       sourceName: 'Farmer Profile',
       sourced: {
-        value: plan.profile.land_acres,
+        value: plan.profile?.land_acres ?? 0,
         unit: 'acres',
         source: 'farmer_input',
         source_url: '',

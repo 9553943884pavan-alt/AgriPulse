@@ -50,20 +50,20 @@ export function DashboardPage() {
     )
   }
 
-  const recommended = plan.strategies.find((s) => s.id === plan.recommended_strategy)
-  const activeStrategy = plan.strategies.find((s) => s.id === (selectedStrategy ?? plan.recommended_strategy)) ?? recommended
+  const recommended = (plan.strategies ?? []).find((s) => s.id === plan.recommended_strategy) ?? plan.strategies?.[0]
+  const activeStrategy = (plan.strategies ?? []).find((s) => s.id === (selectedStrategy ?? plan.recommended_strategy)) ?? recommended
 
   // Donut chart data
   const donutData = (activeStrategy?.allocations ?? []).map((a) => {
-    const crop = plan.crops.find((c) => c.crop_id === a.crop_id)
-    return { name: crop?.names[lang] ?? a.crop_id, value: a.acres }
+    const crop = (plan.crops ?? []).find((c) => c.crop_id === a.crop_id)
+    return { name: crop?.names?.[lang] ?? a.crop_id, value: a.acres }
   })
 
   // Strategy comparison bar data
-  const strategyBarData = plan.strategies.map((s) => ({
+  const strategyBarData = (plan.strategies ?? []).map((s) => ({
     name: t(`strategies.${s.id}`),
-    profit: s.profit_by_scenario_rs[selectedScenario],
-    water: Math.round((activeStrategy?.totals.water_m3 ?? 0) / 1000), // rough; per-strategy water comes from totals
+    profit: s.profit_by_scenario_rs?.[selectedScenario] ?? 0,
+    water: Math.round(((activeStrategy?.totals?.water_m3 ?? 0) / 1000)), // rough; per-strategy water comes from totals
     color: STRATEGY_COLORS[s.id] ?? '#78909C',
     recommended: s.id === plan.recommended_strategy,
   }))
