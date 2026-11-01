@@ -112,7 +112,7 @@ async def _fetch_agmarknet(commodity: str, district: str, state: str) -> dict | 
                 "sort[arrival_date]": "desc",
             },
             timeout=_AGMARKNET_TIMEOUT,
-            retries=2,
+            retries=0,
         )
         records = resp.json().get("records", [])
         if not records:
