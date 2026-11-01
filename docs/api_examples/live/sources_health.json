@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-11-01T05:27:16.035434+00:00",
+  "sources": [
+    {
+      "id": "open_meteo",
+      "name": "Open-Meteo Forecast",
+      "status": "red",
+      "latency_ms": -1,
+      "last_ok": "",
+      "note": "unavailable"
+    },
+    {
+      "id": "agmarknet",
+      "name": "Agmarknet (data.gov.in)",
+      "status": "red",
+      "latency_ms": -1,
+      "last_ok": "",
+      "note": "unavailable"
+    },
+    {
+      "id": "soilgrids",
+      "name": "SoilGrids",
+      "status": "red",
+      "latency_ms": -1,
+      "last_ok": "",
+      "note": "unavailable"
+    },
+    {
+      "id": "cwc",
+      "name": "CWC",
+      "status": "green",
+      "latency_ms": 4557,
+      "last_ok": "2026-11-01T05:27:15.055325+00:00",
+      "note": ""
+    }
+  ]
+}

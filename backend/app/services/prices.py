@@ -57,8 +57,19 @@ async def get_price(crop_id: str, crop_agmarknet_name: str, district: str, state
         await cache.set_upstream(cache_key, {"modal_price": live["modal_price"], "date": live["date"]}, ttl=TTL_PRICES)
         return sv
 
-    # ── State-level fallback (any district in Maharashtra, last 7 days) ───────
-    state_price = _lookup_price_history(crop_agmarknet_name, district=None, state=state, days_back=7)
+    # ── District-level history fallback (Agmarknet monthly dataset) ───────────
+    dist_price = _lookup_price_history(crop_agmarknet_name, district=district, state=state)
+    if dist_price:
+        sv = SourcedValue(
+            value=dist_price["price"], unit="rs_per_quintal",
+            source=f"{_AGMARKNET_SOURCE} (district mandi data)",
+            source_url=_AGMARKNET_URL,
+            as_of=dist_price["date"], status="cached",
+        )
+        return sv
+
+    # ── State-level fallback (any district in Maharashtra) ────────────────────
+    state_price = _lookup_price_history(crop_agmarknet_name, district=None, state=state)
     if state_price:
         sv = SourcedValue(
             value=state_price["price"], unit="rs_per_quintal",
@@ -116,17 +127,36 @@ async def _fetch_agmarknet(commodity: str, district: str, state: str) -> dict | 
 def _lookup_price_history(commodity: str, district: str | None, state: str, days_back: int = 7) -> dict | None:
     """Search the static price_history_monthly CSV for a recent quote."""
     try:
+        import re
         df = load_price_history()
-        # Filter by commodity (case-insensitive)
-        mask = df["commodity"].str.lower() == commodity.lower()
+        comm_lower = commodity.lower()
+        if "chana" in comm_lower or "chickpea" in comm_lower or "bengal gram" in comm_lower or comm_lower == "gram":
+            mask = df["commodity"].str.lower().str.contains("bengal gram", regex=False)
+        elif "black gram" in comm_lower or "urd" in comm_lower:
+            mask = df["commodity"].str.lower().str.contains("black gram", regex=False)
+        elif "green gram" in comm_lower or "moong" in comm_lower:
+            mask = df["commodity"].str.lower().str.contains("green gram", regex=False)
+        elif "red gram" in comm_lower or "arhar" in comm_lower or "tur" in comm_lower:
+            mask = df["commodity"].str.lower().str.contains("red gram", regex=False)
+        else:
+            keywords = [w.strip().lower() for w in re.split(r"[/(),]", commodity) if len(w.strip()) >= 3]
+            if not keywords:
+                keywords = [commodity.strip().lower()]
+            mask = df["commodity"].str.lower().apply(lambda c: any(k in c for k in keywords))
+
         if district:
-            mask &= df["district"].str.lower() == district.lower()
-        if state:
-            mask &= df.get("state", df.get("state_name", None)) is not None
-        subset = df[mask].sort_values("year", ascending=False)
+            dist_mask = mask & (df["district"].str.lower() == district.lower())
+            if dist_mask.any():
+                mask = dist_mask
+        if "state" in df.columns and state:
+            mask &= df["state"].str.lower() == state.lower()
+        sort_cols = ["year", "month"] if "month" in df.columns else ["year"]
+        subset = df[mask].sort_values(sort_cols, ascending=False)
         if not subset.empty:
             row = subset.iloc[0]
-            return {"price": float(row.get("modal_price", row.get("price", 0))), "date": str(int(row["year"]))}
+            price_val = float(row.get("modal_price_rs_per_quintal", row.get("modal_price", 0)))
+            date_val = f"{int(row['year'])}-{int(row['month']):02d}" if "month" in row else str(int(row["year"]))
+            return {"price": price_val, "date": date_val}
     except Exception as exc:
         logger.debug("Price history lookup failed: %s", exc)
     return None

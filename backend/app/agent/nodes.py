@@ -232,14 +232,15 @@ def _regex_profile_fallback(message: str) -> dict:
     """Best-effort profile extraction without the LLM."""
     data: dict[str, Any] = {}
     msg_norm = _devanagari_to_ascii(message)
+    msg_norm = _parse_number_words(msg_norm)
 
     # Location — first title-case word > 3 chars
     loc = re.search(r"\b([A-Z][a-z]{3,})\b", message)
     if loc:
         data["location_text"] = loc.group(1)
 
-    # Acres
-    acres = re.search(r"(\d+(?:\.\d+)?)\s*(?:एकर|acre|acres?)", msg_norm, re.IGNORECASE)
+    # Acres (English: acre/acres, Marathi: एकर, Hindi: एकड़)
+    acres = re.search(r"(\d+(?:\.\d+)?)\s*(?:एकर|एकड़|acre|acres?)", msg_norm, re.IGNORECASE)
     if acres:
         data["land_acres"] = float(acres.group(1))
 
@@ -248,19 +249,21 @@ def _regex_profile_fallback(message: str) -> dict:
     if guntha:
         data["land_acres"] = float(guntha.group(1)) * 0.025
 
-    # Budget
-    budget = re.search(r"(\d[\d,]*(?:\.\d+)?)\s*(?:रुपये?|₹|rs\.?|rupees?)", msg_norm, re.IGNORECASE)
+    # Budget (matches digits/floats preceding or following currency/budget keywords)
+    budget = re.search(r"(\d[\d,]*(?:\.\d+)?)\s*(?:रुपये?|₹|rs\.?|rupees?|budget|भांडवल|बजट)", msg_norm, re.IGNORECASE)
+    if not budget:
+        budget = re.search(r"(?:budget|भांडवल|बजट|₹|rs\.?)\s*[:=]?\s*(\d[\d,]*(?:\.\d+)?)", msg_norm, re.IGNORECASE)
     if budget:
-        raw = _extract_float(_parse_number_words(budget.group(1)))
+        raw = _extract_float(budget.group(1))
         if raw:
             data["budget_rs"] = raw
 
     # Water source
-    if re.search(r"borewell|बोअरवेल|boring", msg_norm, re.IGNORECASE):
+    if re.search(r"borewell|बोअरवेल|boring|बोरवेल|बोरिंग", msg_norm, re.IGNORECASE):
         data["water_source"] = "borewell"
-    elif re.search(r"canal|कालवा", msg_norm, re.IGNORECASE):
+    elif re.search(r"canal|कालवा|नहर", msg_norm, re.IGNORECASE):
         data["water_source"] = "canal"
-    elif re.search(r"rainfed|कोरडवाहू|rain", msg_norm, re.IGNORECASE):
+    elif re.search(r"rainfed|कोरडवाहू|rain|बारिश", msg_norm, re.IGNORECASE):
         data["water_source"] = "rainfed"
 
     return data
