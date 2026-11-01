@@ -129,3 +129,66 @@ def test_request_id_on_every_response():
     for path in ("/api/health", "/api/districts", "/api/sources"):
         r = client.get(path)
         assert "x-request-id" in r.headers, f"Missing X-Request-Id on {path}"
+
+
+# ── C.2 API Contract Fixtures Conformance ─────────────────────────────────────
+
+def test_contract_fixtures_exist_and_validate():
+    import json
+    from pathlib import Path
+    from app.schemas import PlanResult
+
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    live_dir = repo_root / "docs" / "api_examples" / "live"
+    contract_dir = repo_root / "docs" / "api_examples" / "contract"
+
+    assert live_dir.exists(), "docs/api_examples/live directory missing"
+    assert contract_dir.exists(), "docs/api_examples/contract directory missing"
+
+    for prefix, dir_path in [("live", live_dir), ("contract", contract_dir)]:
+        # Validate all plan files against PlanResult
+        for plan_name in ("plan_pune.json", "plan_jalgaon.json", "plan_ahilyanagar.json"):
+            file_path = dir_path / plan_name
+            assert file_path.exists(), f"Missing {file_path}"
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            plan = PlanResult(**data)
+            assert plan.location.district is not None
+            assert len(plan.crops) > 0, f"{plan_name} has no crops"
+            assert len(plan.strategies) >= 3, f"{plan_name} has fewer than 3 strategies"
+            assert plan.recommended_strategy in ("traditional", "lp_max_profit", "qp_balanced", "qp_drought_safe")
+
+        # Validate districts.json
+        dist_path = dir_path / "districts.json"
+        assert dist_path.exists()
+        with open(dist_path, "r", encoding="utf-8") as f:
+            d_data = json.load(f)
+        assert "districts" in d_data
+        assert len(d_data["districts"]) == 36
+
+        # Validate sources.json
+        src_path = dir_path / "sources.json"
+        assert src_path.exists()
+        with open(src_path, "r", encoding="utf-8") as f:
+            s_data = json.load(f)
+        assert "sources" in s_data
+        assert len(s_data["sources"]) >= 5
+
+        # Validate district_context_pune.json
+        ctx_path = dir_path / "district_context_pune.json"
+        assert ctx_path.exists()
+        with open(ctx_path, "r", encoding="utf-8") as f:
+            c_data = json.load(f)
+        assert c_data["district"] == "Pune"
+        assert "groundwater" in c_data
+        assert "recent_rain" in c_data
+        assert "reservoirs" in c_data
+
+    # Validate openapi.json exists and is valid JSON
+    openapi_path = repo_root / "docs" / "openapi.json"
+    assert openapi_path.exists()
+    with open(openapi_path, "r", encoding="utf-8") as f:
+        openapi_data = json.load(f)
+    assert "paths" in openapi_data
+    assert "/api/plan" in openapi_data["paths"]
+

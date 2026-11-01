@@ -1,0 +1,170 @@
+{
+  "district": "Pune",
+  "groundwater": {
+    "category": {
+      "value": "Safe",
+      "unit": "category",
+      "source": "CGWB block-level groundwater assessment (district average)",
+      "source_url": "",
+      "as_of": "2022",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    },
+    "extraction_pct": {
+      "value": 63.2,
+      "unit": "pct",
+      "source": "CGWB block-level groundwater assessment (district average)",
+      "source_url": "",
+      "as_of": "2022",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    },
+    "depth_post_monsoon_m": {
+      "value": 4.5,
+      "unit": "m",
+      "source": "CGWB block-level groundwater assessment (district average)",
+      "source_url": "",
+      "as_of": "2022",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    }
+  },
+  "reservoirs": [
+    {
+      "name": "Bhatghar",
+      "live_storage_pct": {
+        "value": 98.6,
+        "unit": "pct",
+        "source": "CWC weekly bulletin (rsms.cwc.gov.in)",
+        "source_url": "https://rsms.cwc.gov.in",
+        "as_of": "2026-10-29",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      }
+    },
+    {
+      "name": "Bhima / Ujjani Reservoir",
+      "live_storage_pct": {
+        "value": 71.4,
+        "unit": "pct",
+        "source": "CWC weekly bulletin (rsms.cwc.gov.in)",
+        "source_url": "https://rsms.cwc.gov.in",
+        "as_of": "2026-10-29",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      }
+    },
+    {
+      "name": "Khadakwasla Reservoir",
+      "live_storage_pct": {
+        "value": 50.6,
+        "unit": "pct",
+        "source": "CWC weekly bulletin (rsms.cwc.gov.in)",
+        "source_url": "https://rsms.cwc.gov.in",
+        "as_of": "2026-10-29",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      }
+    },
+    {
+      "name": "Manikdoh",
+      "live_storage_pct": {
+        "value": 90.0,
+        "unit": "pct",
+        "source": "CWC weekly bulletin (rsms.cwc.gov.in)",
+        "source_url": "https://rsms.cwc.gov.in",
+        "as_of": "2026-10-29",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      }
+    },
+    {
+      "name": "Mulshi Dam",
+      "live_storage_pct": {
+        "value": 73.6,
+        "unit": "pct",
+        "source": "CWC weekly bulletin (rsms.cwc.gov.in)",
+        "source_url": "https://rsms.cwc.gov.in",
+        "as_of": "2026-10-29",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      }
+    },
+    {
+      "name": "Niradevghar",
+      "live_storage_pct": {
+        "value": 99.8,
+        "unit": "pct",
+        "source": "CWC weekly bulletin (rsms.cwc.gov.in)",
+        "source_url": "https://rsms.cwc.gov.in",
+        "as_of": "2026-10-29",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      }
+    }
+  ],
+  "recent_rain": {
+    "last_90d_mm": {
+      "value": 0.0,
+      "unit": "mm",
+      "source": "India Meteorological Department / Open-Meteo",
+      "source_url": "",
+      "as_of": "current",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    },
+    "departure_90d_pct": {
+      "value": -1.6,
+      "unit": "pct",
+      "source": "India Meteorological Department / Open-Meteo",
+      "source_url": "",
+      "as_of": "current",
+      "status": "computed",
+      "history_years": null,
+      "note": null
+    },
+    "category": "Normal"
+  },
+  "irrigation": {
+    "borewell_share_pct": {
+      "value": 15.0,
+      "unit": "pct",
+      "source": "Minor Irrigation Census (MoJS 2017-18)",
+      "source_url": "",
+      "as_of": "2017-18",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    },
+    "canal_share_pct": {
+      "value": 24.5,
+      "unit": "pct",
+      "source": "Minor Irrigation Census (MoJS 2017-18)",
+      "source_url": "",
+      "as_of": "2017-18",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    },
+    "drip_adoption_pct": {
+      "value": 44.8,
+      "unit": "pct",
+      "source": "Minor Irrigation Census (MoJS 2017-18)",
+      "source_url": "",
+      "as_of": "2017-18",
+      "status": "official_dataset",
+      "history_years": null,
+      "note": null
+    }
+  }
+}

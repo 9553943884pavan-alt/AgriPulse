@@ -1,0 +1,114 @@
+{
+  "sources": [
+    {
+      "id": "agmarknet",
+      "name": "Agmarknet (data.gov.in)",
+      "publisher": "Directorate of Marketing and Inspection",
+      "url": "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",
+      "license": "Government Open Data License - India",
+      "verified_on": "2026-10-31",
+      "type": "live_api",
+      "used_for": "Mandi prices per crop/district"
+    },
+    {
+      "id": "open_meteo_forecast",
+      "name": "Open-Meteo Forecast",
+      "publisher": "Open-Meteo",
+      "url": "https://api.open-meteo.com",
+      "license": "CC BY 4.0",
+      "verified_on": "2026-10-31",
+      "type": "live_api",
+      "used_for": "16-day weather forecast + recent rain"
+    },
+    {
+      "id": "open_meteo_archive",
+      "name": "Open-Meteo ERA5 Archive",
+      "publisher": "Open-Meteo / ECMWF",
+      "url": "https://archive-api.open-meteo.com",
+      "license": "CC BY 4.0",
+      "verified_on": "2026-10-31",
+      "type": "live_api",
+      "used_for": "Historical weather 1997-2025 (climate scenarios)"
+    },
+    {
+      "id": "soilgrids",
+      "name": "SoilGrids v2",
+      "publisher": "ISRIC — World Soil Information",
+      "url": "https://rest.isric.org/soilgrids/v2.0",
+      "license": "CC BY 4.0",
+      "verified_on": "2026-10-31",
+      "type": "live_api",
+      "used_for": "Soil pH, organic carbon (optional, supplements CSV)"
+    },
+    {
+      "id": "des_yields",
+      "name": "DES District Crop Statistics",
+      "publisher": "Directorate of Economics and Statistics, Maharashtra",
+      "url": "https://mahadbt.maharashtra.gov.in",
+      "license": "Government Open Data",
+      "verified_on": "2026-10-31",
+      "type": "official_dataset",
+      "used_for": "District crop area, production, yield 1997-2014"
+    },
+    {
+      "id": "des_costs",
+      "name": "CACP Cost of Cultivation",
+      "publisher": "Commission for Agricultural Costs and Prices",
+      "url": "https://cacp.dacnet.nic.in",
+      "license": "Government Open Data",
+      "verified_on": "2026-10-31",
+      "type": "official_dataset",
+      "used_for": "Itemized cost per crop (reference year 2022-23)"
+    },
+    {
+      "id": "cgwb",
+      "name": "CGWB Block Groundwater Assessment",
+      "publisher": "Central Ground Water Board",
+      "url": "https://cgwb.gov.in",
+      "license": "Government Open Data",
+      "verified_on": "2026-10-31",
+      "type": "official_dataset",
+      "used_for": "Groundwater category and extraction % per block"
+    },
+    {
+      "id": "cwc",
+      "name": "CWC Weekly Reservoir Bulletin",
+      "publisher": "Central Water Commission",
+      "url": "https://rsms.cwc.gov.in",
+      "license": "Government Open Data",
+      "verified_on": "2026-10-31",
+      "type": "official_dataset",
+      "used_for": "Reservoir live storage % (updated weekly)"
+    },
+    {
+      "id": "icar_soil",
+      "name": "Soil Health Card Survey (ICAR)",
+      "publisher": "ICAR / State Agriculture Departments",
+      "url": "https://soilhealth.dac.gov.in",
+      "license": "Government Open Data",
+      "verified_on": "2026-10-31",
+      "type": "official_dataset",
+      "used_for": "District-level N, P, K, pH"
+    },
+    {
+      "id": "msp",
+      "name": "CACP MSP / FRP",
+      "publisher": "Commission for Agricultural Costs and Prices",
+      "url": "https://cacp.dacnet.nic.in",
+      "license": "Government Open Data",
+      "verified_on": "2026-10-31",
+      "type": "official_dataset",
+      "used_for": "Minimum Support Price and sugarcane FRP"
+    },
+    {
+      "id": "sarvam",
+      "name": "Sarvam AI",
+      "publisher": "Sarvam AI",
+      "url": "https://api.sarvam.ai",
+      "license": "Commercial",
+      "verified_on": "2026-10-31",
+      "type": "live_api",
+      "used_for": "Agent reasoning, speech-to-text, text-to-speech"
+    }
+  ]
+}
