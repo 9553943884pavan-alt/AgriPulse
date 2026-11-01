@@ -146,13 +146,15 @@
     "excess": "Excess rain"
   },
   "strategies": {
+    "qp_drought_safe_desc": "Fits your water even in a drought year",
+    "lp_max_profit_desc": "Highest expected profit within your limits",
     "traditional": "Traditional",
-    "lp_max_profit": "LP Max-Profit",
-    "qp_balanced": "QP Balanced",
-    "qp_drought_safe": "QP Drought-Safe",
+    "lp_max_profit": "Max-Profit (LP)",
+    "qp_balanced": "Balanced (LP)",
+    "qp_drought_safe": "Drought-Safe (LP)",
     "traditional_desc": "Common local practice",
     "lp_desc": "Linear Programming",
-    "qp_balanced_desc": "Balanced profit and risk",
+    "qp_balanced_desc": "Expected profit across drought, normal and wet years",
     "qp_drought_desc": "Optimized for low rainfall"
   },
   "suitability": {

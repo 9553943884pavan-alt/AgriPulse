@@ -1,9 +1,9 @@
 {
-  "plan_id": "pl_c4431d6f54584106a2f97ac780f46056",
-  "thread_id": "th_70fcc556cc7947c68e7aa4568d7f0c1a",
+  "plan_id": "pl_721a7b022ad042129cabedd6de513105",
+  "thread_id": "th_10e3ee0d1d9e40a081c8ae3d169a7df2",
   "version": 1,
   "previous_version": null,
-  "created_at": "2026-11-01T18:01:15.312842Z",
+  "created_at": "2026-11-01T18:18:56.496239Z",
   "profile": {
     "location_text": "Nashik",
     "land_acres": 5.0,
@@ -2384,8 +2384,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
-        "ms": 0
+        "status": "optimal (15 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 15
       },
       "infeasibility": null,
       "traditional_exceeds": []

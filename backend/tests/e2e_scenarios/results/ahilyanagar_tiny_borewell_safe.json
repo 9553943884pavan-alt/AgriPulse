@@ -1,9 +1,9 @@
 {
-  "plan_id": "pl_65f9181535ce4372b59b01cb16145f8a",
-  "thread_id": "th_eaf5a105085d45f0a3b1e30e20641d3d",
+  "plan_id": "pl_f6baab6b03924ef282e7e1d13c1a6455",
+  "thread_id": "th_74602841d41244449dba96a4f8ec4d8d",
   "version": 1,
   "previous_version": null,
-  "created_at": "2026-11-01T18:01:52.042156Z",
+  "created_at": "2026-11-01T18:19:13.867822Z",
   "profile": {
     "location_text": "Ahilyanagar",
     "land_acres": 3.0,
@@ -2230,8 +2230,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (15 ms); risk QP disabled: no validated joint crop-profit history",
-        "ms": 15
+        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 0
       },
       "infeasibility": {
         "binding": [],

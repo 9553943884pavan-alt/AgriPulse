@@ -1,9 +1,9 @@
 {
-  "plan_id": "pl_55834059861e4c51ac51c53985a4dabc",
-  "thread_id": "th_3120efa77af24b64acefaec8bb840ca0",
+  "plan_id": "pl_e3ac35f5706e4123a0d1efa86c714c41",
+  "thread_id": "th_6ced4d091d134947962c2d9f6a45be5e",
   "version": 1,
   "previous_version": null,
-  "created_at": "2026-11-01T18:01:33.921994Z",
+  "created_at": "2026-11-01T18:19:06.315506Z",
   "profile": {
     "location_text": "Pune",
     "land_acres": 4.0,
@@ -2383,8 +2383,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
-        "ms": 0
+        "status": "optimal (16 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 16
       },
       "infeasibility": null,
       "traditional_exceeds": []

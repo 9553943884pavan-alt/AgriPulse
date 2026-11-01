@@ -1,9 +1,9 @@
 {
-  "plan_id": "pl_c1bd13f0430c471fa987f83934285c20",
-  "thread_id": "th_5564746b07824e49847bbc653cb29518",
+  "plan_id": "pl_c1bafe43eb7545deafe2b45468070699",
+  "thread_id": "th_86e30ae8802a477d8ca8e3cd266c93ea",
   "version": 1,
   "previous_version": null,
-  "created_at": "2026-11-01T18:02:24.523779Z",
+  "created_at": "2026-11-01T18:19:27.571273Z",
   "profile": {
     "location_text": "Jalgaon",
     "land_acres": 0.25,
@@ -2240,8 +2240,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
-        "ms": 0
+        "status": "optimal (16 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 16
       },
       "infeasibility": {
         "binding": [],
@@ -2285,8 +2285,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (16 ms); risk QP disabled: no validated joint crop-profit history",
-        "ms": 16
+        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 0
       },
       "infeasibility": {
         "binding": [],

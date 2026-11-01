@@ -146,13 +146,15 @@
     "excess": "अत्यधिक बारिश"
   },
   "strategies": {
+    "qp_drought_safe_desc": "सूखे वर्ष में भी आपके पानी में फिट",
+    "lp_max_profit_desc": "आपकी सीमाओं में सबसे अधिक अपेक्षित लाभ",
     "traditional": "पारंपरिक",
-    "lp_max_profit": "LP अधिकतम लाभ",
-    "qp_balanced": "QP संतुलित",
-    "qp_drought_safe": "QP सूखा-सुरक्षित",
+    "lp_max_profit": "अधिकतम लाभ (LP)",
+    "qp_balanced": "संतुलित (LP)",
+    "qp_drought_safe": "सूखा-सुरक्षित (LP)",
     "traditional_desc": "सामान्य स्थानीय अभ्यास",
     "lp_desc": "रैखिक प्रोग्रामिंग",
-    "qp_balanced_desc": "संतुलित लाभ और जोखिम",
+    "qp_balanced_desc": "सूखे, सामान्य और अधिक वर्षा वाले वर्षों में अपेक्षित लाभ",
     "qp_drought_desc": "कम वर्षा के लिए अनुकूलित"
   },
   "suitability": {

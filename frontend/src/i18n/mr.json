@@ -146,13 +146,15 @@
     "excess": "अतिवृष्टी"
   },
   "strategies": {
+    "qp_drought_safe_desc": "दुष्काळी वर्षातही तुमच्या पाण्यात बसते",
+    "lp_max_profit_desc": "तुमच्या मर्यादेत सर्वाधिक अपेक्षित नफा",
     "traditional": "पारंपारिक",
-    "lp_max_profit": "LP जास्तीत जास्त नफा",
-    "qp_balanced": "QP संतुलित",
-    "qp_drought_safe": "QP दुष्काळ-सुरक्षित",
+    "lp_max_profit": "जास्तीत जास्त नफा (LP)",
+    "qp_balanced": "संतुलित (LP)",
+    "qp_drought_safe": "दुष्काळ-सुरक्षित (LP)",
     "traditional_desc": "सामान्य स्थानिक पद्धत",
     "lp_desc": "रेखीय प्रोग्रामिंग",
-    "qp_balanced_desc": "संतुलित नफा आणि जोखीम",
+    "qp_balanced_desc": "दुष्काळ, सामान्य आणि जास्त पावसाच्या वर्षांतील अपेक्षित नफा",
     "qp_drought_desc": "कमी पावसासाठी अनुकूलित"
   },
   "suitability": {

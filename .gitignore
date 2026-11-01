@@ -113,3 +113,6 @@ $RECYCLE.BIN/
 # Test outputs (regenerated on every run)
 frontend/test-results/
 frontend/playwright-report/
+
+# Recorded demo video output (large, regenerated)
+frontend/demo-video/

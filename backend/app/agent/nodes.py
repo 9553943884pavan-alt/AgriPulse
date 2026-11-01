@@ -1021,6 +1021,11 @@ def respond_node(state: dict) -> dict:
     from app.services.water import borewell_disclosure
     profile, bw_warnings = borewell_disclosure(profile)
     warnings.extend(w for w in bw_warnings if not any(x.code == w.code for x in warnings))
+    # Same canal disclosure as run_plan: no sourced canal duty, so 0 m3 is credited.
+    if profile is not None and (profile.canal_access or profile.water_source in ("canal", "both")) and not any(
+        w.code == "CANAL_NOT_CREDITED" for w in warnings
+    ):
+        warnings.append(Warning(code="CANAL_NOT_CREDITED", params={"canal_credited_m3": 0}))
 
     infeasibility = None
     if recommended and not recommended.feasible:
