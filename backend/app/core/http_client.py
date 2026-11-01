@@ -14,6 +14,7 @@ import httpx
 logger = logging.getLogger(__name__)
 
 _client: httpx.AsyncClient | None = None
+_client_loop: asyncio.AbstractEventLoop | None = None
 
 # Default timeouts (seconds) — each service may override per the SPECS table
 DEFAULT_TIMEOUT = httpx.Timeout(connect=5.0, read=10.0, write=5.0, pool=2.0)
@@ -23,22 +24,31 @@ _BASE_HEADERS = {"User-Agent": "AgriPulse-backend/0.1 (github.com/agripulse)"}
 
 
 def get_client() -> httpx.AsyncClient:
-    """Return the shared async httpx client (created on first call)."""
-    global _client
-    if _client is None or _client.is_closed:
+    """Return a shared client for the current event loop."""
+    global _client, _client_loop
+    loop = asyncio.get_running_loop()
+    if (
+        _client is None
+        or _client.is_closed
+        or _client_loop is not loop
+        or _client_loop.is_closed()
+    ):
         _client = httpx.AsyncClient(
             timeout=DEFAULT_TIMEOUT,
             headers=_BASE_HEADERS,
             follow_redirects=True,
         )
+        _client_loop = loop
     return _client
 
 
 async def close_client() -> None:
-    global _client
-    if _client and not _client.is_closed:
-        await _client.aclose()
-        _client = None
+    global _client, _client_loop
+    client = _client
+    _client = None
+    _client_loop = None
+    if client and not client.is_closed:
+        await client.aclose()
 
 
 async def fetch(

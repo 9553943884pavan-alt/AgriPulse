@@ -1,6 +1,6 @@
 """Rebuild yield_training.csv and the seasonal weather table from official data only.
 
-Fixes found in the data review (see Teammate-B/data/DATA_FIXES.md):
+Fixes found in the data review (see data/DATA_FIXES.md):
   * weather from ONE source (Open-Meteo ERA5 archive, 1997-2025) instead of two disagreeing files
   * groundwater category / extraction joined per district (was "Safe" / 55.0 for every row)
   * aggregate DES rows removed ("Total foodgrain", "Pulses total", "Other ...")
@@ -27,10 +27,10 @@ import numpy as np
 import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-A_PROC = REPO_ROOT / "Teammate-A" / "data" / "processed"
-B_PROC = REPO_ROOT / "Teammate-B" / "data" / "processed"
-B_B12 = REPO_ROOT / "Teammate-B" / "teammate_b" / "B12_yield_training_dataset"
-RAW_WEATHER = REPO_ROOT / "Teammate-A" / "data" / "raw" / "open_meteo_archive_1997_2025"
+A_PROC = REPO_ROOT / "data" / "processed"
+B_PROC = REPO_ROOT / "data" / "processed"
+B_B12 = REPO_ROOT / "data" / "evidence" / "teammate-b" / "B12_yield_training_dataset"
+RAW_WEATHER = REPO_ROOT / "data" / "raw" / "open_meteo_archive_1997_2025"
 
 RAIN_DAY_MM = 2.5  # IMD rainy-day threshold
 HEAT_C = 35.0

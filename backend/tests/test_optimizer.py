@@ -1,8 +1,8 @@
-"""Tests for OPT.1-OPT.5: LP/QP optimizer, infeasibility, impact metrics.
+"""Focused tests for the validated deterministic optimizer path.
 
 Spec requirements verified:
   OPT.1  LP with land/budget/water/diversification constraints
-  OPT.2  QP: λ=0 reproduces the LP result (within 1%)
+  OPT.2  QP risk is gated without joint historical crop-profit samples
   OPT.3  All 4 strategies run on the same inputs; compare_strategies returns all 4
   OPT.4  Infeasibility report: impossible case returns feasible=False with detail
   OPT.5  Impact vs Traditional: water_saved_pct, fertilizer_saved_pct, drought_profit_gain_rs
@@ -217,6 +217,26 @@ def test_lp_respects_water():
     assert total_water <= 8000 + 10, f"Water violated: {total_water}"
 
 
+def test_lp_finance_reconciles_revenue_cost_profit_and_roi():
+    """Portfolio finance must use the same allocation economics as the LP."""
+    from app.ml.optimizer import optimize
+
+    result = optimize("lp_max_profit", _inputs())
+    assert result.feasible is True
+    assert result.finance is not None
+    finance = result.finance
+    investment = float(finance.investment_rs.value)
+    revenue = float(finance.expected_revenue_rs.value)
+    profit = float(finance.expected_profit_rs.value)
+
+    assert investment == pytest.approx(result.totals.budget_used_rs, abs=1)
+    assert revenue - investment == pytest.approx(profit, abs=1)
+    assert profit == pytest.approx(result.expected_profit_rs, abs=1)
+    assert finance.roi_pct is not None
+    assert float(finance.roi_pct.value) == pytest.approx(profit / investment * 100, abs=0.02)
+    assert finance.break_even_price_rs_per_quintal is not None
+
+
 def test_lp_diversification_cap():
     """No single crop should exceed cap * land for n>=3 crops."""
     from app.ml.optimizer import optimize, _div_cap
@@ -228,12 +248,38 @@ def test_lp_diversification_cap():
             f"Diversification cap violated for {a.crop_id}: {a.acres}"
 
 
+def test_lp_applies_forced_cap_only_after_relaxation():
+    from app.ml.optimizer import _build_vectors, _is_feasible, _solve_lp
+
+    vectors = _build_vectors(_inputs(budget=200000, water_total=100000))
+    default_x, _, _ = _solve_lp(vectors, "normal")
+    relaxed_vectors = dict(vectors, _force_cap=1.0)
+    relaxed_x, _, _ = _solve_lp(relaxed_vectors, "normal")
+
+    assert default_x is not None and relaxed_x is not None
+    assert max(default_x) <= 0.65 * vectors["L"] + 0.01
+    assert max(relaxed_x) > 0.65 * vectors["L"] + 0.01
+    assert _is_feasible(relaxed_x, relaxed_vectors, "normal")
+    assert not _is_feasible(relaxed_x, vectors, "normal")
+
+
+def test_feasibility_check_validates_water_cap():
+    import numpy as np
+    from app.ml.optimizer import _build_vectors, _is_feasible
+
+    vectors = _build_vectors(_inputs())
+    allocation = np.array([3.0, 0.0, 0.0])
+
+    assert _is_feasible(allocation, vectors, "normal")
+    assert not _is_feasible(allocation, vectors, "drought")
+
+
 # ── OPT.2: QP reproduces LP at λ=0 ──────────────────────────────────────────
 
-def test_qp_lambda_zero_matches_lp():
-    """λ=0 QP and LP should give the same expected profit (within 1%)."""
+def test_qp_id_is_transparent_lp_fallback_without_risk_history():
+    """A three-scenario table must not be represented as a QP risk model."""
     from app.ml.optimizer import optimize
-    inp = _inputs(risk="max_profit")  # risk_appetite max_profit → λ=0
+    inp = _inputs(risk="max_profit")
     lp = optimize("lp_max_profit", inp)
     qp = optimize("qp_balanced", inp)
     if not lp.feasible or not qp.feasible:
@@ -241,11 +287,13 @@ def test_qp_lambda_zero_matches_lp():
     diff = abs(lp.expected_profit_rs - qp.expected_profit_rs)
     relative = diff / max(abs(lp.expected_profit_rs), 1)
     assert relative < 0.01, \
-        f"LP vs QP(λ=0) profit differs by {relative:.2%}: LP={lp.expected_profit_rs} QP={qp.expected_profit_rs}"
+        f"LP fallback differs by {relative:.2%}: LP={lp.expected_profit_rs} fallback={qp.expected_profit_rs}"
+    assert qp.kind == "lp"
+    assert qp.risk_lambda == 0
+    assert "risk QP disabled" in qp.solver.status
 
 
-def test_qp_balanced_has_lower_worst_case_than_lp():
-    """Balanced QP (λ>0) trades expected profit for better worst-case — both must run."""
+def test_qp_balanced_id_uses_validated_lp_baseline():
     from app.ml.optimizer import optimize
     inp = _inputs(risk="balanced")
     lp = optimize("lp_max_profit", inp)
@@ -253,9 +301,19 @@ def test_qp_balanced_has_lower_worst_case_than_lp():
     # Both strategies must complete without exception
     assert lp.id == "lp_max_profit"
     assert qp.id == "qp_balanced"
-    # If both feasible with allocations, LP expected profit >= QP (risk trade-off)
+    # With risk unavailable the compatibility strategy is the same LP solution.
     if lp.feasible and qp.feasible and lp.allocations and qp.allocations:
-        assert lp.expected_profit_rs >= qp.expected_profit_rs - 1
+        assert lp.expected_profit_rs == pytest.approx(qp.expected_profit_rs)
+
+
+def test_qp_balanced_fallback_allocates_when_expected_profit_is_positive():
+    from app.ml.optimizer import optimize
+
+    result = optimize("qp_balanced", _inputs())
+
+    assert result.feasible is True
+    assert result.allocations
+    assert result.totals.land_used_acres > 0
 
 
 # ── OPT.3: All 4 strategies ───────────────────────────────────────────────────
@@ -279,11 +337,12 @@ def test_compare_strategies_all_have_profit():
 
 
 def test_drought_safe_uses_drought_water():
-    """qp_drought_safe must use the drought WaterBudget cap."""
+    """Scenario guard must use the drought irrigation-water cap."""
     from app.ml.optimizer import compare_strategies
     results, _, _ = compare_strategies(_inputs(water_total=8000))
     drought_safe = next(r for r in results if r.id == "qp_drought_safe")
     assert drought_safe.safety_scenario == "drought"
+    assert drought_safe.kind == "lp"
 
 
 # ── OPT.4: Infeasibility ─────────────────────────────────────────────────────
@@ -292,14 +351,20 @@ def test_infeasible_when_budget_too_small():
     """Budget 1 Rs makes it impossible to plant anything — infeasibility report."""
     from app.ml.optimizer import optimize
     result = optimize("lp_max_profit", _inputs(budget=1))
-    # Either infeasible, or allocations = 0
-    if result.feasible:
-        # Allowed if solver found 0-acre allocation (degenerate feasible)
-        total = sum(a.acres for a in result.allocations)
-        assert total < 0.01
-    else:
-        assert result.feasible is False
-        assert result.infeasibility is not None
+    assert result.feasible is False
+    assert result.allocations == []
+    assert result.infeasibility is not None
+
+
+def test_nonprofitable_crop_is_not_reported_as_empty_feasible_plan():
+    from app.ml.optimizer import optimize
+
+    unprofitable = _crop("unprofitable", profit_d=-5000, profit_n=-4000, profit_e=-3000)
+    result = optimize("lp_max_profit", _inputs(crops=[unprofitable]))
+
+    assert result.feasible is False
+    assert result.allocations == []
+    assert result.infeasibility.suggestion_code == "NO_POSITIVE_ALLOCATION"
 
 
 def test_infeasible_result_has_empty_allocations():
@@ -379,14 +444,11 @@ def test_single_crop_eligible_warning():
 
 # ── Long-duration crops ───────────────────────────────────────────────────────
 
-def test_long_duration_crop_annualised():
-    """Sugarcane (365d) must not dominate simply because it has a large season margin.
-    The annualised margin equals the season margin (365/365 = 1), so the test
-    verifies the normalisation runs without error and the result is valid.
-    """
+def test_long_duration_margin_stays_on_shared_seasonal_horizon():
+    """Do not annualise one crop without modelling the displaced next crop."""
     from app.ml.optimizer import _annual_margin
     assert _annual_margin(30000, 365) == pytest.approx(30000 / 1.0, rel=0.001)
-    assert _annual_margin(10000, 110) == pytest.approx(10000, rel=0.001)  # short crop: unchanged
+    assert _annual_margin(10000, 240) == pytest.approx(10000, rel=0.001)
 
 
 # ── Solver info ───────────────────────────────────────────────────────────────

@@ -1,0 +1,24 @@
+# Keep the backend image small and free of secrets.
+.env
+*.env
+**/.env
+.git
+.github
+.vscode
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.ruff_cache
+**/*.db
+**/*.db-shm
+**/*.db-wal
+backend/.venv
+backend/tests
+backend/data
+frontend
+docs
+data/raw
+data/evidence
+data/samples
+ml/data_prep
+ml/experiments

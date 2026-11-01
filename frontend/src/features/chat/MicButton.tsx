@@ -12,23 +12,33 @@ import { useTranslation } from 'react-i18next'
 import { useRecorder } from './useRecorder'
 
 interface MicButtonProps {
-  onAudio: (blob: Blob, mimeType: string) => void
+  onAudio: (blob: Blob, mimeType: string) => Promise<void> | void
+  onError?: () => void
   disabled?: boolean
   size?: 'lg' | 'md'
   hideLabel?: boolean
 }
 
-export function MicButton({ onAudio, disabled = false, size = 'lg', hideLabel = false }: MicButtonProps) {
+export function MicButton({ onAudio, onError, disabled = false, size = 'lg', hideLabel = false }: MicButtonProps) {
   const { t } = useTranslation()
   const { state, blob, mimeType, elapsed, startRecording, stopRecording, reset } = useRecorder()
 
   // Fire onAudio when a blob becomes available — NEVER during render
   useEffect(() => {
     if (state === 'transcribing' && blob) {
-      onAudio(blob, mimeType)
-      reset()
+      void (async () => {
+        await onAudio(blob, mimeType)
+        reset()
+      })()
     }
   }, [state, blob, mimeType, onAudio, reset])
+
+  useEffect(() => {
+    if (state === 'error') {
+      onError?.()
+      reset()
+    }
+  }, [state, onError, reset])
 
   const handleClick = () => {
     if (state === 'recording') {

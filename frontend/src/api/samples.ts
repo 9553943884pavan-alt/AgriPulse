@@ -14,7 +14,7 @@
 
 // __CONTRACT_EXAMPLE__ — marker string; DO NOT remove this comment
 
-import type { PlanResult, FarmProfile, TraceEvent } from './types'
+import type { PlanResult, FarmProfile, TraceEvent, NumericSourcedValue, ScenarioId, WaterBudget } from './types'
 
 export const SAMPLE_PROFILE: FarmProfile = {
   location_text: 'Beed',
@@ -72,6 +72,46 @@ export const SAMPLE_TRACE_EVENTS: TraceEvent[] = [
   },
 ]
 
+const sampleValue = (value: number | string, unit: string, source: string, status: NumericSourcedValue['status'] = 'computed'): NumericSourcedValue => ({
+  value: Number(value),
+  unit,
+  source,
+  source_url: '',
+  as_of: '2026-10-31',
+  status,
+})
+
+const sampleWaterBudget = (scenario: ScenarioId, analogueYear: number, availableM3: number, needM3: number): WaterBudget => ({
+  scenario,
+  analogue_year: analogueYear,
+  available_m3: {
+    rain: sampleValue(availableM3, 'm3', 'Open-Meteo + ERA5', 'live'),
+    groundwater: sampleValue(0, 'm3', 'Farmer borewell capacity unavailable; not credited', 'assumption'),
+    canal: sampleValue(0, 'm3', 'Farmer reports no canal access', 'farmer_input'),
+    total: sampleValue(availableM3, 'm3', 'effective rain + groundwater + canal'),
+  },
+  basis: {
+    groundwater_category: {
+      value: 'Safe',
+      unit: 'category',
+      source: 'CGWB',
+      source_url: '',
+      as_of: '2022',
+      status: 'official_dataset',
+    },
+    category_cap: sampleValue(1, 'fraction', 'Modelling assumption', 'assumption'),
+    effective_rain_factor: sampleValue(0.75, 'fraction', 'Modelling assumption', 'assumption'),
+    reservoir_storage_pct: sampleValue(0, 'pct', 'No canal access', 'assumption'),
+    rain_so_far_mm: sampleValue(142, 'mm', 'Open-Meteo', 'live'),
+  },
+  irrigation_method: 'flood',
+  efficiency_pct: sampleValue(60, 'pct', 'irrigation_by_district.csv', 'official_dataset'),
+  need_m3: {
+    traditional_plan: sampleValue(needM3 + 1000, 'm3', 'Computed water requirement'),
+    recommended_plan: sampleValue(needM3, 'm3', 'Computed water requirement'),
+  },
+})
+
 export const SAMPLE_PLAN: PlanResult = {
   plan_id: 'pl_sample01',
   thread_id: 'th_sample01',
@@ -112,8 +152,10 @@ export const SAMPLE_PLAN: PlanResult = {
       yield_quintal_per_acre: { drought: 4.2, normal: 5.8, excess: 4.9 },
       price: { value: 5400, unit: 'rs_per_quintal', source: 'Agmarknet', source_url: '', as_of: '2026-10-30', status: 'cached' },
       expected_harvest_price: { value: 5670, unit: 'rs_per_quintal', source: 'today price × seasonal ratio 1.05', source_url: '', as_of: '2026-10-30', status: 'computed' },
+      seasonal_ratio: { value: 1.05, unit: 'ratio', source: 'Historical monthly price ratio', source_url: '', as_of: '2026-10-30', status: 'computed', history_years: 5 },
       duration_days: 110,
       harvest_month: '2027-02',
+      opens_on: null,
       msp: { value: 5440, unit: 'rs_per_quintal', source: 'CACP', source_url: '', as_of: '2025-26', status: 'official_dataset' },
       cost_per_acre: {
         total_rs: 18200,
@@ -129,37 +171,32 @@ export const SAMPLE_PLAN: PlanResult = {
         source: 'DES/CACP Cost of Cultivation',
         status: 'official_dataset',
       },
-      fertilizer: { n_kg_per_acre: 8, p2o5_kg_per_acre: 16, k2o_kg_per_acre: 0, basis: 'university RDF' },
-      water_need_m3_per_acre: { drought: 1600, normal: 1200, excess: 900 },
+      fertilizer: {
+        n_kg_per_acre: 8,
+        p2o5_kg_per_acre: 16,
+        k2o_kg_per_acre: 0,
+        urea_bags: 0.4,
+        dap_bags: 0.64,
+        mop_bags: 0,
+        cost_rs: sampleValue(1800, 'Rs/acre', 'Fertilizer RDF × official MRP'),
+        basis: 'university RDF',
+      },
+      water_need_m3_per_acre: {
+        drought: sampleValue(1600, 'm3/acre', 'Computed crop water requirement'),
+        normal: sampleValue(1200, 'm3/acre', 'Computed crop water requirement'),
+        excess: sampleValue(900, 'm3/acre', 'Computed crop water requirement'),
+      },
       profit_rs_per_acre: { drought: 4888, normal: 14706, excess: 9553 },
     },
   ],
   excluded_crops: [
     { crop_id: 'onion', reason_code: 'NO_REAL_PRICE', params: { district: 'Beed' } },
   ],
-  water: {
-    scenario: 'normal',
-    analogue_year: 2019,
-    available_m3: {
-      rain: { value: 3150, unit: 'm3', source: 'Open-Meteo + ERA5', source_url: '', as_of: '2026-10-31', status: 'live' },
-      groundwater: { value: 2400, unit: 'm3', source: 'CGWB Minor Irrigation Census', source_url: '', as_of: '2022', status: 'official_dataset' },
-      canal: { value: 0, unit: 'm3', source: 'farmer_input (canal_access: false)', source_url: '', as_of: '2026-10-31', status: 'farmer_input' },
-      total: { value: 5550, unit: 'm3', source: 'rain + groundwater + canal', source_url: '', as_of: '2026-10-31', status: 'computed' },
-    },
-    basis: {
-      groundwater_category: { value: 0, unit: 'category', source: 'CGWB', source_url: '', as_of: '2022', status: 'official_dataset' },
-      category_cap: { value: 0.15, unit: 'fraction', source: 'modelling assumption', source_url: '', as_of: '', status: 'assumption' },
-      effective_rain_factor: { value: 0.75, unit: 'fraction', source: 'modelling assumption', source_url: '', as_of: '', status: 'assumption' },
-      reservoir_storage_pct: { value: 62, unit: 'pct', source: 'CWC bulletin 2026-10-24', source_url: '', as_of: '2026-10-24', status: 'cached' },
-      rain_so_far_mm: { value: 142, unit: 'mm', source: 'Open-Meteo', source_url: '', as_of: '2026-10-31', status: 'live' },
-    },
-    irrigation_method: 'flood',
-    efficiency_pct: { value: 60, unit: 'pct', source: 'irrigation_by_district.csv', source_url: '', as_of: '2022', status: 'official_dataset' },
-    need_m3: {
-      traditional_plan: { value: 7200, unit: 'm3', source: 'computed', source_url: '', as_of: '2026-10-31', status: 'computed' },
-      recommended_plan: { value: 4800, unit: 'm3', source: 'computed', source_url: '', as_of: '2026-10-31', status: 'computed' },
-    },
-  },
+  water: [
+    sampleWaterBudget('drought', 1999, 9000, 8000),
+    sampleWaterBudget('normal', 2019, 12000, 6000),
+    sampleWaterBudget('excess', 2010, 16000, 4500),
+  ],
   strategies: [
     {
       id: 'qp_balanced',
@@ -178,6 +215,8 @@ export const SAMPLE_PLAN: PlanResult = {
       binding_constraints: [],
       relaxations_applied: [],
       solver: { name: 'CLARABEL', status: 'optimal', ms: 38 },
+      infeasibility: null,
+      traditional_exceeds: [],
     },
   ],
   recommended_strategy: 'qp_balanced',

@@ -45,11 +45,20 @@ RISK_LAMBDA: Final[dict[str, float]] = {
     "balanced": 0.3,
     "max_profit": 0.0,
 }
+RISK_OBJECTIVE_SCALE_RS: Final = 1000.0  # Scale quadratic Rs² risk into the Rs objective.
 SATURATION_GAMMA: Final = 0.0    # negligible for a single farm  [choice]
 PSD_RIDGE: Final = 1e-6          # multiplied by trace(Σ) for numerical stability  [choice]
+# The repository has three constructed weather scenarios, not a sufficiently
+# long, aligned history of joint crop-profit observations. A covariance matrix
+# estimated from those three points is not a validated farm-risk model, so
+# public planning uses the deterministic LP / explicit scenario guard.
+RISK_QP_ENABLED: Final = False
+RISK_QP_DISABLE_REASON: Final = "risk QP disabled: no validated joint crop-profit history"
 
-# Long-duration crop threshold (§3A normalization)
-LONG_DURATION_DAYS: Final = 120  # crops > 120 d are normalised to per-acre-per-year
+# Long-duration crop threshold used for an explicit comparison warning. The
+# current optimizer is one-season; it deliberately does not annualise these
+# crops because it does not model displaced crops, capital, or water.
+LONG_DURATION_DAYS: Final = 120
 
 # ── Suitability labels (ML.4b) ────────────────────────────────────────────────
 SUITABILITY_THRESHOLD_GOOD: Final = 1.05    # score >= this → "good"  [choice]
@@ -64,6 +73,25 @@ MIN_RISK_YEARS: Final = 5   # minimum year samples for a per-crop risk term
 # ── Agent grounding ───────────────────────────────────────────────────────────
 # 5% covers "2 sig figs" rounding on yields and "nearest 100" on money.
 GROUNDING_TOLERANCE: Final = 0.05
+
+# ── Season windows used to build weather features (ml/data_prep/build_yield_training.py)
+# Kharif Jun 1-Oct 31 | Rabi Nov 1-Mar 31 | Summer Apr 1-Jun 30 | Whole Year Jul 1-Jun 30.  [measured]
+SEASON_WINDOW_DAYS: Final[dict[str, int]] = {
+    "Kharif": 153,
+    "Rabi": 151,
+    "Summer": 91,
+    "Whole Year": 365,
+}
+
+# ── Crop calendar rows that are a season-specific variant of one master crop ──
+# crop_calendar.csv has separate rows (own sowing window and duration) for crops that
+# crops_master / DES / cost / seed / fertilizer / Agmarknet / Kc tables carry once.  [measured]
+CROP_ID_ALIASES: Final[dict[str, str]] = {
+    "maize_rabi": "maize",
+    "jowar_kharif": "jowar",
+    "onion_kharif": "onion",
+    "groundnut_summer": "groundnut",
+}
 
 # ── Crop calendar ─────────────────────────────────────────────────────────────
 SOWABLE_GRACE_DAYS: Final = 7    # days before sowing_start the crop is still shown

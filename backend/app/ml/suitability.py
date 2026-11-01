@@ -24,6 +24,7 @@ from functools import lru_cache
 import pandas as pd
 
 from app.ml.constants import (
+    CROP_ID_ALIASES,
     NON_AGRICULTURAL_DISTRICTS,
     OPENS_SOON_DAYS,
     SOWABLE_GRACE_DAYS,
@@ -124,21 +125,26 @@ def _grown_in_district(district: str, season: str) -> set[str]:
         if pd.notna(r.get("des_crop_name")) and pd.notna(r.get("crop_id"))
     }
 
-    # Filter to district + season, recent years
-    max_year = int(df["year"].max())
-    recent = df[
-        (df["district"].str.strip() == district) &
-        (df["year"] >= max_year - _RECENT_YEARS)
-    ]
+    # Filter to this district. "Recent" is measured against each crop's own last reporting
+    # year: DES stopped reporting some crops (onion, banana, grapes, ... only have 2003)
+    # long before 2014, and that silence is not evidence they are not grown.
+    last_year = df.groupby("crop")["year"].max()
+    recent = df[df["district"].str.strip() == district]
+    recent = recent[recent["year"] >= recent["crop"].map(last_year) - _RECENT_YEARS]
 
-    # Handle combined seasons ("Kharif/Rabi" matches both)
+    # DES labels some crops (onion, banana, grapes, sugarcane, ...) only as "Whole Year".
+    # Their area is real, so it counts toward every season; the crop calendar then decides
+    # whether the crop can be sown now.
     if season in ("Kharif", "Rabi", "Summer", "Whole Year"):
-        season_mask = recent["season"].str.contains(season, case=False, na=False)
+        season_mask = recent["season"].str.contains(season, case=False, na=False) | (
+            recent["season"].str.strip() == "Whole Year"
+        )
     else:
         season_mask = recent["season"] == season
     recent = recent[season_mask]
 
-    mean_area = recent.groupby("crop")["area_ha"].mean()
+    # Area per crop and year (summed over the matching DES season rows), then averaged.
+    mean_area = recent.groupby(["crop", "year"])["area_ha"].sum().groupby("crop").mean()
 
     grown = set()
     for crop_name, area in mean_area.items():
@@ -152,30 +158,54 @@ def _grown_in_district(district: str, season: str) -> set[str]:
 
 # ── Gate 2: sowable now ───────────────────────────────────────────────────────
 
-def _sowable_crops(today: date) -> dict[str, dict]:
+def _sowable_crops(today: date, season_name: str | None = None) -> dict[str, dict]:
     """Return {crop_id: {"sowable": bool, "opens_on": date|None, "season": str}}
     for all calendar entries that are currently sowable or opening soon.
+
+    Calendar rows that are season variants of one master crop (maize_rabi -> maize) are
+    reported under the master crop_id so every downstream table (DES, cost, seed, RDF,
+    Agmarknet, Kc) joins. When ``season_name`` is given, only calendar rows of that season
+    (plus "Whole Year" rows) are considered.
     """
     cal = _calendar()
     result: dict[str, dict] = {}
 
     for _, row in cal.iterrows():
-        cid = str(row["crop_id"]).strip()
+        raw_cid = str(row["crop_id"]).strip()
+        cid = CROP_ID_ALIASES.get(raw_cid, raw_cid)
         season = str(row["season"]).strip()
+        if season_name and season not in (season_name, "Whole Year"):
+            continue
 
         try:
             start, end = _sowing_window(row, today)
         except Exception:
             continue
+        duration_value = pd.to_numeric(row.get("duration_days"), errors="coerce")
+        duration_days = (
+            int(duration_value)
+            if pd.notna(duration_value) and float(duration_value) > 0
+            else None
+        )
 
         # Sowable: today within [start - GRACE, end]
         window_start = start - timedelta(days=SOWABLE_GRACE_DAYS)
         if window_start <= today <= end:
-            result[cid] = {"sowable": True, "opens_on": None, "season": season}
+            result[cid] = {
+                "sowable": True,
+                "opens_on": None,
+                "season": season,
+                "duration_days": duration_days,
+            }
 
         # Opening soon: start within next OPENS_SOON_DAYS days
         elif 0 < (start - today).days <= OPENS_SOON_DAYS:
-            result[cid] = {"sowable": True, "opens_on": start, "season": season}
+            result[cid] = {
+                "sowable": True,
+                "opens_on": start,
+                "season": season,
+                "duration_days": duration_days,
+            }
 
     return result
 
@@ -250,7 +280,7 @@ def candidate_crops(
     logger.debug("Gate 1: %d crops grown in %s %s", len(grown), district, season_name)
 
     # Gate 2
-    sowable = _sowable_crops(today)
+    sowable = _sowable_crops(today, season_name)
     logger.debug("Gate 2: %d crops sowable on %s", len(sowable), today)
 
     # Crop names map
@@ -290,6 +320,13 @@ def candidate_crops(
                 params={"district": district, "today": str(today)},
             ))
             continue
+        if not sw.get("duration_days"):
+            excluded.append(ExcludedCrop(
+                crop_id=cid,
+                reason_code="DATA_UNAVAILABLE",
+                params={"field": "crop_duration"},
+            ))
+            continue
 
         # Passes both gates — build Candidate
         rough_water = _rough_water_need(cid, sw["season"])
@@ -299,6 +336,7 @@ def candidate_crops(
             crop_id=cid,
             names=names_map.get(cid, {"en": cid, "mr": cid, "hi": cid}),
             season=sw["season"],
+            duration_days=sw["duration_days"],
             water_need_m3_per_acre=water_sv,
             opens_on=str(sw["opens_on"]) if sw.get("opens_on") else None,
         ))

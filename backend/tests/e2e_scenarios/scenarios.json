@@ -1,0 +1,243 @@
+{
+  "seed": 42,
+  "note": "Values generated with random.Random(42) (jit() on ranges), then frozen. No expected outputs, invariants only. Season is derived from today's date by the backend: no override field exists in FarmProfile (limitation).",
+  "scenarios": [
+    {
+      "name": "nashik_borewell_drip_balanced",
+      "description": "Normal irrigated: borewell + drip, Nashik",
+      "profile": {
+        "location_text": "Nashik",
+        "land_acres": 5.0,
+        "budget_rs": 155000,
+        "water_source": "borewell",
+        "borewell_count": 1,
+        "borewell_yield_lph": 7000,
+        "pump_hours_per_day": 6.0,
+        "canal_access": false,
+        "irrigation_method": "drip",
+        "risk_appetite": "balanced",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "irrigated",
+        "borewell"
+      ]
+    },
+    {
+      "name": "pune_canal_flood_safe",
+      "description": "Canal-irrigated flood, Pune, safe risk",
+      "profile": {
+        "location_text": "Pune",
+        "land_acres": 4.0,
+        "budget_rs": 115000,
+        "water_source": "canal",
+        "borewell_count": null,
+        "borewell_yield_lph": null,
+        "pump_hours_per_day": null,
+        "canal_access": true,
+        "irrigation_method": "flood",
+        "risk_appetite": "safe",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "canal"
+      ]
+    },
+    {
+      "name": "pune_borewell_drip_safe",
+      "description": "Pune borewell+drip (onion district) safe, cross-check vs canal-only Pune",
+      "profile": {
+        "location_text": "Pune",
+        "land_acres": 4.0,
+        "budget_rs": 115000,
+        "water_source": "borewell",
+        "borewell_count": 1,
+        "borewell_yield_lph": 8000,
+        "pump_hours_per_day": 6.0,
+        "canal_access": false,
+        "irrigation_method": "drip",
+        "risk_appetite": "safe",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "irrigated",
+        "borewell"
+      ]
+    },
+    {
+      "name": "solapur_rainfed_balanced",
+      "description": "Rainfed semi-arid Solapur",
+      "profile": {
+        "location_text": "Solapur",
+        "land_acres": 6.0,
+        "budget_rs": 65000,
+        "water_source": "rainfed",
+        "borewell_count": null,
+        "borewell_yield_lph": null,
+        "pump_hours_per_day": null,
+        "canal_access": false,
+        "irrigation_method": null,
+        "risk_appetite": "balanced",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "rainfed"
+      ]
+    },
+    {
+      "name": "ahilyanagar_tiny_borewell_safe",
+      "description": "Low-water: tiny borewell, Ahilyanagar",
+      "profile": {
+        "location_text": "Ahilyanagar",
+        "land_acres": 3.0,
+        "budget_rs": 90000,
+        "water_source": "borewell",
+        "borewell_count": 1,
+        "borewell_yield_lph": 800,
+        "pump_hours_per_day": 2.0,
+        "canal_access": false,
+        "irrigation_method": "drip",
+        "risk_appetite": "safe",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "low_water"
+      ]
+    },
+    {
+      "name": "latur_lowbudget_balanced",
+      "description": "Low budget: Rs 8,000 for 2 acres, Latur",
+      "profile": {
+        "location_text": "Latur",
+        "land_acres": 2.0,
+        "budget_rs": 8000,
+        "water_source": "rainfed",
+        "borewell_count": null,
+        "borewell_yield_lph": null,
+        "pump_hours_per_day": null,
+        "canal_access": false,
+        "irrigation_method": null,
+        "risk_appetite": "balanced",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "low_budget"
+      ]
+    },
+    {
+      "name": "nagpur_large_maxprofit",
+      "description": "Large farm 40 acres, Nagpur/Vidarbha, max_profit, borewell+canal",
+      "profile": {
+        "location_text": "Nagpur",
+        "land_acres": 40.0,
+        "budget_rs": 1400000,
+        "water_source": "both",
+        "borewell_count": 3,
+        "borewell_yield_lph": 13500,
+        "pump_hours_per_day": 8.0,
+        "canal_access": true,
+        "irrigation_method": "sprinkler",
+        "risk_appetite": "max_profit",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "large",
+        "both"
+      ]
+    },
+    {
+      "name": "kolhapur_borewell_sprinkler_maxprofit",
+      "description": "Kolhapur borewell sprinkler max_profit",
+      "profile": {
+        "location_text": "Kolhapur",
+        "land_acres": 8.0,
+        "budget_rs": 280000,
+        "water_source": "borewell",
+        "borewell_count": 2,
+        "borewell_yield_lph": 7500,
+        "pump_hours_per_day": 5.0,
+        "canal_access": false,
+        "irrigation_method": "sprinkler",
+        "risk_appetite": "max_profit",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "irrigated"
+      ]
+    },
+    {
+      "name": "jalgaon_edge_tiny_plot",
+      "description": "Edge: 0.25 acre with Rs 1,000 budget, Jalgaon",
+      "profile": {
+        "location_text": "Jalgaon",
+        "land_acres": 0.25,
+        "budget_rs": 1000,
+        "water_source": "rainfed",
+        "borewell_count": null,
+        "borewell_yield_lph": null,
+        "pump_hours_per_day": null,
+        "canal_access": false,
+        "irrigation_method": null,
+        "risk_appetite": "safe",
+        "language": "en"
+      },
+      "expect_http": [
+        200
+      ],
+      "tags": [
+        "edge"
+      ]
+    },
+    {
+      "name": "edge_unsupported_district",
+      "description": "Edge: unsupported/non-Maharashtra location text",
+      "profile": {
+        "location_text": "Bengaluru",
+        "land_acres": 3.0,
+        "budget_rs": 50000,
+        "water_source": "rainfed",
+        "borewell_count": null,
+        "borewell_yield_lph": null,
+        "pump_hours_per_day": null,
+        "canal_access": false,
+        "irrigation_method": null,
+        "risk_appetite": "balanced",
+        "language": "en"
+      },
+      "expect_http": [
+        200,
+        400,
+        404,
+        422
+      ],
+      "tags": [
+        "edge",
+        "unsupported"
+      ]
+    }
+  ]
+}

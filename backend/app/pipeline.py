@@ -11,15 +11,14 @@ Stages (in order):
   4. prices   → SVC.5   (per candidate crop)
   5. costs    → SVC.6
   6. water    → SVC.7   (after ML scenarios are available)
-  7. ML stubs: build_scenarios, candidate_crops, predict_yield,
+  7. ML pipeline: build_scenarios, candidate_crops, predict_yield,
                suitability, crop_water_need, fertilizer_plan
   8. optimizer: compare_strategies
   9. impact metrics
  10. template explanation
 
-When ML stubs raise NotImplementedError the pipeline returns a partial
-PlanResult with an empty crops list and an infeasibility note, so the
-API always responds rather than crashing.
+Required planning stages fail with AppError rather than returning a partial
+success-shaped plan.
 """
 
 from __future__ import annotations
@@ -32,6 +31,7 @@ from app.core.errors import AppError
 from app.data.loaders import load_crop_calendar
 from app.schemas import (
     DataStatus,
+    DefaultUsed,
     ExcludedCrop,
     Explanation,
     FarmProfile,
@@ -54,11 +54,13 @@ logger = logging.getLogger(__name__)
 async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: str | None = None) -> PlanResult:
     """Orchestrate all stages and return a complete PlanResult.
 
-    Never raises — always returns a PlanResult even if some stages fail.
-    Errors are surfaced in warnings[] and excluded_crops[].
+    Source-backed exclusions are returned in excluded_crops. Unexpected failures
+    are raised as AppError so the API cannot return a success-shaped empty plan.
     """
-    tid = thread_id or f"th_{uuid.uuid4().hex[:8]}"
-    pid = plan_id or f"pl_{uuid.uuid4().hex[:6]}"
+    # These IDs are used as opaque capabilities by the unauthenticated pilot API.
+    # Keep all UUID entropy so they cannot be feasibly guessed.
+    tid = thread_id or f"th_{uuid.uuid4().hex}"
+    pid = plan_id or f"pl_{uuid.uuid4().hex}"
     now = datetime.now(tz=timezone.utc)
     warnings: list[Warning] = []
     excluded: list[ExcludedCrop] = []
@@ -81,16 +83,37 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
     try:
         from app.ml.stubs import build_scenarios, candidate_crops
         scenarios = build_scenarios(location, season)
-    except NotImplementedError:
-        scenarios = []
-        logger.info("ML stubs not implemented yet — returning empty plan")
+    except Exception as exc:
+        logger.exception("Scenario construction failed")
+        raise AppError(
+            "UPSTREAM_UNAVAILABLE",
+            {"service": "scenario_builder"},
+            "Climate scenarios could not be calculated from the available data.",
+        ) from exc
+    if len(scenarios) != 3:
+        raise AppError(
+            "UPSTREAM_UNAVAILABLE",
+            {"service": "scenario_builder", "scenario_count": len(scenarios)},
+            "A complete three-scenario plan is required before optimizing.",
+        )
 
     water_budgets = []
     if scenarios:
         try:
             water_budgets = water_svc.build_water_budgets(profile, location, scenarios, weather)
         except Exception as exc:
-            logger.warning("Water budget failed: %s", exc)
+            logger.exception("Water budget failed")
+            raise AppError(
+                "UPSTREAM_UNAVAILABLE",
+                {"service": "water_budget"},
+                "The water budget could not be calculated from the available source data.",
+            ) from exc
+        if len(water_budgets) != 3:
+            raise AppError(
+                "UPSTREAM_UNAVAILABLE",
+                {"service": "water_budget", "scenario_count": len(water_budgets)},
+                "A complete water budget is required before optimizing a plan.",
+            )
 
     crops = []
     strategies = []
@@ -100,7 +123,6 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
 
     if scenarios:
         try:
-            from app.ml.stubs import candidate_crops
             candidates, excluded_crops = candidate_crops(profile, location, season, water_budgets)
             excluded.extend(excluded_crops)
 
@@ -109,7 +131,10 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
                 from app.ml.optimizer import compare_strategies
                 from app.schemas import OptimizerInputs
 
-                crops = await build_crop_options(candidates, scenarios, location, season, profile)
+                crops, price_excluded = await build_crop_options(
+                    candidates, scenarios, location, season, profile
+                )
+                excluded.extend(price_excluded)
                 if crops:
                     opt_inputs = OptimizerInputs(
                         profile=profile,
@@ -123,21 +148,80 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
                     strategies, impact, opt_warnings = compare_strategies(opt_inputs)
                     warnings.extend(opt_warnings)
 
-                    rec_id = "qp_drought_safe" if profile.risk_appetite == "safe" else "qp_balanced"
+                    # Three constructed weather scenarios are useful for
+                    # deterministic comparisons, but not a calibrated joint
+                    # crop-profit covariance model.  Until that evidence is
+                    # available, select the verified LP baseline rather than
+                    # a legacy QP-compatible response id.
+                    from app.ml.constants import RISK_QP_ENABLED
+
+                    rec_id = (
+                        ("qp_drought_safe" if profile.risk_appetite == "safe" else "qp_balanced")
+                        if RISK_QP_ENABLED
+                        else "lp_max_profit"
+                    )
                     rec_strat = next((s for s in strategies if s.id == rec_id), None)
                     if rec_strat is None and strategies:
                         rec_strat = strategies[0]
                     recommended_strategy = rec_strat.id if rec_strat else None
+                    water_budgets = _populate_water_needs(
+                        water_budgets,
+                        crops,
+                        strategies,
+                        recommended_strategy,
+                    )
                     if rec_strat and not rec_strat.feasible:
                         infeasibility = rec_strat.infeasibility
+        except AppError:
+            raise
         except Exception as exc:
-            logger.warning("Pipeline optimization stage failed: %s", exc)
+            logger.exception("Pipeline optimization stage failed")
+            raise AppError(
+                "UPSTREAM_UNAVAILABLE",
+                {"service": "crop_optimization"},
+                "The crop plan could not be calculated from the available source data.",
+            ) from exc
 
     # ── Stage 9: OLD_COST_YEAR warning (always) ───────────────────────────────
-    warnings.append(Warning(code="OLD_COST_YEAR", params={"year": "2022-23"}))
+    if not any(w.code == "OLD_COST_YEAR" for w in warnings):
+        warnings.append(Warning(code="OLD_COST_YEAR", params={"year": "2022-23"}))
+    warnings.extend(price_warnings(crops, warnings))
 
     # ── Stage 10: Template explanation ───────────────────────────────────────
-    explanation = _template_explanation(profile.language, location, season)
+    from app.agent.templates import build_template_explanation
+
+    rec_for_text = next((s for s in strategies if s.id == recommended_strategy), None)
+    water_saved_pct = 0.0
+    if impact is not None:
+        ws = getattr(impact, "water_saved_pct", None)
+        # Same rule as the agent path (nodes.py): a plan that uses more water
+        # than Traditional saved 0%, it never "saved -10%".
+        water_saved_pct = max(0.0, float(getattr(ws, "value", ws) or 0.0))
+    explanation = build_template_explanation(
+        profile.language, profile.land_acres, rec_for_text, water_saved_pct
+    )
+
+    # Borewell declared but capacity inputs missing: groundwater is NOT credited
+    # (no sourced district median exists). Disclose it instead of hiding it.
+    if profile.water_source in ("borewell", "both") and not (
+        profile.borewell_count and profile.borewell_yield_lph and profile.pump_hours_per_day
+    ):
+        warnings.append(Warning(code="ASSUMED_BOREWELL", params={"groundwater_credited_m3": 0}))
+        profile = profile.model_copy(update={"defaults_used": [
+            *profile.defaults_used,
+            DefaultUsed(
+                field="borewell_capacity",
+                value=0,
+                basis="Borewell yield / pump hours not provided; groundwater not counted in the water budget",
+            ),
+        ]})
+
+    # Canal access declared but no sourced canal duty exists (water.py credits
+    # 0 m³ rather than inventing one). Tell the farmer why the plan ignores it.
+    if (profile.canal_access or profile.water_source in ("canal", "both")) and not any(
+        w.code == "CANAL_NOT_CREDITED" for w in warnings
+    ):
+        warnings.append(Warning(code="CANAL_NOT_CREDITED", params={"canal_credited_m3": 0}))
 
     # Count sourced values for data_status
     live_count = sum(1 for sv in _iter_sourced_values(weather) if getattr(sv, "status", "") == "live")
@@ -164,6 +248,66 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
         warnings=warnings,
         data_status=DataStatus(live=live_count, cached=cached_count, official_dataset=18),
     )
+
+
+def price_warnings(crops, existing) -> list[Warning]:
+    """CACHED_PRICES when any crop price is not a live quote (disclosed, never silent)."""
+    if any(w.code == "CACHED_PRICES" for w in existing):
+        return []
+    stale = [c.crop_id for c in crops if getattr(c.price, "status", "") == "cached"]
+    return [Warning(code="CACHED_PRICES", params={"crops": stale})] if stale else []
+
+
+def _populate_water_needs(water_budgets, crops, strategies, recommended_strategy):
+    """Set Traditional and recommended water totals for each climate scenario."""
+    from app.schemas import SourcedValue, WaterNeedSummary
+
+    crop_by_id = {crop.crop_id: crop for crop in crops}
+    traditional = next((item for item in strategies if item.id == "traditional"), None)
+    recommended = next(
+        (item for item in strategies if item.id == recommended_strategy),
+        None,
+    )
+
+    def total_for(strategy, scenario: str) -> float:
+        if strategy is None:
+            return 0.0
+        total = 0.0
+        for allocation in strategy.allocations:
+            crop = crop_by_id.get(allocation.crop_id)
+            if crop is not None:
+                need = getattr(crop.water_need_m3_per_acre, scenario)
+                total += allocation.acres * float(need.value)
+        return round(total, 1)
+
+    updated = []
+    for budget in water_budgets:
+        scenario = budget.scenario
+        traditional_total = total_for(traditional, scenario)
+        recommended_total = total_for(recommended, scenario)
+        source = f"Computed: sum(acres × per-crop {scenario} water need)"
+        as_of = datetime.now(tz=timezone.utc).date().isoformat()
+        updated.append(budget.model_copy(update={
+            "need_m3": WaterNeedSummary(
+                traditional_plan=SourcedValue(
+                    value=traditional_total,
+                    unit="m3",
+                    source=source,
+                    source_url="",
+                    as_of=as_of,
+                    status="computed",
+                ),
+                recommended_plan=SourcedValue(
+                    value=recommended_total,
+                    unit="m3",
+                    source=source,
+                    source_url="",
+                    as_of=as_of,
+                    status="computed",
+                ),
+            ),
+        }))
+    return updated
 
 
 def _detect_season(today) -> Season:

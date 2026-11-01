@@ -17,6 +17,7 @@ import uuid
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Response
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
@@ -57,8 +58,20 @@ async def lifespan(app: FastAPI):
         )
         app.state.agent_graph = None
 
+    # Run one source-health probe in the background so /api/sources can report
+    # live vs cached from evidence instead of assuming.
+    probe_task = None
+    try:
+        import asyncio
+        from app.api.sources import sources_health
+        probe_task = asyncio.create_task(sources_health())
+    except Exception:
+        probe_task = None
+
     app.state.ready = True
     yield
+    if probe_task is not None and not probe_task.done():
+        probe_task.cancel()
     from app.core.cache import close_db
     from app.core.http_client import close_client
     await close_client()
@@ -125,6 +138,25 @@ async def add_request_id_and_timing(request: Request, call_next):
 @app.exception_handler(AppError)
 async def app_error_handler(request: Request, exc: AppError):
     return JSONResponse(status_code=exc.status_code, content=exc.to_response().model_dump())
+
+
+@app.exception_handler(Exception)
+async def unhandled_error_handler(request: Request, exc: Exception):
+    import logging
+    logging.getLogger("app.unhandled").exception(
+        "Unhandled error on %s %s", request.method, request.url.path
+    )
+    # Log the exception above, but never reflect implementation/provider details
+    # to clients.
+    err = AppError("INTERNAL", {"path": request.url.path}, message="Internal server error")
+    return JSONResponse(status_code=500, content=err.to_response().model_dump())
+
+
+@app.exception_handler(RequestValidationError)
+async def request_validation_handler(request: Request, exc: RequestValidationError):
+    fields = sorted({str(e["loc"][-1]) for e in exc.errors() if e.get("loc")})
+    err = AppError("VALIDATION_ERROR", {"fields": fields})
+    return JSONResponse(status_code=422, content=err.to_response().model_dump())
 
 
 # ── Router registration ────────────────────────────────────────────────────────

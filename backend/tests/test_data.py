@@ -21,8 +21,8 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[2]  # AgriPulse-main/
 BACKEND = REPO / "backend"
-A_PROC = REPO / "Teammate-A" / "data" / "processed"
-B_PROC = REPO / "Teammate-B" / "data" / "processed"
+A_PROC = REPO / "data" / "processed"
+B_PROC = A_PROC
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -57,6 +57,7 @@ REQUIRED_B = [
     "fertilizer_use_by_district.csv",
     "msp.csv",
     "price_history_monthly.csv",
+    "price_history_state_monthly.csv",
     "seed.csv",
 ]
 
@@ -278,7 +279,7 @@ def test_groundwater_has_district_avg_rows():
 
 # Patterns that indicate a real key (not a placeholder)
 _KEY_PATTERN = re.compile(
-    r"(?i)(api[_-]?key|access[_-]?token|secret)\s*[=:]\s*(?!<|your|xxx|none|null|placeholder)[a-z0-9_\-]{16,}"
+    r"(?i)(api[_-]?key|access[_-]?token|secret)[ \t]*[=:][ \t]*(?!<|your|xxx|none|null|placeholder)[a-z0-9_\-]{16,}"
 )
 
 def _text_files_under(root: Path, extensions=(".csv", ".md", ".txt", ".json", ".yaml", ".yml")):
@@ -288,8 +289,7 @@ def _text_files_under(root: Path, extensions=(".csv", ".md", ".txt", ".json", ".
 
 
 @pytest.mark.parametrize("folder", [
-    REPO / "Teammate-A" / "data",
-    REPO / "Teammate-B" / "data",
+    REPO / "data",
     BACKEND / "data",
     REPO / "docs",
 ])

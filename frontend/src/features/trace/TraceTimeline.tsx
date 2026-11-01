@@ -5,7 +5,7 @@
 
 import { CheckCircle2, AlertCircle, XCircle, MinusCircle, Loader2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { TraceEvent } from '@/api/types'
+import type { SourceStatus, TraceEvent } from '@/api/types'
 import { SourceBadge } from '@/components/SourceBadge'
 import { TraceRowSkeleton } from '@/components/Skeleton'
 
@@ -13,6 +13,14 @@ interface TraceTimelineProps {
   events: TraceEvent[]
   loading?: boolean
   className?: string
+}
+
+const SOURCE_STATUSES = new Set<string>([
+  'live', 'cached', 'official_dataset', 'model', 'computed', 'farmer_input', 'assumption',
+])
+
+function isSourceStatus(status: string): status is SourceStatus {
+  return SOURCE_STATUSES.has(status)
 }
 
 /** Map step names to emoji/color for the colored circle icon */
@@ -81,7 +89,7 @@ export function TraceTimeline({ events, loading, className = '' }: TraceTimeline
                       source: event.source.name,
                       source_url: event.source.url,
                       as_of: '',
-                      status: event.source.status,
+                      status: isSourceStatus(event.source.status) ? event.source.status : 'computed',
                     }}
                     compact
                   />

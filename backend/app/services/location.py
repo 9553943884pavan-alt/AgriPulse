@@ -26,6 +26,50 @@ _GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
 _GEOCODING_TIMEOUT = httpx.Timeout(connect=5.0, read=5.0, write=5.0, pool=2.0)
 
 
+_GEOCODING_GET_URL = "https://geocoding-api.open-meteo.com/v1/get"
+
+
+_DEVANAGARI_ALIASES = {
+    "नासिक": "नाशिक",
+    "कोल्हापुर": "कोल्हापूर",
+    "सोलापुर": "सोलापूर",
+}
+
+
+async def _geocode(text: str, count: int) -> list[dict]:
+    """Open-Meteo geocoding results with ENGLISH names.
+
+    The English index returns nothing for Devanagari input (Marathi/Hindi farmers
+    type 'नाशिक'), and the district resolver only knows Latin spellings. So for
+    non-ASCII text: search in Marathi, then re-read each hit by id in English.
+    """
+    ascii_text = text.isascii()
+    # Common Hindi spellings that the geocoder indexes under the Marathi spelling.
+    text = _DEVANAGARI_ALIASES.get(text.strip(), text)
+    resp = await fetch(
+        _GEOCODING_URL,
+        params={"name": text, "count": count, "language": "en" if ascii_text else "mr", "countryCode": "IN"},
+        timeout=_GEOCODING_TIMEOUT,
+        retries=1,
+    )
+    results = resp.json().get("results", []) or []
+    if ascii_text:
+        return results
+    english: list[dict] = []
+    for hit in [r for r in results if r.get("country_code") == "IN"][:3]:
+        try:
+            got = await fetch(
+                _GEOCODING_GET_URL,
+                params={"id": hit["id"], "language": "en"},
+                timeout=_GEOCODING_TIMEOUT,
+                retries=1,
+            )
+            english.append(got.json())
+        except Exception as exc:
+            logger.warning("Geocoding id lookup failed for %s: %s", hit.get("id"), exc)
+    return english
+
+
 async def locate(location_text: str) -> Location:
     """Resolve free-text place to a canonical Location.
 
@@ -37,14 +81,7 @@ async def locate(location_text: str) -> Location:
 
     # ── Try live geocoding ────────────────────────────────────────────────────
     try:
-        resp = await fetch(
-            _GEOCODING_URL,
-            params={"name": location_text, "count": 5, "language": "en", "countryCode": "IN"},
-            timeout=_GEOCODING_TIMEOUT,
-            retries=1,
-        )
-        data = resp.json()
-        results = data.get("results", [])
+        results = await _geocode(location_text, 5)
         location = _pick_maharashtra(results, location_text)
         if location:
             payload = location.model_dump(mode="json")
@@ -108,13 +145,7 @@ def _pick_maharashtra(results: list[dict], original: str) -> Location | None:
 async def search_locations(q: str, limit: int = 5) -> list[Location]:
     """E8 — autocomplete: return up to `limit` place suggestions."""
     try:
-        resp = await fetch(
-            _GEOCODING_URL,
-            params={"name": q, "count": limit * 2, "language": "en", "countryCode": "IN"},
-            timeout=_GEOCODING_TIMEOUT,
-            retries=1,
-        )
-        results = resp.json().get("results", [])
+        results = await _geocode(q, limit * 2)
         locations = []
         for r in results:
             if r.get("country_code") != "IN":

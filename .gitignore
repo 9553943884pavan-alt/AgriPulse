@@ -109,3 +109,9 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 *~
+
+# Test outputs (regenerated on every run)
+frontend/test-results/
+frontend/playwright-report/
+frontend/e2e/screenshots/
+backend/tests/e2e_scenarios/results/*.json

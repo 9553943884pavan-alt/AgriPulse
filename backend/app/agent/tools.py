@@ -53,10 +53,10 @@ async def get_weather(location: Location) -> dict[str, SourcedValue]:
 
 # ── Soil ──────────────────────────────────────────────────────────────────────
 
-async def get_soil(location: Location) -> dict[str, SourcedValue]:
-    """Return district-level soil data (N, P, K, pH, OC)."""
+async def get_soil(profile: FarmProfile, location: Location) -> dict[str, SourcedValue | None]:
+    """Return soil data (N, P, K, pH, OC): farmer test > SoilGrids > district dataset."""
     from app.services import soil as soil_svc
-    return await soil_svc.get_soil(location)
+    return await soil_svc.get_soil(profile, location)
 
 
 # ── Water budgets ─────────────────────────────────────────────────────────────
@@ -69,7 +69,7 @@ async def get_water_budget(
 ) -> list[WaterBudget]:
     """One WaterBudget per scenario (drought / normal / excess)."""
     from app.services import water as water_svc
-    return await water_svc.build_water_budgets(profile, location, scenarios, weather)
+    return water_svc.build_water_budgets(profile, location, scenarios, weather)
 
 
 # ── Prices ────────────────────────────────────────────────────────────────────

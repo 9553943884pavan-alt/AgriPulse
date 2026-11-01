@@ -11,6 +11,7 @@ Missing values returned as None — never a guess.
 from __future__ import annotations
 
 import logging
+import time
 
 import httpx
 
@@ -105,20 +106,27 @@ def _load_district_soil(district: str) -> dict[str, SourcedValue | None]:
     }
 
 
+_SOILGRIDS_COOLDOWN_S = 300.0
+_soilgrids_down_until: float = 0.0
+
+
 async def _fetch_soilgrids(location: Location) -> dict[str, SourcedValue] | None:
     """Try SoilGrids live; return None on any failure (0 retries per SPECS)."""
+    global _soilgrids_down_until
     cache = await get_cache()
     key = f"soilgrids:{location.latitude:.4f},{location.longitude:.4f}"
     cached = await cache.get_upstream(key)
     if cached:
         return _parse_soilgrids(cached, status="cached")
+    if time.monotonic() < _soilgrids_down_until:
+        return None
     try:
         resp = await fetch(
             _SOILGRIDS_URL,
             params={
                 "lon": location.longitude,
                 "lat": location.latitude,
-                "property": "phh2o,nitrogen,soc",
+                "property": ["phh2o", "nitrogen", "soc"],  # repeated param per ISRIC docs
                 "depth": "0-30cm",
                 "value": "mean",
             },
@@ -129,7 +137,8 @@ async def _fetch_soilgrids(location: Location) -> dict[str, SourcedValue] | None
         await cache.set_upstream(key, raw, ttl=TTL_SOIL)
         return _parse_soilgrids(raw, status="live")
     except Exception as exc:
-        logger.info("SoilGrids unavailable (skipping): %s", exc)
+        _soilgrids_down_until = time.monotonic() + _SOILGRIDS_COOLDOWN_S
+        logger.info("SoilGrids unavailable (skipping for %ds): %s", int(_SOILGRIDS_COOLDOWN_S), exc)
         return None
 
 

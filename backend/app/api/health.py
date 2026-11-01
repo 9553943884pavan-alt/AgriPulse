@@ -31,7 +31,7 @@ async def health(request: Request) -> dict:
     return {
         "status": "ok",
         "models_loaded": bool(models_loaded),
-        "data_files": getattr(request.app.state, "data_files_loaded", 18),
+        "data_files": getattr(request.app.state, "data_files_loaded", 19),
         "version": "0.1.0",
     }
 

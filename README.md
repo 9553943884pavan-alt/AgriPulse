@@ -1,503 +1,338 @@
-# The_King
-## FORGE_26 Hackathon: AgriPulse, an AI-Based Crop and Agricultural Resource Optimization System
+# AgriPulse
 
----
+**A voice-first AI farm planner: it turns scattered government data into a crop, land, water and budget plan that a farmer can act on, and it never invents a number.**
 
-## Team Name & Details
-* **Team Name:** The_King
-* **Team Leader Name:** Pavan Kumar
-* **Team Members:** Shanmukh, Srivardhan
-* **Team Leader Mobile Number:** 9849820952
-* **Team Leader Email:** iec2025049@iiita.ac.in
-* **College Name:** IIIT Allahabad
-
----
-
-## Domain and Problem Statement
-* **Domain:** Agritech, Climate Resilience & Rural Economics
-* **Theme:** Climate, Resource Infrastructure & Global Supply Resilience
-* **The Problem (The Reality of Indian Farming):**
-  * **Data is Highly Scattered:** Weather, soil health, groundwater levels, reservoir storage, mandi prices and cultivation costs sit on different government portals. No farmer can combine them to make one decision.
-  * **Advice Stops at "Grow X":** Existing tools recommend a crop, but don't answer the real question: *"How do I split my 5 acres and ₹70,000 across crops, with the water I actually have?"*
-  * **Plans Ignore Bad Years:** A plan that is best in an average year can lose money in a drought, and droughts are frequent in regions like Marathwada and Vidarbha. Over-use of groundwater and fertilizer makes it worse every year.
-  * **The Usability Barrier:** Most agricultural AI tools are built for engineers. They expect values like "Soil Nitrogen (kg/ha)" typed in English, which rural farmers cannot provide.
-* **Our Goal:** A voice-first AI agent that plans a farm season **with** the farmer, using only live and official data, and produces a plan that stays profitable even in a drought while saving water and fertilizer.
-
----
-
-## Idea / Solution
-* **The Core Idea:** AgriPulse, an AI agent that talks to the farmer in their own language and turns scattered government data into a climate-resilient crop, land, water, fertilizer and budget plan.
-* **How it Solves the Problem:**
-  * **1. Just Talk:** The farmer speaks in Marathi, Hindi or English (e.g. *"I have 5 acres near Beed, ₹70,000 and a borewell"*). **Sarvam AI speech-to-text** turns the voice into text, and the agent understands the farm details and asks a short follow-up question if something is missing. No forms, no technical inputs.
-  * **2. Centralized Live Data:** The agent automatically fetches weather (forecast + 15 years of history), Soil Health Card nutrients, groundwater status, reservoir storage, live mandi prices and official cultivation costs for that district.
-  * **3. Climate-Resilient Optimization:** A Quadratic Programming optimizer splits land, water, fertilizer and budget across suitable crops, and tests the plan against **Normal, Drought and Excess-rain** years.
-  * **4. Explained in the Farmer's Language:** The agent explains the plan as text, and **Sarvam AI text-to-speech** reads it aloud. It answers follow-up questions (*"What if I only have ₹50,000?"*) and shows every step it took.
-
----
-
-## Existing Vs Proposed System
-* **Existing Systems:**
-  * Disconnected apps (one for weather, one for mandi prices, one for soil cards).
-  * Inputs are technical and in English.
-  * Outputs are a single crop name (classification only), with no budget, water or fertilizer planning.
-  * Plans assume an average year and ignore groundwater limits.
-* **Our Proposed System:**
-  * **Unified, Live Ecosystem:** Weather, soil, groundwater, reservoirs, prices and costs are retrieved automatically from official sources, and every number shows its source and date.
-  * **Agentic AI:** A LangGraph agent that calls tools, fixes plans that cannot work, and remembers the farm for follow-up questions.
-  * **Operations Research + ML:** We don't just predict; we optimize with Quadratic Programming across climate scenarios, under real water limits.
-  * **Vernacular Voice UI:** Speech in, speech out, in Marathi, Hindi and English.
-
----
-
-## Innovation & USP (Unique Selling Proposition)
-*(Our innovations span across Agentic AI, Optimization, Data and UX)*
-
-* **🤖 Agentic AI with Live Reasoning**
-  * A *LangGraph* agent extracts the farm profile from speech, calls data and model tools, checks whether the plan is feasible, and **corrects itself** (e.g. moves land to less water-hungry crops when the water limit is broken).
-  * A **live step trace** shows the farmer and judges every tool call, data source and time taken.
-  * **Memory** of the farm and the last plan allows natural follow-up questions.
-  * A **grounding check** makes sure every number in the AI's answer comes from real tool outputs.
-* **🔍 Explainable Crop Suitability from Real Data**
-  * No synthetic dataset: crops are filtered using official records (grown in the district, sowable now, within the water limit), then scored by our own yield model trained on 15+ years of real district yields.
-  * SHAP values on that model show *why* a crop suits this season (e.g. "rainfall above normal: +0.3 t/ha, long dry spell: −0.2 t/ha"), and the agent explains it in the farmer's language.
-* **🌦️ Climate-Scenario Quadratic Programming**
-  * Drought, Normal and Excess-rain scenarios are built from 15+ years of district weather history (ERA5).
-  * The QP objective balances **expected profit**, **risk** (profit variation across years and price history), the **university-recommended fertilizer dose** (priced at official MRPs) and **market saturation**.
-  * Four strategies are compared side by side: **Traditional crop mix**, **LP max-profit**, **QP balanced** and **QP drought-safe**.
-* **💧 Real Water Accounting**
-  * Available water = rainfall (recent + forecast + scenario) + groundwater share (capped by the official CGWB block category) + canal share (reservoir storage).
-  * Crop water need = *Kc × ET₀ − effective rainfall* (FAO-56), adjusted for flood, sprinkler or drip efficiency.
-* **📊 Strictly Live & Official Data**
-  * No mock or hardcoded values anywhere. If a live API fails, the last real response is used and labelled *"cached, as of <date>"*. If real data does not exist, the crop is left out and the reason is shown.
-  * One canonical list of 36 Maharashtra districts with all spelling variants (e.g. Aurangabad → Chhatrapati Sambhajinagar), so every dataset joins correctly.
-* **🎙️ Zero-Friction Farmer UX**
-  * Voice-first, mobile-first, with local-language labels and numbers in acres, quintals and rupees.
-  * **Sarvam AI** (built for Indian languages) powers both voice input (speech-to-text) and voice output (text-to-speech) in Marathi, Hindi and English.
-* **🇮🇳 Built on Indian AI models, end to end**
-  * **Sarvam AI** is the only model provider: the agent's reasoning, the speech-to-text that hears the farmer, and the text-to-speech that answers them. Models built for Indian languages are not an add-on here, they are the foundation.
-  * If a model call fails, the next Sarvam model is tried, and if every one fails the plan is still explained by a template written from the optimizer's own numbers. The farmer always gets an answer.
-* **📐 Indian Agricultural Unit Conversions**
-  * Government data in hectares and tonnes is converted into farmer units (**acres and quintals**) throughout.
-
----
-
-## Objective & Scope of Solution
-* **Key Objectives:**
-  * Make data-driven farm planning usable by any farmer through voice and simple visual dashboards.
-  * Maximize farmer profit while keeping groundwater and fertilizer use within safe limits.
-  * Protect farmers in bad climate years by recommending plans that remain profitable in a drought.
-* **Scope:**
-  * **Pilot state: Maharashtra (36 districts).** The state is a configuration setting; any state with the same official datasets can be added.
-  * Crops grown in Maharashtra and sowable in the current season, including soybean, cotton, tur, jowar, wheat, sugarcane, onion and pulses.
-  * Languages: Marathi, Hindi and English.
-  * Planning for one farm and one season, with climate scenarios for that season.
-
----
-
-## System Architecture (Logical Data Flow)
-*(The farmer talks to the agent; the agent calls live data, model and optimizer tools, fixes plans that cannot work, and explains the result in the farmer's language.)*
-
-### 1. Layered architecture
+FORGE_26 Hackathon, Theme 2: *Climate, Resource Infrastructure & Global Supply Resilience*
 
 [![AgriPulse end-to-end system architecture](docs/architecture.png)](docs/architecture.png)
 
-*(Click the image to open it full size. Editable vector source: [`docs/architecture.svg`](docs/architecture.svg).)*
+*Click the image to open it full size. Editable vector source: [`docs/architecture.svg`](docs/architecture.svg).*
 
-| # | Layer | What it does |
-| :---: | :--- | :--- |
-| 1 | **Data Sources** | Live APIs and official datasets only: weather, soil, water, mandi prices, costs and yields. No mock data |
-| 2 | **Data Ingestion** | Secure API connection, parallel async fetching, validation, and a cache that keeps the source and date of every value |
-| 3 | **Data Processing & Feature Engineering** | Cleaning, season-aligned weather features, leak-free time-based split, processed datasets |
-| 4 | **ML & Science** | Crop filters from official data, yield model with a yield-based suitability score and SHAP explanations, Drought / Normal / Excess climate scenarios, crop water need and fertilizer plan (university recommended doses) |
-| 5 | **Agent System** | LangGraph agent: extracts the farm profile, calls tools, runs the QP / LP optimizer, corrects infeasible plans and explains the result |
-| 6 | **User Interface** | Voice-first React app with Sarvam speech in and out, live agent trace, source badges and a FastAPI backend |
-| 7 | **Storage, Monitoring & Feedback** | Data store and real-response cache, latency and API-health monitoring, follow-up and retraining loop |
-
-### 2. System architecture (modules and how they connect)
-
-Which modules exist and what each one talks to.
-
-```mermaid
-flowchart TB
-    classDef fe fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#4E2600
-    classDef api fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D2B52
-    classDef agent fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#0B3D0B
-    classDef svc fill:#E0F7FA,stroke:#00838F,stroke-width:2px,color:#004D55
-    classDef ml fill:#F3E5F5,stroke:#8E24AA,stroke-width:2px,color:#38006B
-    classDef opt fill:#D81B60,stroke:#880E4F,stroke-width:2px,color:#FFFFFF
-    classDef store fill:#FFFDE7,stroke:#F9A825,stroke-width:2px,color:#5D4300
-    classDef ext fill:#ECEFF1,stroke:#607D8B,stroke-width:2px,color:#263238
-
-    subgraph FE["🖥️ FRONTEND · React + Vite + Tailwind"]
-        direction LR
-        CHAT["Voice + chat input"]
-        PROF["Farm profile card"]
-        DASH["Plan dashboard<br/>scenarios · strategies · water gauge"]
-        TRACE["Agent trace +<br/>source badges"]
-    end
-
-    subgraph API["🔌 BACKEND API · FastAPI"]
-        direction LR
-        R1["/api/agent/chat<br/>(SSE stream)"]
-        R2["/api/plan"]
-        R3["/api/transcribe<br/>/api/speak"]
-        R4["/api/prefetch<br/>/api/sources/health"]
-    end
-
-    subgraph AG["🤖 AGENT · LangGraph"]
-        direction LR
-        GRAPH["Graph nodes +<br/>conditional edges"]
-        TOOLS["Tools"]
-        MEM[("Memory<br/>SQLite checkpointer")]
-        ROUTER["Sarvam chat model<br/>+ model fallback"]
-    end
-
-    subgraph SV["🌐 DATA SERVICES"]
-        direction LR
-        LOC["Location"]
-        WX["Weather"]
-        SOIL["Soil"]
-        WAT["Water budget"]
-        PRI["Prices"]
-        COST["Costs"]
-    end
-
-    subgraph MLM["🧠 ML & SCIENCE"]
-        direction LR
-        SUIT["Crop<br/>suitability"]
-        YLD["Yield<br/>model"]
-        SCN["Climate<br/>scenarios"]
-        FERT["Fertilizer<br/>curve"]
-    end
-
-    subgraph OPTM["⚙️ OPTIMIZER"]
-        direction LR
-        QP["QP<br/>risk-aware"]
-        LP["LP<br/>baseline"]
-        TRAD["Traditional<br/>plan"]
-    end
-
-    subgraph DATA["🗄️ DATA LAYER"]
-        direction LR
-        FILES[("Official datasets<br/>data/processed")]
-        CACHE[("Real-response cache<br/>SQLite")]
-    end
-
-    subgraph EXT["☁️ EXTERNAL SERVICES"]
-        direction LR
-        SARVAM["Sarvam AI<br/>speech"]
-        LLMS["Sarvam AI<br/>chat · STT · TTS"]
-        OM["Open-Meteo"]
-        GOV["data.gov.in<br/>Agmarknet · CWC"]
-        SG["SoilGrids"]
-    end
-
-    FE <-->|"REST + SSE"| API
-    API -->|"run agent turn"| AG
-    API -->|"prefetch"| SV
-    API <-->|"audio and text"| EXT
-    AG -->|"tool calls"| SV
-    AG -->|"tool calls"| MLM
-    AG -->|"tool calls"| OPTM
-    AG <-->|"LLM calls"| EXT
-    SV -->|"fetch live data"| EXT
-    SV <-->|"read and write"| DATA
-    MLM -->|"training data, lookups"| DATA
-    MLM -->|"yields, water need, scenarios"| OPTM
-    SV -->|"prices, costs, water limit"| OPTM
-
-    class CHAT,PROF,DASH,TRACE fe
-    class R1,R2,R3,R4 api
-    class GRAPH,TOOLS,MEM,ROUTER agent
-    class LOC,WX,SOIL,WAT,PRI,COST svc
-    class SUIT,YLD,SCN,FERT ml
-    class QP,LP,TRAD opt
-    class FILES,CACHE store
-    class SARVAM,LLMS,OM,GOV,SG ext
-
-    style FE fill:#FFFAF2,stroke:#EF6C00,stroke-width:2px,stroke-dasharray: 5 3
-    style API fill:#F3F8FE,stroke:#1565C0,stroke-width:2px,stroke-dasharray: 5 3
-    style AG fill:#F4FAF4,stroke:#2E7D32,stroke-width:2px,stroke-dasharray: 5 3
-    style SV fill:#F1FBFC,stroke:#00838F,stroke-width:2px,stroke-dasharray: 5 3
-    style MLM fill:#FAF4FB,stroke:#8E24AA,stroke-width:2px,stroke-dasharray: 5 3
-    style OPTM fill:#FEF5F8,stroke:#D81B60,stroke-width:2px,stroke-dasharray: 5 3
-    style DATA fill:#FFFEF3,stroke:#F9A825,stroke-width:2px,stroke-dasharray: 5 3
-    style EXT fill:#F7F9FA,stroke:#607D8B,stroke-width:2px,stroke-dasharray: 5 3
-```
-
-### 3. Data flow diagram
-
-How data moves between APIs, datasets, models, the optimizer and the agent: prepared offline, then used live for each farmer request.
-
-```mermaid
-flowchart LR
-    classDef store fill:#FFFDE7,stroke:#F9A825,stroke-width:2px,color:#5D4300
-    classDef live fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D2B52
-    classDef proc fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#0B3D0B
-    classDef ml fill:#F3E5F5,stroke:#8E24AA,stroke-width:2px,color:#38006B
-    classDef opt fill:#D81B60,stroke:#880E4F,stroke-width:2px,color:#FFFFFF
-    classDef io fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#4E2600
-    classDef voice fill:#EDE7F6,stroke:#5E35B1,stroke-width:2px,color:#27135C
-
-    subgraph OFF["🛠️ OFFLINE PREPARATION · before the demo"]
-        direction LR
-        RAW[("Official downloads<br/>data/raw")]
-        PROC[("Cleaned datasets<br/>data/processed")]
-        TRAIN["Train and validate<br/>time-based split"]
-        ART[("Model files<br/>yield · crop · scenario tables")]
-        RAW -->|"clean + join<br/>by district"| PROC
-        PROC -->|"features + target"| TRAIN
-        TRAIN -->|"save"| ART
-    end
-
-    subgraph LIVE["🌐 LIVE APIs"]
-        direction TB
-        OM["Open-Meteo<br/>forecast · ET₀ · history"]
-        GOV["data.gov.in<br/>mandi prices · reservoirs"]
-        SG["SoilGrids<br/>pH · texture"]
-    end
-
-    subgraph ON["⚡ PER FARMER REQUEST · live"]
-        direction LR
-        VOICE["👨‍🌾 Farmer<br/>voice or text"]
-        STT["Sarvam<br/>speech-to-text"]
-        PROFILE["Farm profile<br/>location · land<br/>budget · water source"]
-        FETCH["Async fetch<br/>+ validate"]
-        CACHE[("Real-response cache<br/>value + source + date")]
-        FEAT["Features +<br/>water budget"]
-        MODELS["Crop suitability<br/>yield per scenario"]
-        OPTZ["⚙️ Optimizer<br/>QP · LP · Traditional"]
-        AGENT["🤖 Agent<br/>explain + check"]
-        MEMORY[("Agent memory<br/>profile + last plan")]
-        TTS["Sarvam<br/>text-to-speech"]
-        OUT["📊 Dashboard +<br/>🔊 spoken reply"]
-
-        VOICE -->|"audio"| STT
-        STT -->|"text + language"| PROFILE
-        PROFILE -->|"district + coordinates"| FETCH
-        FETCH -->|"SourcedValue"| CACHE
-        CACHE -->|"weather, soil, water"| FEAT
-        FEAT -->|"inputs per scenario"| MODELS
-        MODELS -->|"yield + water need"| OPTZ
-        CACHE -->|"prices + costs"| OPTZ
-        OPTZ -->|"PlanResult +<br/>binding limits"| AGENT
-        AGENT -->|"explanation in the<br/>farmer's language"| TTS
-        TTS --> OUT
-        AGENT --> OUT
-        PROFILE <-->|"save / load"| MEMORY
-        AGENT -->|"save plan"| MEMORY
-    end
-
-    LIVE -->|"JSON"| FETCH
-    PROC -->|"district tables:<br/>yields · costs · groundwater"| FEAT
-    ART -->|"load at startup"| MODELS
-
-    class RAW,PROC,ART,CACHE,MEMORY store
-    class OM,GOV,SG live
-    class FETCH,FEAT,PROFILE,TRAIN proc
-    class MODELS ml
-    class OPTZ opt
-    class VOICE,OUT,AGENT io
-    class STT,TTS voice
-
-    style OFF fill:#FFFEF3,stroke:#F9A825,stroke-width:2px,stroke-dasharray: 5 3
-    style LIVE fill:#F3F8FE,stroke:#1565C0,stroke-width:2px,stroke-dasharray: 5 3
-    style ON fill:#F4FAF4,stroke:#2E7D32,stroke-width:2px,stroke-dasharray: 5 3
-```
-
-### 4. Agent workflow (LangGraph)
-
-The graph nodes, the conditional edges (decisions), the tools and how the answer is generated. A follow-up such as *"What if I only have ₹50,000?"* goes back through `extract_profile` with the changed fact and re-runs the plan.
-
-```mermaid
-flowchart TD
-    classDef io fill:#ECEFF1,stroke:#607D8B,stroke-width:2px,color:#263238
-    classDef llm fill:#E1F5FE,stroke:#0277BD,stroke-width:2px,color:#01324F
-    classDef tool fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#4E2600
-    classDef decision fill:#FFF9C4,stroke:#F9A825,stroke-width:2px,color:#5D4300
-    classDef opt fill:#D81B60,stroke:#880E4F,stroke-width:2px,color:#FFFFFF
-    classDef good fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#0B3D0B
-    classDef warn fill:#FFEBEE,stroke:#C62828,stroke-width:2px,color:#5C0A0A
-    classDef store fill:#FFFDE7,stroke:#F9A825,stroke-width:2px,color:#5D4300
-
-    START(["🎙️ Farmer turn<br/>text from Sarvam speech-to-text"]):::io
-    MEMLOAD[("Memory<br/>profile + last plan")]:::store
-    ROUTE{"New plan or<br/>follow-up?"}:::decision
-
-    subgraph PROFILEG["① UNDERSTAND THE FARMER"]
-        EXTRACT["extract_profile<br/>LLM + unit normalizer<br/>(guntha, 70 हजार → 70000)"]:::llm
-        MISSING{"Land, budget and<br/>location known?"}:::decision
-        ASK["ask_missing<br/>one short question"]:::llm
-    end
-
-    subgraph DATAG["② GATHER REAL DATA"]
-        GATHER["gather_data<br/>tools run in parallel"]:::tool
-        TOOLSET["get_weather · get_soil · get_water<br/>get_prices · get_costs"]:::tool
-        DATAOK{"Real data for at<br/>least one crop?"}:::decision
-        NODATA["explain which data<br/>is missing, never guess"]:::warn
-    end
-
-    subgraph PLANG["③ PLAN"]
-        RECOMMEND["recommend_crops<br/>district · season · water"]:::tool
-        YIELD["predict_yield<br/>Drought · Normal · Excess"]:::tool
-        OPTIMIZE["optimize<br/>QP · LP · Traditional"]:::opt
-        FEAS{"Feasible?"}:::decision
-        RELAX["relax_constraint<br/>LLM picks the fix:<br/>less land · cheaper or<br/>less water-hungry crops"]:::llm
-        BEST["keep best feasible plan<br/>and report the binding limits"]:::warn
-    end
-
-    subgraph ANSG["④ ANSWER"]
-        EXPLAIN["explain<br/>LLM in farmer's language"]:::llm
-        GROUND{"Grounding check:<br/>every number from a tool?"}:::decision
-        TEMPLATE["template explanation<br/>from the optimizer result"]:::warn
-        QA["answer_from_memory<br/>LLM, grounded in last plan"]:::llm
-        RESPOND["respond<br/>text + plan + step trace"]:::good
-    end
-
-    TTS["🔊 Sarvam text-to-speech"]:::io
-    END_ASK(["⏸️ Wait for next turn"]):::io
-    END_OK(["✅ Reply to farmer"]):::good
-    MEMSAVE[("Memory<br/>save profile + plan")]:::store
-
-    START --> ROUTE
-    MEMLOAD -.->|"load"| ROUTE
-    ROUTE -->|"new details or changed facts<br/>(what if ₹50,000?)"| EXTRACT
-    ROUTE -->|"question about the plan"| QA
-    EXTRACT --> MISSING
-    MISSING -->|"no"| ASK --> END_ASK
-    MISSING -->|"yes"| GATHER
-    GATHER -.->|"calls"| TOOLSET
-    GATHER --> DATAOK
-    DATAOK -->|"no"| NODATA --> RESPOND
-    DATAOK -->|"yes"| RECOMMEND --> YIELD --> OPTIMIZE --> FEAS
-    FEAS -->|"no · tries < 3"| RELAX --> OPTIMIZE
-    FEAS -->|"no · 3 tries used"| BEST --> EXPLAIN
-    FEAS -->|"yes"| EXPLAIN
-    EXPLAIN --> GROUND
-    QA --> GROUND
-    GROUND -->|"yes"| RESPOND
-    GROUND -->|"no"| TEMPLATE --> RESPOND
-    RESPOND --> MEMSAVE
-    RESPOND --> TTS --> END_OK
-
-
-    style PROFILEG fill:#F3FAFE,stroke:#0277BD,stroke-width:2px,stroke-dasharray: 5 3
-    style DATAG fill:#FFFAF2,stroke:#EF6C00,stroke-width:2px,stroke-dasharray: 5 3
-    style PLANG fill:#FEF5F8,stroke:#D81B60,stroke-width:2px,stroke-dasharray: 5 3
-    style ANSG fill:#F4FAF4,stroke:#2E7D32,stroke-width:2px,stroke-dasharray: 5 3
-```
-
-**Model use:** only two steps call a model, `extract_profile` (understanding what the farmer said) and `explain` (writing the answer), with one retry if the grounding check fails: **at most 3 calls per plan**. Choosing how to fix an infeasible plan is plain code, not a model decision, so it is fast and repeatable. Every call goes to **Sarvam AI**; if a model fails, the next Sarvam model is tried, and if all fail the template explanation is used.
-
-### Recommendation and plan explanations
-
-Each plan returned to the dashboard includes:
-
-* **Crop suitability (real data only):**
-  1. *Filter:* a crop is a candidate only if it is grown in the district (DES area data), can be sown now (crop calendar) and its water need fits the available water.
-  2. *Score:* the yield model predicts each candidate's yield for this season's conditions. Suitability = predicted yield ÷ the crop's normal yield in the district; above 1 means better-than-usual conditions.
-  3. *Explain:* SHAP values on the same yield model show which factors (rainfall, dry spell, heat days, soil, irrigation) raised or lowered the yield. SHAP values describe model attribution, not causation. If the model is weak for a crop, the district's historical average is used and the answer says so.
-* **Yield and economics:** yield per crop for each climate scenario, converted to quintals per acre, with mandi price, itemized cultivation cost and net profit per acre. Yields above the district's historical maximum are clipped and flagged.
-* **Optimizer evidence:** the allocation for each strategy, profit in each scenario, worst-case profit, water and fertilizer used, and which constraints (land, budget, water, diversification) were binding.
-* **Agent explanation:** a short explanation in the farmer's language, generated only from tool outputs and checked so that every number matches the data. If no LLM is available, a template explanation built from the optimizer result is shown instead.
-* **Sources:** every value carries its source, link, date and status (live, cached or official dataset).
-
-API keys are kept only in a local `.env` file that is never committed. `.env.example` lists the key names.
+> Note on the diagram: it shows a "QP" optimizer. In the current code the public strategies are solved with a SciPy HiGHS linear program. The CVXPY risk-aware QP is kept as an experimental, gated module and is not used for plans (see [Optimizer](#optimizer-strategies)).
 
 ---
 
-## Detailed Resources Required
-* **Machine Learning & Math:**
-  * Scikit-Learn gradient boosting for yield with a time-based train/test split, SHAP (TreeExplainer) for explanations, SciPy (LP baseline), CVXPY (Quadratic Programming).
-* **Agentic AI & Language:**
-  * LangGraph (tool calling, checkpointed memory).
-  * **Sarvam AI, the single model provider:** chat models for the agent's reasoning, speech-to-text for the farmer's voice, and text-to-speech for the spoken reply, in Marathi, Hindi and English.
-* **Data Sources (Official Datasets):**
-  * *DES district-wise crop production statistics* (historical yields).
-  * *DES/CACP Cost of Cultivation* (itemized costs per crop).
-  * *Soil Health Card* (district N, P, K, pH).
-  * *CGWB Dynamic Ground Water Resources*, *GSDA Maharashtra*, *Minor Irrigation Census*.
-  * *FAO-56* crop water coefficients; state agricultural university fertilizer recommendations; *Dept. of Fertilizers* MRPs; *CACP* MSP; *Mahabeej* seed prices.
-* **Live APIs & Mapping:**
-  * **Open-Meteo:** geocoding, 16-day forecast with ET₀, and the ERA5 historical archive.
-  * **data.gov.in (Agmarknet):** live daily mandi prices for Maharashtra.
-  * **data.gov.in (CWC):** reservoir live storage.
-  * **ISRIC SoilGrids:** soil pH and texture.
-* **Full-Stack Technologies:**
-  * **Backend:** Python, FastAPI, Pydantic, httpx (async), Server-Sent Events for the live agent trace.
-  * **Frontend:** React + Vite + Tailwind CSS, Recharts, react-leaflet.
-  * **Deployment:** Vercel (frontend), Hugging Face Spaces / Render (backend).
+## Contents
+
+1. [Team](#team)
+2. [Problem statement](#problem-statement)
+3. [Our solution](#our-solution)
+4. [Key features](#key-features)
+5. [Tech stack](#tech-stack)
+6. [Folder structure](#folder-structure)
+7. [Data sources](#data-sources)
+8. [Setup and run](#setup-and-run)
+9. [Verified results](#verified-results)
+10. [API endpoints](#api-endpoints)
+11. [Known limitations](#known-limitations)
+12. [Acknowledgements and license](#acknowledgements-and-license)
 
 ---
 
-## True Impact & Working Prototype
-* **🌍 True Impact:**
-  * **Climate resilience:** farmers get plans that stay profitable in a drought year, not just an average year.
-  * **Water security:** plans respect the official groundwater status of the farmer's block, steering over-exploited areas toward water-saving crops and drip irrigation.
-  * **Less input waste:** fertilizer is recommended at the dose where extra fertilizer stops paying for itself.
-  * **Access for everyone:** a farmer who cannot read can plan a season by talking in their own language.
-  * **Trust:** every number shows where it came from, and every agent step is visible.
+## Team
 
-* **💻 Working Prototype:**
-  * **Status:** under development. The live link will be added here after deployment.
-  * **Build plan and progress:** [`frontend/SPECS.md`](frontend/SPECS.md) · [`backend/SPECS.md`](backend/SPECS.md) · [`ml/SPECS.md`](ml/SPECS.md)
-  * **Data collection guide:** [`DATA_COLLECTION.md`](DATA_COLLECTION.md); every dataset is logged in `data/SOURCES.md`.
+**Team name:** The_King  **College:** IIIT Allahabad  **Team leader:** Pavan Kumar ([iec2025049@iiita.ac.in](mailto:iec2025049@iiita.ac.in))
 
----
-
-## What AgriPulse Cannot Do (Known Limitations)
-
-Every number in AgriPulse comes from a real API or an official dataset. Those sources have real limits, and we would rather state them than let a judge or a farmer discover them. Each limit below is visible in the app as well, next to the number it affects.
-
-**About the yield prediction**
-1. **The official district yield data ends in 2014.** The Directorate of Economics & Statistics has published no district-level crop statistics after that year, and we verified this against the live data.gov.in API. The yield model is therefore trained on 1997-2014 and validated on 2012-2014. It is a historical model applied to today's weather, not a model fitted on recent harvests.
-2. **34 of Maharashtra's 36 districts can be planned.** Mumbai City and Mumbai Suburban have no agricultural statistics, so the app says so plainly instead of guessing.
-3. **Soil, irrigation and groundwater are one value per district.** Two farmers in the same district get the same predicted yield even if one has a borewell and the other is rainfed. Their water budget and costs do differ; the yield does not. A farmer's own soil test narrows which crops are suitable but does not change the yield figure.
-4. **SHAP shows what the model relied on, not cause and effect.** "Rainfall raised this yield by 1.2 quintals" means the model leaned on rainfall, not that rainfall proved to cause it.
-
-**About the money**
-5. **Cultivation costs are from the 2022-23 DES/CACP survey** and are compared against a 2026 budget, with no inflation adjustment. Fertilizer and seed are the exceptions: they are priced at today's official rates.
-6. **Prices are today's mandi quotes, adjusted to the harvest month** by a seasonal ratio from four years of real monthly history. That is an adjustment, not a forecast. Where a crop has under three years of history (currently rice and tur), no adjustment is applied and the app says so.
-7. **Moth bean has no price history at all**, and rice and tur have only eight months, because Agmarknet renamed those commodities. They still get live prices; they get no price-risk term.
-8. **Costs are published per state, not per district.** Every district in Maharashtra uses the same cost per crop.
-
-**About the water and the weather**
-9. **The groundwater category is a district average.** The official CGWB data is finer, by block, and a district average can hide an over-exploited block inside a Semi-critical district. The app shows the block detail on the map and labels the planning figure as a district average.
-10. **How much of the rain a crop can actually use, and how much groundwater each category allows, are our assumptions** until we can cite a source for them. They carry an orange "assumption" badge wherever they affect a number.
-11. **Canal access is whatever the farmer tells us.** We have no command-area maps, so we cannot check it.
-12. **Reservoir levels come from the CWC weekly bulletin PDF** (29 Oct 2026 at the time of writing), because data.gov.in publishes no CWC reservoir data after January 2023. The observation date is always shown.
-
-**About the plan itself**
-13. **The three climate scenarios are real past years, not forecasts**, and their probabilities (20% / 60% / 20%) are a fixed default we chose, not a prediction of this season.
-14. **The "traditional plan" we compare against is the district's average crop mix**, not what this particular farmer grew last year.
-15. **Fertilizer advice is the state agricultural university's recommended dose.** We removed an earlier "yield response curve" dataset because its numbers sat exactly on a formula, which meant it was generated rather than measured.
-16. **Long-duration crops such as sugarcane are compared per acre per year**, not per season, so a 12-month crop is not unfairly ranked against a 4-month one.
-17. **A plan is only as good as the day's market reporting.** Mandis do not report every crop every day; a crop with no real price is left out and the reason is shown, rather than being given an invented price.
-
----
-
-## Specs, Milestones & Team Workflow
-
-| Part | Owner | Spec (design, features, tasks, status) |
+| Member | Role | Key contributions |
 | :--- | :--- | :--- |
-| Frontend | Teammate B | [`frontend/SPECS.md`](frontend/SPECS.md): design system, screens, dashboard, features |
-| Backend | Teammate A | [`backend/SPECS.md`](backend/SPECS.md): data layer, services, **API contract and endpoints** |
-| ML & AI | Pavan Kumar | [`ml/SPECS.md`](ml/SPECS.md): yield model, suitability, scenarios, optimizer, LangGraph agent |
+| **Pavan Kumar** (team leader) | **Team lead · ML & AI** | Guided the team through the frontend and backend builds. Built the ML and AI layer: yield model, crop suitability with SHAP explanations, climate scenarios, profit optimizer and the LangGraph farmer agent. |
+| **Shanmukh** | **Data collection (environment & water) · Backend** | Collected the environment and water datasets: weather and ET₀ forecast, 10+ years of historical weather, SoilGrids soil properties, Soil Health Card NPK, FAO-56 crop water coefficients, district coordinates, CGWB groundwater status, recent rainfall, reservoir and canal storage, irrigation efficiency ([checklist](docs/collection/TEAMMATE_A_CHECKLIST.md)). Built parts of the backend. |
+| **Srivardhan** | **Frontend design & development · Data collection (economics & agronomy)** | Designed and built the entire frontend: farm profile, dashboard, strategy comparison, sources page, chat and voice UI, Marathi/Hindi/English screens. Collected the economics and agronomy datasets: live mandi prices, price history, district crop yields, cost of cultivation, fertilizer prices and doses, MSP, crop calendar, seed rates, crop name master table, district fertilizer use, AI language tests ([checklist](docs/collection/TEAMMATE_B_CHECKLIST.md)). |
 
-**Milestones**
+---
 
-| # | Milestone | Done when |
-| :---: | :--- | :--- |
-| M1 | Foundation | Repo, data in place, data tests green, API contract reviewed by all three |
-| M2 | Plan without the agent | `POST /api/plan` returns a real-data plan with LP, QP and 3 climate scenarios, and the dashboard shows it |
-| M3 | Agent end to end | Speak, agent, plan, spoken answer, with the live trace and one follow-up |
-| M4 | Demo-ready | Deployed, failure drills pass, demo rehearsed, deck and video done |
+## Problem statement
 
-**How we work**
-* One branch per task, named by its ID (for example `feat/OPT.2-qp`, `feat/F4-agent-trace`). Small pull requests; nobody pushes to `main` directly.
-* Every pull request is reviewed by one teammate and checked against the "Ground rules" at the top of each spec (above all: **no mock data**).
-* Data changes go through a pull request that also updates `data/SOURCES.md`, and the data tests must pass.
-* Update the task's status in its spec file in the same pull request that does the work.
-* The API contract in `backend/SPECS.md` section 5 is the agreement between all three parts; change it only with all three agreeing.
-* 15-minute daily check-in: done yesterday, doing today, blocked by.
+Indian farmers have the data they need, but it is spread out and hard to use:
 
+- **Scattered data.** Weather, soil health, groundwater, reservoir storage, mandi prices and cultivation costs sit on different government portals. No farmer can combine them into one decision.
+- **Advice stops at "grow X".** Existing tools name a crop. They do not answer "how do I split my 5 acres and Rs 70,000 across crops with the water I actually have?"
+- **Plans ignore bad years.** A plan that is best in an average year can lose money in a drought, which is common in regions like Marathwada and Vidarbha. Over-use of groundwater and fertilizer makes it worse every year.
+- **Usability barrier.** Most agri-AI tools expect technical English inputs (for example "Soil Nitrogen kg/ha") that farmers cannot provide.
+
+**Goal:** an AI agent that plans a farm season *with* the farmer by voice, using only live and official data, and gives a plan that holds up in a drought while respecting water limits.
+
+---
+
+## Our solution
+
+AgriPulse works end to end like this:
+
+1. **Talk or type.** The farmer speaks or types in Marathi, Hindi or English (for example "I have 2 acres near Nashik, Rs 2 lakh and a borewell"). Sarvam speech-to-text turns voice into text. The agent extracts the farm profile and asks one short question if something is missing.
+2. **Location and season.** The place is resolved to a Maharashtra district, and the season is derived from today's date.
+3. **Real data is fetched.** Weather forecast and history, soil, groundwater status, reservoir storage, mandi prices, MSP and cultivation costs, for that district.
+4. **Crop suitability and yield.** Crops are filtered with official records (grown in the district, sowable now, water need fits). A yield model trained on historical district yields predicts yield under Drought, Normal and Excess-rain scenarios. SHAP values explain which factors raised or lowered the yield.
+5. **Optimizer.** Several strategies are solved on identical inputs under land, budget, water and diversification limits.
+6. **Grounded explanation.** The agent explains the plan in the farmer's language. A grounding check makes sure the numbers in the text match tool outputs, and Sarvam text-to-speech can read it aloud.
+7. **Dashboard.** Cost, revenue, profit and ROI, scenario comparison, a live agent step trace, and a source badge on every number.
+
+### The no-mock-data principle
+
+Every number carries a **source** and a **status**: `live`, `cached`, `official_dataset`, `computed` or `assumption`. If a live API fails, the last real response is shown and labelled with its date. If real data does not exist for a crop, the crop is left out and the reason is shown. If no plan is profitable under the real data and constraints, the app says **"no profitable plan"** instead of inventing one.
+
+### Optimizer strategies
+
+All strategies run on the same inputs (see [`backend/app/ml/optimizer.py`](backend/app/ml/optimizer.py)):
+
+| Strategy | What it does |
+| :--- | :--- |
+| Traditional (baseline) | The district's average crop mix from official area shares. No solver. |
+| LP max-profit | SciPy HiGHS linear program that maximizes expected profit. |
+| Balanced / drought-safe | The ids `qp_balanced` and `qp_drought_safe` are kept for API compatibility. Today balanced is the expected-profit LP, and drought-safe is the LP with a drought-scenario water cap. |
+
+Constraints: total land, budget, irrigation water per scenario, and a per-crop diversification cap (100% of land for one crop, 80% for two, 65% for three or more). The CVXPY QP is experimental and not selected, because three weather scenarios are not enough data to estimate a covariance.
+
+---
+
+## Key features
+
+- Voice and text chat in Marathi, Hindi and English (Sarvam STT and TTS; UI strings in `mr`, `hi`, `en`).
+- LangGraph agent with memory, follow-up questions ("what if I only have Rs 50,000?") and a live step trace over Server-Sent Events.
+- Real-data crop filter plus yield model with SHAP explanations.
+- Drought / Normal / Excess-rain scenarios built from historical district weather.
+- Water accounting from rainfall, groundwater (capped by CGWB category) and FAO-56 crop water need.
+- Strategy comparison with profit per scenario and binding-constraint reports.
+- Plan economics: investment, revenue, net profit, ROI, in acres, quintals and rupees.
+- Sources page, API health status and per-value provenance badges.
+- District map (Leaflet) and a re-optimize endpoint for changed inputs.
+- Template fallback: if every model call fails, the plan is still explained from the optimizer's own numbers.
+
+---
+
+## Tech stack
+
+| Layer | Tools |
+| :--- | :--- |
+| Backend | Python 3.12, FastAPI, Pydantic, httpx (async), SQLite cache (aiosqlite), Server-Sent Events (sse-starlette) |
+| Data and ML | pandas, NumPy, scikit-learn (HistGradientBoosting yield model), SHAP |
+| Optimization | SciPy HiGHS LP (used); CVXPY QP (experimental, gated) |
+| Agent and AI | LangGraph with SQLite checkpointer, Sarvam AI (chat, speech-to-text, text-to-speech) |
+| Frontend | React 18, Vite, TypeScript, Tailwind CSS, Zustand, TanStack React Query, Recharts, React-Leaflet, i18next |
+| Testing | pytest, vitest + Testing Library, Playwright, ruff and ESLint for linting |
+| CI | GitHub Actions ([`.github/workflows/backend-ci.yml`](.github/workflows/backend-ci.yml)): pytest + ruff |
+
+---
+
+## Folder structure
+
+```
+AgriPulse/
+├── backend/                 FastAPI service
+│   ├── app/
+│   │   ├── main.py          app setup, routers, startup pre-warm of data and yield models
+│   │   ├── pipeline.py      plan pipeline: data -> suitability -> yield -> optimizer
+│   │   ├── schemas.py       Pydantic API contract (SourcedValue, PlanResult, ...)
+│   │   ├── api/             routes: health, plan, agent (SSE), speech, locations, sources, threads
+│   │   ├── services/        weather, soil, water, prices, costs, location, speech, source registry
+│   │   ├── ml/              suitability, yield model, scenarios, water need, fertilizer, optimizer
+│   │   ├── agent/           LangGraph graph, nodes, tools, prompts, grounding check, memory
+│   │   ├── data/            loaders and district-name resolver for data/processed
+│   │   └── core/            cache, HTTP client, units, errors, timing
+│   ├── tests/               pytest suite and e2e_scenarios/ (live farm scenarios)
+│   └── requirements.txt
+├── frontend/                React + Vite app
+│   ├── src/pages/           Home (chat), Dashboard, Comparison, Farm profile, Sources
+│   ├── src/features/        chat (mic recorder), plan (financials), trace, districts (map)
+│   ├── src/components/      badges, money/quintal/water text, language picker, ...
+│   ├── src/i18n/            en / hi / mr translations
+│   ├── src/test/            vitest unit tests
+│   └── e2e/                 Playwright smoke test
+├── ml/
+│   ├── data_prep/           scripts that build data/processed tables and checks
+│   ├── experiments/         yield model training script
+│   └── models/              trained yield model (.joblib) and metadata
+├── data/
+│   ├── processed/           21 analysis-ready tables the backend reads
+│   ├── raw/                 untouched source downloads
+│   ├── samples/             small API response samples
+│   └── README.md            data folder guide and regeneration commands
+├── docs/
+│   ├── PRESENTATION.md      full project write-up and pitch
+│   ├── architecture.png/.svg
+│   ├── specs/               backend, frontend and ML specs, optimizer math
+│   ├── data/SOURCES.md      official data sources log
+│   ├── reports/             yield, fertilizer and optimizer experiment reports
+│   ├── implementation-plans/
+│   └── TESTING_REPORT_2026-11-01.md
+├── start-backend.bat        Windows launcher for the API
+├── start-frontend.bat       Windows launcher for the web app
+└── .env.example             names of required environment variables
+```
+
+---
+
+## Data sources
+
+Full log with URLs, publishers and licenses: [`docs/data/SOURCES.md`](docs/data/SOURCES.md). Table guide: [`data/README.md`](data/README.md).
+
+| Source | What it provides | Freshness / status |
+| :--- | :--- | :--- |
+| Open-Meteo (forecast) | 16-day forecast and ET0 | Live |
+| Open-Meteo (ERA5 archive) | District weather history 1997-2025, used for climate scenarios and model features | Official dataset (processed) |
+| data.gov.in / Agmarknet | Daily mandi prices; monthly price history | Live, falls back to cached monthly data |
+| DES district crop statistics (data.gov.in) | District crop area, production, yield (ends 2014) | Official dataset |
+| DES / CACP cost of cultivation | Itemized cost per crop | Official dataset, 2022-23 survey |
+| CACP | Minimum support prices | Official dataset |
+| Soil Health Card (DAC&FW) | District N, P, K, pH | Official dataset |
+| ISRIC SoilGrids | Soil pH and texture | Live when available, else Soil Health Card |
+| CGWB / GSDA Maharashtra | Groundwater category by block | Official dataset |
+| CWC weekly bulletin | Reservoir live storage (22 reservoirs) | Official dataset, observation date shown |
+| FAO-56 | Crop coefficients (Kc) and stage lengths | Official publication |
+| State agri universities, Dept. of Fertilizers, Mahabeej | Recommended fertilizer doses, fertilizer MRPs, seed rates and prices | Official dataset |
+| DES land-use / Minor Irrigation census | Irrigation source shares | Official dataset |
+| OpenStreetMap Nominatim, LGD | District coordinates and canonical district list (36) | Official dataset |
+| Sarvam AI | Chat model, speech-to-text, text-to-speech | Live API |
+
+---
+
+## Setup and run
+
+Requirements: Python 3.12, Node.js (with npm), and API keys for Sarvam AI and data.gov.in. Windows commands are shown first; on macOS or Linux use `source .venv/bin/activate` and forward slashes.
+
+### 1. Environment file
+
+Copy `.env.example` to `.env` at the **repo root** and fill in the values. Variable names:
+
+`SARVAM_API_KEY`, `SARVAM_CHAT_MODEL`, `SARVAM_STT_MODEL`, `SARVAM_TTS_MODEL`, `SARVAM_FALLBACK_MODELS`, `DATA_GOV_IN_API_KEY`, `STATE`, `CORS_ORIGINS`, `CACHE_DB_PATH`
+
+Never commit `.env`.
+
+### 2. Backend
+
+```bat
+cd backend
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt
+.venv\Scripts\python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+Or double-click [`start-backend.bat`](start-backend.bat). Check it is up:
+
+```
+http://127.0.0.1:8000/api/health   ->   {"status":"ok","models_loaded":true,...}
+```
+
+Interactive API docs (FastAPI default): http://127.0.0.1:8000/docs
+
+### 3. Frontend
+
+```bat
+cd frontend
+npm install
+npm run dev
+```
+
+Or [`start-frontend.bat`](start-frontend.bat). Open http://127.0.0.1:5173.
+
+```bat
+npm run build        # type-check and production build
+npm test             # vitest unit tests
+npm run lint         # ESLint
+```
+
+### 4. Tests
+
+```bat
+:: Backend unit and API tests (live e2e scenario tests auto-skip if the backend is not running)
+cd backend
+.venv\Scripts\python -m pytest -q
+
+:: Browser smoke test (backend and frontend must be running; uses the Microsoft Edge channel)
+cd frontend
+npm i --no-save @playwright/test@1.49.1
+npx playwright test
+```
+
+### 5. Live farm scenarios
+
+With the backend running, from the repo root:
+
+```bat
+set PYTHONUTF8=1
+backend\.venv\Scripts\python backend\tests\e2e_scenarios\run_scenarios.py
+```
+
+It posts each scenario in [`scenarios.json`](backend/tests/e2e_scenarios/scenarios.json) to `/api/plan`, checks invariants only (no hard-coded expected outputs), writes raw JSON to `backend/tests/e2e_scenarios/results/` and a table to `results/SUMMARY.md`. Optional flags: `--base URL`, `--only name,name`.
+
+### 6. Example API call
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/plan \
+  -H "Content-Type: application/json" \
+  -d '{"location_text":"Nashik, Maharashtra","land_acres":2,"budget_rs":200000,"water_source":"borewell","borewell_count":1,"borewell_yield_lph":8000,"pump_hours_per_day":6,"irrigation_method":"drip","risk_appetite":"balanced"}'
+```
+
+### Rebuilding data and the model (optional)
+
+Processed tables and the trained model are already in the repo. To regenerate them, see [`data/README.md`](data/README.md). The model is trained with `python -I ml/experiments/train_yield_model.py`.
+
+---
+
+## Verified results
+
+Local runs on 2026-11-01:
+
+| Check | Result |
+| :--- | :--- |
+| Backend tests (pytest) | 265 passed |
+| Frontend unit tests (vitest) | 22 passed |
+| Frontend production build and lint | Pass |
+| Playwright browser smoke test | 2 of 2 passed |
+| 10 live farm scenarios | All pass invariant checks: land used <= land available, cost <= budget, water used <= water available, cost + profit = revenue |
+
+**Example** (Nashik, 2 acres, Rs 2 lakh budget, borewell + drip irrigation): the plan puts **onion on 1.3 acres**, investment Rs 55,558, revenue Rs 68,033, net profit Rs 12,475, ROI 22.45%.
+
+Earlier browser and agent-memory test notes: [`docs/TESTING_REPORT_2026-11-01.md`](docs/TESTING_REPORT_2026-11-01.md).
+
+---
+
+## API endpoints
+
+All routes are under `/api` (defined in [`backend/app/api/`](backend/app/api/)).
+
+| Method | Path | Purpose |
+| :--- | :--- | :--- |
+| GET | `/api/health` | Service status, data files loaded, `models_loaded` |
+| GET | `/api/schemas/sse-events` | Schema of the agent's streaming events |
+| POST | `/api/plan` | Build a plan from a farm profile (no agent) |
+| POST | `/api/plans/{plan_id}/reoptimize` | Re-run a plan with changed inputs |
+| POST | `/api/agent/chat` | Agent turn, streamed as Server-Sent Events |
+| GET | `/api/threads/{thread_id}` | Stored conversation / agent memory for a thread |
+| POST | `/api/transcribe` | Speech-to-text (Sarvam) |
+| POST | `/api/speak` | Text-to-speech (Sarvam) |
+| GET | `/api/sources` | Data source registry |
+| GET | `/api/sources/health` | Live status of each external source |
+| GET | `/api/districts` | Canonical district list |
+| GET | `/api/districts/{district}/context` | Data context for one district |
+| GET | `/api/locations/search` | Location search |
+| POST | `/api/prefetch` | Warm the cache for a location |
+
+The full request and response contract is in [`docs/specs/backend-SPECS.md`](docs/specs/backend-SPECS.md) (section 5).
+
+---
+
+## Known limitations
+
+We state these openly; each is shown in the app where it applies.
+
+- **Maharashtra only.** Plans cover Maharashtra districts. The season is derived from today's date (Rabi in November).
+- **Cultivation costs are from the 2022-23 DES/CACP survey**, with no inflation adjustment (fertilizer and seed use current official rates). Costs are per state, not per district.
+- **District yields end in 2014.** DES has published no later district-level data, so the yield model is trained on data up to that year.
+- **Mandi prices.** When the live fetch fails, cached monthly Agmarknet data is used and labelled with its date.
+- **Canal water is not credited.** There is no sourced canal duty value, so a farmer's canal access is shown as an assumption and adds no water.
+- **Some pulses lack FAO-56 stage lengths**, so their irrigation need is an assumption.
+- **SoilGrids may be unavailable**; the app then falls back to district Soil Health Card data.
+- **One value per district** for soil, irrigation and groundwater category, so two farmers in the same district get the same predicted yield.
+- **Climate scenarios are real past years, not forecasts**, with fixed default weights.
+- **SHAP shows model attribution, not cause and effect.**
+- **Optimizer is LP-based.** The risk-aware QP is experimental and not used for plans.
+
+More detail: the limitations section of [`docs/PRESENTATION.md`](docs/PRESENTATION.md).
+
+---
+
+## Acknowledgements and license
+
+Data and services: [data.gov.in](https://data.gov.in) and Agmarknet (DMI), Open-Meteo (ERA5 / ECMWF), ISRIC SoilGrids, Central Ground Water Board (CGWB) and GSDA Maharashtra, Central Water Commission (CWC), Directorate of Economics and Statistics (DES) and CACP, Soil Health Card (DAC&FW), FAO Irrigation and Drainage Paper 56, Mahabeej, state agricultural universities, OpenStreetMap, and Sarvam AI. Each dataset's publisher and license are listed in [`docs/data/SOURCES.md`](docs/data/SOURCES.md).
+
+**License:** _TBD_ <!-- TODO: no LICENSE file found in the repo. Add one (and name it here) before publishing. -->

@@ -18,7 +18,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -49,6 +49,28 @@ class SourcedValue(BaseModel):
     # Optional extras used by specific fields
     history_years: int | None = None  # seasonal_ratio: years of price history used
     note: str | None = None           # seasonal_ratio: explains 1.0 fallback
+
+
+class UncertaintyBand(BaseModel):
+    """A declared, bounded uncertainty range for one optimizer input/output.
+
+    Bounds are deliberately optional at the field level (``CropOption``) because
+    the currently shipped yield and price datasets cannot support a defensible
+    interval for every crop.  A missing band means *unknown*, not zero risk.
+    """
+
+    lower: float
+    expected: float
+    upper: float
+    unit: str
+    basis: str
+    status: SourcedStatus
+
+    @model_validator(mode="after")
+    def _ordered_bounds(self) -> "UncertaintyBand":
+        if self.lower > self.expected or self.expected > self.upper:
+            raise ValueError("uncertainty bounds must satisfy lower <= expected <= upper")
+        return self
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -128,7 +150,7 @@ class Scenario(BaseModel):
     id: Literal["drought", "normal", "excess"]
     label: str
     season_rain_mm: SourcedValue
-    probability: float               # 0.2 / 0.6 / 0.2 (assumption, not a forecast)
+    probability: float = Field(ge=0.0, le=1.0)  # assumption, not a forecast
     analogue_year: int               # real calendar year at P10/P50/P90
     all_year_samples: list[SourcedValue] = Field(default_factory=list)
 
@@ -151,6 +173,7 @@ class Candidate(BaseModel):
     crop_id: str
     names: dict[str, str]            # {"en": "Chickpea", "mr": "हरभरा", "hi": "चना"}
     season: str
+    duration_days: int
     water_need_m3_per_acre: SourcedValue
     opens_on: str | None = None      # ISO date if sowing window opens within 21 days
 
@@ -162,6 +185,7 @@ class Candidate(BaseModel):
 ExcludedReasonCode = Literal[
     "NO_REAL_PRICE",
     "NO_YIELD_DATA",
+    "DATA_UNAVAILABLE",
     "NOT_SOWABLE_NOW",
     "NOT_GROWN_IN_DISTRICT",
     "WATER_INFEASIBLE",
@@ -225,6 +249,7 @@ class YieldPrediction(BaseModel):
     t_per_ha: SourcedValue           # status = "model"
     clipped: bool = False            # True when clipped to district historical max
     out_of_training_range: bool = False
+    uncertainty: UncertaintyBand | None = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -328,6 +353,14 @@ class ProfitByScenario(BaseModel):
     excess: float
 
 
+class RevenueByScenario(BaseModel):
+    """Gross revenue before the per-acre cost breakdown is deducted."""
+
+    drought: float
+    normal: float
+    excess: float
+
+
 class CropOption(BaseModel):
     crop_id: str
     names: dict[str, str]
@@ -345,6 +378,12 @@ class CropOption(BaseModel):
     fertilizer: FertilizerPlan
     water_need_m3_per_acre: WaterNeed
     profit_rs_per_acre: ProfitByScenario
+    # Optional until the source pipeline can estimate defensible intervals.
+    # Absence must be presented as unknown uncertainty, never as a zero-risk input.
+    revenue_rs_per_acre: RevenueByScenario | None = None
+    yield_uncertainty: UncertaintyBand | None = None
+    price_uncertainty: UncertaintyBand | None = None
+    risk_note: str | None = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -358,6 +397,7 @@ class Allocation(BaseModel):
     cost_rs: float
     water_m3: float
     profit_rs: ProfitByScenario
+    revenue_rs: RevenueByScenario | None = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -373,6 +413,31 @@ class OptimizerInputs(BaseModel):
     scenario_weights: list[float]      # [0.2, 0.6, 0.2]
     price_history_years: dict[str, int]  # crop_id → number of years available
 
+    @model_validator(mode="after")
+    def _validate_optimizer_contract(self) -> "OptimizerInputs":
+        """Reject ambiguous input bundles before a solver receives them.
+
+        The optimizer maps weights and water budgets by the three fixed scenario
+        ids.  Accepting a partial or unnormalised bundle silently changes the
+        objective, so it is a validation error rather than a solver fallback.
+        """
+        scenario_ids = {budget.scenario for budget in self.water_budgets}
+        required_ids = {"drought", "normal", "excess"}
+        if scenario_ids != required_ids or len(self.water_budgets) != 3:
+            raise ValueError("water_budgets must contain exactly drought, normal, and excess")
+        if len(self.scenario_weights) != 3:
+            raise ValueError("scenario_weights must contain drought, normal, and excess weights")
+        if any(weight < 0 for weight in self.scenario_weights):
+            raise ValueError("scenario_weights must be non-negative")
+        if abs(sum(self.scenario_weights) - 1.0) > 1e-6:
+            raise ValueError("scenario_weights must sum to 1")
+        crop_ids = [candidate.crop_id for candidate in self.candidates]
+        if len(crop_ids) != len(set(crop_ids)):
+            raise ValueError("candidates must not contain duplicate crop_id values")
+        if any(years < 0 for years in self.price_history_years.values()):
+            raise ValueError("price_history_years cannot be negative")
+        return self
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 17. StrategyResult  — one plan from one strategy
@@ -387,6 +452,22 @@ class StrategyTotals(BaseModel):
     budget_used_rs: float
     fertilizer_kg: dict[str, float]  # {"n": ..., "p2o5": ..., "k2o": ...}
     water_m3: float
+
+
+class FinanceSummary(BaseModel):
+    """Computed portfolio finance for the strategy's scenario-weighted plan.
+
+    Values are emitted only from the same crop yield, harvest-price and cost
+    inputs used in the objective; this prevents a dashboard total from using a
+    different financial definition than the optimizer.
+    """
+
+    investment_rs: SourcedValue
+    expected_yield_quintal: SourcedValue
+    expected_revenue_rs: SourcedValue
+    expected_profit_rs: SourcedValue
+    roi_pct: SourcedValue | None = None
+    break_even_price_rs_per_quintal: SourcedValue | None = None
 
 
 class RelaxationApplied(BaseModel):
@@ -413,6 +494,7 @@ class StrategyResult(BaseModel):
     safety_scenario: Literal["drought", "normal", "excess"]
     allocations: list[Allocation]
     totals: StrategyTotals
+    finance: FinanceSummary | None = None
     profit_by_scenario_rs: ProfitByScenario
     expected_profit_rs: float
     worst_case_profit_rs: float
@@ -422,7 +504,6 @@ class StrategyResult(BaseModel):
     solver: SolverInfo | None = None
     infeasibility: Any | None = None        # Infeasibility | None (forward ref)
     traditional_exceeds: list[str] = Field(default_factory=list)  # limits the traditional mix breaks
-    solver: SolverInfo | None = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -475,6 +556,7 @@ WarningCode = Literal[
     "CACHED_WEATHER",
     "ASSUMED_IRRIGATION",
     "ASSUMED_BOREWELL",
+    "CANAL_NOT_CREDITED",
     "DISTRICT_AVERAGE_SOIL",
     "OLD_COST_YEAR",
     "PRICE_NOT_ADJUSTED",

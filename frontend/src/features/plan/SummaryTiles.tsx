@@ -22,7 +22,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
 
   if (loading || !plan) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${compact ? 'gap-2' : 'xl:grid-cols-4 gap-3.5'}`}>
         {[1, 2, 3, 4].map((i) => <SummaryTileSkeleton key={i} />)}
       </div>
     )
@@ -30,19 +30,26 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
 
   const recommended = plan.strategies.find((s) => s.id === plan.recommended_strategy)
   const traditional = plan.strategies.find((s) => s.id === 'traditional')
+  const waterBudget = plan.water.find((budget) => budget.scenario === scenario)
 
   const expectedProfit = recommended?.profit_by_scenario_rs[scenario] ?? 0
   const tradProfit = traditional?.profit_by_scenario_rs[scenario] ?? 0
   const profitDeltaPct = tradProfit > 0 ? Math.round(((expectedProfit - tradProfit) / tradProfit) * 100) : null
   const profitDeltaRs = expectedProfit - tradProfit
 
-  const waterNeedM3 = plan.water.need_m3.recommended_plan.value
-  const tradWaterM3 = plan.water.need_m3.traditional_plan.value
-  const waterDeltaPct = tradWaterM3 > 0 ? Math.round(((waterNeedM3 - tradWaterM3) / tradWaterM3) * 100) : null
+  const waterNeedM3 = waterBudget?.need_m3.recommended_plan.value
+  const tradWaterM3 = waterBudget?.need_m3.traditional_plan.value
+  const waterDeltaPct = waterNeedM3 !== undefined && tradWaterM3 !== undefined && tradWaterM3 > 0
+    ? Math.round(((waterNeedM3 - tradWaterM3) / tradWaterM3) * 100)
+    : null
 
   const cropCount = recommended?.allocations.length ?? plan.crops.length
-  const waterLitres = waterNeedM3 * 1000
-  const waterLakhL = (waterLitres / 100_000).toFixed(1)
+  const allocatedLand = recommended?.totals.land_used_acres ?? 0
+  const landCoveragePct = plan.profile.land_acres > 0
+    ? Math.round((allocatedLand / plan.profile.land_acres) * 100)
+    : null
+  const diversified = cropCount > 1
+  const waterLakhL = waterNeedM3 === undefined ? null : ((waterNeedM3 * 1000) / 100_000).toFixed(1)
 
   const tiles = [
     {
@@ -61,7 +68,14 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
         neutral: profitDeltaPct === 0,
       } : null,
       sourceName: 'Agmarknet & CEDA',
-      sourced: plan.impact?.drought_profit_gain_rs ?? plan.water.need_m3.recommended_plan,
+      sourced: {
+        value: expectedProfit,
+        unit: 'Rs',
+        source: 'Computed from the selected optimization strategy and scenario',
+        source_url: '',
+        as_of: plan.created_at,
+        status: 'computed' as const,
+      },
     },
     {
       id: 'land',
@@ -70,11 +84,13 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
       label: t('dashboard.crop_area'),
       value: `${plan.profile.land_acres}`,
       unit: t('units.acres'),
-      subtext: '100% of registered acreage allocated',
-      delta: {
-        text: 'Optimal Multi-Crop Plot',
-        positive: true,
-        neutral: false,
+      subtext: landCoveragePct === null
+        ? 'Allocated area from optimizer'
+        : `${landCoveragePct}% of registered acreage allocated`,
+      delta: landCoveragePct === null ? null : {
+        text: landCoveragePct >= 100 ? 'Full land allocation' : `${landCoveragePct}% land allocated`,
+        positive: landCoveragePct >= 100,
+        neutral: landCoveragePct < 100,
       },
       sourceName: 'Farmer Profile',
       sourced: {
@@ -91,9 +107,11 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
       icon: <Droplets className="w-5 h-5 text-blue-600" strokeWidth={2.2} aria-hidden="true" />,
       iconBg: 'bg-blue-50 border border-blue-200 text-blue-600',
       label: t('dashboard.water_req'),
-      value: `${waterLakhL}`,
+      value: waterLakhL ?? '—',
       unit: t('misc.lakh_l'),
-      subtext: `${Math.round(waterNeedM3).toLocaleString('en-IN')} m³ total consumption`,
+      subtext: waterNeedM3 === undefined
+        ? t('errors.water_budget_missing', 'Water data is unavailable for this scenario.')
+        : `${Math.round(waterNeedM3).toLocaleString('en-IN')} m³ total consumption`,
       delta: waterDeltaPct !== null ? {
         text: waterDeltaPct < 0
           ? `${Math.abs(waterDeltaPct)}% Water Saved`
@@ -104,7 +122,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
         neutral: waterDeltaPct === 0,
       } : null,
       sourceName: 'FAO-56 & CGWB',
-      sourced: plan.water.need_m3.recommended_plan,
+      sourced: waterBudget?.need_m3.recommended_plan,
     },
     {
       id: 'crops',
@@ -113,13 +131,15 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
       label: t('dashboard.num_crops'),
       value: `${cropCount}`,
       unit: 'Recommended',
-      subtext: 'Hedged against rainfall and price dips',
-      delta: {
-        text: 'Risk-Diversified',
+      subtext: diversified
+        ? 'Multiple crop allocations; risk is not statistically modelled'
+        : 'One eligible crop allocation; no diversification claim',
+      delta: diversified ? {
+        text: 'Multiple crop allocation',
         positive: true,
         neutral: false,
-      },
-      sourceName: 'QP Optimizer',
+      } : null,
+      sourceName: 'LP Optimizer',
       sourced: {
         value: cropCount,
         unit: 'count',
@@ -147,7 +167,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
               <span className="text-[10px] font-medium text-muted bg-white border border-sage-mist/80 px-2 py-0.5 rounded-full shadow-2xs">
                 {tile.sourceName}
               </span>
-              <SourceBadge sourced={tile.sourced} compact />
+              {tile.sourced && <SourceBadge sourced={tile.sourced} compact />}
             </div>
           </div>
 

@@ -20,8 +20,8 @@ import pandas as pd
 import pypdf
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-TABLE = REPO_ROOT / "Teammate-A" / "data" / "processed" / "reservoir_storage.csv"
-RAW_DIR = REPO_ROOT / "Teammate-A" / "data" / "raw" / "cwc_reservoir"
+TABLE = REPO_ROOT / "data" / "processed" / "reservoir_storage.csv"
+RAW_DIR = REPO_ROOT / "data" / "raw" / "cwc_reservoir"
 DAY = sys.argv[1] if len(sys.argv) > 1 else "29-10-2026"
 BULLETIN_ID = sys.argv[2] if len(sys.argv) > 2 else "126"
 URL = f"https://rsms.cwc.gov.in/admin/storage/bulletins/bulletin-{DAY}-{BULLETIN_ID}.pdf"

@@ -93,7 +93,8 @@ def _parse_weather(raw: dict, status: str, as_of: str) -> dict[str, SourcedValue
         # 24 hourly values per day
         for i in range(len(times)):
             chunk = rh_hourly[i * 24:(i + 1) * 24]
-        rh_daily.append(sum(v for v in chunk if v is not None) / len(chunk) if chunk else None)
+            values = [value for value in chunk if value is not None]
+            rh_daily.append(sum(values) / len(values) if values else None)
 
     def sv(value: float | None, unit: str, source: str = _OPEN_METEO_SOURCE) -> SourcedValue:
         return SourcedValue(

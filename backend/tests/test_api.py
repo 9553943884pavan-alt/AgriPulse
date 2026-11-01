@@ -1,5 +1,9 @@
 """API endpoint tests (API.1-API.10)."""
 
+import io
+import wave
+
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -105,8 +109,16 @@ def test_sources_list():
     r = client.get("/api/sources")
     assert r.status_code == 200
     sources = r.json()["sources"]
-    assert len(sources) > 0
-    assert any(s["id"] == "agmarknet" for s in sources)
+    assert len(sources) >= 19
+    required = {"id", "category", "name", "publisher", "url", "mode", "as_of", "methodology", "used_for"}
+    assert all(required <= set(source) for source in sources)
+    assert {"agmarknet", "price_history", "open_meteo_forecast", "soil_health_card", "fertilizer", "seed", "cgwb", "cwc", "des_yields"} <= {source["id"] for source in sources}
+    assert {source["mode"] for source in sources} >= {"live", "historical", "static"}
+    # The page must link to publisher/dataset pages, never credential-bearing API calls.
+    assert all("api-key" not in source["url"] and "/resource/" not in source["url"] for source in sources)
+    urls = {source["id"]: source["url"] for source in sources}
+    assert urls["costs"] == "https://desagri.gov.in/divisions-cell/cost-studies-cs/"
+    assert urls["fertilizer"] == "https://fert.gov.in/"
 
 
 # ── E7 prefetch ───────────────────────────────────────────────────────────────
@@ -129,3 +141,42 @@ def test_request_id_on_every_response():
     for path in ("/api/health", "/api/districts", "/api/sources"):
         r = client.get(path)
         assert "x-request-id" in r.headers, f"Missing X-Request-Id on {path}"
+
+
+def test_speak_rejects_text_over_sarvam_limit():
+    r = client.post("/api/speak", json={"text": "a" * 2501})
+    assert r.status_code == 422
+
+
+def test_bulbul_v4_flash_speakers_cover_supported_languages():
+    from app.services.speech import _tts_speaker
+
+    assert _tts_speaker("mr") == "ishita_mr_conversational"
+    assert _tts_speaker("hi") == "simran_hi_conversation"
+    assert _tts_speaker("en") == "simran_en_conversation"
+
+
+def _wav_audio(duration_seconds: int) -> bytes:
+    buffer = io.BytesIO()
+    with wave.open(buffer, "wb") as audio:
+        audio.setnchannels(1)
+        audio.setsampwidth(2)
+        audio.setframerate(8000)
+        audio.writeframes(b"\0\0" * 8000 * duration_seconds)
+    return buffer.getvalue()
+
+
+def test_stt_accepts_sarvam_maximum_duration():
+    from app.services.speech import _validate_audio_duration
+
+    assert _validate_audio_duration(_wav_audio(30)) == pytest.approx(30.0)
+
+
+def test_transcribe_rejects_audio_over_sarvam_duration_limit():
+    response = client.post(
+        "/api/transcribe",
+        files={"audio": ("long.wav", _wav_audio(31), "audio/wav")},
+    )
+
+    assert response.status_code == 422
+    assert response.json()["error"]["details"]["max_duration_seconds"] == 30

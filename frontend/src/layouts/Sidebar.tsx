@@ -7,6 +7,7 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Home, ClipboardList, BarChart2, GitCompare, Database, Leaf, SunMedium, MapPin } from 'lucide-react'
+import { useStore } from '@/state/store'
 
 const NAV_ITEMS = [
   { to: '/',           icon: Home,          key: 'home' },
@@ -18,6 +19,7 @@ const NAV_ITEMS = [
 
 export function Sidebar() {
   const { t } = useTranslation()
+  const plan = useStore((s) => s.plan)
 
   return (
     <aside
@@ -110,24 +112,26 @@ export function Sidebar() {
                 <SunMedium className="w-4 h-4 text-sunrise-gold" strokeWidth={2.4} aria-hidden="true" />
               </div>
               <div>
-                <p className="text-white text-base font-bold leading-none">23°C</p>
-                <p className="text-[11px] leading-tight text-sage-mist mt-0.5">Partly Cloudy</p>
+                <p className="text-white text-base font-bold leading-none">
+                  {plan ? plan.season.name : '—'}
+                </p>
+                <p className="text-[11px] leading-tight text-sage-mist mt-0.5">
+                  {plan
+                    ? `${plan.season.sowing_window.start} → ${plan.season.sowing_window.end}`
+                    : 'No plan yet'}
+                </p>
               </div>
             </div>
-            <span
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-full text-forest"
-              style={{ background: '#F3C66B' }}
-            >
-              Live
-            </span>
           </div>
 
+          {/* Shows only the current plan's real location and season; no invented weather. */}
           <div className="flex items-center justify-between pt-2 border-t border-white/10 text-[11px]">
-            <div className="flex items-center gap-1 text-white/90">
-              <MapPin className="w-3 h-3 text-sunrise-gold" />
-              <span className="font-medium">Beed, Maharashtra</span>
+            <div className="flex items-center gap-1 text-white/90 min-w-0">
+              <MapPin className="w-3 h-3 text-sunrise-gold flex-shrink-0" />
+              <span className="font-medium truncate">
+                {plan ? plan.location.resolved_name : 'Location not set'}
+              </span>
             </div>
-            <span className="text-sage-mist font-normal">Kharif '26</span>
           </div>
         </div>
       </div>

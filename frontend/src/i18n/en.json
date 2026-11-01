@@ -26,7 +26,10 @@
     "q1": "Best crops for my farm?",
     "q2": "How much profit can I get?",
     "q3": "Is my area drought prone?",
-    "q4": "How can I save water?"
+    "q4": "How can I save water?",
+    "speak_latest": "Read latest reply aloud",
+    "speak_reply": "Read reply aloud",
+    "copy_reply": "Copy reply"
   },
   "profile_card": {
     "title": "Farm Profile",
@@ -69,7 +72,12 @@
     "water_both": "Borewell + Canal",
     "irrigation_flood": "Flood",
     "irrigation_sprinkler": "Sprinkler",
-    "irrigation_drip": "Drip"
+    "irrigation_drip": "Drip",
+    "borewell_yield_label": "Yield (litres/hour)",
+    "pump_hours_label": "Pump hours/day",
+    "err_location": "Please enter your location.",
+    "err_land": "Land must be more than 0 acres.",
+    "err_budget": "Budget must be more than 0 rupees."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -93,7 +101,29 @@
     "opens_on": "Opens",
     "season_label": "Season",
     "water_saved": "Water saved",
-    "fertilizer_saved": "Fertilizer saved"
+    "fertilizer_saved": "Fertilizer saved",
+    "district_map": "Maharashtra district water context",
+    "map_help": "Select a district to see its groundwater, rainfall, reservoir, and irrigation data.",
+    "groundwater": "Groundwater",
+    "extraction": "Extraction",
+    "recent_rain": "Rainfall (90 days)",
+    "gw_safe": "Safe",
+    "gw_semi_critical": "Semi-critical",
+    "gw_critical": "Critical / over-exploited",
+    "gw_unavailable": "Unavailable",
+    "profit_subtitle": "Comparison across strategies",
+    "gives_highest_profit": "gives the highest expected profit",
+    "higher_than_traditional": "higher than traditional",
+    "water_subtitle": "Available sources vs plan requirement",
+    "total_requirement": "Total Requirement",
+    "available_water": "Available Water",
+    "surplus": "Surplus",
+    "water_sufficient": "Available water is sufficient for the selected plan.",
+    "water_surplus": "You have a surplus of",
+    "water_deficit": "Available water may not be sufficient for the selected plan.",
+    "cost_subtitle": "Estimated cost per crop for the selected plan",
+    "highest_cost_crop": "has the highest cost due to higher labour and input requirements.",
+    "cost_reference": "Costs are based on 2022-23 (DES/CACP)."
   },
   "comparison": {
     "title": "Strategy Comparison",
@@ -107,7 +137,8 @@
     "insights_title": "Strategy Insights",
     "scenario_summary": "Scenario Summary",
     "metric": "Metric",
-    "recommended": "Recommended"
+    "recommended": "Recommended",
+    "reoptimizing": "Recalculating your plan…"
   },
   "scenarios": {
     "drought": "Drought year",
@@ -147,7 +178,8 @@
     "kg": "kg",
     "bags": "bags",
     "mm": "mm",
-    "months": "months"
+    "months": "months",
+    "total_area": "Total area:"
   },
   "errors": {
     "network": "No internet connection — please check and try again.",
@@ -159,7 +191,14 @@
     "location_not_found": "We could not find this place. Please try a district name.",
     "not_agricultural": "This district has no agricultural statistics in our data.",
     "speech_failed": "We could not understand the audio. Please try again or type.",
-    "audio_too_large": "Audio is too long (max 60 seconds). Please try again."
+    "audio_too_large": "Audio is too long (max 60 seconds). Please try again.",
+    "districts_failed": "District data could not be loaded.",
+    "district_context_failed": "District context could not be loaded.",
+    "water_budget_missing": "Water data is unavailable for this scenario.",
+    "backend_not_ready": "Backend is starting or unavailable. Some planning features may not work yet.",
+    "thread_restore": "Could not restore the saved conversation.",
+    "prefetch_failed": "Location cache could not be warmed; planning can still continue.",
+    "chat_failed": "Chat could not be completed. Please try again."
   },
   "trace": {
     "running": "Running…",
@@ -199,18 +238,21 @@
     "fertilizer_use_kg_per_ha": "Fertilizer use {{value}} kg/ha {{direction}}"
   },
   "warning_codes": {
-    "CACHED_PRICES": "Prices are from {{as_of}}.",
-    "CACHED_WEATHER": "Weather data is from {{as_of}}.",
+    "CANAL_NOT_CREDITED": "Canal water is counted as 0 m³: no official canal water allocation (duty) data is available yet. Add a borewell or tell us your canal water share for a better plan.",
+    "CACHED_PRICES": "Prices for {{crops}} are from cached data, not live.",
+    "CACHED_WEATHER": "Weather data for {{district}} is from cache, not live.",
     "ASSUMED_IRRIGATION": "Irrigation method assumed: {{method}}.",
-    "ASSUMED_BOREWELL": "Borewell yield assumed from district average.",
+    "ASSUMED_BOREWELL": "No borewell yield was given, so groundwater is counted as 0 m³. Tell us your borewell capacity for a better plan.",
     "DISTRICT_AVERAGE_SOIL": "Soil data is a district average.",
     "OLD_COST_YEAR": "Cultivation costs are from {{year}}.",
     "PRICE_NOT_ADJUSTED": "No seasonal price adjustment for {{crop}} (limited history).",
-    "SINGLE_CROP_ELIGIBLE": "Only one crop had real prices: {{crop}}."
+    "SINGLE_CROP_ELIGIBLE": "Only one crop had real prices: {{crop_id}}.",
+    "SINGLE_SEASON_COMPARISON": "{{crop_id}} takes a full year, so a single season cannot be compared fairly."
   },
   "excluded_reasons": {
     "NO_REAL_PRICE": "{{crop_id}} not included: no Agmarknet price found for {{district}}.",
     "NO_YIELD_DATA": "{{crop_id}} not included: no yield data for this district.",
+    "DATA_UNAVAILABLE": "{{crop_id}} not included: required source data is unavailable.",
     "NOT_SOWABLE_NOW": "{{crop_id}} not included: not in sowing window.",
     "NOT_GROWN_IN_DISTRICT": "{{crop_id}} not included: not commonly grown in {{district}}.",
     "WATER_INFEASIBLE": "{{crop_id}} not included: water requirement exceeds available supply.",
@@ -247,6 +289,27 @@
     "status_unknown": "Status unknown",
     "live_count": "{{n}} live",
     "cached_count": "{{n}} cached",
-    "official_count": "{{n}} official"
+    "official_count": "{{n}} official",
+    "loading": "Loading…",
+    "trace_waiting": "Waiting for your details",
+    "trace_failed": "Failed",
+    "trace_idle_label": "Idle"
+  },
+  "empty_plan": {
+    "title": "No profitable plan found",
+    "reason_no_positive_allocation": "With current prices and costs, every crop loses money in this district, so no crops were allocated. Try a different location, season or budget.",
+    "reason_generic": "No crop allocation could be made with the current inputs.",
+    "crops_title": "Crops evaluated (profit per acre)",
+    "per_acre": "/ acre"
+  },
+  "topbar": {
+    "data_checking": "Checking data sources...",
+    "data_ok": "All data sources connected",
+    "data_degraded": "Some data sources degraded - cached data in use",
+    "data_down": "Data sources unreachable",
+    "ai_checking": "Checking AI...",
+    "ai_online": "AI assistant online",
+    "ai_starting": "AI assistant starting up",
+    "ai_offline": "AI assistant offline"
   }
 }

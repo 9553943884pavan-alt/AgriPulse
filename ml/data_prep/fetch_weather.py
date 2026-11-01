@@ -2,9 +2,9 @@
 
 One consistent source for 1997-2025, replacing the two disagreeing rainfall files
 (Teammate B 1997-2014 and Teammate A 2010-2025). Coordinates come from
-Teammate-A/data/processed/districts.csv (OSM Nominatim district headquarters).
+data/processed/districts.csv (OSM Nominatim district headquarters).
 
-Output: Teammate-A/data/raw/open_meteo_archive_1997_2025/<District>.json (one file per district,
+Output: data/raw/open_meteo_archive_1997_2025/<District>.json (one file per district,
 unchanged API response). Re-running skips files that already exist.
 """
 
@@ -18,8 +18,8 @@ import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DISTRICTS_CSV = REPO_ROOT / "Teammate-A" / "data" / "processed" / "districts.csv"
-OUT_DIR = REPO_ROOT / "Teammate-A" / "data" / "raw" / "open_meteo_archive_1997_2025"
+DISTRICTS_CSV = REPO_ROOT / "data" / "processed" / "districts.csv"
+OUT_DIR = REPO_ROOT / "data" / "raw" / "open_meteo_archive_1997_2025"
 API = "https://archive-api.open-meteo.com/v1/archive"
 START, END = "1997-01-01", "2025-12-31"
 DAILY = [

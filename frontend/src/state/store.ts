@@ -1,13 +1,14 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { FarmProfile, PlanResult, Language, ScenarioId, StrategyId, TraceEvent } from '@/api/types'
-
-interface ThreadMessage {
-  role: 'farmer' | 'agent'
-  text: string
-  language: Language
-  at: string
-}
+import type {
+  FarmProfile,
+  PlanResult,
+  Language,
+  ScenarioId,
+  StrategyId,
+  TraceEvent,
+  ThreadMessage,
+} from '@/api/types'
 
 interface AppState {
   // Session
@@ -26,8 +27,10 @@ interface AppState {
   setThreadId: (id: string) => void
   setProfile: (profile: FarmProfile) => void
   setPlan: (plan: PlanResult) => void
+  setMessages: (messages: ThreadMessage[]) => void
   addMessage: (msg: ThreadMessage) => void
   addTraceEvent: (event: TraceEvent) => void
+  clearTrace: () => void
   setLanguage: (lang: Language) => void
   setScenario: (scenario: ScenarioId) => void
   setStrategy: (strategy: StrategyId) => void
@@ -54,8 +57,11 @@ export const useStore = create<AppState>()(
       setProfile: (profile) => set({ profile }),
       setPlan: (plan) => set({
         plan,
+        profile: plan.profile,
+        threadId: plan.thread_id,
         selectedStrategy: plan.recommended_strategy ?? null,
       }),
+      setMessages: (messages) => set({ messages }),
       addMessage: (msg) => set((state) => ({
         messages: [...state.messages, msg],
       })),
@@ -68,6 +74,7 @@ export const useStore = create<AppState>()(
         }
         return { traceEvents: [...state.traceEvents, event] }
       }),
+      clearTrace: () => set({ traceEvents: [] }),
       setLanguage: (language) => set({ language }),
       setScenario: (selectedScenario) => set({ selectedScenario }),
       setStrategy: (selectedStrategy) => set({ selectedStrategy }),

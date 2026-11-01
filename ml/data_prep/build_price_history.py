@@ -8,7 +8,7 @@ Both files are streamed and filtered on the fly (never stored whole): only Mahar
 
 Why: the earlier price_history_monthly.csv was modelled (every district moved in exact lockstep), not observed.
 
-Outputs (Teammate-B/data/processed/):
+Outputs (data/processed/):
   price_history_monthly.csv        commodity, district, year, month, modal_price_rs_per_quintal (median of daily modal
                                    prices), n_observations
   price_history_state_monthly.csv  commodity, year, month, median/mean/std of daily modal price across all
@@ -31,8 +31,8 @@ from pathlib import Path
 import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-B_PROC = REPO_ROOT / "Teammate-B" / "data" / "processed"
-B_B2 = REPO_ROOT / "Teammate-B" / "teammate_b" / "B2_price_history_monthly"
+B_PROC = REPO_ROOT / "data" / "processed"
+B_B2 = REPO_ROOT / "data" / "evidence" / "teammate-b" / "B2_price_history_monthly"
 SOURCES = {
     "old": "https://ckandev.indiadataportal.com/dataset/1749d812-35b4-4635-ac29-dd3116ed31b0/resource/21ecb9f0-7bf9-42d0-af24-df2e230e4a0a/download/apmc-arrivals-and-prices-old-source.csv",
     "new": "https://ckandev.indiadataportal.com/dataset/1749d812-35b4-4635-ac29-dd3116ed31b0/resource/078fd1ea-dab6-4aca-aed9-3a4b8b2c761d/download/apmc-arrivals-and-prices-new-source.csv",
@@ -77,7 +77,7 @@ def wanted_commodities() -> dict[str, str]:
 
 def district_lookup() -> dict[str, str]:
     """Any Agmarknet spelling -> the canonical district name in districts.csv."""
-    districts = pd.read_csv(REPO_ROOT / "Teammate-A" / "data" / "processed" / "districts.csv")
+    districts = pd.read_csv(REPO_ROOT / "data" / "processed" / "districts.csv")
     return {norm(n): row.district for row in districts.itertuples()
             for n in [row.district, *str(row.name_variants).split("|")]}
 

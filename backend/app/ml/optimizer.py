@@ -1,14 +1,28 @@
-"""OPT.1-OPT.5  LP (HiGHS via SciPy) + QP (CVXPY) optimizer.
+"""Optimizer formulations and their data-quality boundaries.
 
-Four strategies on identical inputs:
+Public strategies on identical inputs:
   traditional      — district crop-mix from DES area shares (no solver)
   lp_max_profit    — SciPy HiGHS, expected profit only
-  qp_balanced      — CVXPY QP with risk term, λ from profile.risk_appetite
-  qp_drought_safe  — QP with water limit taken from the Drought scenario
+  qp_balanced      — compatibility id; LP expected-profit while risk QP is gated
+  qp_drought_safe  — compatibility id; LP with drought-scenario water cap
 
-All four use the SAME land/budget/diversification constraints.
-The LP and QP constraints are identical (same helper), so
-  λ=0 on qp_balanced reproduces the LP result  (asserted in tests).
+LP formulation (all money in Rs, area in acres, water in m3):
+
+  max_x sum_i E[margin_i] x_i
+  s.t.  sum_i x_i <= land,
+        sum_i cost_i x_i <= budget,
+        sum_i net_irrigation_need_i(s) x_i <= irrigation_supply(s),
+        0 <= x_i <= diversification_cap * land.
+
+``net_irrigation_need`` is compared with irrigation-only supply; effective
+rainfall is already deducted when the data layer constructs demand. There is
+no default discrete minimum area, activation, or rotation rule because the
+available datasets do not support defensible values. A MILP must only be added
+when those farm/business requirements are collected.
+
+The CVXPY QP remains experimental. It is not selected unless validated joint
+crop-profit observations are provided; three weather scenarios are not a
+covariance dataset.
 
 OPT.4  Infeasibility report: every strategy records which constraints are
        binding/violated and by how much.
@@ -16,15 +30,15 @@ OPT.5  Impact vs Traditional: water_saved_pct, fertilizer_saved_pct,
        drought_profit_gain_rs.
 
 Long-duration crops (duration_days > LONG_DURATION_DAYS):
-  margin(i, s) is divided by (duration_days / 365) before entering the
-  objective, so a 12-month sugarcane crop competes on a per-year basis.
-  StrategyResult.allocations carry both profit_rs (season total) and
-  profit_rs_per_acre_per_year.
+  use their sourced per-crop planning-period margin without annualising a
+  subset of crops.  A multi-period model is required before comparing
+  follow-on cropping opportunities or annual returns.
 """
 
 from __future__ import annotations
 
 import logging
+import math
 import time
 from typing import TYPE_CHECKING
 
@@ -36,6 +50,9 @@ from app.ml.constants import (
     LONG_DURATION_DAYS,
     PSD_RIDGE,
     RISK_LAMBDA,
+    RISK_QP_DISABLE_REASON,
+    RISK_QP_ENABLED,
+    RISK_OBJECTIVE_SCALE_RS,
     SATURATION_GAMMA,
     SCENARIO_WEIGHTS_DEFAULT,
     WARN_OLD_COST_YEAR,
@@ -44,10 +61,12 @@ from app.ml.constants import (
 from app.schemas import (
     Allocation,
     ConstraintDetail,
+    FinanceSummary,
     Impact,
     Infeasibility,
     OptimizerInputs,
     ProfitByScenario,
+    RevenueByScenario,
     RelaxationApplied,
     SolverInfo,
     SourcedValue,
@@ -81,9 +100,13 @@ def _year_fraction(duration_days: int) -> float:
 
 
 def _annual_margin(margin_s: float, duration_days: int) -> float:
-    """Divide margin by year-fraction for long-duration crops."""
-    if duration_days > LONG_DURATION_DAYS:
-        return margin_s / _year_fraction(duration_days)
+    """Return the seasonal margin used by the one-season formulation.
+
+    Earlier code annualised only long-duration crop returns. That changes one
+    crop's objective without modelling its foregone next crop or resources, so
+    it is mathematically inconsistent. Keep the helper for callers, but make
+    the fixed planning horizon explicit.
+    """
     return margin_s
 
 
@@ -100,7 +123,7 @@ def _build_vectors(inputs: OptimizerInputs) -> dict:
       water_by_s — list[n] water_need_m3 per scenario (drought/normal/excess)
       cost       — list[n] cost_rs_per_acre
       margin     — (3, n) array: margin[s][i] = expected_profit per acre in scenario s
-      margin_ann — (3, n) array: margin annualised for long-duration crops
+      margin_ann — (3, n) array: seasonal margin (legacy key name)
       duration   — list[n] duration_days
       weights    — [3] scenario weights
       water_cap  — dict scenario→float (total available m3 from WaterBudget)
@@ -123,7 +146,7 @@ def _build_vectors(inputs: OptimizerInputs) -> dict:
         for s in _SCEN_KEYS
     ], dtype=float)   # shape (3, n)
 
-    # Annualised margin for objective (long-duration crops)
+    # Fixed seasonal horizon; do not annualise a subset of crops.
     duration = [c.duration_days for c in crops]
     margin_ann = np.array([
         [_annual_margin(margin[si][i], duration[i]) for i in range(n)]
@@ -149,11 +172,11 @@ def _build_vectors(inputs: OptimizerInputs) -> dict:
 # ── Risk matrix (Σ) ───────────────────────────────────────────────────────────
 
 def _risk_matrix(vecs: dict) -> np.ndarray:
-    """Covariance of per-acre profit across all historical scenarios.
+    """Experimental covariance helper; not valid for public recommendations.
 
-    Uses the 3 scenario margins (drought/normal/excess) weighted by probability
-    as the sample, plus a PSD ridge for numerical stability.
-    Shape: (n, n).
+    ``margin_ann`` contains three constructed weather scenarios, not historical
+    joint yield/harvest-price observations. The public dispatcher gates QP
+    through ``RISK_QP_ENABLED``; this helper remains for future validation.
     """
     n = vecs["n"]
     margin = vecs["margin_ann"]  # (3, n)
@@ -180,7 +203,7 @@ def _solve_lp(vecs: dict, safety_scenario: str = "normal") -> tuple[np.ndarray |
         return None, "HiGHS", "no candidates"
     L, B = vecs["L"], vecs["B"]
     W_s = vecs["W"].get(safety_scenario, float("inf"))
-    cap = _div_cap(n)
+    cap = float(vecs.get("_force_cap", _div_cap(n)))
     weights = vecs["weights"]
 
     # Objective: -expected_profit (linprog minimises)
@@ -228,7 +251,7 @@ def _solve_qp(
     risk_lambda: float,
     safety_scenario: str = "normal",
 ) -> tuple[np.ndarray | None, str, str]:
-    """CVXPY QP: maximize expected profit minus risk term."""
+    """Experimental CVXPY QP; public planning does not call it while gated."""
     n = vecs["n"]
     if n == 0:
         return None, "CVXPY", "no candidates"
@@ -241,20 +264,20 @@ def _solve_qp(
     n = vecs["n"]
     L, B = vecs["L"], vecs["B"]
     W_s = vecs["W"].get(safety_scenario, float("inf"))
-    cap = _div_cap(n)
+    cap = float(vecs.get("_force_cap", _div_cap(n)))
     weights = np.array(vecs["weights"])
     Sigma = _risk_matrix(vecs)
 
     x = cp.Variable(n, nonneg=True)
 
-    # Expected profit (annualised for long-duration crops)
+    # Expected seasonal profit
     exp_profit = sum(
         weights[s] * (vecs["margin_ann"][s] @ x)
         for s in range(3)
     )
 
     # Risk term: λ · xᵀ Σ x
-    risk_term = risk_lambda * cp.quad_form(x, Sigma)
+    risk_term = risk_lambda * cp.quad_form(x, Sigma) / RISK_OBJECTIVE_SCALE_RS
 
     # Saturation (γ = 0 for single farm, no effect)
     sat_term = SATURATION_GAMMA * cp.sum_squares(x)
@@ -345,6 +368,68 @@ def _diagnose(
     return binding, None
 
 
+_MIN_PLAN_ACRES = 0.01
+
+
+def _empty_plan_infeasibility(vecs: dict, safety_scenario: str) -> Infeasibility:
+    """Explain why a solver-feasible optimum allocates (almost) no land.
+
+    ``NO_POSITIVE_ALLOCATION`` is reserved for the case where no candidate
+    has a positive scenario-weighted margin (the UI tells the farmer every
+    crop loses money).  If profitable crops exist, the empty plan is caused
+    by a resource limit, which is reported in ``violated``/``detail``.
+    """
+    n = vecs["n"]
+    weights = np.asarray(vecs["weights"], dtype=float)
+    expected_margin = (
+        (weights[:, None] * vecs["margin_ann"]).sum(axis=0) if n > 0 else np.zeros(0)
+    )
+    profitable = [i for i in range(n) if expected_margin[i] > 0]
+    if not profitable:
+        return Infeasibility(
+            binding=[], violated=[], detail=[], relaxations_tried=[],
+            suggestion_code="NO_POSITIVE_ALLOCATION",
+            suggestion_params={"reason": "no_crop_has_positive_expected_margin"},
+        )
+
+    L, B = float(vecs["L"]), float(vecs["B"])
+    W_s = float(vecs["W"].get(safety_scenario, float("inf")))
+    si = _SCEN_IDX[safety_scenario]
+    min_cost = float(min(vecs["cost"][i] for i in profitable))
+    min_water = float(min(vecs["water_by_s"][si][i] for i in profitable))
+    plantable = {
+        "land": L,
+        "budget": B / min_cost if min_cost > 0 else float("inf"),
+        "water": W_s / min_water if min_water > 0 else float("inf"),
+    }
+    violated = [name for name, acres in plantable.items() if acres < _MIN_PLAN_ACRES]
+    details = []
+    if "budget" in violated:
+        need = min_cost * _MIN_PLAN_ACRES
+        details.append(ConstraintDetail(
+            constraint="budget", required_rs=round(need, 2), available_rs=B,
+            shortfall_rs=round(max(0.0, need - B), 2),
+        ))
+    if "water" in violated:
+        need = min_water * _MIN_PLAN_ACRES
+        details.append(ConstraintDetail(
+            constraint="water", required_m3=round(need, 2), available_m3=W_s,
+            shortfall_m3=round(max(0.0, need - W_s), 2),
+        ))
+    if "land" in violated:
+        details.append(ConstraintDetail(constraint="land"))
+    return Infeasibility(
+        binding=violated, violated=violated, detail=details, relaxations_tried=[],
+        suggestion_code="RESOURCE_LIMIT_BLOCKS_ALLOCATION" if violated else "NO_ALLOCATION_FOUND",
+        suggestion_params={
+            "limiting": violated,
+            "safety_scenario": safety_scenario,
+            "profitable_crop_ids": [vecs["crop_ids"][i] for i in profitable],
+            "min_plan_acres": _MIN_PLAN_ACRES,
+        },
+    )
+
+
 # ── Relaxation ladder ─────────────────────────────────────────────────────────
 
 def _try_relaxations(
@@ -352,10 +437,10 @@ def _try_relaxations(
     risk_lambda: float,
     safety_scenario: str,
     use_qp: bool,
-) -> tuple[np.ndarray | None, list[RelaxationApplied], dict]:
+) -> tuple[np.ndarray | None, list[RelaxationApplied], dict, str]:
     """Try the 4-step relaxation ladder (ml/SPECS §8.4a) until feasible.
 
-    Returns (x, relaxations_applied, modified_vecs).
+    Returns (x, relaxations_applied, modified_vecs, effective_safety_scenario).
     x is None if still infeasible after all steps.
     """
     relaxations: list[RelaxationApplied] = []
@@ -367,12 +452,11 @@ def _try_relaxations(
     # Step 1: Lift diversification cap to 1.0
     orig_cap = _div_cap(n)
     if orig_cap < 1.0:
-        v["_force_cap"] = 1.0
-        x, _, status = _solver(v, risk_lambda, safety_scenario) if use_qp else _solver(v, safety_scenario)  # type: ignore[call-arg]
-        v.pop("_force_cap", None)
-        if x is not None and _is_feasible(x):
+        v1 = dict(v, _force_cap=1.0)
+        x, _, status = _solver(v1, risk_lambda, safety_scenario) if use_qp else _solver(v1, safety_scenario)  # type: ignore[call-arg]
+        if x is not None and _is_feasible(x, v1, safety_scenario):
             relaxations.append(RelaxationApplied(step="CAP_TO_1", params={}))
-            return x, relaxations, v
+            return x, relaxations, v1, safety_scenario
 
     # Step 2: Reduce planned area to what the budget allows
     if v["n"] > 0 and np.min(v["cost"]) > 0:
@@ -380,12 +464,12 @@ def _try_relaxations(
         if max_acres < v["L"] * 0.99:
             v2 = dict(v, L=max_acres)
             x, _, status = _solver(v2, risk_lambda, safety_scenario) if use_qp else _solver(v2, safety_scenario)  # type: ignore[call-arg]
-            if x is not None and _is_feasible(x):
+            if x is not None and _is_feasible(x, v2, safety_scenario):
                 relaxations.append(RelaxationApplied(
                     step="REDUCE_AREA",
                     params={"original_acres": v["L"], "feasible_acres": round(max_acres, 2)},
                 ))
-                return x, relaxations, v2
+                return x, relaxations, v2, safety_scenario
 
     # Step 3: Drop the most water-hungry crop
     if v["n"] > 1:
@@ -395,28 +479,52 @@ def _try_relaxations(
         drop_id = v["crop_ids"][drop_idx]
         v3 = _drop_crop(v, drop_idx)
         x, _, status = _solver(v3, risk_lambda, safety_scenario) if use_qp else _solver(v3, safety_scenario)  # type: ignore[call-arg]
-        if x is not None and _is_feasible(x):
+        if x is not None and _is_feasible(x, v3, safety_scenario):
             relaxations.append(RelaxationApplied(
                 step="DROP_WATER_HUNGRY_CROP",
                 params={"dropped_crop_id": drop_id},
             ))
-            return x, relaxations, v3
+            return x, relaxations, v3, safety_scenario
 
     # Step 4: Move water limit from safety scenario to Normal
     if safety_scenario != "normal":
         v4 = dict(v)
         x, _, status = _solver(v4, risk_lambda, "normal") if use_qp else _solver(v4, "normal")  # type: ignore[call-arg]
-        if x is not None and _is_feasible(x):
+        if x is not None and _is_feasible(x, v4, "normal"):
             relaxations.append(RelaxationApplied(
                 step="USE_NORMAL_SCENARIO_WATER", params={},
             ))
-            return x, relaxations, v4
+            return x, relaxations, v4, "normal"
 
-    return None, relaxations, v
+    return None, relaxations, v, safety_scenario
 
 
-def _is_feasible(x: np.ndarray) -> bool:
-    return x is not None and np.all(x >= -1e-6)
+def _is_feasible(
+    x: np.ndarray | None,
+    vecs: dict | None = None,
+    safety_scenario: str = "normal",
+) -> bool:
+    if x is None or not np.all(np.isfinite(x)) or np.any(x < -1e-6):
+        return False
+    if vecs is None:
+        return True
+
+    def tolerance(limit: float) -> float:
+        return max(1e-6, abs(limit) * 1e-8)
+
+    land_used = float(np.sum(x))
+    if land_used > vecs["L"] + tolerance(vecs["L"]):
+        return False
+    budget_used = float(vecs["cost"] @ x)
+    if budget_used > vecs["B"] + tolerance(vecs["B"]):
+        return False
+    water_cap = vecs["W"].get(safety_scenario, float("inf"))
+    water_used = float(vecs["water_by_s"][_SCEN_IDX[safety_scenario]] @ x)
+    if water_used > water_cap + tolerance(water_cap):
+        return False
+    cap = float(vecs.get("_force_cap", _div_cap(vecs["n"])))
+    crop_limit = cap * vecs["L"]
+    return not np.any(x > crop_limit + tolerance(crop_limit))
 
 
 def _drop_crop(v: dict, idx: int) -> dict:
@@ -434,6 +542,26 @@ def _drop_crop(v: dict, idx: int) -> dict:
 
 
 # ── Build StrategyResult ──────────────────────────────────────────────────────
+
+def _floor_acres(acres: float) -> float:
+    """Round acres down to 3 decimals (with a float-noise guard) so rounded
+    allocations never exceed land/budget/water limits."""
+    return math.floor(acres * 1000 + 1e-6) / 1000
+
+
+def _revenue_per_acre(crop) -> RevenueByScenario:
+    """Per-acre revenue by scenario, satisfying R = P + C.
+
+    CropOption created by Phase 3 carries revenue explicitly.  The
+    profit-plus-cost fallback preserves compatibility with older,
+    source-backed fixtures while retaining the identity R = P + C.
+    """
+    return crop.revenue_rs_per_acre or RevenueByScenario(
+        drought=crop.profit_rs_per_acre.drought + crop.cost_per_acre.total_rs,
+        normal=crop.profit_rs_per_acre.normal + crop.cost_per_acre.total_rs,
+        excess=crop.profit_rs_per_acre.excess + crop.cost_per_acre.total_rs,
+    )
+
 
 def _build_result(
     strategy_id: str,
@@ -453,7 +581,9 @@ def _build_result(
 
     binding, infeasibility = _diagnose(x, vecs, safety_scenario)
 
-    if x is None or not _is_feasible(x):
+    if x is None or not _is_feasible(x, vecs, safety_scenario) or float(np.sum(x)) < 0.01:
+        if x is not None and _is_feasible(x, vecs, safety_scenario) and float(np.sum(x)) < 0.01:
+            infeasibility = _empty_plan_infeasibility(vecs, safety_scenario)
         return StrategyResult(
             id=strategy_id,           # type: ignore[arg-type]
             label=label,
@@ -484,9 +614,11 @@ def _build_result(
     total_fert = {"n": 0.0, "p2o5": 0.0, "k2o": 0.0}
     total_water = 0.0
     total_cost = 0.0
+    total_yield = 0.0
+    revenue_by_scenario = {"drought": 0.0, "normal": 0.0, "excess": 0.0}
 
     for i, cid in enumerate(vecs["crop_ids"]):
-        acres = float(x[i])
+        acres = _floor_acres(float(x[i]))
         if acres < 0.01:
             continue
         crop = crop_map.get(cid)
@@ -498,6 +630,12 @@ def _build_result(
             normal=acres * crop.profit_rs_per_acre.normal,
             excess=acres * crop.profit_rs_per_acre.excess,
         )
+        revenue_per_acre = _revenue_per_acre(crop)
+        revenue_s = RevenueByScenario(
+            drought=acres * revenue_per_acre.drought,
+            normal=acres * revenue_per_acre.normal,
+            excess=acres * revenue_per_acre.excess,
+        )
         si = _SCEN_IDX[safety_scenario]
         water_m3 = acres * float(vecs["water_by_s"][si][i])
 
@@ -508,6 +646,7 @@ def _build_result(
             cost_rs=round(acres * crop.cost_per_acre.total_rs, 0),
             water_m3=round(water_m3, 0),
             profit_rs=profit_s,
+            revenue_rs=revenue_s,
         ))
 
         total_fert["n"] += acres * crop.fertilizer.n_kg_per_acre
@@ -515,6 +654,12 @@ def _build_result(
         total_fert["k2o"] += acres * crop.fertilizer.k2o_kg_per_acre
         total_water += water_m3
         total_cost += acres * crop.cost_per_acre.total_rs
+        total_yield += acres * sum(
+            weights[s] * getattr(crop.yield_quintal_per_acre, _SCEN_KEYS[s])
+            for s in range(3)
+        )
+        for scenario in _SCEN_KEYS:
+            revenue_by_scenario[scenario] += getattr(revenue_s, scenario)
 
     # Totals and profit by scenario
     land_used = float(sum(a.acres for a in allocations))
@@ -525,6 +670,23 @@ def _build_result(
     )
     exp_profit = sum(weights[s] * getattr(pbs, _SCEN_KEYS[s]) for s in range(3))
     worst = min(pbs.drought, pbs.normal, pbs.excess)
+    expected_revenue = sum(weights[s] * revenue_by_scenario[_SCEN_KEYS[s]] for s in range(3))
+    roi = (exp_profit / total_cost * 100) if total_cost > 0 else None
+    break_even = (total_cost / total_yield) if total_yield > 0 else None
+    finance = FinanceSummary(
+        investment_rs=_sv(round(total_cost, 0), "Rs", "sum(allocation acres × total cultivation cost per acre)", "computed"),
+        expected_yield_quintal=_sv(round(total_yield, 3), "quintal", "scenario-weighted yield × allocation acres", "computed"),
+        expected_revenue_rs=_sv(round(expected_revenue, 0), "Rs", "scenario-weighted harvest revenue", "computed"),
+        expected_profit_rs=_sv(round(exp_profit, 0), "Rs", "expected revenue − investment", "computed"),
+        roi_pct=(
+            _sv(round(roi, 2), "pct", "expected profit ÷ investment × 100", "computed")
+            if roi is not None else None
+        ),
+        break_even_price_rs_per_quintal=(
+            _sv(round(break_even, 2), "Rs/quintal", "investment ÷ expected yield", "computed")
+            if break_even is not None else None
+        ),
+    )
 
     return StrategyResult(
         id=strategy_id,           # type: ignore[arg-type]
@@ -539,6 +701,7 @@ def _build_result(
             fertilizer_kg={k: round(v, 2) for k, v in total_fert.items()},
             water_m3=round(total_water, 0),
         ),
+        finance=finance,
         profit_by_scenario_rs=pbs,
         expected_profit_rs=round(exp_profit, 0),
         worst_case_profit_rs=round(worst, 0),
@@ -580,7 +743,10 @@ def _traditional(inputs: OptimizerInputs, vecs: dict) -> StrategyResult:
 
     # Restrict to crops in our candidates (have a real price)
     eligible = {c.crop_id for c in inputs.candidates}
-    shares = {k: v for k, v in shares.items() if k in eligible}
+    shares = {k: float(v) for k, v in shares.items() if k in eligible and v > 0}
+    # Spec: restrict to eligible crops, *then* scale to the farmer's land.
+    share_sum = sum(shares.values())
+    shares = {k: v / share_sum for k, v in shares.items()} if share_sum > 0 else {}
     if not shares:
         # Fall back to equal shares
         shares = {c.crop_id: 1.0 / len(inputs.candidates) for c in inputs.candidates} if inputs.candidates else {}
@@ -593,12 +759,18 @@ def _traditional(inputs: OptimizerInputs, vecs: dict) -> StrategyResult:
     total_water = 0.0
     total_cost = 0.0
 
-    for cid, share in shares.items():
-        acres = share * L
+    # Floor to the displayed precision and give the remainder to the last
+    # crop so the displayed split never sums to more than the farm.
+    share_items = list(shares.items())
+    acres_list = [_floor_acres(share * L) for _, share in share_items]
+    if acres_list:
+        acres_list[-1] = _floor_acres(max(0.0, L - sum(acres_list[:-1])))
+    for (cid, share), acres in zip(share_items, acres_list):
         crop = crop_map.get(cid)
         if crop is None or acres < 0.01:
             continue
         water_m3 = acres * crop.water_need_m3_per_acre.normal.value
+        revenue_per_acre = _revenue_per_acre(crop)
 
         allocations.append(Allocation(
             crop_id=cid,
@@ -610,6 +782,11 @@ def _traditional(inputs: OptimizerInputs, vecs: dict) -> StrategyResult:
                 drought=acres * crop.profit_rs_per_acre.drought,
                 normal=acres * crop.profit_rs_per_acre.normal,
                 excess=acres * crop.profit_rs_per_acre.excess,
+            ),
+            revenue_rs=RevenueByScenario(
+                drought=acres * revenue_per_acre.drought,
+                normal=acres * revenue_per_acre.normal,
+                excess=acres * revenue_per_acre.excess,
             ),
         ))
         total_fert["n"] += acres * crop.fertilizer.n_kg_per_acre
@@ -641,7 +818,7 @@ def _traditional(inputs: OptimizerInputs, vecs: dict) -> StrategyResult:
         safety_scenario="normal",
         allocations=allocations,
         totals=StrategyTotals(
-            land_used_acres=round(L, 3),
+            land_used_acres=round(sum(a.acres for a in allocations), 3),
             budget_used_rs=round(total_cost, 0),
             fertilizer_kg={k: round(v, 2) for k, v in total_fert.items()},
             water_m3=round(total_water, 0),
@@ -649,7 +826,9 @@ def _traditional(inputs: OptimizerInputs, vecs: dict) -> StrategyResult:
         profit_by_scenario_rs=pbs,
         expected_profit_rs=round(exp_profit, 0),
         worst_case_profit_rs=round(min(pbs.drought, pbs.normal, pbs.excess), 0),
-        feasible=True,  # always "feasible" — we report what it exceeds separately
+        # The status-quo mix is reported, not forced into the farmer's limits;
+        # it is feasible only when it breaks none of them (ml-SPECS §Traditional).
+        feasible=bool(allocations) and not trad_exceeds,
         binding_constraints=[],
         relaxations_applied=[],
         solver=SolverInfo(name="none", status="ok", ms=0),
@@ -750,9 +929,11 @@ def _build_warnings(inputs: OptimizerInputs, strategies: list[StrategyResult]) -
 # ── Public API ────────────────────────────────────────────────────────────────
 
 def optimize(strategy: str, inputs: OptimizerInputs) -> StrategyResult:
-    """OPT.1/OPT.2 — Run a single strategy.
+    """Run a single strategy with a deterministic default.
 
-    strategy: traditional | lp_max_profit | qp_balanced | qp_drought_safe
+    The historic ``qp_*`` IDs remain in the response contract. Until a
+    validated joint crop-profit history is added, they are transparently
+    solved as LPs: expected-profit and drought-water-scenario respectively.
     """
     vecs = _build_vectors(inputs)
 
@@ -764,36 +945,63 @@ def optimize(strategy: str, inputs: OptimizerInputs) -> StrategyResult:
         x, sname, sstatus = _solve_lp(vecs, "normal")
         ms = int((time.monotonic() - t0) * 1000)
         relaxations: list[RelaxationApplied] = []
-        if x is None:
-            x, relaxations, vecs = _try_relaxations(vecs, 0.0, "normal", use_qp=False)
+        safety_scenario = "normal"
+        if x is None or not _is_feasible(x, vecs, safety_scenario):
+            x, relaxations, vecs, safety_scenario = _try_relaxations(
+                vecs, 0.0, safety_scenario, use_qp=False
+            )
         return _build_result(
-            "lp_max_profit", "LP Max-profit", "lp", 0.0, "normal",
+            "lp_max_profit", "LP Max-profit", "lp", 0.0, safety_scenario,
             x, vecs, inputs, sname, sstatus, ms, relaxations,
         )
 
     if strategy == "qp_balanced":
+        if not RISK_QP_ENABLED:
+            t0 = time.monotonic()
+            x, sname, sstatus = _solve_lp(vecs, "normal")
+            ms = int((time.monotonic() - t0) * 1000)
+            return _build_result(
+                "qp_balanced", "LP expected-profit (risk model unavailable)", "lp", 0.0,
+                "normal", x, vecs, inputs, sname,
+                f"{sstatus}; {RISK_QP_DISABLE_REASON}", ms, [],
+            )
         risk_lambda = RISK_LAMBDA[inputs.profile.risk_appetite]
         t0 = time.monotonic()
         x, sname, sstatus = _solve_qp(vecs, risk_lambda, "normal")
         ms = int((time.monotonic() - t0) * 1000)
         relaxations = []
-        if x is None or not _is_feasible(x):
-            x, relaxations, vecs = _try_relaxations(vecs, risk_lambda, "normal", use_qp=True)
+        safety_scenario = "normal"
+        if x is None or not _is_feasible(x, vecs, safety_scenario):
+            x, relaxations, vecs, safety_scenario = _try_relaxations(
+                vecs, risk_lambda, safety_scenario, use_qp=True
+            )
         return _build_result(
-            "qp_balanced", "QP Balanced", "qp", risk_lambda, "normal",
+            "qp_balanced", "QP Balanced", "qp", risk_lambda, safety_scenario,
             x, vecs, inputs, sname, sstatus, ms, relaxations,
         )
 
     if strategy == "qp_drought_safe":
+        if not RISK_QP_ENABLED:
+            t0 = time.monotonic()
+            x, sname, sstatus = _solve_lp(vecs, "drought")
+            ms = int((time.monotonic() - t0) * 1000)
+            return _build_result(
+                "qp_drought_safe", "LP drought-water scenario (risk model unavailable)", "lp", 0.0,
+                "drought", x, vecs, inputs, sname,
+                f"{sstatus}; {RISK_QP_DISABLE_REASON}", ms, [],
+            )
         risk_lambda = RISK_LAMBDA[inputs.profile.risk_appetite]
         t0 = time.monotonic()
         x, sname, sstatus = _solve_qp(vecs, risk_lambda, "drought")
         ms = int((time.monotonic() - t0) * 1000)
         relaxations = []
-        if x is None or not _is_feasible(x):
-            x, relaxations, vecs = _try_relaxations(vecs, risk_lambda, "drought", use_qp=True)
+        safety_scenario = "drought"
+        if x is None or not _is_feasible(x, vecs, safety_scenario):
+            x, relaxations, vecs, safety_scenario = _try_relaxations(
+                vecs, risk_lambda, safety_scenario, use_qp=True
+            )
         return _build_result(
-            "qp_drought_safe", "QP Drought-safe", "qp", risk_lambda, "drought",
+            "qp_drought_safe", "QP Drought-safe", "qp", risk_lambda, safety_scenario,
             x, vecs, inputs, sname, sstatus, ms, relaxations,
         )
 
@@ -801,11 +1009,12 @@ def optimize(strategy: str, inputs: OptimizerInputs) -> StrategyResult:
 
 
 def compare_strategies(inputs: OptimizerInputs) -> tuple[list[StrategyResult], Impact | None, list[Warning]]:
-    """OPT.3 — Run all 4 strategies and compute impact vs Traditional.
+    """Run comparable strategies and compute impact vs Traditional.
 
     Returns (strategies, impact, warnings).
-    The recommended strategy is qp_balanced (or qp_drought_safe when
-    risk_appetite == 'safe').
+    The recommended mathematical baseline is ``lp_max_profit``. The legacy
+    scenario IDs are retained for UI compatibility but must not be presented as
+    covariance-based QP risk recommendations while the risk gate is closed.
     """
     results: list[StrategyResult] = []
 
@@ -813,12 +1022,13 @@ def compare_strategies(inputs: OptimizerInputs) -> tuple[list[StrategyResult], I
         try:
             r = optimize(strategy, inputs)
             results.append(r)
-        except Exception as exc:
-            logger.warning("compare_strategies: strategy=%s failed: %s", strategy, exc)
+        except Exception:
+            logger.exception("compare_strategies: strategy=%s failed", strategy)
+            raise
 
     # Find traditional and recommended for impact
     trad = next((r for r in results if r.id == "traditional"), None)
-    rec_id = "qp_drought_safe" if inputs.profile.risk_appetite == "safe" else "qp_balanced"
+    rec_id = "lp_max_profit"
     rec = next((r for r in results if r.id == rec_id), None)
 
     impact = _compute_impact(rec, trad) if rec and trad else None

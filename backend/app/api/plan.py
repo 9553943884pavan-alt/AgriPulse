@@ -6,11 +6,14 @@ from __future__ import annotations
 
 
 from fastapi import APIRouter
+from pydantic import ValidationError
 
 from app.core.cache import get_cache
-from app.core.errors import AppError
+from app.core.errors import AppError, ensure_positive
 from app.pipeline import run_plan
 from app.schemas import FarmProfile, PlanResult
+from app.services.data_status import count_data_status
+from app.services.water import normalise_borewell
 
 router = APIRouter()
 
@@ -21,7 +24,10 @@ async def create_plan(profile: FarmProfile) -> PlanResult:
 
     explanation.provider = 'template' (no LLM calls).
     """
+    ensure_positive({"land_acres": profile.land_acres, "budget_rs": profile.budget_rs})
+    profile = normalise_borewell(profile)
     result = await run_plan(profile)
+    result = result.model_copy(update={"data_status": count_data_status(result)})
     # Store for E3 (reoptimize by plan_id) and E4 (restore by thread_id)
     cache = await get_cache()
     plan_data = result.model_dump(mode="json")
@@ -42,7 +48,7 @@ async def reoptimize(plan_id: str, body: dict) -> PlanResult:
     cache = await get_cache()
     stored = await cache.get_plan(plan_id)
     if stored is None:
-        raise AppError("PLAN_NOT_FOUND", {"plan_id": plan_id}).to_http_exception()
+        raise AppError("PLAN_NOT_FOUND", {"plan_id": plan_id})
 
     # Patch the stored profile with any changed fields
     stored_profile = stored.get("profile", {})
@@ -52,7 +58,11 @@ async def reoptimize(plan_id: str, body: dict) -> PlanResult:
     if "safety_scenario" in body:
         stored_profile["safety_scenario"] = body["safety_scenario"]
 
-    profile = FarmProfile(**stored_profile)
+    ensure_positive({k: stored_profile.get(k) for k in ("land_acres", "budget_rs")})
+    try:
+        profile = normalise_borewell(FarmProfile(**stored_profile))
+    except ValidationError as exc:
+        raise AppError("VALIDATION_ERROR", {"errors": [e["loc"][-1] for e in exc.errors()]}) from exc
     new_plan = await run_plan(
         profile,
         thread_id=stored.get("thread_id"),
@@ -60,6 +70,7 @@ async def reoptimize(plan_id: str, body: dict) -> PlanResult:
     )
     # Bump version
     new_plan = new_plan.model_copy(update={
+        "data_status": count_data_status(new_plan),
         "version": stored.get("version", 1) + 1,
         "previous_version": stored.get("version", 1),
     })

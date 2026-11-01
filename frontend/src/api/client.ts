@@ -6,7 +6,9 @@
 
 import type { ApiError } from './types'
 
-const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:8000'
+export const API_BASE_URL = (
+  (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:8000'
+).replace(/\/+$/, '')
 
 export class ApiClientError extends Error {
   constructor(
@@ -25,43 +27,76 @@ export class NetworkError extends Error {
   }
 }
 
+export function normalizeApiError(value: unknown, status: number): ApiError {
+  const envelope = isRecord(value) && isRecord(value.error) ? value.error : value
+  if (
+    isRecord(envelope)
+    && typeof envelope.code === 'string'
+    && typeof envelope.message === 'string'
+    && isRecord(envelope.user_message)
+  ) {
+    const messages = envelope.user_message
+    return {
+      code: envelope.code,
+      message: envelope.message,
+      user_message: {
+        en: typeof messages.en === 'string' ? messages.en : 'Something went wrong.',
+        mr: typeof messages.mr === 'string' ? messages.mr : 'काहीतरी चुकले.',
+        hi: typeof messages.hi === 'string' ? messages.hi : 'कुछ गलत हो गया.',
+      },
+      retryable: typeof envelope.retryable === 'boolean' ? envelope.retryable : status >= 500,
+      details: isRecord(envelope.details) ? envelope.details : {},
+    }
+  }
+  return {
+    code: 'INTERNAL',
+    message: `HTTP ${status}`,
+    user_message: {
+      en: 'Something went wrong.',
+      mr: 'काहीतरी चुकले.',
+      hi: 'कुछ गलत हो गया.',
+    },
+    retryable: status >= 500,
+    details: {},
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+async function request(path: string, options: RequestInit): Promise<Response> {
+  const headers = new Headers(options.headers)
+  if (!headers.has('Accept')) headers.set('Accept', 'application/json')
+  const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData
+  if (options.body && !isFormData && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json')
+  }
+
+  let response: Response
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') throw error
+    throw new NetworkError()
+  }
+  if (!response.ok) {
+    let body: unknown
+    try {
+      body = await response.json()
+    } catch {
+      body = null
+    }
+    throw new ApiClientError(normalizeApiError(body, response.status), response.status)
+  }
+  return response
+}
+
 export async function apiFetch<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const url = `${BASE_URL}${path}`
-
-  let response: Response
-  try {
-    response = await fetch(url, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        ...options.headers,
-      },
-    })
-  } catch {
-    throw new NetworkError()
-  }
-
-  if (!response.ok) {
-    let errorBody: ApiError
-    try {
-      const json = (await response.json()) as { error: ApiError }
-      errorBody = json.error
-    } catch {
-      errorBody = {
-        code: 'INTERNAL',
-        message: `HTTP ${response.status}`,
-        user_message: { en: 'Something went wrong.', mr: 'काहीतरी चुकले.', hi: 'कुछ गलत हो गया.' },
-        retryable: response.status >= 500,
-        details: {},
-      }
-    }
-    throw new ApiClientError(errorBody, response.status)
-  }
-
+  const response = await request(path, options)
   return response.json() as Promise<T>
 }
 
@@ -80,4 +115,14 @@ export async function apiPostForm<T>(path: string, form: FormData): Promise<T> {
     headers: {}, // let the browser set Content-Type with boundary
     body: form,
   })
+}
+
+/** POST JSON and return a binary response such as synthesized audio. */
+export async function apiPostBlob(path: string, body: unknown): Promise<Blob> {
+  const response = await request(path, {
+    method: 'POST',
+    headers: { Accept: 'audio/wav' },
+    body: JSON.stringify(body),
+  })
+  return response.blob()
 }

@@ -4,15 +4,20 @@
  * handled in feature hooks, not here.
  */
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { apiFetch, apiPost } from './client'
 import type {
   ThreadResponse,
   PlanResult,
   District,
+  DistrictContext,
   DataSource,
   SourceHealth,
   FarmProfile,
+  HealthResponse,
+  LocationSearchResult,
+  PrefetchResponse,
+  SseSchemasResponse,
 } from './types'
 
 // ---------------------------------------------------------------------------
@@ -34,7 +39,7 @@ export function usePlan(profile: FarmProfile | null) {
 export function useThread(threadId: string | null) {
   return useQuery({
     queryKey: ['thread', threadId],
-    queryFn: () => apiFetch<ThreadResponse>(`/api/threads/${threadId}`),
+    queryFn: () => apiFetch<ThreadResponse>(`/api/threads/${encodeURIComponent(threadId!)}`),
     enabled: threadId !== null,
     staleTime: 24 * 60 * 60 * 1000,
     retry: 1,
@@ -59,7 +64,7 @@ export function useDistricts() {
 export function useDistrictContext(district: string | null) {
   return useQuery({
     queryKey: ['district-context', district],
-    queryFn: () => apiFetch<Record<string, unknown>>(`/api/districts/${district}/context`),
+    queryFn: () => apiFetch<DistrictContext>(`/api/districts/${encodeURIComponent(district!)}/context`),
     enabled: district !== null,
     staleTime: 60 * 60 * 1000,
     retry: 1,
@@ -100,7 +105,7 @@ export function useSourcesHealth() {
 export function useHealth(enabled = true) {
   return useQuery({
     queryKey: ['health'],
-    queryFn: () => apiFetch<{ status: string; models_loaded: boolean; data_files: number }>('/api/health'),
+    queryFn: () => apiFetch<HealthResponse>('/api/health'),
     enabled,
     staleTime: 30 * 1000,
     refetchInterval: (query) => {
@@ -111,5 +116,43 @@ export function useHealth(enabled = true) {
     },
     retry: 10,
     retryDelay: 3000,
+  })
+}
+
+// ---------------------------------------------------------------------------
+// E7 POST /api/prefetch — warm location-dependent caches after selection
+// ---------------------------------------------------------------------------
+export function usePrefetchLocation() {
+  return useMutation({
+    mutationFn: (location_text: string) =>
+      apiPost<PrefetchResponse>('/api/prefetch', { location_text }),
+  })
+}
+
+// ---------------------------------------------------------------------------
+// E8 GET /api/locations/search — Maharashtra location autocomplete
+// ---------------------------------------------------------------------------
+export function useLocationSearch(query: string) {
+  const normalized = query.trim()
+  return useQuery({
+    queryKey: ['location-search', normalized],
+    queryFn: () =>
+      apiFetch<LocationSearchResult>(`/api/locations/search?q=${encodeURIComponent(normalized)}&limit=5`),
+    enabled: normalized.length >= 2,
+    staleTime: 60 * 1000,
+    retry: 0,
+  })
+}
+
+// ---------------------------------------------------------------------------
+// C.4 GET /api/schemas/sse-events — schema discovery for contract tooling
+// ---------------------------------------------------------------------------
+export function useSseSchemas(enabled = false) {
+  return useQuery({
+    queryKey: ['sse-event-schemas'],
+    queryFn: () => apiFetch<SseSchemasResponse>('/api/schemas/sse-events'),
+    enabled,
+    staleTime: 24 * 60 * 60 * 1000,
+    retry: 0,
   })
 }

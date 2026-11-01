@@ -17,6 +17,7 @@ available, otherwise returned as None.
 from __future__ import annotations
 
 import logging
+import math
 from functools import lru_cache
 
 import pandas as pd
@@ -63,12 +64,11 @@ def _price_per_kg(fert_id: str) -> float:
     df = _prices()
     rows = df[df["fertilizer_id"] == fert_id]
     if rows.empty:
-        # Fallback to official MRPs (2023-24)
-        _FALLBACK: dict[str, float] = {
-            "urea": 5.92, "dap": 27.0, "mop": 33.10,
-        }
-        return _FALLBACK.get(fert_id, 30.0)
-    return float(rows.iloc[0]["price_rs_per_kg"])
+        raise ValueError(f"No sourced MRP for fertilizer {fert_id}")
+    price = float(rows.iloc[0]["price_rs_per_kg"])
+    if not math.isfinite(price) or price <= 0:
+        raise ValueError(f"Invalid sourced MRP for fertilizer {fert_id}")
+    return price
 
 
 def _bag_size(fert_id: str) -> float:
@@ -76,8 +76,11 @@ def _bag_size(fert_id: str) -> float:
     df = _prices()
     rows = df[df["fertilizer_id"] == fert_id]
     if rows.empty:
-        return 50.0
-    return float(rows.iloc[0]["bag_size_kg"])
+        raise ValueError(f"No sourced bag size for fertilizer {fert_id}")
+    bag_size = float(rows.iloc[0]["bag_size_kg"])
+    if not math.isfinite(bag_size) or bag_size <= 0:
+        raise ValueError(f"Invalid sourced bag size for fertilizer {fert_id}")
+    return bag_size
 
 
 # ── Dose converter ────────────────────────────────────────────────────────────
@@ -184,14 +187,7 @@ def fertilizer_plan(
 
     if rows.empty:
         logger.warning("fertilizer_plan: no RDF data for %s %s", crop_id, season)
-        # Return zero-dose plan clearly labelled
-        sv_zero = _sv_cost(0.0, f"no RDF data for {crop_id} {season}")
-        return FertilizerPlan(
-            n_kg_per_acre=0.0, p2o5_kg_per_acre=0.0, k2o_kg_per_acre=0.0,
-            urea_bags=0.0, dap_bags=0.0, mop_bags=0.0,
-            cost_rs=sv_zero,
-            basis=f"no RDF data for {crop_id} {season}",
-        )
+        raise ValueError(f"No RDF data for {crop_id} {season}")
 
     row = rows.iloc[0]
     source = str(row.get("university_source", "university RDF"))

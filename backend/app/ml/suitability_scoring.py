@@ -20,7 +20,7 @@ import shap
 
 from app.data.resolver import resolve_district
 from app.ml.yield_baseline import get_yield_baseline
-from app.ml.yield_model import get_district_features, load_trained_model, predict_yield
+from app.ml.yield_model import build_feature_dict, load_trained_model, predict_yield
 from app.schemas import (
     Location,
     Scenario,
@@ -68,6 +68,114 @@ def get_shap_explainer() -> shap.TreeExplainer | None:
         return None
 
 
+# Features that change between analogue seasons.  Categorical and district
+# context features (soil, irrigation, groundwater) are identical for every
+# season of one district/crop, so their Shapley value against a same-district
+# background is exactly zero and they are held fixed.
+WEATHER_FEATURES: tuple[str, ...] = (
+    "season_rainfall_mm",
+    "rainfall_departure_pct",
+    "rainy_days",
+    "max_dry_spell_days",
+    "mean_temp_c",
+    "max_temp_c",
+    "heat_stress_days",
+    "et0_total_mm",
+    "mean_humidity_pct",
+    "kharif_rain_mm",
+)
+SHAP_ADDITIVITY_TOL_T_HA = 1e-3
+
+
+def _nan_to_none(v):
+    return None if v is None or pd.isna(v) else float(v)
+
+
+def _background_feature_dicts(
+    district: str, crop: str, szn_title: str, conditions: Scenario
+) -> list[dict]:
+    """Model rows for every recorded season of this district (same crop/season).
+
+    Built with ``build_feature_dict`` from the same Open-Meteo history that
+    defines the scenarios, so background and explained row are constructed
+    identically.
+    """
+    from app.data.loaders import load_rainfall_history
+
+    hist = load_rainfall_history()
+    rows = hist[(hist["district"] == district) & (hist["season"] == szn_title)]
+    out: list[dict] = []
+    for _, r in rows.iterrows():
+        rain = _nan_to_none(r.get("rainfall_mm"))
+        sc = conditions.model_copy(update={
+            "analogue_year": int(r["year"]),
+            "rainfall_mm": rain,
+            "season_rain_mm": conditions.season_rain_mm.model_copy(update={"value": rain}),
+            "et0_mm": _nan_to_none(r.get("et0_mm")),
+            "rainy_days": _nan_to_none(r.get("rainy_days")),
+            "max_dry_spell_days": _nan_to_none(r.get("max_dry_spell_days")),
+            "mean_temp_c": _nan_to_none(r.get("mean_temp_c")),
+            "max_temp_c": _nan_to_none(r.get("max_temp_c")),
+            "heat_stress_days": _nan_to_none(r.get("heat_stress_days")),
+            "mean_humidity_pct": _nan_to_none(r.get("mean_humidity_pct")),
+        })
+        out.append(build_feature_dict(district, crop, szn_title, sc))
+    return out
+
+
+def _weather_shap(
+    artifact: dict,
+    feature_dict: dict,
+    district: str,
+    crop: str,
+    szn_title: str,
+    conditions: Scenario,
+) -> tuple[list[str], np.ndarray] | None:
+    """Exact Shapley values of the trained model's prediction over weather features.
+
+    ``shap.TreeExplainer`` mis-parses HistGradientBoosting *native categorical*
+    splits (``crop_id``/``district`` are categorical in Model A), which made it
+    return the same attribution for every crop and broke additivity.  This
+    uses ``shap.explainers.Exact`` on the model's own ``predict`` with the
+    district's recorded seasons as the background distribution.
+    """
+    model = artifact["model"]
+    encoder = artifact["encoder"]
+    cat_cols = list(artifact["cat_cols"])
+    num_cols = list(artifact["num_cols"])
+
+    def to_x(d: dict) -> np.ndarray:
+        cats = encoder.transform(pd.DataFrame([{c: d[c] for c in cat_cols}]))
+        nums = np.array([[d[c] for c in num_cols]], dtype=float)
+        return np.hstack([cats, nums])[0]
+
+    weather = [c for c in WEATHER_FEATURES if c in num_cols]
+    if not weather:
+        return None
+    w_idx = [len(cat_cols) + num_cols.index(c) for c in weather]
+
+    background = _background_feature_dicts(district, crop, szn_title, conditions)
+    if not background:
+        return None
+    x_fg = to_x(feature_dict)
+    bg = np.array([to_x(d)[w_idx] for d in background], dtype=float)
+
+    def f(z: np.ndarray) -> np.ndarray:
+        X = np.repeat(x_fg[None, :], len(z), axis=0)
+        X[:, w_idx] = z
+        return model.predict(X)
+
+    masker = shap.maskers.Independent(bg, max_samples=len(bg))
+    explanation = shap.explainers.Exact(f, masker)(x_fg[w_idx][None, :])
+    values = np.asarray(explanation.values[0], dtype=float)
+    base = float(np.ravel(explanation.base_values)[0])
+    pred = float(model.predict(x_fg[None, :])[0])
+    if abs(base + values.sum() - pred) > SHAP_ADDITIVITY_TOL_T_HA:
+        logger.warning("SHAP additivity failed for %s/%s (%.4f vs %.4f)", crop, district, base + values.sum(), pred)
+        return None
+    return weather, values
+
+
 def suitability(
     crop_id: str,
     location: Location,
@@ -105,57 +213,18 @@ def suitability(
     fallback_used = False
 
     artifact = load_trained_model()
-    explainer = get_shap_explainer()
+    # Model SHAP may only explain a yield the model actually produced.  Crops
+    # whose yield is the DES baseline (e.g. no training rows for this season)
+    # get no model factors: an empty list with fallback_used=True is honest.
+    model_used = yp.t_per_ha.status == "model"
 
-    if artifact is not None and explainer is not None:
+    if artifact is not None and model_used:
         try:
-            encoder = artifact["encoder"]
-            cat_cols = artifact["cat_cols"]
-            num_cols = artifact["num_cols"]
-            ctx = get_district_features(district)
-
-            rf = float(conditions.rainfall_mm or (conditions.season_rain_mm.value if hasattr(conditions.season_rain_mm, "value") else 200.0))
-            et0 = float(conditions.et0_mm or 450.0)
-            rain_days = int(conditions.rainy_days or 20)
-            dry_spell = int(conditions.max_dry_spell_days or 15)
-            mean_temp = float(conditions.mean_temp_c or 26.0)
-            max_temp = float(conditions.max_temp_c or 34.0)
-            heat_stress = int(conditions.heat_stress_days or 5)
-            humidity = float(conditions.mean_humidity_pct or 60.0)
-            departure = round((rf - 300.0) / 300.0 * 100.0, 2)
-
-            feature_dict = {
-                "district": district,
-                "crop_id": crop,
-                "season": szn_title,
-                "groundwater_category": ctx["groundwater_category"],
-                "season_rainfall_mm": rf,
-                "rainfall_departure_pct": departure,
-                "rainy_days": rain_days,
-                "max_dry_spell_days": dry_spell,
-                "mean_temp_c": mean_temp,
-                "max_temp_c": max_temp,
-                "heat_stress_days": heat_stress,
-                "et0_total_mm": et0,
-                "mean_humidity_pct": humidity,
-                "soil_n_kg_ha": ctx["soil_n_kg_ha"],
-                "soil_p_kg_ha": ctx["soil_p_kg_ha"],
-                "soil_k_kg_ha": ctx["soil_k_kg_ha"],
-                "soil_ph": ctx["soil_ph"],
-                "organic_carbon_pct": ctx["organic_carbon_pct"],
-                "irrigated_pct": ctx["irrigated_pct"],
-                "groundwater_extraction_pct": ctx["groundwater_extraction_pct"],
-                "fertilizer_use_kg_per_ha": ctx["fertilizer_use_kg_per_ha"],
-            }
-
-            cats_df = pd.DataFrame([{col: feature_dict[col] for col in cat_cols}])
-            encoded_cats = encoder.transform(cats_df)
-            num_vals = np.array([[feature_dict[col] for col in num_cols]])
-            X = np.hstack([encoded_cats, num_vals])
-
-            # SHAP values: shape (1, num_features)
-            shap_vals = explainer.shap_values(X)[0]
-            feature_names = list(cat_cols) + list(num_cols)
+            feature_dict = build_feature_dict(district, crop, szn_title, conditions)
+            attribution = _weather_shap(artifact, feature_dict, district, crop, szn_title, conditions)
+            if attribution is None:
+                raise ValueError("no historical background seasons for SHAP")
+            feature_names, shap_vals = attribution
 
             candidates: list[tuple[float, SuitabilityFactor]] = []
             for name, shap_v in zip(feature_names, shap_vals):
@@ -185,31 +254,8 @@ def suitability(
             fallback_used = True
 
     if not top_factors:
+        # No SHAP attribution available: report none rather than invent factor values.
         fallback_used = True
-        # Heuristic factors fallback
-        top_factors = [
-            SuitabilityFactor(
-                feature="season_rainfall_mm",
-                value=round(float(conditions.rainfall_mm or 250.0), 1),
-                unit="mm",
-                effect_quintal_per_acre=round((ratio - 1.0) * 1.5, 2),
-                direction="up" if ratio >= 1.0 else "down",
-            ),
-            SuitabilityFactor(
-                feature="soil_ph",
-                value=7.2,
-                unit="pH",
-                effect_quintal_per_acre=0.35,
-                direction="up",
-            ),
-            SuitabilityFactor(
-                feature="irrigated_pct",
-                value=35.0,
-                unit="%",
-                effect_quintal_per_acre=0.20,
-                direction="up",
-            ),
-        ]
 
     return Suitability(
         score=score,

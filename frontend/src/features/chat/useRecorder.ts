@@ -4,7 +4,8 @@
  * iOS Safari records audio/mp4 (not webm). We pick the first supported
  * format in order: webm+opus → mp4 → aac.
  *
- * Max recording: 60 seconds (per frontend spec).
+ * The backend accepts up to 30 seconds of audio, so the recorder must not
+ * create an upload that the speech-to-text endpoint will reject.
  */
 
 import { useState, useRef, useCallback } from 'react'
@@ -37,7 +38,7 @@ interface UseRecorderReturn {
   reset: () => void
 }
 
-const MAX_SECONDS = 60
+const MAX_SECONDS = 30
 
 export function useRecorder(): UseRecorderReturn {
   const [state, setState] = useState<RecorderState>('idle')
@@ -71,7 +72,15 @@ export function useRecorder(): UseRecorderReturn {
 
     chunksRef.current = []
     const options = mimeType ? { mimeType } : {}
-    const recorder = new MediaRecorder(stream, options)
+    let recorder: MediaRecorder
+    try {
+      recorder = new MediaRecorder(stream, options)
+    } catch {
+      // Browser has no MediaRecorder support for this format: release the mic.
+      stream.getTracks().forEach((t) => t.stop())
+      setState('error')
+      return
+    }
     mediaRef.current = recorder
 
     recorder.ondataavailable = (e) => {
@@ -81,6 +90,12 @@ export function useRecorder(): UseRecorderReturn {
     recorder.onstop = () => {
       stream.getTracks().forEach((t) => t.stop())
       const recorded = new Blob(chunksRef.current, { type: mimeType || 'audio/webm' })
+      if (recorded.size === 0) {
+        // Nothing was captured (e.g. tapped stop instantly): do not upload empty audio.
+        setState('error')
+        setElapsed(0)
+        return
+      }
       setBlob(recorded)
       setState('transcribing')
       setElapsed(0)
@@ -90,7 +105,7 @@ export function useRecorder(): UseRecorderReturn {
     setState('recording')
     setElapsed(0)
 
-    // Timer — auto-stop at 60 s
+    // Timer — auto-stop at 30 s (backend limit)
     timerRef.current = setInterval(() => {
       setElapsed((prev) => {
         if (prev + 1 >= MAX_SECONDS) {

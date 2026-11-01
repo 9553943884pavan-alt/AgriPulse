@@ -60,6 +60,9 @@ class AgentState(TypedDict, total=False):
     # Profile
     profile: Any          # FarmProfile | None
     missing: list[str]
+    optional_ask: str | None      # optional one-time question (e.g. borewell_capacity)
+    pending_field: str | None     # field the last question asked about
+    asked_fields: list[str]       # fields already asked: never ask the same one twice
     question: dict | None  # {text, field, language} — set by ask_missing
 
     # Data
@@ -74,6 +77,9 @@ class AgentState(TypedDict, total=False):
 
     # ML results
     candidates: list
+    crops: list
+    impact: object
+    opt_warnings: list
     excluded: list
     scenario_yields: dict
     long_duration_crops: set
@@ -90,6 +96,8 @@ class AgentState(TypedDict, total=False):
     explanation_provider: str
     grounding_retry_count: int
     water_saved_pct: float
+    shap_factors: list
+    long_crop_facts: list
 
     # Output
     plan_id: str
@@ -111,7 +119,7 @@ def _after_route(state: AgentState) -> str:
 
 
 def _after_extract_profile(state: AgentState) -> str:
-    if state.get("missing"):
+    if state.get("missing") or state.get("optional_ask"):
         return "ask_missing"
     return "gather_data"
 
@@ -138,6 +146,10 @@ def _after_grounding_check(state: AgentState) -> str:
     if retry >= 2:
         return "respond"
     return "explain"
+
+
+def _after_memory_answer(state: AgentState) -> str:
+    return "respond" if state.get("route") == "question_answered" else "extract_profile"
 
 
 # ── Build and compile ─────────────────────────────────────────────────────────
@@ -172,7 +184,10 @@ def build_graph() -> StateGraph:
         "answer_from_memory": "answer_from_memory",
         "extract_profile": "extract_profile",
     })
-    g.add_edge("merge_patch", "gather_data")
+    g.add_conditional_edges("merge_patch", _after_extract_profile, {
+        "ask_missing": "ask_missing",
+        "gather_data": "gather_data",
+    })
     g.add_conditional_edges("extract_profile", _after_extract_profile, {
         "ask_missing": "ask_missing",
         "gather_data": "gather_data",
@@ -182,7 +197,10 @@ def build_graph() -> StateGraph:
         "respond": "respond",
         "recommend_crops": "recommend_crops",
     })
-    g.add_edge("answer_from_memory", "respond")
+    g.add_conditional_edges("answer_from_memory", _after_memory_answer, {
+        "respond": "respond",
+        "extract_profile": "extract_profile",
+    })
     g.add_edge("recommend_crops", "predict_yield")
     g.add_edge("predict_yield", "optimize")
     g.add_edge("optimize", "check_feasibility")

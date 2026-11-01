@@ -34,6 +34,11 @@ _WORD_MULTIPLIERS = [
 
 _NUMBER_RE = re.compile(r"\d+(?:\.\d+)?")
 
+# Digits that belong to a unit or chemical formula, not to a quantity: "3805 m3",
+# "km2", "P2O5", "K2O", "CO2".  Without this the "3" in "m3" is read as a stray
+# figure and every explanation that states a water volume fails grounding.
+_UNIT_DIGITS_RE = re.compile(r"(?i)\b(?:m|cm|mm|km)[23]\b|\b[PK]2O5?\b|\bCO2\b")
+
 
 def _normalise(text: str) -> str:
     """Apply steps 1–2: Devanagari digits + strip Indian digit grouping."""
@@ -55,6 +60,7 @@ def _expand_words(text: str) -> str:
 
 def extract_numbers(text: str) -> list[float]:
     """Full pipeline: normalise → expand words → extract floats."""
+    text = _UNIT_DIGITS_RE.sub(" ", text)
     text = _normalise(text)
     text = _expand_words(text)
     return [float(m) for m in _NUMBER_RE.findall(text)]
@@ -102,8 +108,9 @@ def grounding_check(explanation_text: str, tool_outputs: dict) -> bool:
         return False
 
     for n in candidate_numbers:
+        # The text writes "loss of Rs 3,380" while the source holds -3380, so compare magnitudes.
         matched = any(
-            abs(n - sv) / max(abs(sv), 1.0) <= GROUNDING_TOLERANCE
+            abs(n - abs(sv)) / max(abs(sv), 1.0) <= GROUNDING_TOLERANCE
             for sv in source_numbers
         )
         if not matched:

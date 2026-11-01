@@ -48,18 +48,21 @@ def get_district_features(district: str) -> dict[str, Any]:
     """Retrieve static soil, groundwater, irrigation, and fertilizer features for a district."""
     dist = resolve_district(district)
 
+    nan = float("nan")  # missing static data -> model sees NaN, never an invented number
+
+    def _num(row, col):
+        value = pd.to_numeric(row.get(col), errors="coerce")
+        return nan if pd.isna(value) else float(value)
+
     # 1. Soil
     soil_df = loaders.load_soil_npk()
     soil_row = soil_df[soil_df["district"] == dist]
     if not soil_row.empty:
         r = soil_row.iloc[0]
-        n_kg = float(r.get("n_kg_per_ha", 180.0))
-        p_kg = float(r.get("p_kg_per_ha", 22.0))
-        k_kg = float(r.get("k_kg_per_ha", 280.0))
-        ph = float(r.get("ph", 7.2))
-        oc = float(r.get("organic_carbon_pct", 0.55))
+        n_kg, p_kg, k_kg = _num(r, "n_kg_per_ha"), _num(r, "p_kg_per_ha"), _num(r, "k_kg_per_ha")
+        ph, oc = _num(r, "ph"), _num(r, "organic_carbon_pct")
     else:
-        n_kg, p_kg, k_kg, ph, oc = 180.0, 22.0, 280.0, 7.2, 0.55
+        n_kg = p_kg = k_kg = ph = oc = nan
 
     # 2. Groundwater
     gw_df = loaders.load_groundwater()
@@ -68,20 +71,20 @@ def get_district_features(district: str) -> dict[str, Any]:
         gw_row = gw_df[gw_df["district"] == dist]
     if not gw_row.empty:
         g = gw_row.iloc[0]
-        gw_cat = str(g.get("category", "Safe"))
-        gw_ext = float(g.get("extraction_pct", 65.0))
+        gw_cat = str(g.get("category", "")) or "Unknown"
+        gw_ext = _num(g, "extraction_pct")
     else:
-        gw_cat, gw_ext = "Safe", 65.0
+        gw_cat, gw_ext = "Unknown", nan
 
     # 3. Irrigation
     irr_df = loaders.load_irrigation()
     irr_row = irr_df[irr_df["district"] == dist]
-    irr_pct = float(irr_row.iloc[0].get("net_irrigated_area_pct", 30.0)) if not irr_row.empty else 30.0
+    irr_pct = _num(irr_row.iloc[0], "net_irrigated_area_pct") if not irr_row.empty else nan
 
     # 4. Fertilizer
     fert_df = loaders.load_fertilizer_use()
     fert_row = fert_df[fert_df["district"] == dist]
-    fert_use = float(fert_row.iloc[0].get("fertilizer_use_kg_per_ha", 120.0)) if not fert_row.empty else 120.0
+    fert_use = _num(fert_row.iloc[0], "fertilizer_use_kg_per_ha") if not fert_row.empty else nan
 
     return {
         "district": dist,
@@ -94,6 +97,86 @@ def get_district_features(district: str) -> dict[str, Any]:
         "organic_carbon_pct": oc,
         "irrigated_pct": irr_pct,
         "fertilizer_use_kg_per_ha": fert_use,
+    }
+
+
+def _baseline_source(res) -> str:
+    """Source label for a baseline yield; spells out thin history instead of hiding it."""
+    label = f"DES Historical Baseline ({res.tier})"
+    if res.n_years:
+        years = "year" if res.n_years == 1 else "years"
+        label += f": median of {res.n_years} DES {years}, latest {res.last_year}"
+        if res.n_years < 5:
+            label += " - sparse history"
+    return label
+
+
+def preceding_kharif_rain_mm(district: str, analogue_year: int | None) -> float:
+    """Kharif (Jun-Oct) rainfall of the analogue crop-year, or NaN when it is not on record.
+
+    Rabi/Summer crops live on stored soil moisture from the monsoon that came before them
+    (the same reason the Rabi scenarios are ranked by a Rabi+Kharif water index).
+    """
+    nan = float("nan")
+    if analogue_year is None:
+        return nan
+    hist = loaders.load_rainfall_history()
+    row = hist[
+        (hist["district"] == district)
+        & (hist["season"] == "Kharif")
+        & (hist["year"] == int(analogue_year))
+    ]
+    return nan if row.empty else float(row.iloc[0]["rainfall_mm"])
+
+
+def build_feature_dict(district: str, crop: str, szn_title: str, conditions: Scenario) -> dict[str, Any]:
+    """Model A input row for one (district, crop, season, scenario).
+
+    Every weather feature comes from the scenario's analogue year; anything missing is NaN
+    (never an invented number). Shared by yield inference and SHAP attribution so both see
+    exactly the same input.
+    """
+    ctx = get_district_features(district)
+    nan = float("nan")
+
+    def _f(v):
+        return nan if v is None else float(v)
+
+    rf_raw = conditions.rainfall_mm
+    if rf_raw is None and hasattr(conditions.season_rain_mm, "value"):
+        rf_raw = conditions.season_rain_mm.value
+    rf = _f(rf_raw)
+    # Departure from the district's own mean season rainfall, from the sourced analogue samples.
+    samples = [float(x.value) for x in (conditions.all_year_samples or [])]
+    if samples and sum(samples) > 0 and rf == rf:
+        mean_rf = sum(samples) / len(samples)
+        departure = round((rf - mean_rf) / mean_rf * 100.0, 2)
+    else:
+        departure = nan
+
+    return {
+        "district": district,
+        "crop_id": crop,
+        "season": szn_title,
+        "groundwater_category": ctx["groundwater_category"],
+        "season_rainfall_mm": rf,
+        "rainfall_departure_pct": departure,
+        "rainy_days": _f(conditions.rainy_days),
+        "max_dry_spell_days": _f(conditions.max_dry_spell_days),
+        "mean_temp_c": _f(conditions.mean_temp_c),
+        "max_temp_c": _f(conditions.max_temp_c),
+        "heat_stress_days": _f(conditions.heat_stress_days),
+        "et0_total_mm": _f(conditions.et0_mm),
+        "mean_humidity_pct": _f(conditions.mean_humidity_pct),
+        "soil_n_kg_ha": ctx["soil_n_kg_ha"],
+        "soil_p_kg_ha": ctx["soil_p_kg_ha"],
+        "soil_k_kg_ha": ctx["soil_k_kg_ha"],
+        "soil_ph": ctx["soil_ph"],
+        "organic_carbon_pct": ctx["organic_carbon_pct"],
+        "irrigated_pct": ctx["irrigated_pct"],
+        "groundwater_extraction_pct": ctx["groundwater_extraction_pct"],
+        "fertilizer_use_kg_per_ha": ctx["fertilizer_use_kg_per_ha"],
+        "kharif_rain_mm": preceding_kharif_rain_mm(district, conditions.analogue_year),
     }
 
 
@@ -117,6 +200,13 @@ def predict_yield(
     predicted_yield = base_res.yield_t_per_ha
     out_of_range = False
 
+    # The model only knows (crop, season) pairs that exist in the DES training rows. A crop DES
+    # reports only as "Whole Year" (onion, ...) has no Rabi weather-window training data, so the
+    # sourced district median is used instead of extrapolating the model to an unseen season.
+    if artifact is not None and not baseline.has_season(crop, szn_title):
+        logger.info("No %s/%s training rows; using DES baseline (%s)", crop, szn_title, base_res.tier)
+        artifact = None
+
     if artifact is not None:
         try:
             model = artifact["model"]
@@ -124,44 +214,10 @@ def predict_yield(
             cat_cols = artifact["cat_cols"]
             num_cols = artifact["num_cols"]
 
-            # Context features
-            ctx = get_district_features(district)
-
-            # Scenario features
-            rf = float(conditions.rainfall_mm or (conditions.season_rain_mm.value if hasattr(conditions.season_rain_mm, "value") else 200.0))
-            et0 = float(conditions.et0_mm or 450.0)
-            rain_days = int(conditions.rainy_days or 20)
-            dry_spell = int(conditions.max_dry_spell_days or 15)
-            mean_temp = float(conditions.mean_temp_c or 26.0)
-            max_temp = float(conditions.max_temp_c or 34.0)
-            heat_stress = int(conditions.heat_stress_days or 5)
-            humidity = float(conditions.mean_humidity_pct or 60.0)
-            # Estimate departure against 300 mm baseline normal
-            departure = round((rf - 300.0) / 300.0 * 100.0, 2)
-
-            feature_dict = {
-                "district": district,
-                "crop_id": crop,
-                "season": szn_title,
-                "groundwater_category": ctx["groundwater_category"],
-                "season_rainfall_mm": rf,
-                "rainfall_departure_pct": departure,
-                "rainy_days": rain_days,
-                "max_dry_spell_days": dry_spell,
-                "mean_temp_c": mean_temp,
-                "max_temp_c": max_temp,
-                "heat_stress_days": heat_stress,
-                "et0_total_mm": et0,
-                "mean_humidity_pct": humidity,
-                "soil_n_kg_ha": ctx["soil_n_kg_ha"],
-                "soil_p_kg_ha": ctx["soil_p_kg_ha"],
-                "soil_k_kg_ha": ctx["soil_k_kg_ha"],
-                "soil_ph": ctx["soil_ph"],
-                "organic_carbon_pct": ctx["organic_carbon_pct"],
-                "irrigated_pct": ctx["irrigated_pct"],
-                "groundwater_extraction_pct": ctx["groundwater_extraction_pct"],
-                "fertilizer_use_kg_per_ha": ctx["fertilizer_use_kg_per_ha"],
-            }
+            feature_dict = build_feature_dict(district, crop, szn_title, conditions)
+            ctx = feature_dict
+            rf = feature_dict["season_rainfall_mm"]
+            max_temp = feature_dict["max_temp_c"]
 
             cats_df = pd.DataFrame([{col: feature_dict[col] for col in cat_cols}])
             encoded_cats = encoder.transform(cats_df)
@@ -174,7 +230,7 @@ def predict_yield(
             model_used = True
 
             # Out of range guard
-            if rf > 3000 or rf < 0 or max_temp > 50 or min(ctx["soil_ph"], 7.0) < 4.0:
+            if (rf == rf and (rf > 3000 or rf < 0)) or (max_temp == max_temp and max_temp > 50) or (ctx["soil_ph"] == ctx["soil_ph"] and ctx["soil_ph"] < 4.0):
                 out_of_range = True
 
         except Exception as exc:
@@ -194,7 +250,7 @@ def predict_yield(
         t_per_ha=SourcedValue(
             value=final_val,
             unit="t/ha",
-            source="AgriPulse Yield Model A (HistGradientBoostingRegressor)" if model_used else f"DES Historical Baseline ({base_res.tier})",
+            source="AgriPulse Yield Model A (HistGradientBoostingRegressor)" if model_used else _baseline_source(base_res),
             as_of="2026",
             status="model" if model_used else "official_dataset",
         ),

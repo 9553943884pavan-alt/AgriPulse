@@ -1,5 +1,8 @@
 """Tests for core infrastructure: units, errors, timing, cache."""
 
+import asyncio
+
+from app.core import http_client
 from app.core.units import (
     ha_to_acres, acres_to_ha, tonnes_to_quintals,
     t_per_ha_to_q_per_acre, mm_to_m3_per_acre,
@@ -83,3 +86,22 @@ def test_stage_timer_as_dict():
     d = timer.as_dict()
     assert "geocoding" in d
     assert d["geocoding"] >= 0
+
+
+def test_http_client_is_recreated_for_a_different_event_loop():
+    async def current_client():
+        return http_client.get_client()
+
+    first_loop = asyncio.new_event_loop()
+    second_loop = asyncio.new_event_loop()
+    try:
+        first_client = first_loop.run_until_complete(current_client())
+        second_client = second_loop.run_until_complete(current_client())
+
+        assert first_client is not second_client
+
+        second_loop.run_until_complete(http_client.close_client())
+        first_loop.run_until_complete(first_client.aclose())
+    finally:
+        first_loop.close()
+        second_loop.close()

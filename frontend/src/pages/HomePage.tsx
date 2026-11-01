@@ -13,21 +13,19 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   Send, Volume2, Copy, ThumbsUp, ThumbsDown, Zap,
-  Sprout, Cloud, BarChart2, Droplets, TrendingUp, IndianRupee,
+  Sprout, Cloud, BarChart2, Droplets, IndianRupee,
 } from 'lucide-react'
 import { MicButton } from '@/features/chat/MicButton'
 import { TraceTimeline } from '@/features/trace/TraceTimeline'
+import { EmptyPlanNotice, isEmptyPlan } from '@/components/EmptyPlanNotice'
 import { SummaryTiles } from '@/features/plan/SummaryTiles'
-import { Card, CardHeader } from '@/components/Card'
 import { ErrorState } from '@/components/ErrorState'
-import { Badge } from '@/components/Badge'
-import { MoneyText } from '@/components/MoneyText'
-import { SourceBadge } from '@/components/SourceBadge'
 import { useStore } from '@/state/store'
 import { streamChat } from '@/api/sseClient'
-import { apiPostForm } from '@/api/client'
+import { apiPostBlob, apiPostForm, ApiClientError, NetworkError } from '@/api/client'
 import { getCropEmoji } from '@/utils/cropEmoji'
-import type { FarmProfile, PlanResult, ApiError, Language } from '@/api/types'
+import { traceState } from '@/utils/traceStatus'
+import type { FarmProfile, PlanResult, ApiError, Language, TranscriptionResponse } from '@/api/types'
 
 /* ─── Suggested quick questions ────────────────────────────────── */
 interface SuggestedQuestion {
@@ -95,7 +93,7 @@ export function HomePage() {
   const {
     threadId, language, plan, selectedScenario,
     setThreadId, setProfile, setPlan, addMessage, addTraceEvent,
-    messages: storedMessages, traceEvents,
+    clearTrace, messages: storedMessages, traceEvents,
   } = useStore()
 
   const SUGGESTED: SuggestedQuestion[] = [
@@ -110,6 +108,7 @@ export function HomePage() {
   const [inputText, setInputText] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
   const [error, setError] = useState<ApiError | null>(null)
+  const [lastTurnWasQuestion, setLastTurnWasQuestion] = useState(false)
 
   const [chatMessages, setChatMessages] = useState<DisplayMessage[]>(() => {
     if (storedMessages.length > 0) {
@@ -123,6 +122,10 @@ export function HomePage() {
   })
 
   const abortRef = useRef<AbortController | null>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const speakTextRef = useRef<(text: string) => Promise<void>>(async () => {})
+  const lastMessageRef = useRef('')
+  const lastAgentTextRef = useRef<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -132,62 +135,156 @@ export function HomePage() {
 
   useEffect(() => { scrollToBottom() }, [chatMessages, isStreaming, scrollToBottom])
 
-  const sendMessage = useCallback((text: string) => {
+  useEffect(() => {
+    if (storedMessages.length <= chatMessages.length) return
+    setChatMessages(storedMessages.map((message) => ({
+      role: message.role,
+      text: message.text,
+      ts: formatTime(message.at),
+    })))
+  }, [storedMessages, chatMessages.length])
+
+  const sendMessage = useCallback((text: string, appendFarmerMessage = true) => {
     if (!text.trim() || isStreaming) return
     setError(null)
+    setLastTurnWasQuestion(false)
     setIsStreaming(true)
     setInputText('')
 
-    const now = formatTime()
-    const farmerMsg: DisplayMessage = { role: 'farmer', text, ts: now }
-    setChatMessages((prev) => [...prev, farmerMsg])
-    addMessage({ role: 'farmer', text, language: language as Language, at: new Date().toISOString() })
+    if (appendFarmerMessage) {
+      lastMessageRef.current = text
+      lastAgentTextRef.current = null
+      const now = formatTime()
+      const farmerMsg: DisplayMessage = { role: 'farmer', text, ts: now }
+      setChatMessages((prev) => [...prev, farmerMsg])
+      addMessage({ role: 'farmer', text, language: language as Language, at: new Date().toISOString() })
+    }
+    clearTrace()
 
-    const controller = streamChat(
-      { thread_id: threadId ?? undefined, message: text, language: language as Language },
+    let controller: AbortController
+    try {
+      controller = streamChat(
+      { thread_id: threadId, message: text, language: language as Language },
       {
         onThread: (e) => setThreadId(e.thread_id),
         onProfile: (e: FarmProfile) => setProfile(e),
         onQuestion: (e) => {
+          setLastTurnWasQuestion(true)
           setChatMessages((prev) => [...prev, { role: 'agent', text: e.text, ts: formatTime() }])
           addMessage({ role: 'agent', text: e.text, language: language as Language, at: new Date().toISOString() })
+          void speakTextRef.current(e.text)
           setIsStreaming(false)
         },
         onTrace: (e) => addTraceEvent(e),
-        onPlan: (e: PlanResult) => setPlan(e),
+        onPlan: (e: PlanResult) => {
+          setPlan(e)
+          const answer = e.explanation.text.trim()
+          if (!answer || lastAgentTextRef.current === answer) return
+          lastAgentTextRef.current = answer
+          setChatMessages((prev) => [...prev, { role: 'agent', text: answer, ts: formatTime() }])
+          addMessage({ role: 'agent', text: answer, language: language as Language, at: new Date().toISOString() })
+        },
         onMessage: (e) => {
+          if (lastAgentTextRef.current === e.text) return
+          lastAgentTextRef.current = e.text
           setChatMessages((prev) => [...prev, { role: 'agent', text: e.text, ts: formatTime() }])
           addMessage({ role: 'agent', text: e.text, language: language as Language, at: new Date().toISOString() })
         },
         onError: (e: ApiError) => { setError(e); setIsStreaming(false) },
         onDone: () => setIsStreaming(false),
+        onClose: () => setIsStreaming(false),
       },
-    )
+      )
+    } catch (caught) {
+      setError({
+        code: 'UPSTREAM_UNAVAILABLE',
+        message: caught instanceof Error ? caught.message : 'Chat request failed.',
+        user_message: { en: t('errors.chat_failed'), mr: t('errors.chat_failed'), hi: t('errors.chat_failed') },
+        retryable: true,
+        details: {},
+      })
+      setIsStreaming(false)
+      return
+    }
     abortRef.current = controller
     setTimeout(() => inputRef.current?.focus(), 50)
-  }, [isStreaming, threadId, language, addMessage, addTraceEvent, setThreadId, setProfile, setPlan])
+  }, [isStreaming, t, threadId, language, addMessage, addTraceEvent, clearTrace, setThreadId, setProfile, setPlan])
+
+  const speakText = useCallback(async (text: string) => {
+    try {
+      audioRef.current?.pause()
+      const audioBlob = await apiPostBlob('/api/speak', { text, language })
+      const url = URL.createObjectURL(audioBlob)
+      const audio = new Audio(url)
+      audioRef.current = audio
+      const releaseUrl = () => {
+        URL.revokeObjectURL(url)
+        if (audioRef.current === audio) audioRef.current = null
+      }
+      audio.addEventListener('ended', releaseUrl, { once: true })
+      audio.addEventListener('error', releaseUrl, { once: true })
+      await audio.play()
+    } catch {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.lang = language === 'mr' ? 'mr-IN' : language === 'hi' ? 'hi-IN' : 'en-IN'
+        window.speechSynthesis.speak(utterance)
+      }
+    }
+  }, [language])
+
+  useEffect(() => {
+    speakTextRef.current = speakText
+  }, [speakText])
 
   const handleAudio = useCallback(async (blob: Blob, mimeType: string) => {
     const form = new FormData()
-    form.append('audio', blob, `recording.${mimeType.includes('mp4') ? 'mp4' : 'webm'}`)
+    const extension = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('aac') ? 'aac' : 'webm'
+    form.append('audio', blob, `recording.${extension}`)
     form.append('language_hint', language)
     try {
-      const result = await apiPostForm<{ text: string; language: string }>('/api/transcribe', form)
+      const result = await apiPostForm<TranscriptionResponse>('/api/transcribe', form)
+      if (!result.text.trim()) throw new Error('Speech recognition returned an empty transcript.')
       sendMessage(result.text)
-    } catch {
+    } catch (caught) {
+      const apiError = caught instanceof ApiClientError ? caught.apiError : null
       setError({
-        code: 'STT_FAILED',
-        message: 'Speech recognition failed',
-        user_message: { en: t('errors.speech_failed'), mr: t('errors.speech_failed'), hi: t('errors.speech_failed') },
-        retryable: true,
-        details: {},
+        code: apiError?.code ?? 'STT_FAILED',
+        message: apiError?.message ?? (caught instanceof NetworkError ? 'Speech service is unreachable.' : 'Speech recognition failed.'),
+        user_message: apiError?.user_message ?? {
+          en: t('errors.speech_failed'),
+          mr: t('errors.speech_failed'),
+          hi: t('errors.speech_failed'),
+        },
+        retryable: apiError?.retryable ?? true,
+        details: apiError?.details ?? {},
       })
     }
   }, [language, sendMessage, t])
 
-  useEffect(() => { return () => { abortRef.current?.abort() } }, [])
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort()
+      audioRef.current?.pause()
+    }
+  }, [])
 
   const lang = language as Language
+
+  const tState = traceState({
+    isStreaming,
+    hasError: error !== null,
+    traceCount: traceEvents.length,
+    lastTurnWasQuestion,
+  })
+  const traceLabel = {
+    live: t('misc.live'),
+    waiting: t('misc.trace_waiting'),
+    failed: t('misc.trace_failed'),
+    done: t('misc.done'),
+    idle: t('misc.trace_idle_label'),
+  }[tState]
+  const traceColor = tState === 'live' ? '#16834A' : tState === 'failed' ? '#DC2626' : tState === 'waiting' ? '#B45309' : '#52685E'
 
   return (
     <div className="flex h-full overflow-hidden">
@@ -196,13 +293,9 @@ export function HomePage() {
           CENTER — Chat panel (~50%)
       ════════════════════════════════════════════════════════════ */}
       <div
-        className="flex flex-col min-h-0 overflow-hidden relative flex-shrink-0"
+        className="flex flex-col min-h-0 overflow-hidden relative flex-shrink-0 w-full lg:w-1/2 lg:max-w-[720px] lg:min-w-[420px] lg:border-r lg:border-sage-mist"
         style={{
-          width: '50%',
-          maxWidth: '720px',
-          minWidth: '420px',
           background: '#F7F8EE',
-          borderRight: '1px solid #D9EBCB',
         }}
       >
         {/* Botanical leaf decorations */}
@@ -244,7 +337,12 @@ export function HomePage() {
           </div>
           <button
             type="button"
-            aria-label="Toggle audio output"
+            aria-label={t('home.speak_latest', 'Read latest reply aloud')}
+            disabled={!chatMessages.some((message) => message.role === 'agent')}
+            onClick={() => {
+              const latest = [...chatMessages].reverse().find((message) => message.role === 'agent')
+              if (latest) void speakText(latest.text)
+            }}
             className="w-9 h-9 rounded-full flex items-center justify-center transition-colors hover:opacity-80"
             style={{ background: '#D9EBCB', border: '1px solid #bcd8a6' }}
           >
@@ -326,7 +424,10 @@ export function HomePage() {
                   <span className="text-[10px]" style={{ color: '#52685E' }}>{msg.ts}</span>
                   {msg.role === 'agent' && (
                     <div className="flex items-center gap-1">
-                      <button type="button" aria-label="Copy" onClick={() => void navigator.clipboard.writeText(msg.text)} className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
+                      <button type="button" aria-label={t('home.speak_reply', 'Read reply aloud')} onClick={() => void speakText(msg.text)} className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
+                        <Volume2 className="w-3 h-3" style={{ color: '#52685E' }} />
+                      </button>
+                      <button type="button" aria-label={t('home.copy_reply', 'Copy reply')} onClick={() => void navigator.clipboard.writeText(msg.text)} className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
                         <Copy className="w-3 h-3" style={{ color: '#52685E' }} />
                       </button>
                       <button type="button" aria-label="Like" className="p-1 rounded hover:bg-sage-mist/20 transition-colors">
@@ -370,7 +471,15 @@ export function HomePage() {
           )}
 
           {error && (
-            <ErrorState error={error} retryable={error.retryable} onRetry={() => setError(null)} />
+            <ErrorState
+              error={error}
+              isNetworkError={error.code === 'UPSTREAM_UNAVAILABLE' && error.message.includes('Network')}
+              retryable={error.retryable}
+              onRetry={() => {
+                if (lastMessageRef.current) sendMessage(lastMessageRef.current, false)
+                else setError(null)
+              }}
+            />
           )}
 
           <div ref={messagesEndRef} />
@@ -387,7 +496,23 @@ export function HomePage() {
         >
           {/* Mic — large dark-green circle (52px matches reference) */}
           <div className="flex-shrink-0">
-            <MicButton onAudio={(blob, mime) => void handleAudio(blob, mime)} disabled={isStreaming} size="md" hideLabel />
+            <MicButton
+              onAudio={handleAudio}
+              onError={() => setError({
+                code: 'STT_FAILED',
+                message: 'Microphone access is unavailable. Allow microphone access in your browser settings and try again.',
+                user_message: {
+                  en: 'Please allow microphone access, then try again.',
+                  mr: 'कृपया मायक्रोफोनची परवानगी द्या आणि पुन्हा प्रयत्न करा.',
+                  hi: 'कृपया माइक्रोफ़ोन की अनुमति दें और फिर से कोशिश करें।',
+                },
+                retryable: true,
+                details: {},
+              })}
+              disabled={isStreaming}
+              size="md"
+              hideLabel
+            />
           </div>
 
           {/* Text input — pill shaped */}
@@ -425,7 +550,7 @@ export function HomePage() {
           RIGHT — Trace + Plan (takes all remaining space)
       ════════════════════════════════════════════════════════════ */}
       <div
-        className="flex-1 min-w-0 flex flex-col gap-4 p-4 lg:p-5 overflow-y-auto bg-warm-cream w-full"
+        className="hidden lg:flex flex-1 min-w-0 flex-col gap-4 p-5 overflow-y-auto bg-warm-cream w-full"
         style={{
           scrollbarWidth: 'thin',
           scrollbarColor: '#16834A transparent',
@@ -451,11 +576,11 @@ export function HomePage() {
             <div className="flex items-center gap-1.5">
               <span
                 className="w-2 h-2 rounded-full"
-                style={{ background: isStreaming ? '#16834A' : '#52685E' }}
+                style={{ background: traceColor }}
                 aria-hidden="true"
               />
-              <span className="text-xs font-medium" style={{ color: isStreaming ? '#16834A' : '#52685E' }}>
-                {isStreaming ? t('misc.live') : t('misc.done')}
+              <span className="text-xs font-medium" style={{ color: traceColor }}>
+                {traceLabel}
               </span>
             </div>
           </div>
@@ -469,7 +594,7 @@ export function HomePage() {
         </div>
 
         {/* ── Current Plan Preview ─────────────────────────────── */}
-        {plan && (
+        {plan && !isEmptyPlan(plan) && (
           <div
             className="rounded-2xl p-4 lg:p-5 bg-white border border-sage-mist/80 shadow-card w-full"
           >
@@ -505,8 +630,8 @@ export function HomePage() {
                 .map((alloc) => {
                   const crop = plan.crops.find((c) => c.crop_id === alloc.crop_id)
                   if (!crop) return null
-                  const profitVal = crop.profit_rs_per_acre[selectedScenario] * alloc.acres
-                  const waterM3 = crop.water_need_m3_per_acre[selectedScenario] * alloc.acres
+                  const profitVal = alloc.profit_rs[selectedScenario]
+                  const waterM3 = crop.water_need_m3_per_acre[selectedScenario].value * alloc.acres
                   const waterLow = waterM3 * 1000 / 100000 < 2
                   const waterMed = !waterLow && waterM3 * 1000 / 100000 < 4
                   const waterLabel = waterLow ? 'Low water' : waterMed ? 'Medium water' : 'High water'
@@ -578,7 +703,9 @@ export function HomePage() {
               </span>
             </div>
 
-            <SummaryTiles plan={plan} scenario={selectedScenario} compact />
+            {isEmptyPlan(plan)
+              ? <EmptyPlanNotice plan={plan} scenario={selectedScenario} lang={language as Language} />
+              : <SummaryTiles plan={plan} scenario={selectedScenario} compact />}
           </div>
         )}
       </div>

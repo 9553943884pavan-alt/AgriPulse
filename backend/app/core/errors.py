@@ -46,9 +46,9 @@ _USER_MSG: dict[str, dict[str, str]] = {
         "en": "Plan not found or expired.",
     },
     "AUDIO_TOO_LARGE": {
-        "mr": "ऑडिओ फाइल खूप मोठी आहे (जास्तीत जास्त 10 MB, 60 सेकंद).",
-        "hi": "ऑडियो फ़ाइल बहुत बड़ी है (अधिकतम 10 MB, 60 सेकंड)।",
-        "en": "Audio too large (max 10 MB, 60 seconds).",
+        "mr": "ऑडिओ फाइल खूप मोठी आहे (जास्तीत जास्त 10 MB, 30 सेकंद).",
+        "hi": "ऑडियो फ़ाइल बहुत बड़ी है (अधिकतम 10 MB, 30 सेकंड)।",
+        "en": "Audio too large (max 10 MB, 30 seconds).",
     },
     "STT_FAILED": {
         "mr": "बोलणे ओळखता आले नाही. कृपया पुन्हा बोला किंवा टाइप करा.",
@@ -83,10 +83,12 @@ class AppError(Exception):
         code: ErrorCode,
         details: dict | None = None,
         message: str | None = None,
+        user_message: dict[str, str] | None = None,
     ) -> None:
         self.code = code
         self.details = details or {}
         self.message = message or _USER_MSG[code]["en"]
+        self.user_message = user_message or _USER_MSG[code]
         self.status_code = _STATUS[code]
         super().__init__(self.message)
 
@@ -95,7 +97,7 @@ class AppError(Exception):
             error=ErrorDetail(
                 code=self.code,
                 message=self.message,
-                user_message=_USER_MSG[self.code],
+                user_message=self.user_message,
                 retryable=self.code in _RETRYABLE,
                 details=self.details,
             )
@@ -106,3 +108,42 @@ class AppError(Exception):
             status_code=self.status_code,
             detail=self.to_response().model_dump(),
         )
+
+
+_POSITIVE_MSG: dict[str, dict[str, str]] = {
+    "land_acres": {
+        "mr": "जमिनीचे क्षेत्र 0 पेक्षा जास्त असले पाहिजे.",
+        "hi": "जमीन का क्षेत्रफल 0 से अधिक होना चाहिए।",
+        "en": "Land area must be greater than 0 acres.",
+    },
+    "budget_rs": {
+        "mr": "बजेट 0 पेक्षा जास्त असले पाहिजे.",
+        "hi": "बजट 0 से अधिक होना चाहिए।",
+        "en": "Budget must be greater than 0 rupees.",
+    },
+}
+
+
+def ensure_positive(values: dict[str, object]) -> None:
+    """Raise the standard 422 VALIDATION_ERROR if land_acres / budget_rs is not > 0."""
+    bad: list[str] = []
+    for field in ("land_acres", "budget_rs"):
+        if field not in values:
+            continue
+        try:
+            ok = float(values[field]) > 0  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            ok = False
+        if not ok:
+            bad.append(field)
+    if not bad:
+        return
+    user_message = {
+        lang: " ".join(_POSITIVE_MSG[f][lang] for f in bad) for lang in ("mr", "hi", "en")
+    }
+    raise AppError(
+        "VALIDATION_ERROR",
+        {"fields": bad},
+        message=user_message["en"],
+        user_message=user_message,
+    )

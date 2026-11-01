@@ -28,6 +28,8 @@ class BaselineResult(NamedTuple):
     yield_t_per_ha: float
     tier: str
     max_yield_t_per_ha: float
+    n_years: int = 0       # observations behind the median (district-level tiers)
+    last_year: int = 0     # latest DES year behind the median
 
 
 class YieldBaseline:
@@ -46,12 +48,22 @@ class YieldBaseline:
         self._t2 = valid.groupby(["district", "crop_id"])["yield_t_per_ha"].median().to_dict()
         self._t3 = valid.groupby(["crop_id", "season"])["yield_t_per_ha"].median().to_dict()
         self._t4 = valid.groupby("crop_id")["yield_t_per_ha"].median().to_dict()
+        self._crop_seasons = set(map(tuple, valid[["crop_id", "season"]].drop_duplicates().to_numpy()))
         self._statewide_median = float(valid["yield_t_per_ha"].median())
+
+        grp = valid.groupby(["district", "crop_id", "season"])["year"].agg(["count", "max"])
+        self._n1 = {k: (int(r["count"]), int(r["max"])) for k, r in grp.iterrows()}
+        grp = valid.groupby(["district", "crop_id"])["year"].agg(["count", "max"])
+        self._n2 = {k: (int(r["count"]), int(r["max"])) for k, r in grp.iterrows()}
 
         # Historical maximum yields (used to bound predictions)
         self._max_dc = valid.groupby(["district", "crop_id"])["yield_t_per_ha"].max().to_dict()
         self._max_c = valid.groupby("crop_id")["yield_t_per_ha"].max().to_dict()
         self._statewide_max = float(valid["yield_t_per_ha"].max())
+
+    def has_season(self, crop_id: str, season: str) -> bool:
+        """True when the training data has rows for this crop in this DES season."""
+        return (crop_id.lower().strip(), season.title().strip()) in self._crop_seasons
 
     def lookup(self, district: str, crop_id: str, season: str) -> BaselineResult:
         """Hierarchical lookup returning estimated yield and tier used."""
@@ -66,11 +78,13 @@ class YieldBaseline:
 
         k1 = (dist, crop, szn)
         if k1 in self._t1:
-            return BaselineResult(round(float(self._t1[k1]), 3), "district_crop_season", float(max_y))
+            n, last = self._n1[k1]
+            return BaselineResult(round(float(self._t1[k1]), 3), "district_crop_season", float(max_y), n, last)
 
         k2 = (dist, crop)
         if k2 in self._t2:
-            return BaselineResult(round(float(self._t2[k2]), 3), "district_crop", float(max_y))
+            n, last = self._n2[k2]
+            return BaselineResult(round(float(self._t2[k2]), 3), "district_crop", float(max_y), n, last)
 
         k3 = (crop, szn)
         if k3 in self._t3:

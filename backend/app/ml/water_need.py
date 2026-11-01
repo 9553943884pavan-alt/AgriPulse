@@ -4,6 +4,10 @@ Formula (FAO-56):
     need_mm = Σ_stages max(0,  Kc_stage × ET₀_stage  −  effective_rain_stage)
     need_m3_per_acre = need_mm × 4.047 / irrigation_efficiency
 
+This is a *net irrigation requirement*: effective rainfall has already been
+subtracted.  Optimizers must compare it only to deliverable irrigation supply
+(groundwater + canal), never to a total that adds rainfall again.
+
 Stages: ini / dev / mid / late  (lengths from crop_water_coefficients.csv)
 Kc:     kc_ini / (linear ramp) / kc_mid / kc_end
 
@@ -30,7 +34,7 @@ from functools import lru_cache
 
 import pandas as pd
 
-from app.ml.constants import EFFECTIVE_RAIN_FACTOR
+from app.ml.constants import EFFECTIVE_RAIN_FACTOR, SEASON_WINDOW_DAYS
 from app.schemas import Scenario, Season, SourcedValue, WaterNeed
 
 logger = logging.getLogger(__name__)
@@ -62,13 +66,65 @@ def _coeff() -> pd.DataFrame:
     return load_crop_water_coefficients()
 
 
+def _coefficient_crop_id(crop_id: str) -> str:
+    """Normalize calendar-only seasonal IDs to a sourced coefficient ID.
+
+    This resolves names such as ``maize_rabi`` to the coefficient table's
+    ``maize`` row. Unknown identifiers stay unknown: callers exclude them
+    rather than receiving an invented water requirement.
+    """
+    value = crop_id.strip().casefold()
+    df = _coeff()
+    source_ids = df["crop_id"].astype(str).str.casefold()
+    for suffix in ("_kharif", "_rabi", "_summer"):
+        if value.endswith(suffix):
+            base = value[: -len(suffix)]
+            if (source_ids == base).any():
+                return base
+    return value
+
+
+def _coefficient_row(crop_id: str, season_name: str) -> pd.Series | None:
+    """Find a sourced crop coefficient, including slash-separated seasons."""
+    df = _coeff()
+    canonical_id = _coefficient_crop_id(crop_id)
+    rows = df[df["crop_id"].astype(str).str.casefold() == canonical_id]
+    if rows.empty:
+        return None
+
+    exact = rows[rows["season"].astype(str).str.casefold() == season_name.casefold()]
+    if not exact.empty:
+        return exact.iloc[0]
+
+    matching_season = rows[
+        rows["season"].astype(str).map(
+            lambda value: season_name.casefold()
+            in {part.strip().casefold() for part in value.split("/")}
+        )
+    ]
+    if not matching_season.empty:
+        return matching_season.iloc[0]
+
+    # The crop-specific coefficient remains sourced even when its source
+    # season differs from the calendar record; no numerical default is used.
+    return rows.iloc[0]
+
+
 # ── ET₀ extraction ────────────────────────────────────────────────────────────
 
+def _window_days(season_name: str, duration_days: float) -> float:
+    """Length of the weather window the scenario totals were summed over."""
+    return float(SEASON_WINDOW_DAYS.get(season_name, duration_days))
+
+
 def _et0_daily(scenario: Scenario | None, season_name: str, duration_days: float) -> float:
-    """Return ET₀ in mm/day for the crop's growing period."""
+    """Return ET₀ in mm/day (season-window total / days in that window).
+
+    The scenario total covers the whole season window (e.g. Rabi = Nov 1-Mar 31, 151 days),
+    not the crop's own duration, so dividing by the crop duration overstated daily ET₀.
+    """
     if scenario is not None and scenario.et0_mm is not None:
-        # et0_mm from scenario is the seasonal total for the analogue year
-        return float(scenario.et0_mm) / max(duration_days, 1)
+        return float(scenario.et0_mm) / max(_window_days(season_name, duration_days), 1)
     return _ET0_DEFAULT_MM_PER_DAY
 
 
@@ -99,6 +155,7 @@ def _stage_need_mm(
     row: pd.Series,
     et0_daily: float,
     rain_total_mm: float,
+    window_days: float | None = None,
 ) -> float:
     """Compute total crop water need (mm) for one crop using 4-stage FAO-56.
 
@@ -107,7 +164,8 @@ def _stage_need_mm(
     need = max(0, ETc - effective_rain)
     """
     total_days = float(row.get("total_duration_days") or 120)
-    eff_rain_per_day = rain_total_mm * EFFECTIVE_RAIN_FACTOR / max(total_days, 1)
+    # Rain fell over the whole season window, not only during the crop's own days.
+    eff_rain_per_day = rain_total_mm * EFFECTIVE_RAIN_FACTOR / max(window_days or total_days, 1)
 
     stage_need = 0.0
     for stage, days_col in [
@@ -161,7 +219,15 @@ def crop_water_need(
     eff = efficiency if efficiency is not None else _EFFICIENCY_DEFAULT
     season_name = season.name
 
-    df = _coeff()
+    resolved = _coefficient_row(crop_id, season_name)
+    if resolved is None:
+        logger.info("crop_water_need: no sourced Kc data for %s %s", crop_id, season_name)
+        raise ValueError(f"No sourced crop water coefficient for {crop_id} ({season_name})")
+    # Feed the existing exact-match selection the normalized sourced row. This
+    # makes an unknown crop impossible to turn into a default numerical need.
+    df = pd.DataFrame([resolved]).copy()
+    df["crop_id"] = crop_id
+    df["season"] = season_name
     # Match by crop_id and season; fall back to crop_id only
     row_df = df[(df["crop_id"] == crop_id) & (df["season"] == season_name)]
     if row_df.empty:
@@ -187,10 +253,16 @@ def crop_water_need(
     for sid, scen in [("drought", drought_s), ("normal", normal_s), ("excess", excess_s)]:
         et0 = _et0_daily(scen, season_name, duration)
         rain = _rain_mm(scen, season_name)
-        need_mm = _stage_need_mm(row, et0, rain)
+        need_mm = _stage_need_mm(row, et0, rain, _window_days(season_name, duration))
         need_m3 = need_mm * 4.047 / eff
 
-        if scen is not None and (scen.et0_mm or scen.rainfall_mm):
+        stage_cols = ("stage_ini_days", "stage_dev_days", "stage_mid_days", "stage_late_days")
+        if any(pd.isna(row.get(col)) for col in stage_cols):
+            # FAO-56 lists no stage lengths for this crop, so no irrigation need
+            # can be computed. 0 m³ is an assumption (residual soil moisture), not a result.
+            source = f"No FAO-56 stage lengths for {crop_id}: irrigation need not estimated (assumes residual soil moisture)"
+            status = "assumption"
+        elif scen is not None and (scen.et0_mm or scen.rainfall_mm):
             source = f"FAO-56 Kc × ERA5 ET₀ (analogue year {scen.analogue_year})"
             status = "computed"
         else:

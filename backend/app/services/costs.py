@@ -12,6 +12,7 @@ frontend can show what changed.
 from __future__ import annotations
 
 import logging
+import math
 
 from app.data.loaders import (
     load_cost_of_cultivation,
@@ -39,34 +40,33 @@ def get_fertilizer_plan(crop_id: str, land_acres: float = 1.0) -> FertilizerPlan
         # Try by crop name
         rdf_row = rdf_df[rdf_df["crop"].str.lower() == crop_id.lower()]
     if rdf_row.empty:
-        # No RDF found — return zeros (crop will still be included; fertilizer cost = 0)
         logger.warning("No RDF data for crop_id=%s", crop_id)
-        return _zero_fertilizer_plan()
+        raise ValueError(f"No RDF data for {crop_id}")
 
     row = rdf_row.iloc[0]
     # RDF is in kg of nutrient per ha; convert to per acre
     from app.core.units import HA_PER_ACRE
-    n_kg_ha = float(row.get("n_kg_per_ha", 0) or 0)
-    p_kg_ha = float(row.get("p2o5_kg_per_ha", 0) or 0)
-    k_kg_ha = float(row.get("k2o_kg_per_ha", 0) or 0)
+    n_kg_ha = _required_nonnegative(row, "n_kg_per_ha")
+    p_kg_ha = _required_nonnegative(row, "p2o5_kg_per_ha")
+    k_kg_ha = _required_nonnegative(row, "k2o_kg_per_ha")
 
     n_kg_acre = round(n_kg_ha * HA_PER_ACRE * land_acres, 2)
     p_kg_acre = round(p_kg_ha * HA_PER_ACRE * land_acres, 2)
     k_kg_acre = round(k_kg_ha * HA_PER_ACRE * land_acres, 2)
 
     # Conversion: DAP (46% P2O5, 18% N) → MOP (60% K2O) → urea (46% N remainder)
-    dap_bags = round(p_kg_acre / 0.46 / 50, 2)        # 50 kg bags
-    n_from_dap = dap_bags * 50 * 0.18
-    remaining_n = max(0, n_kg_acre - n_from_dap)
-    urea_bags = round(remaining_n / 0.46 / 50, 2)
-    mop_bags = round(k_kg_acre / 0.60 / 50, 2)
+    dap_kg = p_kg_acre / 0.46
+    n_from_dap = dap_kg * 0.18
+    urea_kg = max(0, n_kg_acre - n_from_dap) / 0.46
+    mop_kg = k_kg_acre / 0.60
 
     # Prices
     prices = _get_fertilizer_mrps(fert_prices_df)
+    bag_sizes = _get_fertilizer_bag_sizes(fert_prices_df)
     cost_rs = round(
-        urea_bags * 50 * prices["urea_rs_per_kg"]
-        + dap_bags * 50 * prices["dap_rs_per_kg"]
-        + mop_bags * 50 * prices["mop_rs_per_kg"],
+        urea_kg * prices["urea_rs_per_kg"]
+        + dap_kg * prices["dap_rs_per_kg"]
+        + mop_kg * prices["mop_rs_per_kg"],
         2,
     )
 
@@ -74,9 +74,9 @@ def get_fertilizer_plan(crop_id: str, land_acres: float = 1.0) -> FertilizerPlan
         n_kg_per_acre=n_kg_acre,
         p2o5_kg_per_acre=p_kg_acre,
         k2o_kg_per_acre=k_kg_acre,
-        urea_bags=urea_bags,
-        dap_bags=dap_bags,
-        mop_bags=mop_bags,
+        urea_bags=round(urea_kg / bag_sizes["urea"], 2),
+        dap_bags=round(dap_kg / bag_sizes["dap"], 2),
+        mop_bags=round(mop_kg / bag_sizes["mop"], 2),
         cost_rs=SourcedValue(
             value=cost_rs, unit="rs_per_acre",
             source=_FERT_SOURCE, source_url="",
@@ -94,15 +94,18 @@ def get_cost_breakdown(crop_id: str) -> CostBreakdown:
 
     des_row = des_df[des_df["crop_id"] == crop_id] if "crop_id" in des_df.columns else des_df[des_df["crop"].str.lower() == crop_id.lower()]
     if des_row.empty:
-        logger.warning("No DES cost data for crop_id=%s; returning zeros", crop_id)
-        return _zero_cost_breakdown(fert_plan)
+        logger.warning("No DES cost data for crop_id=%s", crop_id)
+        raise ValueError(f"No DES cost data for {crop_id}")
 
     r = des_row.iloc[0]
     def _f(col: str) -> float:
         try:
-            return float(r.get(col, 0) or 0)
-        except (ValueError, TypeError):
-            return 0.0
+            value = float(r[col])
+        except (KeyError, ValueError, TypeError) as exc:
+            raise ValueError(f"Missing or invalid DES cost field {col} for {crop_id}") from exc
+        if not math.isfinite(value) or value < 0:
+            raise ValueError(f"Invalid DES cost field {col} for {crop_id}")
+        return value
 
     # DES values (per hectare → per acre conversion)
     from app.core.units import HA_PER_ACRE
@@ -113,7 +116,9 @@ def get_cost_breakdown(crop_id: str) -> CostBreakdown:
 
     # Seed from seed.csv (overrides DES)
     live_seed = _get_seed_cost(crop_id, seed_df)
-    seed_cost = live_seed if live_seed is not None else des_seed
+    if live_seed is None:
+        raise ValueError(f"No sourced seed cost for {crop_id}")
+    seed_cost = live_seed
 
     # Fertilizer from RDF plan (overrides DES)
     fert_cost = float(fert_plan.cost_rs.value)
@@ -151,42 +156,77 @@ def _get_seed_cost(crop_id: str, seed_df) -> float | None:
         return None
     r = row.iloc[0]
     try:
-        rate = float(r.get("seed_rate_kg_per_ha", 0) or 0)
-        price = float(r.get("price_rs_per_kg", 0) or 0)
-        from app.core.units import HA_PER_ACRE
-        return round(rate * price * HA_PER_ACRE, 2)
+        direct_cost = float(r.get("seed_cost_rs_per_acre"))
+        if math.isfinite(direct_cost) and direct_cost > 0:
+            return round(direct_cost, 2)
     except (ValueError, TypeError):
-        return None
+        pass
+
+    try:
+        rate = float(r.get("seed_rate_kg_per_acre"))
+        price = float(r.get("seed_price_rs_per_kg"))
+        if rate > 0 and price > 0 and math.isfinite(rate * price):
+            return round(rate * price, 2)
+    except (ValueError, TypeError):
+        pass
+
+    try:
+        rate = float(r.get("seed_rate_kg_per_ha"))
+        price = float(r.get("price_rs_per_kg"))
+        from app.core.units import HA_PER_ACRE
+        if rate > 0 and price > 0 and math.isfinite(rate * price):
+            return round(rate * price * HA_PER_ACRE, 2)
+    except (ValueError, TypeError):
+        pass
+    return None
+
+
+def _required_nonnegative(row, column: str) -> float:
+    try:
+        value = float(row[column])
+    except (KeyError, ValueError, TypeError) as exc:
+        raise ValueError(f"Missing or invalid fertilizer RDF field {column}") from exc
+    if not math.isfinite(value) or value < 0:
+        raise ValueError(f"Invalid fertilizer RDF field {column}")
+    return value
 
 
 def _get_fertilizer_mrps(fert_prices_df) -> dict[str, float]:
     def _price(product: str) -> float:
         col = "fertilizer_id" if "fertilizer_id" in fert_prices_df.columns else "fertilizer" if "fertilizer" in fert_prices_df.columns else "product"
         if col not in fert_prices_df.columns:
-            return 0.0
+            raise ValueError("Fertilizer price source has no product identifier")
         row = fert_prices_df[fert_prices_df[col].astype(str).str.lower() == product.lower()]
         if row.empty:
-            return 0.0
-        return float(row.iloc[0].get("mrp_rs_per_kg", row.iloc[0].get("price_rs_per_kg", 0)) or 0)
+            raise ValueError(f"No sourced MRP for fertilizer {product}")
+        value = row.iloc[0].get("mrp_rs_per_kg", row.iloc[0].get("price_rs_per_kg"))
+        try:
+            price = float(value)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"Invalid sourced MRP for fertilizer {product}") from exc
+        if not math.isfinite(price) or price <= 0:
+            raise ValueError(f"Invalid sourced MRP for fertilizer {product}")
+        return price
     return {
-        "urea_rs_per_kg": _price("urea") or 5.92,       # NFMS 2024 controlled price
-        "dap_rs_per_kg": _price("dap") or 27.0,
-        "mop_rs_per_kg": _price("mop") or 33.1,
+        "urea_rs_per_kg": _price("urea"),
+        "dap_rs_per_kg": _price("dap"),
+        "mop_rs_per_kg": _price("mop"),
     }
 
 
-def _zero_fertilizer_plan() -> FertilizerPlan:
-    return FertilizerPlan(
-        n_kg_per_acre=0, p2o5_kg_per_acre=0, k2o_kg_per_acre=0,
-        urea_bags=0, dap_bags=0, mop_bags=0,
-        cost_rs=SourcedValue(value=0, unit="rs_per_acre", source="unavailable",
-                             source_url="", as_of="", status="official_dataset"),
-    )
-
-
-def _zero_cost_breakdown(fert_plan: FertilizerPlan) -> CostBreakdown:
-    return CostBreakdown(
-        total_rs=0, seed=0, fertilizer=float(fert_plan.cost_rs.value),
-        manure=0, labour=0, machine=0, irrigation=0, pesticide=0, interest=0,
-        reference_year=_REF_YEAR, source=_DES_SOURCE, status="official_dataset",
-    )
+def _get_fertilizer_bag_sizes(fert_prices_df) -> dict[str, float]:
+    result = {}
+    for product in ("urea", "dap", "mop"):
+        rows = fert_prices_df[
+            fert_prices_df["fertilizer_id"].astype(str).str.lower() == product
+        ]
+        if rows.empty:
+            raise ValueError(f"No sourced bag size for fertilizer {product}")
+        try:
+            size = float(rows.iloc[0]["bag_size_kg"])
+        except (KeyError, ValueError, TypeError) as exc:
+            raise ValueError(f"Invalid sourced bag size for fertilizer {product}") from exc
+        if not math.isfinite(size) or size <= 0:
+            raise ValueError(f"Invalid sourced bag size for fertilizer {product}")
+        result[product] = size
+    return result

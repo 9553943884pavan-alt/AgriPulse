@@ -1,24 +1,20 @@
 /**
  * SSE client for E1 POST /api/agent/chat.
- *
- * Reads a text/event-stream response line-by-line and dispatches each
- * named event to the appropriate handler.  Returns an AbortController so
- * the caller can cancel on unmount or user action.
+ * The returned controller can cancel an active stream.
  */
 
+import { API_BASE_URL, normalizeApiError } from './client'
 import type {
-  ChatRequest,
-  FarmProfile,
-  PlanResult,
-  TraceEvent,
-  ThreadEvent,
-  QuestionEvent,
-  MessageEvent,
-  DoneEvent,
   ApiError,
+  ChatRequest,
+  DoneEvent,
+  FarmProfile,
+  MessageEvent,
+  PlanResult,
+  QuestionEvent,
+  ThreadEvent,
+  TraceEvent,
 } from './types'
-
-const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:8000'
 
 export interface SSEHandlers {
   onThread(e: ThreadEvent): void
@@ -29,127 +25,176 @@ export interface SSEHandlers {
   onMessage(e: MessageEvent): void
   onError(e: ApiError): void
   onDone(e: DoneEvent): void
+  onClose?(): void
 }
 
-/**
- * Open the chat SSE stream.  Returns an AbortController; call .abort() to
- * cancel the stream (e.g. on React component unmount).
- */
-export function streamChat(
-  body: ChatRequest,
-  handlers: SSEHandlers,
-): AbortController {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function protocolError(message: string): ApiError {
+  return {
+    code: 'INTERNAL',
+    message,
+    user_message: {
+      en: 'The server returned an invalid response. Please try again.',
+      mr: 'सर्व्हरकडून चुकीचा प्रतिसाद मिळाला. कृपया पुन्हा प्रयत्न करा.',
+      hi: 'सर्वर से अमान्य उत्तर मिला। कृपया फिर से प्रयास करें।',
+    },
+    retryable: true,
+    details: {},
+  }
+}
+
+export function streamChat(body: ChatRequest, handlers: SSEHandlers): AbortController {
   const controller = new AbortController()
 
   void (async () => {
     let response: Response
     try {
-      response = await fetch(`${BASE_URL}/api/agent/chat`, {
+      response = await fetch(`${API_BASE_URL}/api/agent/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
         body: JSON.stringify(body),
         signal: controller.signal,
       })
-    } catch (err) {
-      if ((err as Error).name !== 'AbortError') {
-        handlers.onError({
-          code: 'UPSTREAM_UNAVAILABLE',
-          message: 'Network error',
-          user_message: {
-            en: 'Connection failed. Please try again.',
-            mr: 'कनेक्शन अयशस्वी. कृपया पुन्हा प्रयत्न करा.',
-            hi: 'कनेक्शन विफल। कृपया पुनः प्रयास करें।',
-          },
-          retryable: true,
-          details: {},
-        })
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        handlers.onError(
+          error instanceof DOMException && error.name === 'AbortError'
+            ? protocolError('The chat request was interrupted.')
+            : protocolError('Network request failed.'),
+        )
       }
+      handlers.onClose?.()
       return
     }
 
-    if (!response.ok || !response.body) {
-      handlers.onError({
-        code: 'INTERNAL',
-        message: `HTTP ${response.status}`,
-        user_message: {
-          en: 'Server error. Please try again.',
-          mr: 'सर्व्हर त्रुटी. कृपया पुन्हा प्रयत्न करा.',
-          hi: 'सर्वर त्रुटि। कृपया पुनः प्रयास करें।',
-        },
-        retryable: true,
-        details: {},
-      })
+    if (!response.ok) {
+      let payload: unknown
+      try {
+        payload = await response.json()
+      } catch {
+        payload = null
+      }
+      handlers.onError(normalizeApiError(payload, response.status))
+      handlers.onClose?.()
+      return
+    }
+
+    if (!response.body) {
+      handlers.onError(protocolError('The server did not provide an event stream.'))
+      handlers.onClose?.()
       return
     }
 
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     let buffer = ''
-    let currentEvent = ''
+    let eventName = 'message'
+    let dataLines: string[] = []
 
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      buffer += decoder.decode(value, { stream: true })
-      const lines = buffer.split('\n')
-      // Keep the last (potentially incomplete) line in the buffer
-      buffer = lines.pop() ?? ''
-
-      for (const line of lines) {
-        if (line.startsWith('event: ')) {
-          currentEvent = line.slice(7).trim()
-        } else if (line.startsWith('data: ')) {
-          const dataStr = line.slice(6).trim()
-          if (!dataStr || dataStr === '[DONE]') continue
-
-          try {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const payload = JSON.parse(dataStr)
-            dispatchEvent(currentEvent, payload, handlers)
-          } catch {
-            // Ignore malformed JSON lines
-          }
-          currentEvent = ''
-        }
-        // Ignore comment lines (heartbeat) — they start with ':'
+    const dispatchFrame = () => {
+      if (dataLines.length === 0) {
+        eventName = 'message'
+        return
       }
+      const rawData = dataLines.join('\n')
+      dataLines = []
+      const currentEvent = eventName
+      eventName = 'message'
+      if (rawData === '[DONE]') return
+
+      let payload: unknown
+      try {
+        payload = JSON.parse(rawData)
+      } catch {
+        handlers.onError(protocolError(`Invalid JSON in "${currentEvent}" event.`))
+        return
+      }
+      dispatchEvent(currentEvent, payload, handlers)
+    }
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() ?? ''
+
+        for (const rawLine of lines) {
+          const line = rawLine.endsWith('\r') ? rawLine.slice(0, -1) : rawLine
+          if (line === '') {
+            dispatchFrame()
+          } else if (line.startsWith(':')) {
+            continue
+          } else if (line.startsWith('event:')) {
+            eventName = line.slice(6).trim() || 'message'
+          } else if (line.startsWith('data:')) {
+            dataLines.push(line.slice(5).replace(/^ /, ''))
+          }
+        }
+      }
+      buffer += decoder.decode()
+      if (buffer) {
+        for (const rawLine of buffer.split('\n')) {
+          const line = rawLine.endsWith('\r') ? rawLine.slice(0, -1) : rawLine
+          if (line.startsWith('event:')) eventName = line.slice(6).trim() || 'message'
+          else if (line.startsWith('data:')) dataLines.push(line.slice(5).replace(/^ /, ''))
+        }
+      }
+      dispatchFrame()
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        handlers.onError(protocolError(
+          error instanceof Error ? `Event stream failed: ${error.message}` : 'Event stream failed.',
+        ))
+      }
+    } finally {
+      if (controller.signal.aborted) await reader.cancel().catch(() => undefined)
+      handlers.onClose?.()
     }
   })()
 
   return controller
 }
 
-function dispatchEvent(
-  event: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  payload: any,
-  handlers: SSEHandlers,
-): void {
+function dispatchEvent(event: string, payload: unknown, handlers: SSEHandlers): void {
+  if (!isRecord(payload)) {
+    handlers.onError(protocolError(`Invalid payload for "${event}" event.`))
+    return
+  }
+
   switch (event) {
     case 'thread':
-      handlers.onThread(payload as ThreadEvent)
+      if (typeof payload.thread_id === 'string') handlers.onThread({ thread_id: payload.thread_id })
+      else handlers.onError(protocolError('Invalid thread event payload.'))
       break
     case 'profile':
-      handlers.onProfile(payload as FarmProfile)
+      handlers.onProfile(payload as unknown as FarmProfile)
       break
     case 'question':
-      handlers.onQuestion(payload as QuestionEvent)
+      if (typeof payload.text === 'string' && typeof payload.field === 'string') {
+        handlers.onQuestion(payload as unknown as QuestionEvent)
+      } else handlers.onError(protocolError('Invalid question event payload.'))
       break
     case 'trace':
-      handlers.onTrace(payload as TraceEvent)
+      handlers.onTrace(payload as unknown as TraceEvent)
       break
     case 'plan':
-      handlers.onPlan(payload as PlanResult)
+      handlers.onPlan(payload as unknown as PlanResult)
       break
     case 'message':
-      handlers.onMessage(payload as MessageEvent)
+      if (typeof payload.text === 'string') handlers.onMessage(payload as unknown as MessageEvent)
+      else handlers.onError(protocolError('Invalid message event payload.'))
       break
     case 'error':
-      handlers.onError(payload as ApiError)
+      handlers.onError(normalizeApiError(payload, 500))
       break
     case 'done':
-      handlers.onDone(payload as DoneEvent)
+      if (typeof payload.ms === 'number') handlers.onDone({ ms: payload.ms })
+      else handlers.onError(protocolError('Invalid done event payload.'))
       break
     default:
       break

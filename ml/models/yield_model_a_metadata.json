@@ -9,10 +9,10 @@
     "train_years": "1997-2011",
     "test_years": "2012-2014",
     "test_samples": 1687,
-    "mae_t_per_ha": 0.9956,
-    "rmse_t_per_ha": 3.9301,
-    "wape_pct": 22.41,
-    "r2": 0.9403
+    "mae_t_per_ha": 1.0351,
+    "rmse_t_per_ha": 4.1455,
+    "wape_pct": 23.3,
+    "r2": 0.9336
   },
   "categorical_features": [
     "district",
@@ -37,6 +37,7 @@
     "organic_carbon_pct",
     "irrigated_pct",
     "groundwater_extraction_pct",
-    "fertilizer_use_kg_per_ha"
+    "fertilizer_use_kg_per_ha",
+    "kharif_rain_mm"
   ]
 }

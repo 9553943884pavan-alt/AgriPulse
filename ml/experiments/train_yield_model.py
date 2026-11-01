@@ -17,7 +17,8 @@ from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.preprocessing import OrdinalEncoder
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DATA_PATH = REPO_ROOT / "Teammate-B" / "data" / "processed" / "yield_training.csv"
+DATA_PATH = REPO_ROOT / "data" / "processed" / "yield_training.csv"
+WEATHER_PATH = REPO_ROOT / "data" / "processed" / "district_rainfall_history.csv"
 MODELS_DIR = REPO_ROOT / "ml" / "models"
 REPORTS_DIR = REPO_ROOT / "ml" / "reports"
 
@@ -40,6 +41,10 @@ NUM_COLS = [
     "irrigated_pct",
     "groundwater_extraction_pct",
     "fertilizer_use_kg_per_ha",
+    # Kharif (Jun-Oct) rainfall of the same crop-year: the monsoon that fills soil moisture and
+    # reservoirs before the Rabi/Summer crop. Rabi scenarios are ranked by this (ml/SPECS ML.5),
+    # so the model must see it, otherwise Rabi rainfall (~0-100 mm) is its only rain signal.
+    "kharif_rain_mm",
 ]
 LAG_COLS = ["yield_prev_year", "yield_3yr_avg"]
 
@@ -61,6 +66,11 @@ def main() -> None:
     print(f"Loading dataset from {DATA_PATH}...")
     df = pd.read_csv(DATA_PATH)
     df = df[df["yield_t_per_ha"] > 0].copy()
+    kharif = pd.read_csv(WEATHER_PATH)
+    kharif = kharif[kharif["season"] == "Kharif"][["district", "year", "rainfall_mm"]].rename(
+        columns={"rainfall_mm": "kharif_rain_mm"}
+    )
+    df = df.merge(kharif, on=["district", "year"], how="left", validate="many_to_one")
 
     # Time-based split: Train <= 2011, Test >= 2012
     train_mask = df["year"] <= 2011

@@ -13,9 +13,11 @@ from app.ml.yield_model import predict_yield
 from app.schemas import (
     Candidate,
     CropOption,
+    ExcludedCrop,
     FarmProfile,
     Location,
     ProfitByScenario,
+    RevenueByScenario,
     Scenario,
     Season,
     SourcedValue,
@@ -33,16 +35,17 @@ async def build_crop_options(
     location: Location,
     season: Season,
     profile: FarmProfile,
-) -> list[CropOption]:
-    """Convert candidate crops into fully priced, evaluated CropOptions."""
+) -> tuple[list[CropOption], list[ExcludedCrop]]:
+    """Convert candidates into priced options and report candidates without prices."""
     if not candidates or not scenarios:
-        return []
+        return [], []
 
     drought_sc = next((s for s in scenarios if s.id == "drought"), scenarios[0])
     normal_sc = next((s for s in scenarios if s.id == "normal"), scenarios[0])
     excess_sc = next((s for s in scenarios if s.id == "excess"), scenarios[0])
 
     crop_options: list[CropOption] = []
+    excluded_crops: list[ExcludedCrop] = []
     district = location.district
     today = date.today()
 
@@ -69,60 +72,102 @@ async def build_crop_options(
             # 2. Suitability score and factors (evaluated on normal scenario)
             suit = suitability(crop_id, location, season, normal_sc)
 
-            # 3. Water need
-            wn = crop_water_need(crop_id, season, scenarios, efficiency)
+            # 3. Water need. A crop without sourced FAO coefficients cannot
+            # enter the optimizer with an invented default requirement.
+            try:
+                wn = crop_water_need(crop_id, season, scenarios, efficiency)
+            except (ValueError, FileNotFoundError) as exc:
+                logger.info("Source-backed water input unavailable for %s: %s", crop_id, exc)
+                excluded_crops.append(
+                    ExcludedCrop(
+                        crop_id=crop_id,
+                        reason_code="DATA_UNAVAILABLE",
+                        params={"field": "crop_water_coefficient"},
+                    )
+                )
+                continue
 
-            # 4. Fertilizer plan
-            fert = fertilizer_plan(crop_id, season.name if hasattr(season, "name") else "Rabi")
-
-            # 5. Cost per acre
-            cost_bd = cost_svc.get_cost_breakdown(crop_id)
+            # 4-5. Required source-backed fertilizer and cost inputs
+            try:
+                fert = fertilizer_plan(crop_id, season.name if hasattr(season, "name") else "Rabi")
+                cost_bd = cost_svc.get_cost_breakdown(crop_id)
+            except (ValueError, FileNotFoundError) as exc:
+                logger.info("Source-backed cost inputs unavailable for %s: %s", crop_id, exc)
+                excluded_crops.append(
+                    ExcludedCrop(
+                        crop_id=crop_id,
+                        reason_code="DATA_UNAVAILABLE",
+                        params={"field": "cost_or_fertilizer"},
+                    )
+                )
+                continue
             cost_total = cost_bd.total_rs
 
             # 6. Prices
-            price_sv = await price_svc.get_price(crop_id, crop_name, district)
+            price_sv = await price_svc.get_price(crop_id, district)
             if price_sv is None:
-                # Sugarcane or MSP fallback
-                price_val = 3500.0
-                price_sv = SourcedValue(
-                    value=price_val,
-                    unit="Rs/quintal",
-                    source="Agmarknet fallback / MSP",
-                    as_of=str(today.year),
-                    status="official_dataset",
+                excluded_crops.append(
+                    ExcludedCrop(
+                        crop_id=crop_id,
+                        reason_code="NO_REAL_PRICE",
+                        params={"crop_name": crop_name},
+                    )
                 )
-            else:
-                price_val = float(price_sv.value)
+                continue
+            price_val = float(price_sv.value)
 
-            # Expected harvest price (apply seasonal ratio or 1.0)
-            seasonal_ratio = SourcedValue(
-                value=1.02,
-                unit="ratio",
-                source="Agmarknet historical seasonal ratio",
-                as_of=str(today.year),
-                status="computed",
-                history_years=5,
+            # Sowing duration & harvest month
+            dur_days = cand.duration_days
+            harvest_dt = today + timedelta(days=dur_days)
+            harvest_month = harvest_dt.strftime("%Y-%m")
+
+            ratio, history_years, ratio_source = price_svc.seasonal_price_ratio(
+                crop_id,
+                district,
+                price_svc.quote_month(price_sv.as_of, today.month),
+                harvest_dt.month,
             )
-            p_harv = round(price_val * float(seasonal_ratio.value), 2)
+            seasonal_ratio = SourcedValue(
+                value=ratio,
+                unit="ratio",
+                source=ratio_source,
+                as_of=str(today.year),
+                status="computed" if history_years >= price_svc.MIN_PRICE_YEARS else "assumption",
+                history_years=history_years,
+                note=(
+                    None if history_years >= price_svc.MIN_PRICE_YEARS
+                    else "Harvest-price seasonal adjustment unavailable; current sourced quote is used unadjusted"
+                ),
+            )
+            msp = price_svc.get_msp(crop_id, season.name)
+            p_harv = round(price_val * ratio, 2)
+            if msp is not None:
+                p_harv = max(p_harv, float(msp.value))
             exp_price = SourcedValue(
                 value=p_harv,
                 unit="Rs/quintal",
-                source="Adjusted harvest quote",
+                source=(
+                    "Current quote x historical seasonal ratio; floored at MSP"
+                    if msp is not None
+                    else "Current quote x historical seasonal ratio"
+                ),
                 as_of=str(today.year),
                 status="computed",
             )
 
-            # 7. Profit per scenario
-            profits = ProfitByScenario(
-                drought=round(p_harv * y_d - cost_total, 2),
-                normal=round(p_harv * y_n - cost_total, 2),
-                excess=round(p_harv * y_e - cost_total, 2),
+            # 7. Revenue and profit per scenario.  These are the exact values
+            # subsequently used by the optimizer, so dashboard finance cannot
+            # silently use a different price or yield definition.
+            revenue = RevenueByScenario(
+                drought=round(p_harv * y_d, 2),
+                normal=round(p_harv * y_n, 2),
+                excess=round(p_harv * y_e, 2),
             )
-
-            # Sowing duration & harvest month
-            dur_days = getattr(cand, "duration_days", 110) or 110
-            harvest_dt = today + timedelta(days=dur_days)
-            harvest_month = harvest_dt.strftime("%Y-%m")
+            profits = ProfitByScenario(
+                drought=round(revenue.drought - cost_total, 2),
+                normal=round(revenue.normal - cost_total, 2),
+                excess=round(revenue.excess - cost_total, 2),
+            )
 
             crop_options.append(
                 CropOption(
@@ -137,14 +182,16 @@ async def build_crop_options(
                     duration_days=dur_days,
                     harvest_month=harvest_month,
                     opens_on=cand.opens_on,
-                    msp=None,
+                    msp=msp,
                     cost_per_acre=cost_bd,
                     fertilizer=fert,
                     water_need_m3_per_acre=wn,
                     profit_rs_per_acre=profits,
+                    revenue_rs_per_acre=revenue,
                 )
             )
-        except Exception as exc:
-            logger.warning("Failed to build CropOption for %s: %s; skipping", crop_id, exc)
+        except Exception:
+            logger.exception("Unexpected failure building CropOption for %s", crop_id)
+            raise
 
-    return crop_options
+    return crop_options, excluded_crops

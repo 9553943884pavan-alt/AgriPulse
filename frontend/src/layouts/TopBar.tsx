@@ -8,10 +8,18 @@ import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { LanguagePicker } from '@/components/LanguagePicker'
 import { Sparkles, Leaf } from 'lucide-react'
+import { useHealth, useSourcesHealth } from '@/api/queryHooks'
+import { aiStatus, dataStatus, BADGE_DOT } from '@/utils/topBarStatus'
 
 export function TopBar() {
   const { t } = useTranslation()
   const location = useLocation()
+  const health = useHealth()
+  const sourcesHealth = useSourcesHealth()
+  const dataState = dataStatus(sourcesHealth)
+  const aiState = aiStatus(health)
+  const dataLabel = t(`topbar.data_${dataState === 'ok' ? 'ok' : dataState}`)
+  const aiLabel = t(`topbar.ai_${{ checking: 'checking', ok: 'online', degraded: 'starting', down: 'offline' }[aiState]}`)
 
   // Derive current view title for breadcrumb
   const getPageTitle = () => {
@@ -50,8 +58,8 @@ export function TopBar() {
           </span>
           <span className="text-muted text-xs">•</span>
           <div className="flex items-center gap-1.5 text-xs text-muted font-medium">
-            <span className="w-2 h-2 rounded-full bg-fresh-leaf animate-pulse" />
-            <span>Official Maharashtra Datasets Connected</span>
+            <span className={`w-2 h-2 rounded-full ${BADGE_DOT[dataState]}`} aria-hidden="true" />
+            <span role="status">{dataLabel}</span>
           </div>
         </div>
       </div>
@@ -60,8 +68,9 @@ export function TopBar() {
       <div className="flex items-center gap-2.5">
         {/* Real-time AI Badge */}
         <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sage-mist text-xs font-medium text-forest shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 text-sunrise-gold" />
-          <span>Sarvam AI Online</span>
+          <Sparkles className="w-3.5 h-3.5 text-sunrise-gold" aria-hidden="true" />
+          <span className={`w-2 h-2 rounded-full ${BADGE_DOT[aiState]}`} aria-hidden="true" />
+          <span role="status">{aiLabel}</span>
         </div>
 
         {/* Language selector */}

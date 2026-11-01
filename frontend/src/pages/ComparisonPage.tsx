@@ -2,11 +2,12 @@
  * ComparisonPage — side-by-side strategy comparison.
  */
 
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Star } from 'lucide-react'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts'
 import { useStore } from '@/state/store'
 import { ScenarioToggle } from '@/components/ScenarioToggle'
@@ -14,7 +15,10 @@ import { Card, CardHeader } from '@/components/Card'
 import { Badge } from '@/components/Badge'
 import { MoneyText } from '@/components/MoneyText'
 import { WaterText } from '@/components/WaterText'
-import type { StrategyId } from '@/api/types'
+import { ApiClientError, apiPost } from '@/api/client'
+import { EmptyPlanNotice, isEmptyPlan } from '@/components/EmptyPlanNotice'
+import { ErrorState } from '@/components/ErrorState'
+import type { ApiError, Language, PlanResult, RiskAppetite, StrategyId } from '@/api/types'
 
 const STRATEGY_COLORS: Record<string, string> = {
   traditional:     '#78909C',
@@ -32,7 +36,10 @@ const STRATEGY_ICONS: Record<string, string> = {
 
 export function ComparisonPage() {
   const { t } = useTranslation()
-  const { plan, selectedScenario, setStrategy, selectedStrategy } = useStore()
+  const { language, plan, selectedScenario, setStrategy, selectedStrategy, setPlan, setProfile } = useStore()
+  const [reoptimizing, setReoptimizing] = useState(false)
+  const [reoptimizeError, setReoptimizeError] = useState<ApiError | null>(null)
+  const [requestedRisk, setRequestedRisk] = useState<RiskAppetite | null>(null)
 
   if (!plan) {
     return (
@@ -40,6 +47,17 @@ export function ComparisonPage() {
         <span className="text-5xl" aria-hidden="true">📊</span>
         <p className="text-muted text-center">{t('misc.no_plan_home')}</p>
         <Link to="/" className="text-primary font-medium hover:underline">{t('misc.go_home')}</Link>
+      </div>
+    )
+  }
+
+  if (isEmptyPlan(plan)) {
+    return (
+      <div className="h-full overflow-y-auto">
+        <div className="max-w-5xl mx-auto px-4 lg:px-6 py-6 space-y-4">
+          <h1 className="text-2xl font-bold text-ink">{t('comparison.title')}</h1>
+          <EmptyPlanNotice plan={plan} scenario={selectedScenario} lang={language as Language} />
+        </div>
       </div>
     )
   }
@@ -71,6 +89,39 @@ export function ComparisonPage() {
 
   // Scenario summary for selected strategy
   const summaryStrategy = plan.strategies.find((s) => s.id === (selectedStrategy ?? plan.recommended_strategy))
+  const riskValue = plan.profile.risk_appetite === 'safe'
+    ? 0
+    : plan.profile.risk_appetite === 'balanced' ? 50 : 100
+
+  const updateRisk = async (value: number) => {
+    const risk_appetite: RiskAppetite = value === 0 ? 'safe' : value === 50 ? 'balanced' : 'max_profit'
+    if (risk_appetite === plan.profile.risk_appetite || reoptimizing) return
+    setReoptimizing(true)
+    setRequestedRisk(risk_appetite)
+    setReoptimizeError(null)
+    try {
+      const updated = await apiPost<PlanResult>(
+        `/api/plans/${encodeURIComponent(plan.plan_id)}/reoptimize`,
+        { risk_appetite },
+      )
+      setPlan(updated)
+      setProfile(updated.profile)
+    } catch (error) {
+      setReoptimizeError(error instanceof ApiClientError ? error.apiError : {
+        code: 'UPSTREAM_UNAVAILABLE',
+        message: 'Reoptimization request failed.',
+        user_message: {
+          en: 'The plan could not be recalculated. Please try again.',
+          mr: 'योजना पुन्हा मोजता आली नाही. कृपया पुन्हा प्रयत्न करा.',
+          hi: 'योजना दोबारा नहीं बन सकी। कृपया फिर से प्रयास करें।',
+        },
+        retryable: true,
+        details: {},
+      })
+    } finally {
+      setReoptimizing(false)
+    }
+  }
 
   // Auto-generate insights from data comparisons (not free text)
   const insights: string[] = []
@@ -122,7 +173,9 @@ export function ComparisonPage() {
               min={0}
               max={100}
               step={50}
-              defaultValue={50}
+              value={riskValue}
+              disabled={reoptimizing}
+              onChange={(event) => void updateRisk(Number(event.target.value))}
               className="flex-1 accent-primary"
               aria-label="Risk preference"
             />
@@ -130,6 +183,19 @@ export function ComparisonPage() {
           </div>
         </div>
       </div>
+
+      {reoptimizing && (
+        <p role="status" className="text-sm text-muted">
+          {t('comparison.reoptimizing', 'Recalculating your plan…')}
+        </p>
+      )}
+      {reoptimizeError && (
+        <ErrorState
+          error={reoptimizeError}
+          retryable={reoptimizeError.retryable}
+          onRetry={() => void updateRisk(requestedRisk === 'safe' ? 0 : requestedRisk === 'balanced' ? 50 : 100)}
+        />
+      )}
 
       {/* Strategy cards */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

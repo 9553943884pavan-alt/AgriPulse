@@ -1,9 +1,4 @@
-"""C.3 — ML interface stubs → real implementations.
-
-Functions that are implemented delegate to their real module.
-Functions still pending (yield model, scenarios) raise NotImplementedError
-so the backend compiles and the agent handles them gracefully.
-"""
+"""C.3 — Stable ML interface wrappers around the production implementations."""
 
 from __future__ import annotations
 

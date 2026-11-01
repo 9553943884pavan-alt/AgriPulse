@@ -11,8 +11,8 @@ from pathlib import Path
 import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-A = REPO_ROOT / "Teammate-A" / "data" / "processed"
-B = REPO_ROOT / "Teammate-B" / "data" / "processed"
+A = REPO_ROOT / "data" / "processed"
+B = REPO_ROOT / "data" / "processed"
 KEY_PATTERN = re.compile(r"579b464db66ec23bdd[0-9a-f]{20,}|AIza[0-9A-Za-z_-]{30,}|gsk_[0-9A-Za-z]{20,}")
 failures: list[str] = []
 
@@ -58,7 +58,7 @@ reservoir = pd.read_csv(A / "reservoir_storage.csv")
 check(reservoir["live_storage_pct_of_capacity"].between(0, 100).all(), "reservoir storage percentages are 0-100")
 check(pd.to_datetime(reservoir["observation_date"]).max() >= pd.Timestamp("2026-01-01"), "reservoir data is from 2026 (CWC weekly bulletin), not the old 2023 snapshot")
 
-empty = [str(p.relative_to(REPO_ROOT)) for p in (REPO_ROOT / "Teammate-A" / "data" / "raw").rglob("*.json") if p.stat().st_size < 10]
+empty = [str(p.relative_to(REPO_ROOT)) for p in (REPO_ROOT / "data" / "raw").rglob("*.json") if p.stat().st_size < 10]
 check(not empty, f"no empty raw JSON files {empty or ''}")
 
 leaks = [str(p.relative_to(REPO_ROOT)) for p in REPO_ROOT.rglob("*")

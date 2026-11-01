@@ -17,7 +17,7 @@ async def get_thread(thread_id: str) -> dict:
     cache = await get_cache()
     memory = await cache.get_all_memory(thread_id)
     if not memory:
-        raise AppError("PLAN_NOT_FOUND", {"thread_id": thread_id}).to_http_exception()
+        raise AppError("PLAN_NOT_FOUND", {"thread_id": thread_id})
 
     profile_data = memory.get("profile")
     plan_data = memory.get("plan")

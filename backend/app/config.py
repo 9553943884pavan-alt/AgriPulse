@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     SARVAM_FALLBACK_MODELS: str = ""     # comma-separated chat model ids
 
     # ── CORS ─────────────────────────────────────────────────────────────────
-    CORS_ORIGINS: str = "http://localhost:5173"  # safe local default
+    CORS_ORIGINS: str = "http://localhost:5173,http://127.0.0.1:5173"  # safe local defaults
 
     # ── SQLite cache ─────────────────────────────────────────────────────────
     CACHE_DB_PATH: str = "cache.db"

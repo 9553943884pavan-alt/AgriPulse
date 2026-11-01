@@ -101,9 +101,9 @@ def build_template_explanation(
     if strategy is None or not strategy.allocations:
         # No plan at all
         no_plan = {
-            "mr": "सध्या कोणताही पिक आराखडा तयार करता आला नाही. कृपया पुन्हा प्रयत्न करा.",
-            "hi": "अभी कोई फसल योजना नहीं बना सकते। कृपया पुनः प्रयास करें।",
-            "en": "No crop plan could be built at this time. Please try again.",
+            "mr": "सध्याच्या खऱ्या आकडेवारीनुसार या हंगामात नफा देणारा पीक आराखडा मिळाला नाही. कारणे आणि पुढील पर्याय खाली पाहा.",
+            "hi": "मौजूदा असली आंकड़ों के अनुसार इस मौसम में मुनाफ़े वाली फसल योजना नहीं मिली। कारण और अगले विकल्प नीचे देखें।",
+            "en": "With the current real data, no profitable crop plan was found for this season. See the reasons and next options below.",
         }
         return Explanation(
             language=lang,  # type: ignore[arg-type]

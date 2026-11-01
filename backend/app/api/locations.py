@@ -64,7 +64,7 @@ async def district_context(district: str) -> dict:
     """E10 — Groundwater, reservoirs, recent rain, irrigation for a district (F11 popup)."""
     canonical = resolve_district(district)
     if not canonical:
-        raise AppError("LOCATION_NOT_FOUND", {"district": district}).to_http_exception()
+        raise AppError("LOCATION_NOT_FOUND", {"district": district})
     if not is_agricultural(canonical):
-        raise AppError("DISTRICT_NOT_AGRICULTURAL", {"district": canonical}).to_http_exception()
+        raise AppError("DISTRICT_NOT_AGRICULTURAL", {"district": canonical})
     return get_district_context(canonical)

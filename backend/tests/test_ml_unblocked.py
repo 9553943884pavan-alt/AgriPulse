@@ -84,13 +84,15 @@ class TestCandidateCrops:
             assert c.crop_id, "crop_id must be non-empty"
             assert c.names.get("en"), "English name required"
             assert c.season, "season required"
+            assert c.duration_days > 0
             assert c.water_need_m3_per_acre is not None
 
     def test_excluded_have_valid_reason_codes(self):
         from app.ml.suitability import candidate_crops
         from app.schemas import ExcludedReasonCode
         VALID = {"NO_REAL_PRICE", "NO_YIELD_DATA", "NOT_SOWABLE_NOW",
-                 "NOT_GROWN_IN_DISTRICT", "WATER_INFEASIBLE", "OVER_BUDGET"}
+                 "DATA_UNAVAILABLE", "NOT_GROWN_IN_DISTRICT",
+                 "WATER_INFEASIBLE", "OVER_BUDGET"}
         _, excl = candidate_crops(
             _profile("Beed"), _location("Beed"), _season("Kharif"), [],
             today=date(2026, 7, 1),
@@ -206,12 +208,12 @@ class TestCropWaterNeed:
                              [_scenario("drought"), _scenario("normal"), _scenario("excess")])
         assert wn.normal.unit == "m3_per_acre"
 
-    def test_unknown_crop_returns_assumption(self):
-        """Unknown crop_id should return an assumption, not crash."""
+    def test_unknown_crop_requires_a_sourced_coefficient(self):
+        """Unknown crop IDs must not receive an invented water requirement."""
         from app.ml.water_need import crop_water_need
-        wn = crop_water_need("unknown_crop_xyz", _season("Kharif"),
-                             [_scenario("drought"), _scenario("normal"), _scenario("excess")])
-        assert wn.normal.status == "assumption"
+        with pytest.raises(ValueError, match="No sourced crop water coefficient"):
+            crop_water_need("unknown_crop_xyz", _season("Kharif"),
+                            [_scenario("drought"), _scenario("normal"), _scenario("excess")])
 
     def test_with_scenario_uses_era5_et0(self):
         """When scenario has et0_mm, status should be 'computed' not 'assumption'."""
@@ -305,12 +307,62 @@ class TestFertilizerPlan:
                p_from_dap >= fp.p2o5_kg_per_acre - 0.1, \
                f"DAP should supply all P₂O₅: {p_from_dap:.2f} vs needed {fp.p2o5_kg_per_acre:.2f}"
 
-    def test_unknown_crop_returns_plan_not_crash(self):
-        """Unknown crop returns zero-dose plan, not an exception."""
+    def test_unknown_crop_without_rdf_is_not_given_zero_dose(self):
+        """Unknown crop without RDF must not become a free fertilizer plan."""
         from app.ml.fertilizer import fertilizer_plan
-        fp = fertilizer_plan("unknown_crop_xyz", "Kharif")
-        assert fp is not None
-        assert fp.n_kg_per_acre == 0.0
+        with pytest.raises(ValueError, match="No RDF data"):
+            fertilizer_plan("unknown_crop_xyz", "Kharif")
+
+    def test_missing_mrp_is_not_filled_with_a_fallback(self, monkeypatch):
+        import pandas as pd
+        from app.ml import fertilizer
+
+        monkeypatch.setattr(
+            fertilizer,
+            "_prices",
+            lambda: pd.DataFrame(columns=["fertilizer_id", "price_rs_per_kg", "bag_size_kg"]),
+        )
+
+        with pytest.raises(ValueError, match="No sourced MRP"):
+            fertilizer._price_per_kg("urea")
+
+    def test_missing_bag_size_is_not_filled_with_a_fallback(self, monkeypatch):
+        import pandas as pd
+        from app.ml import fertilizer
+
+        monkeypatch.setattr(
+            fertilizer,
+            "_prices",
+            lambda: pd.DataFrame(columns=["fertilizer_id", "price_rs_per_kg", "bag_size_kg"]),
+        )
+
+        with pytest.raises(ValueError, match="No sourced bag size"):
+            fertilizer._bag_size("urea")
+
+    def test_cost_service_uses_processed_mrp_column(self):
+        import pandas as pd
+        from app.services.costs import _get_fertilizer_mrps
+
+        prices = pd.DataFrame([
+            {"fertilizer_id": "urea", "price_rs_per_kg": 5.92},
+            {"fertilizer_id": "dap", "price_rs_per_kg": 27.0},
+            {"fertilizer_id": "mop", "price_rs_per_kg": 33.1},
+        ])
+
+        assert _get_fertilizer_mrps(prices) == {
+            "urea_rs_per_kg": 5.92,
+            "dap_rs_per_kg": 27.0,
+            "mop_rs_per_kg": 33.1,
+        }
+
+    def test_cost_service_rejects_missing_mrp(self):
+        import pandas as pd
+        from app.services.costs import _get_fertilizer_mrps
+
+        prices = pd.DataFrame([{"fertilizer_id": "urea", "price_rs_per_kg": 5.92}])
+
+        with pytest.raises(ValueError, match="No sourced MRP for fertilizer dap"):
+            _get_fertilizer_mrps(prices)
 
     def test_all_rdf_crops_can_be_planned(self):
         """Every crop in fertilizer_rdf.csv must return a valid plan."""
@@ -331,3 +383,32 @@ class TestFertilizerPlan:
         fp = fertilizer_plan("soybean", "Kharif")
         assert "rdf" in fp.basis.lower() or "recommended" in fp.basis.lower(), \
             f"basis should mention RDF: {fp.basis!r}"
+
+
+def test_cost_service_requires_sourced_seed_cost(monkeypatch):
+    import pandas as pd
+    from types import SimpleNamespace
+    from app.services import costs
+
+    des = pd.DataFrame([{
+        "crop_id": "crop_without_seed",
+        "seed_rs_per_ha": 1000,
+        "fertilizer_rs_per_ha": 500,
+        "manure_rs_per_ha": 0,
+        "human_labour_rs_per_ha": 0,
+        "bullock_labour_rs_per_ha": 0,
+        "machine_labour_rs_per_ha": 0,
+        "irrigation_rs_per_ha": 0,
+        "pesticide_rs_per_ha": 0,
+        "interest_rs_per_ha": 0,
+    }])
+    monkeypatch.setattr(costs, "load_cost_of_cultivation", lambda: des)
+    monkeypatch.setattr(costs, "load_seed_prices", lambda: pd.DataFrame(columns=["crop_id"]))
+    monkeypatch.setattr(
+        costs,
+        "get_fertilizer_plan",
+        lambda crop_id: SimpleNamespace(cost_rs=SimpleNamespace(value=100.0)),
+    )
+
+    with pytest.raises(ValueError, match="No sourced seed cost"):
+        costs.get_cost_breakdown("crop_without_seed")
