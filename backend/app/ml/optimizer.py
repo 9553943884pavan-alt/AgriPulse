@@ -47,7 +47,6 @@ import numpy as np
 from app.ml.constants import (
     DIVERSIFICATION_CAP,
     DIVERSIFICATION_CAP_DEFAULT,
-    LONG_DURATION_DAYS,
     PSD_RIDGE,
     RISK_LAMBDA,
     RISK_QP_DISABLE_REASON,

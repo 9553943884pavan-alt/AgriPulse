@@ -301,7 +301,9 @@ def borewell_disclosure(profile: FarmProfile) -> tuple[FarmProfile, list[Warning
 def _borewell_capacity(profile: FarmProfile) -> float:
     """Total borewell water available this season (m3)."""
     count = profile.borewell_count or 0
-    if count == 0 or profile.water_source == "rainfed":
+    # Only a borewell farm draws groundwater; leftover borewell numbers on a
+    # canal-only or rainfed profile (e.g. "now I have canal water instead") count 0.
+    if count == 0 or profile.water_source not in ("borewell", "both"):
         return 0.0
     if profile.borewell_yield_lph is None or profile.pump_hours_per_day is None:
         return 0.0

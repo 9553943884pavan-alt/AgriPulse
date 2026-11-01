@@ -96,6 +96,40 @@ def _extract_float(text: str) -> float | None:
 # AG.5 route — rule-based, no LLM
 # ─────────────────────────────────────────────────────────────────────────────
 
+# Words that change the farm itself (water source / irrigation) and phrases that
+# introduce a location. Either one means "re-plan", never a canned memory answer.
+_FARM_CHANGE_WORDS = (
+    "borewell", "bore well", "canal", "rainfed", "drip", "sprinkler", "flood",
+    "बोअरवेल", "बोरवेल", "कालवा", "नहर", "ठिबक", "तुषार", "कोरडवाहू", "बारिश",
+    # Marathi / Hindi location words ("my farm is in ...", district, village)
+    "येथे", "येथील", "जिल्हा", "जिल्ह्यात", "गावात", "ज़िला", "जिला", "गांव", "गाँव", "मेरा खेत",
+)
+_LOCATION_PHRASE_RE = re.compile(
+    r"\b(i am from|i'm from|my farm is (in|at|near)|my village|i live in|located in|change (my )?location)\b",
+    re.IGNORECASE,
+)
+
+
+def _mentions_farm_change(message: str, profile) -> bool:
+    """True when the message changes the farm: a district other than the saved one,
+    a location phrase, or a water / irrigation word."""
+    msg = message.lower()
+    if _LOCATION_PHRASE_RE.search(msg) or any(w in msg for w in _FARM_CHANGE_WORDS):
+        return True
+    current = (getattr(profile, "location_text", "") or "").lower()
+    try:
+        from app.data.loaders import load_districts
+        variants = load_districts()["name_variants"]
+    except Exception:
+        return False
+    for names in variants:
+        for name in str(names).split("|"):
+            name = name.strip().lower()
+            if len(name) >= 4 and name not in current and re.search(rf"\b{re.escape(name)}\b", msg):
+                return True
+    return False
+
+
 def route_node(state: dict) -> dict:
     """Decide the path: new_plan / follow_up / patch / question.
 
@@ -114,7 +148,7 @@ def route_node(state: dict) -> dict:
     has_number = bool(re.search(r"\d", _devanagari_to_ascii(message)))
     risk_words = {"safe", "balanced", "aggressive", "सुरक्षित", "संतुलित"}
     has_risk_word = any(w in message.lower() for w in risk_words)
-    changed_fact = has_number or has_risk_word
+    changed_fact = has_number or has_risk_word or _mentions_farm_change(message, state.get("profile"))
 
     if not has_plan:
         return {"route": "new_plan"}
@@ -754,31 +788,8 @@ def relax_constraint_node(state: dict) -> dict:
 # AG.8 explain — LLM call 2 (+ retry on grounding fail)
 # ─────────────────────────────────────────────────────────────────────────────
 
-async def explain_node(state: dict) -> dict:
-    """LLM call 2: generate natural-language explanation of the plan."""
-    from app.agent.client import SarvamAllModelsFailed, get_sarvam_client
-    from app.agent.grounding import grounding_check
-    from app.agent.prompts import EXPLAIN_SYSTEM, build_explain_user_prompt, long_duration_facts
-    from app.agent.templates import build_template_explanation
-
-    language = state.get("language", "en")
-    strategies = state.get("strategies", [])
-    profile: FarmProfile | None = state.get("profile")
-    trace = list(state.get("trace", []))
-
-    recommended = _recommended_strategy(state)
-
-    # Compute water saved % for the prompt
-    traditional = next((s for s in strategies if s.id == "traditional"), None)
-    water_saved = 0.0
-    if recommended and traditional:
-        rec_w = getattr(recommended, "totals", None)
-        trad_w = getattr(traditional, "totals", None)
-        if rec_w and trad_w:
-            rw = getattr(rec_w, "water_m3", 0)
-            tw = getattr(trad_w, "water_m3", 1)
-            water_saved = max(0.0, (tw - rw) / max(tw, 1) * 100)
-
+def _plan_facts(state: dict, recommended, profile) -> tuple[list[dict], dict]:
+    """Facts the LLM may cite about the recommended plan (explain + plan Q&A share this)."""
     # SHAP top factors of the first *recommended* crop that has model factors
     # (baseline-yield crops have none). Never another candidate's factors.
     rec_crop_ids = [a.crop_id for a in getattr(recommended, "allocations", []) or []]
@@ -815,6 +826,35 @@ async def explain_node(state: dict) -> dict:
         "farmer_budget_rs": getattr(profile, "budget_rs", None),
         "limiting_constraints": ", ".join(limiting) or "none",
     }
+    return shap_factors, farmer_limits
+
+
+async def explain_node(state: dict) -> dict:
+    """LLM call 2: generate natural-language explanation of the plan."""
+    from app.agent.client import SarvamAllModelsFailed, get_sarvam_client
+    from app.agent.grounding import grounding_check
+    from app.agent.prompts import EXPLAIN_SYSTEM, build_explain_user_prompt, long_duration_facts
+    from app.agent.templates import build_template_explanation
+
+    language = state.get("language", "en")
+    strategies = state.get("strategies", [])
+    profile: FarmProfile | None = state.get("profile")
+    trace = list(state.get("trace", []))
+
+    recommended = _recommended_strategy(state)
+
+    # Compute water saved % for the prompt
+    traditional = next((s for s in strategies if s.id == "traditional"), None)
+    water_saved = 0.0
+    if recommended and traditional:
+        rec_w = getattr(recommended, "totals", None)
+        trad_w = getattr(traditional, "totals", None)
+        if rec_w and trad_w:
+            rw = getattr(rec_w, "water_m3", 0)
+            tw = getattr(trad_w, "water_m3", 1)
+            water_saved = max(0.0, (tw - rw) / max(tw, 1) * 100)
+
+    shap_factors, farmer_limits = _plan_facts(state, recommended, profile)
     system = EXPLAIN_SYSTEM.get(language, EXPLAIN_SYSTEM["en"])
     user_prompt = build_explain_user_prompt(
         recommended, water_saved, shap_factors, language, state.get("crops", []),
@@ -1033,14 +1073,33 @@ def respond_node(state: dict) -> dict:
 # answer_from_memory — follow-up / question handler, no LLM for routing
 # ─────────────────────────────────────────────────────────────────────────────
 
-async def answer_from_memory_node(state: dict) -> dict:
-    """Answer an informational follow-up from the saved farm profile.
+_GREETING_RE = re.compile(
+    r"^\s*(hello|hi|hey|hii+|namaste|namaskar|good (morning|afternoon|evening)|नमस्कार|नमस्ते|राम राम)\b[\s!.,?]*$",
+    re.IGNORECASE,
+)
+_PROFILE_RECALL_RE = re.compile(
+    r"\b(my (budget|land|farm size|farm details|location|district|profile)|saved|"
+    r"what did i (tell|give|say)|did i (tell|give|say))\b|बजेट|बजट|प्रोफाइल|जतन",
+    re.IGNORECASE,
+)
+_NEXT_STEP_HINT = {
+    "en": "Ask me why a crop was chosen, or tell me a change (budget, land, water source or location) and I will make a new plan.",
+    "mr": "एखादे पीक का निवडले ते विचारा, किंवा बदल सांगा (बजेट, जमीन, पाणी किंवा ठिकाण) — मी नवीन आराखडा तयार करेन.",
+    "hi": "पूछिए कोई फसल क्यों चुनी गई, या बदलाव बताइए (बजट, ज़मीन, पानी या जगह) — मैं नई योजना बनाऊँगा।",
+}
+_GREETING = {"en": "Hello! ", "mr": "नमस्कार! ", "hi": "नमस्ते! "}
 
-    Fact updates are re-extracted by the graph; questions without changed facts
-    are answered directly so they do not re-run the optimizer.
+
+async def answer_from_memory_node(state: dict) -> dict:
+    """Answer a message about the existing plan without re-running the optimizer.
+
+    Greeting -> greeting + current plan summary. Profile recall ("what is my
+    budget?") -> saved profile. Any other question -> LLM answer grounded in the
+    plan's own numbers, falling back to the plan summary if grounding fails.
+    Fact updates (route == "follow_up") go back to extraction and re-planning.
     """
-    # A changed fact (number, irrigation detail, risk preference) is a
-    # follow-up update, not a question. Let the graph extract and optimize it.
+    from app.agent.templates import build_template_explanation
+
     if state.get("route") == "follow_up":
         return {"route": "follow_up"}
 
@@ -1049,23 +1108,81 @@ async def answer_from_memory_node(state: dict) -> dict:
         return {"route": "follow_up"}
 
     language = state.get("language", "en")
-    location = profile.location_text
-    acres = f"{profile.land_acres:g}"
-    budget = f"{profile.budget_rs:,.0f}"
-    if language == "mr":
-        text = f"तुमच्या जतन केलेल्या शेत माहितीनुसार ठिकाण {location}, क्षेत्र {acres} एकर आणि बजेट ₹{budget} आहे."
-    elif language == "hi":
-        text = f"आपकी सहेजी हुई खेत जानकारी के अनुसार स्थान {location}, क्षेत्र {acres} एकड़ और बजट ₹{budget} है।"
-    else:
-        text = f"From your saved farm profile: the location is {location}, the farm size is {acres} acres, and the budget is ₹{budget}."
-
+    lang = language if language in ("mr", "hi", "en") else "en"
+    message = state.get("message", "") or ""
     trace = list(state.get("trace", []))
-    trace.append(_trace("answer_from_memory", "Saved farm profile", "ok", "Answered from this conversation's saved farm details"))
+    recommended = _recommended_strategy(state)
+    summary = build_template_explanation(lang, profile.land_acres, recommended, 0.0).text
+    provider = "memory"
+    grounded = True
+
+    if _GREETING_RE.match(message):
+        text = f"{_GREETING[lang]}{summary} {_NEXT_STEP_HINT[lang]}"
+        step = "Greeting"
+    elif _PROFILE_RECALL_RE.search(message):
+        location = profile.location_text
+        acres = f"{profile.land_acres:g}"
+        budget = f"{profile.budget_rs:,.0f}"
+        if lang == "mr":
+            text = f"तुमच्या जतन केलेल्या शेत माहितीनुसार ठिकाण {location}, क्षेत्र {acres} एकर आणि बजेट ₹{budget} आहे."
+        elif lang == "hi":
+            text = f"आपकी सहेजी हुई खेत जानकारी के अनुसार स्थान {location}, क्षेत्र {acres} एकड़ और बजट ₹{budget} है।"
+        else:
+            text = f"From your saved farm profile: the location is {location}, the farm size is {acres} acres, and the budget is ₹{budget}."
+        step = "Saved farm profile"
+    else:
+        step = "Plan question"
+        text = ""
+        if recommended is not None and recommended.allocations:
+            from app.agent.client import get_sarvam_client
+            from app.agent.grounding import grounding_check
+            from app.agent.prompts import PLAN_QA_SYSTEM, build_explain_user_prompt
+
+            shap_factors, farmer_limits = _plan_facts(state, recommended, profile)
+            # Every evaluated crop's margin, so "why this crop?" is answered from data.
+            crop_margins = [
+                {"crop_id": c.crop_id, "profit_normal_rs_per_acre": round(c.profit_rs_per_acre.normal)}
+                for c in state.get("crops", []) if getattr(c, "profit_rs_per_acre", None) is not None
+            ]
+            user_prompt = build_explain_user_prompt(
+                recommended, 0.0, shap_factors, lang, state.get("crops", []), limits=farmer_limits,
+            ) + "".join(
+                f"\nevaluated_crop: {m['crop_id']} profit_normal_rs_per_acre: {m['profit_normal_rs_per_acre']}"
+                for m in crop_margins
+            ) + f"\n\nFARMER QUESTION: {message}"
+            try:
+                client = get_sarvam_client()
+                resp = await client.chat(
+                    messages=[
+                        {"role": "system", "content": PLAN_QA_SYSTEM[lang]},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.2,
+                    max_tokens=800,
+                )
+                answer = json.loads(client.extract_text(resp) or "{}").get("text", "")
+                tool_outputs = {
+                    "strategies": [s.model_dump() for s in state.get("strategies", [])],
+                    "shap_factors": shap_factors,
+                    "farmer_limits": farmer_limits,
+                    "crop_margins": crop_margins,
+                }
+                if answer and grounding_check(answer, tool_outputs):
+                    text, provider = answer, "sarvam"
+            except Exception as exc:  # LLM down or bad JSON: fall back to the plan summary
+                logger.warning("answer_from_memory: plan Q&A failed (%s)", type(exc).__name__)
+        if not text:
+            text = f"{summary} {_NEXT_STEP_HINT[lang]}"
+            provider = "template"
+            grounded = False
+
+    trace.append(_trace("answer_from_memory", step, "ok", "Answered from this conversation's saved plan"))
     return {
         "route": "question_answered",
         "explanation_text": text,
-        "explanation_grounded": True,
-        "explanation_provider": "memory",
+        "explanation_grounded": grounded,
+        "explanation_provider": provider,
         "trace": trace,
     }
 
