@@ -70,10 +70,10 @@ export function DashboardPage() {
 
   // Cost breakdown stacked bar data
   const costData: Array<{ name: string; seed: number; fertilizer: number; labour: number; irrigation: number; other: number }> = (activeStrategy?.allocations ?? []).map((a) => {
-    const crop = plan.crops.find((c) => c.crop_id === a.crop_id)
+    const crop = plan.crops?.find((c) => c.crop_id === a.crop_id)
     const c = crop?.cost_per_acre
     return {
-      name: crop?.names[lang] ?? a.crop_id,
+      name: crop?.names?.[lang] ?? a.crop_id,
       seed: (c?.seed ?? 0) * a.acres,
       fertilizer: (c?.fertilizer ?? 0) * a.acres,
       labour: (c?.labour ?? 0) * a.acres,
@@ -460,8 +460,8 @@ export function DashboardPage() {
       <div>
         <h2 className="text-lg font-semibold text-ink mb-4">{t('dashboard.top_crops')}</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {plan.crops.map((crop) => {
-            const alloc = activeStrategy?.allocations.find((a) => a.crop_id === crop.crop_id)
+          {(plan.crops ?? []).map((crop) => {
+            const alloc = activeStrategy?.allocations?.find((a) => a.crop_id === crop.crop_id)
             return (
               <Card key={crop.crop_id}>
                 <div className="p-5 space-y-3">
@@ -471,10 +471,10 @@ export function DashboardPage() {
                       {getCropEmoji(crop.crop_id)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-ink truncate">{crop.names[lang]}</p>
+                      <p className="font-semibold text-ink truncate">{crop.names?.[lang] ?? crop.crop_id}</p>
                       <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                        <Badge variant={crop.suitability.label === 'good' ? 'success' : crop.suitability.label === 'average' ? 'warning' : 'danger'}>
-                          {t(`suitability.${crop.suitability.label}`)}
+                        <Badge variant={crop.suitability?.label === 'good' ? 'success' : crop.suitability?.label === 'average' ? 'warning' : 'danger'}>
+                          {t(`suitability.${crop.suitability?.label ?? 'average'}`)}
                         </Badge>
                         {alloc && (
                           <span className="text-xs text-muted">{alloc.acres} {t('units.acres')}</span>
@@ -487,33 +487,33 @@ export function DashboardPage() {
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <div>
                       <p className="text-xs text-muted">{t('misc.yield_label')}</p>
-                      <QuintalText quintals={crop.yield_quintal_per_acre[selectedScenario]} />
-                      <SourceBadge sourced={{ value: crop.yield_quintal_per_acre[selectedScenario], unit: 'quintal/acre', source: 'model', source_url: '', as_of: '', status: 'model' }} compact />
+                      <QuintalText quintals={crop.yield_quintal_per_acre?.[selectedScenario] ?? 0} />
+                      <SourceBadge sourced={{ value: crop.yield_quintal_per_acre?.[selectedScenario] ?? 0, unit: 'quintal/acre', source: 'model', source_url: '', as_of: '', status: 'model' }} compact />
                     </div>
                     <div>
                       <p className="text-xs text-muted">{t('misc.today_price')}</p>
-                      <MoneyText value={crop.price.value} className="font-semibold" />
-                      <SourceBadge sourced={crop.price} compact />
+                      <MoneyText value={crop.price?.value ?? 0} className="font-semibold" />
+                      {crop.price && <SourceBadge sourced={crop.price} compact />}
                     </div>
                     <div>
                       <p className="text-xs text-muted">{t('misc.harvest_price')}</p>
-                      <MoneyText value={crop.expected_harvest_price.value} className="font-semibold" />
-                      <SourceBadge sourced={crop.expected_harvest_price} compact />
+                      <MoneyText value={crop.expected_harvest_price?.value ?? 0} className="font-semibold" />
+                      {crop.expected_harvest_price && <SourceBadge sourced={crop.expected_harvest_price} compact />}
                     </div>
                     <div>
                       <p className="text-xs text-muted">{t('misc.profit_per_acre')}</p>
-                      <MoneyText value={crop.profit_rs_per_acre[selectedScenario]} className="font-semibold text-primary" />
-                      <SourceBadge sourced={{ value: crop.profit_rs_per_acre[selectedScenario], unit: 'rs/acre', source: 'computed', source_url: '', as_of: '', status: 'computed' }} compact />
+                      <MoneyText value={crop.profit_rs_per_acre?.[selectedScenario] ?? 0} className="font-semibold text-primary" />
+                      <SourceBadge sourced={{ value: crop.profit_rs_per_acre?.[selectedScenario] ?? 0, unit: 'rs/acre', source: 'computed', source_url: '', as_of: '', status: 'computed' }} compact />
                     </div>
                   </div>
 
                   {/* Duration */}
                   <p className="text-xs text-muted">
-                    {t('misc.occupies_land', { months: Math.round(crop.duration_days / 30) })}
+                    {t('misc.occupies_land', { months: Math.round((crop.duration_days ?? 90) / 30) })}
                   </p>
 
                   {/* Why this crop — SHAP factors */}
-                  {crop.suitability.top_factors.length > 0 && (
+                  {(crop.suitability?.top_factors ?? []).length > 0 && (
                     <details className="text-xs">
                       <summary className="text-primary font-medium cursor-pointer">{t('dashboard.why_crop')}</summary>
                       <ul className="mt-2 space-y-1 pl-3 border-l-2 border-primary-soft">
@@ -536,12 +536,12 @@ export function DashboardPage() {
       </div>
 
       {/* Excluded crops */}
-      {plan.excluded_crops.length > 0 && (
+      {(plan.excluded_crops ?? []).length > 0 && (
         <Card>
           <div className="p-5">
             <CardHeader icon={<span aria-hidden="true">⚠️</span>} title={t('dashboard.excluded')} />
             <ul className="mt-3 space-y-1">
-              {plan.excluded_crops.map((exc) => (
+              {(plan.excluded_crops ?? []).map((exc) => (
                 <li key={exc.crop_id} className="text-sm text-muted">
                   {t(`excluded_reasons.${exc.reason_code}`, { crop_id: exc.crop_id, ...exc.params })}
                 </li>
@@ -552,12 +552,12 @@ export function DashboardPage() {
       )}
 
       {/* Warnings */}
-      {plan.warnings.length > 0 && (
+      {(plan.warnings ?? []).length > 0 && (
         <div className="space-y-2">
-          {plan.warnings.map((w, i) => (
+          {(plan.warnings ?? []).map((w, i) => (
             <div key={i} className="flex items-start gap-3 bg-orange-50 border border-drought/20 rounded-xl px-4 py-3 text-sm text-drought">
               <span aria-hidden="true">⚠️</span>
-              <span>{t(`warning_codes.${w.code}`, w.params as Record<string, string>)}</span>
+              <span>{t(`warning_codes.${w.code}`, (w.params ?? {}) as Record<string, string>)}</span>
             </div>
           ))}
         </div>
@@ -567,15 +567,15 @@ export function DashboardPage() {
       <div className="flex items-center gap-2 text-sm text-muted">
         <span className="flex items-center gap-1">
           <span className="w-2 h-2 rounded-full bg-badge-live" aria-hidden="true" />
-          {t('misc.live_count', { n: plan.data_status.live })}
+          {t('misc.live_count', { n: plan.data_status?.live ?? 0 })}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-2 h-2 rounded-full bg-badge-cached" aria-hidden="true" />
-          {t('misc.cached_count', { n: plan.data_status.cached })}
+          {t('misc.cached_count', { n: plan.data_status?.cached ?? 0 })}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-2 h-2 rounded-full bg-badge-official" aria-hidden="true" />
-          {t('misc.official_count', { n: plan.data_status.official_dataset })}
+          {t('misc.official_count', { n: plan.data_status?.official_dataset ?? 0 })}
         </span>
       <Link to="/sources" className="ml-2 text-primary hover:underline">{t('dashboard.sources_chip')} →</Link>
       </div>

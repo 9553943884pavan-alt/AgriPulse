@@ -263,24 +263,30 @@ export function ComparisonPage() {
                   <tbody className="divide-y divide-gray-50">
                     <tr>
                       <td className="py-2 text-muted">{t('comparison.expected_profit')} (₹)</td>
-                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs.normal} /></td>
-                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs.drought} /></td>
-                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs.excess} /></td>
+                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs?.normal ?? 0} /></td>
+                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs?.drought ?? 0} /></td>
+                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs?.excess ?? 0} /></td>
                     </tr>
                     <tr>
                       <td className="py-2 text-muted">{t('misc.worst_year_profit')}</td>
-                      <td colSpan={3} className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.worst_case_profit_rs} /></td>
+                      <td colSpan={3} className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.worst_case_profit_rs ?? 0} /></td>
                     </tr>
                     <tr>
                       <td className="py-2 text-muted">{t('comparison.water_usage')}</td>
                       <td colSpan={3} className="py-2 text-right font-medium">
-                        <WaterText m3={summaryStrategy.totals.water_m3} showTankers={false} />
+                        <WaterText m3={summaryStrategy.totals?.water_m3 ?? 0} showTankers={false} />
                       </td>
                     </tr>
                     <tr>
                       <td className="py-2 text-muted">{t('comparison.fertilizer_usage')}</td>
                       <td colSpan={3} className="py-2 text-right font-medium">
-                        {summaryStrategy.totals.fertilizer_kg.n + summaryStrategy.totals.fertilizer_kg.p2o5 + summaryStrategy.totals.fertilizer_kg.k2o} kg
+                        {(() => {
+                          const f = summaryStrategy.totals?.fertilizer_kg
+                          const total = typeof f === 'object' && f !== null
+                            ? ((f.n ?? 0) + (f.p2o5 ?? 0) + (f.k2o ?? 0))
+                            : (typeof f === 'number' ? f : 0)
+                          return `${Math.round(total)} kg`
+                        })()}
                       </td>
                     </tr>
                   </tbody>

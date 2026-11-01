@@ -132,7 +132,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
         unit: 'count',
         source: 'computed from recommended strategy',
         source_url: '',
-        as_of: plan.created_at,
+        as_of: plan.created_at ?? '',
         status: 'computed' as const,
       },
     },

@@ -285,8 +285,8 @@ export function FarmProfilePage() {
             <Card>
               <div className="p-5 text-center">
                 <p className="text-sm text-muted mb-2">{t('misc.current_plan')}</p>
-                <p className="font-semibold text-ink text-lg">{plan.location.district}</p>
-                <p className="text-xs text-muted">{plan.season.name} · {plan.crops.length} {t('dashboard.num_crops').toLowerCase()}</p>
+                <p className="font-semibold text-ink text-lg">{plan.location?.district ?? plan.profile?.location_text ?? ''}</p>
+                <p className="text-xs text-muted">{plan.season?.name ?? 'Kharif'} · {(plan.crops ?? []).length} {t('dashboard.num_crops').toLowerCase()}</p>
                 <Link to="/dashboard" className="mt-3 inline-block text-sm text-primary font-medium hover:underline">
                   {t('misc.view_dashboard')}
                 </Link>

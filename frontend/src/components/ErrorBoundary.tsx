@@ -25,7 +25,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
   private handleReset = () => {
     try {
+      // Clear all agripulse-related keys (cover both old and new key names)
       localStorage.removeItem('agripulse-storage')
+      localStorage.removeItem('agripulse-session')
+      // Clear any other persisted keys
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith('agripulse')) localStorage.removeItem(key)
+      })
     } catch {
       // ignore
     }
