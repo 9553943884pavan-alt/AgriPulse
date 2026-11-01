@@ -1,0 +1,15 @@
+{
+  "error": {
+    "code": "LOCATION_NOT_FOUND",
+    "message": "We could not find this place in India.",
+    "user_message": {
+      "mr": "हे ठिकाण भारतात सापडले नाही.",
+      "hi": "यह स्थान भारत में नहीं मिला।",
+      "en": "We could not find this place in India."
+    },
+    "retryable": false,
+    "details": {
+      "location_text": "Bengaluru"
+    }
+  }
+}

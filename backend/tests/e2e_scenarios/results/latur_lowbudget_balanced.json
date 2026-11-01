@@ -1,0 +1,2237 @@
+{
+  "plan_id": "pl_db6f35e71450479494669486449f2239",
+  "thread_id": "th_2990bcda4f4d42bfa032510574b164c1",
+  "version": 1,
+  "previous_version": null,
+  "created_at": "2026-11-01T17:26:03.052350Z",
+  "profile": {
+    "location_text": "Latur",
+    "land_acres": 2.0,
+    "budget_rs": 8000.0,
+    "water_source": "rainfed",
+    "borewell_count": null,
+    "borewell_yield_lph": null,
+    "pump_hours_per_day": null,
+    "canal_access": false,
+    "irrigation_method": null,
+    "risk_appetite": "balanced",
+    "soil_test": null,
+    "language": "en",
+    "missing": [],
+    "defaults_used": []
+  },
+  "location": {
+    "input": "Latur",
+    "resolved_name": "Latur, Maharashtra",
+    "district": "Latur",
+    "state": "Maharashtra",
+    "latitude": 18.39721,
+    "longitude": 76.56784
+  },
+  "season": {
+    "name": "Rabi",
+    "sowing_window": {
+      "start": "2026-10-15",
+      "end": "2026-12-15"
+    },
+    "status": "official_dataset"
+  },
+  "scenarios": [
+    {
+      "id": "drought",
+      "label": "Drought (10th percentile)",
+      "season_rain_mm": {
+        "value": 28.1,
+        "unit": "mm",
+        "source": "Open-Meteo ERA5 historical archive 1997-2025",
+        "source_url": "",
+        "as_of": "2012",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "probability": 0.2,
+      "analogue_year": 2012,
+      "all_year_samples": [
+        {
+          "value": 90.7,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1997",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 9.4,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1998",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 11.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1999",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 4.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2000",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 35.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2001",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 9.4,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2002",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 13.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2003",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 54.1,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2004",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 51.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2005",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 25.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2006",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 69.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2007",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 50.7,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2008",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 101.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2009",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 56.8,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2010",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 0.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2011",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 28.1,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2012",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 89.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2013",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 71.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2014",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 13.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2015",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 5.3,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2016",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 24.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2017",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 14.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2018",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 61.3,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2019",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 25.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2020",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 29.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2021",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 36.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2022",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 53.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2023",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 15.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        }
+      ],
+      "rainfall_mm": 28.1,
+      "et0_mm": 745.6,
+      "rainy_days": 2,
+      "max_dry_spell_days": 149,
+      "mean_temp_c": 24.7,
+      "max_temp_c": 37.8,
+      "heat_stress_days": 14,
+      "mean_humidity_pct": 45.4
+    },
+    {
+      "id": "normal",
+      "label": "Normal (median)",
+      "season_rain_mm": {
+        "value": 101.5,
+        "unit": "mm",
+        "source": "Open-Meteo ERA5 historical archive 1997-2025",
+        "source_url": "",
+        "as_of": "2009",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "probability": 0.6,
+      "analogue_year": 2009,
+      "all_year_samples": [
+        {
+          "value": 90.7,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1997",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 9.4,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1998",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 11.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1999",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 4.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2000",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 35.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2001",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 9.4,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2002",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 13.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2003",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 54.1,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2004",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 51.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2005",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 25.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2006",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 69.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2007",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 50.7,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2008",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 101.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2009",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 56.8,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2010",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 0.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2011",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 28.1,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2012",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 89.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2013",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 71.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2014",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 13.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2015",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 5.3,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2016",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 24.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2017",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 14.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2018",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 61.3,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2019",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 25.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2020",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 29.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2021",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 36.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2022",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 53.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2023",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 15.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        }
+      ],
+      "rainfall_mm": 101.5,
+      "et0_mm": 715.2,
+      "rainy_days": 9,
+      "max_dry_spell_days": 40,
+      "mean_temp_c": 24.5,
+      "max_temp_c": 37.8,
+      "heat_stress_days": 22,
+      "mean_humidity_pct": 48.4
+    },
+    {
+      "id": "excess",
+      "label": "Excess (90th percentile)",
+      "season_rain_mm": {
+        "value": 36.0,
+        "unit": "mm",
+        "source": "Open-Meteo ERA5 historical archive 1997-2025",
+        "source_url": "",
+        "as_of": "2022",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "probability": 0.2,
+      "analogue_year": 2022,
+      "all_year_samples": [
+        {
+          "value": 90.7,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1997",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 9.4,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1998",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 11.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "1999",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 4.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2000",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 35.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2001",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 9.4,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2002",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 13.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2003",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 54.1,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2004",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 51.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2005",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 25.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2006",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 69.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2007",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 50.7,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2008",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 101.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2009",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 56.8,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2010",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 0.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2011",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 28.1,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2012",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 89.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2013",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 71.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2014",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 13.5,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2015",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 5.3,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2016",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 24.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2017",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 14.2,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2018",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 61.3,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2019",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 25.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2020",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 29.6,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2021",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 36.0,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2022",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 53.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2023",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        {
+          "value": 15.9,
+          "unit": "mm",
+          "source": "Open-Meteo ERA5 historical archive 1997-2025",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        }
+      ],
+      "rainfall_mm": 36.0,
+      "et0_mm": 734.4,
+      "rainy_days": 2,
+      "max_dry_spell_days": 93,
+      "mean_temp_c": 23.7,
+      "max_temp_c": 36.8,
+      "heat_stress_days": 6,
+      "mean_humidity_pct": 49.0
+    }
+  ],
+  "crops": [
+    {
+      "crop_id": "chickpea",
+      "names": {
+        "en": "Gram / Chana (Chickpea)",
+        "mr": "हरभरा",
+        "hi": "चना"
+      },
+      "season": "Rabi",
+      "suitability": {
+        "score": 0.976,
+        "label": "average",
+        "top_factors": [
+          {
+            "feature": "rainfall_departure_pct",
+            "value": 170.05,
+            "unit": "%",
+            "effect_quintal_per_acre": 0.05,
+            "direction": "up"
+          },
+          {
+            "feature": "et0_total_mm",
+            "value": 715.2,
+            "unit": "mm",
+            "effect_quintal_per_acre": -0.02,
+            "direction": "down"
+          },
+          {
+            "feature": "max_temp_c",
+            "value": 37.8,
+            "unit": "°C",
+            "effect_quintal_per_acre": -0.01,
+            "direction": "down"
+          }
+        ],
+        "fallback_used": false
+      },
+      "yield_quintal_per_acre": {
+        "drought": 2.3755,
+        "normal": 2.4807,
+        "excess": 2.5131
+      },
+      "price": {
+        "value": 5600.5,
+        "unit": "rs_per_quintal",
+        "source": "Agmarknet historical monthly dataset (district)",
+        "source_url": "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",
+        "as_of": "2026-05",
+        "status": "cached",
+        "history_years": null,
+        "note": null
+      },
+      "expected_harvest_price": {
+        "value": 5650.0,
+        "unit": "Rs/quintal",
+        "source": "Current quote x historical seasonal ratio; floored at MSP",
+        "source_url": "",
+        "as_of": "2026",
+        "status": "computed",
+        "history_years": null,
+        "note": null
+      },
+      "seasonal_ratio": {
+        "value": 0.9742607955754095,
+        "unit": "ratio",
+        "source": "Agmarknet monthly price history (Latur) (5 years)",
+        "source_url": "",
+        "as_of": "2026",
+        "status": "computed",
+        "history_years": 5,
+        "note": null
+      },
+      "duration_days": 110,
+      "harvest_month": "2027-02",
+      "opens_on": null,
+      "msp": {
+        "value": 5650.0,
+        "unit": "rs_per_quintal",
+        "source": "Official MSP: CACP / PIB Rabi MSP Notification",
+        "source_url": "https://cacp.dacnet.nic.in",
+        "as_of": "2024-25",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "cost_per_acre": {
+        "total_rs": 18823.15,
+        "seed": 2460.0,
+        "fertilizer": 1885.5,
+        "manure": 485.62,
+        "labour": 7425.99,
+        "machine": 3318.43,
+        "irrigation": 1396.17,
+        "pesticide": 1315.23,
+        "interest": 536.21,
+        "superseded": {
+          "seed_des": 2266.24,
+          "fertilizer_des": 1667.31
+        },
+        "reference_year": "2022-23",
+        "source": "DES/CACP Cost of Cultivation 2022-23",
+        "status": "official_dataset"
+      },
+      "fertilizer": {
+        "n_kg_per_acre": 10.12,
+        "p2o5_kg_per_acre": 20.23,
+        "k2o_kg_per_acre": 12.14,
+        "urea_bags": 0.106,
+        "dap_bags": 0.88,
+        "mop_bags": 0.405,
+        "cost_rs": {
+          "value": 1886.0,
+          "unit": "rs",
+          "source": "RDF dose × official MRP (DAP ₹27.00/kg, Urea ₹5.92/kg, MOP ₹33.10/kg)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "basis": "University recommended dose (RDF) — MPKV Rahuri / Dr. PDKV Akola"
+      },
+      "water_need_m3_per_acre": {
+        "drought": {
+          "value": 0.0,
+          "unit": "m3_per_acre",
+          "source": "No FAO-56 stage lengths for chickpea: irrigation need not estimated (assumes residual soil moisture)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "normal": {
+          "value": 0.0,
+          "unit": "m3_per_acre",
+          "source": "No FAO-56 stage lengths for chickpea: irrigation need not estimated (assumes residual soil moisture)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "excess": {
+          "value": 0.0,
+          "unit": "m3_per_acre",
+          "source": "No FAO-56 stage lengths for chickpea: irrigation need not estimated (assumes residual soil moisture)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "profit_rs_per_acre": {
+        "drought": -5401.57,
+        "normal": -4807.2,
+        "excess": -4624.13
+      },
+      "revenue_rs_per_acre": {
+        "drought": 13421.58,
+        "normal": 14015.95,
+        "excess": 14199.02
+      },
+      "yield_uncertainty": null,
+      "price_uncertainty": null,
+      "risk_note": null
+    },
+    {
+      "crop_id": "maize",
+      "names": {
+        "en": "Maize (Corn)",
+        "mr": "मका",
+        "hi": "मक्का"
+      },
+      "season": "Rabi",
+      "suitability": {
+        "score": 0.722,
+        "label": "poor",
+        "top_factors": [
+          {
+            "feature": "max_dry_spell_days",
+            "value": 40.0,
+            "unit": "days",
+            "effect_quintal_per_acre": -0.09,
+            "direction": "down"
+          },
+          {
+            "feature": "rainfall_departure_pct",
+            "value": 170.05,
+            "unit": "%",
+            "effect_quintal_per_acre": 0.05,
+            "direction": "up"
+          },
+          {
+            "feature": "et0_total_mm",
+            "value": 715.2,
+            "unit": "mm",
+            "effect_quintal_per_acre": -0.02,
+            "direction": "down"
+          }
+        ],
+        "fallback_used": false
+      },
+      "yield_quintal_per_acre": {
+        "drought": 5.2205,
+        "normal": 5.2569,
+        "excess": 5.8234
+      },
+      "price": {
+        "value": 1754.5,
+        "unit": "rs_per_quintal",
+        "source": "Agmarknet historical monthly dataset (district)",
+        "source_url": "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",
+        "as_of": "2026-05",
+        "status": "cached",
+        "history_years": null,
+        "note": null
+      },
+      "expected_harvest_price": {
+        "value": 2225.0,
+        "unit": "Rs/quintal",
+        "source": "Current quote x historical seasonal ratio; floored at MSP",
+        "source_url": "",
+        "as_of": "2026",
+        "status": "computed",
+        "history_years": null,
+        "note": null
+      },
+      "seasonal_ratio": {
+        "value": 1.040126984126984,
+        "unit": "ratio",
+        "source": "Agmarknet monthly price history (Latur) (4 years)",
+        "source_url": "",
+        "as_of": "2026",
+        "status": "computed",
+        "history_years": 4,
+        "note": null
+      },
+      "duration_days": 115,
+      "harvest_month": "2027-02",
+      "opens_on": null,
+      "msp": {
+        "value": 2225.0,
+        "unit": "rs_per_quintal",
+        "source": "Official MSP: CACP / PIB Kharif MSP Notification",
+        "source_url": "https://cacp.dacnet.nic.in",
+        "as_of": "2024-25",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "cost_per_acre": {
+        "total_rs": 21912.58,
+        "seed": 1680.0,
+        "fertilizer": 2820.95,
+        "manure": 971.25,
+        "labour": 9955.28,
+        "machine": 3601.71,
+        "irrigation": 1295.0,
+        "pesticide": 951.01,
+        "interest": 637.38,
+        "superseded": {
+          "seed_des": 1659.21,
+          "fertilizer_des": 2812.57
+        },
+        "reference_year": "2022-23",
+        "source": "DES/CACP Cost of Cultivation 2022-23",
+        "status": "official_dataset"
+      },
+      "fertilizer": {
+        "n_kg_per_acre": 48.56,
+        "p2o5_kg_per_acre": 24.28,
+        "k2o_kg_per_acre": 16.19,
+        "urea_bags": 1.887,
+        "dap_bags": 1.056,
+        "mop_bags": 0.54,
+        "cost_rs": {
+          "value": 2821.0,
+          "unit": "rs",
+          "source": "RDF dose × official MRP (DAP ₹27.00/kg, Urea ₹5.92/kg, MOP ₹33.10/kg)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "basis": "University recommended dose (RDF) — MPKV Rahuri"
+      },
+      "water_need_m3_per_acre": {
+        "drought": {
+          "value": 3030.0,
+          "unit": "m3_per_acre",
+          "source": "FAO-56 Kc × ERA5 ET₀ (analogue year 2012)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "normal": {
+          "value": 2594.0,
+          "unit": "m3_per_acre",
+          "source": "FAO-56 Kc × ERA5 ET₀ (analogue year 2009)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "excess": {
+          "value": 2949.0,
+          "unit": "m3_per_acre",
+          "source": "FAO-56 Kc × ERA5 ET₀ (analogue year 2022)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "profit_rs_per_acre": {
+        "drought": -10296.97,
+        "normal": -10215.98,
+        "excess": -8955.51
+      },
+      "revenue_rs_per_acre": {
+        "drought": 11615.61,
+        "normal": 11696.6,
+        "excess": 12957.07
+      },
+      "yield_uncertainty": null,
+      "price_uncertainty": null,
+      "risk_note": null
+    },
+    {
+      "crop_id": "wheat",
+      "names": {
+        "en": "Wheat",
+        "mr": "गहू",
+        "hi": "गेहूं"
+      },
+      "season": "Rabi",
+      "suitability": {
+        "score": 1.036,
+        "label": "average",
+        "top_factors": [
+          {
+            "feature": "rainfall_departure_pct",
+            "value": 170.05,
+            "unit": "%",
+            "effect_quintal_per_acre": 0.03,
+            "direction": "up"
+          },
+          {
+            "feature": "et0_total_mm",
+            "value": 715.2,
+            "unit": "mm",
+            "effect_quintal_per_acre": -0.02,
+            "direction": "down"
+          },
+          {
+            "feature": "max_temp_c",
+            "value": 37.8,
+            "unit": "°C",
+            "effect_quintal_per_acre": -0.01,
+            "direction": "down"
+          }
+        ],
+        "fallback_used": false
+      },
+      "yield_quintal_per_acre": {
+        "drought": 4.3908,
+        "normal": 4.4596,
+        "excess": 4.5932
+      },
+      "price": {
+        "value": 2312.5,
+        "unit": "rs_per_quintal",
+        "source": "Agmarknet historical monthly dataset (district)",
+        "source_url": "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070",
+        "as_of": "2026-05",
+        "status": "cached",
+        "history_years": null,
+        "note": null
+      },
+      "expected_harvest_price": {
+        "value": 2425.0,
+        "unit": "Rs/quintal",
+        "source": "Current quote x historical seasonal ratio; floored at MSP",
+        "source_url": "",
+        "as_of": "2026",
+        "status": "computed",
+        "history_years": null,
+        "note": null
+      },
+      "seasonal_ratio": {
+        "value": 0.9785,
+        "unit": "ratio",
+        "source": "Agmarknet monthly price history (Latur) (5 years)",
+        "source_url": "",
+        "as_of": "2026",
+        "status": "computed",
+        "history_years": 5,
+        "note": null
+      },
+      "duration_days": 120,
+      "harvest_month": "2027-03",
+      "opens_on": null,
+      "msp": {
+        "value": 2425.0,
+        "unit": "rs_per_quintal",
+        "source": "Official MSP: CACP / PIB Rabi MSP Notification",
+        "source_url": "https://cacp.dacnet.nic.in",
+        "as_of": "2024-25",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "cost_per_acre": {
+        "total_rs": 22246.59,
+        "seed": 1840.0,
+        "fertilizer": 2820.95,
+        "manure": 748.67,
+        "labour": 8700.75,
+        "machine": 4127.8,
+        "irrigation": 2772.1,
+        "pesticide": 586.8,
+        "interest": 649.52,
+        "superseded": {
+          "seed_des": 2104.37,
+          "fertilizer_des": 2610.23
+        },
+        "reference_year": "2022-23",
+        "source": "DES/CACP Cost of Cultivation 2022-23",
+        "status": "official_dataset"
+      },
+      "fertilizer": {
+        "n_kg_per_acre": 48.56,
+        "p2o5_kg_per_acre": 24.28,
+        "k2o_kg_per_acre": 16.19,
+        "urea_bags": 1.887,
+        "dap_bags": 1.056,
+        "mop_bags": 0.54,
+        "cost_rs": {
+          "value": 2821.0,
+          "unit": "rs",
+          "source": "RDF dose × official MRP (DAP ₹27.00/kg, Urea ₹5.92/kg, MOP ₹33.10/kg)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "basis": "University recommended dose (RDF) — MPKV Rahuri"
+      },
+      "water_need_m3_per_acre": {
+        "drought": {
+          "value": 2880.0,
+          "unit": "m3_per_acre",
+          "source": "FAO-56 Kc × ERA5 ET₀ (analogue year 2012)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "normal": {
+          "value": 2463.0,
+          "unit": "m3_per_acre",
+          "source": "FAO-56 Kc × ERA5 ET₀ (analogue year 2009)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "excess": {
+          "value": 2804.0,
+          "unit": "m3_per_acre",
+          "source": "FAO-56 Kc × ERA5 ET₀ (analogue year 2022)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "profit_rs_per_acre": {
+        "drought": -11598.9,
+        "normal": -11432.06,
+        "excess": -11108.08
+      },
+      "revenue_rs_per_acre": {
+        "drought": 10647.69,
+        "normal": 10814.53,
+        "excess": 11138.51
+      },
+      "yield_uncertainty": null,
+      "price_uncertainty": null,
+      "risk_note": null
+    }
+  ],
+  "excluded_crops": [
+    {
+      "crop_id": "banana",
+      "reason_code": "NOT_SOWABLE_NOW",
+      "params": {
+        "district": "Latur",
+        "today": "2026-11-01"
+      }
+    },
+    {
+      "crop_id": "jowar",
+      "reason_code": "NOT_SOWABLE_NOW",
+      "params": {
+        "district": "Latur",
+        "today": "2026-11-01"
+      }
+    },
+    {
+      "crop_id": "lentil",
+      "reason_code": "NOT_GROWN_IN_DISTRICT",
+      "params": {
+        "district": "Latur",
+        "season": "Rabi"
+      }
+    },
+    {
+      "crop_id": "mango",
+      "reason_code": "NOT_SOWABLE_NOW",
+      "params": {
+        "district": "Latur",
+        "today": "2026-11-01"
+      }
+    },
+    {
+      "crop_id": "onion",
+      "reason_code": "NOT_GROWN_IN_DISTRICT",
+      "params": {
+        "district": "Latur",
+        "season": "Rabi"
+      }
+    },
+    {
+      "crop_id": "orange",
+      "reason_code": "NOT_GROWN_IN_DISTRICT",
+      "params": {
+        "district": "Latur",
+        "season": "Rabi"
+      }
+    },
+    {
+      "crop_id": "pomegranate",
+      "reason_code": "NOT_GROWN_IN_DISTRICT",
+      "params": {
+        "district": "Latur",
+        "season": "Rabi"
+      }
+    },
+    {
+      "crop_id": "sugarcane",
+      "reason_code": "NOT_SOWABLE_NOW",
+      "params": {
+        "district": "Latur",
+        "today": "2026-11-01"
+      }
+    },
+    {
+      "crop_id": "grapes",
+      "reason_code": "DATA_UNAVAILABLE",
+      "params": {
+        "field": "cost_or_fertilizer"
+      }
+    }
+  ],
+  "water": [
+    {
+      "scenario": "drought",
+      "analogue_year": 2012,
+      "available_m3": {
+        "rain": {
+          "value": 457.1,
+          "unit": "m3",
+          "source": "Computed: effective_rain × area",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "groundwater": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: borewell_capacity × category_cap",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "canal": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Farmer reports no canal access",
+          "source_url": "",
+          "as_of": "current",
+          "status": "farmer_input",
+          "history_years": null,
+          "note": null
+        },
+        "total": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: groundwater + canal; effective rainfall is already netted in crop demand",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "basis": {
+        "groundwater_category": {
+          "value": "Semi-critical",
+          "unit": "category",
+          "source": "CGWB (Central Ground Water Board) block data — district average",
+          "source_url": "https://cgwb.gov.in",
+          "as_of": "2022",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        "category_cap": {
+          "value": 0.7,
+          "unit": "fraction",
+          "source": "Modelling assumption — CGWB category cap — needs GSDA citation",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "effective_rain_factor": {
+          "value": 0.75,
+          "unit": "fraction",
+          "source": "Modelling assumption — FAO-56 effective rainfall factor — needs citation in SOURCES.md",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "reservoir_storage_pct": {
+          "value": 0.0,
+          "unit": "pct",
+          "source": "Modelling assumption — No current reservoir observation available",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "rain_so_far_mm": {
+          "value": 65.8,
+          "unit": "mm",
+          "source": "Open-Meteo forecast (past_days=92)",
+          "source_url": "https://api.open-meteo.com",
+          "as_of": "2026-11-01",
+          "status": "live",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "irrigation_method": "flood",
+      "efficiency_pct": {
+        "value": 60.0,
+        "unit": "pct",
+        "source": "Minor Irrigation Census (MoJS)",
+        "source_url": "",
+        "as_of": "2017-18",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "need_m3": {
+        "traditional_plan": {
+          "value": 3941.8,
+          "unit": "m3",
+          "source": "Computed: sum(acres × per-crop drought water need)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "recommended_plan": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: sum(acres × per-crop drought water need)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "scenario": "normal",
+      "analogue_year": 2009,
+      "available_m3": {
+        "rain": {
+          "value": 616.2,
+          "unit": "m3",
+          "source": "Computed: effective_rain × area",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "groundwater": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: borewell_capacity × category_cap",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "canal": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Farmer reports no canal access",
+          "source_url": "",
+          "as_of": "current",
+          "status": "farmer_input",
+          "history_years": null,
+          "note": null
+        },
+        "total": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: groundwater + canal; effective rainfall is already netted in crop demand",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "basis": {
+        "groundwater_category": {
+          "value": "Semi-critical",
+          "unit": "category",
+          "source": "CGWB (Central Ground Water Board) block data — district average",
+          "source_url": "https://cgwb.gov.in",
+          "as_of": "2022",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        "category_cap": {
+          "value": 0.7,
+          "unit": "fraction",
+          "source": "Modelling assumption — CGWB category cap — needs GSDA citation",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "effective_rain_factor": {
+          "value": 0.75,
+          "unit": "fraction",
+          "source": "Modelling assumption — FAO-56 effective rainfall factor — needs citation in SOURCES.md",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "reservoir_storage_pct": {
+          "value": 0.0,
+          "unit": "pct",
+          "source": "Modelling assumption — No current reservoir observation available",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "rain_so_far_mm": {
+          "value": 65.8,
+          "unit": "mm",
+          "source": "Open-Meteo forecast (past_days=92)",
+          "source_url": "https://api.open-meteo.com",
+          "as_of": "2026-11-01",
+          "status": "live",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "irrigation_method": "flood",
+      "efficiency_pct": {
+        "value": 60.0,
+        "unit": "pct",
+        "source": "Minor Irrigation Census (MoJS)",
+        "source_url": "",
+        "as_of": "2017-18",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "need_m3": {
+        "traditional_plan": {
+          "value": 3372.9,
+          "unit": "m3",
+          "source": "Computed: sum(acres × per-crop normal water need)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "recommended_plan": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: sum(acres × per-crop normal water need)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      }
+    },
+    {
+      "scenario": "excess",
+      "analogue_year": 2022,
+      "available_m3": {
+        "rain": {
+          "value": 457.1,
+          "unit": "m3",
+          "source": "Computed: effective_rain × area",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "groundwater": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: borewell_capacity × category_cap",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "canal": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Farmer reports no canal access",
+          "source_url": "",
+          "as_of": "current",
+          "status": "farmer_input",
+          "history_years": null,
+          "note": null
+        },
+        "total": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: groundwater + canal; effective rainfall is already netted in crop demand",
+          "source_url": "",
+          "as_of": "current",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "basis": {
+        "groundwater_category": {
+          "value": "Semi-critical",
+          "unit": "category",
+          "source": "CGWB (Central Ground Water Board) block data — district average",
+          "source_url": "https://cgwb.gov.in",
+          "as_of": "2022",
+          "status": "official_dataset",
+          "history_years": null,
+          "note": null
+        },
+        "category_cap": {
+          "value": 0.7,
+          "unit": "fraction",
+          "source": "Modelling assumption — CGWB category cap — needs GSDA citation",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "effective_rain_factor": {
+          "value": 0.75,
+          "unit": "fraction",
+          "source": "Modelling assumption — FAO-56 effective rainfall factor — needs citation in SOURCES.md",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "reservoir_storage_pct": {
+          "value": 0.0,
+          "unit": "pct",
+          "source": "Modelling assumption — No current reservoir observation available",
+          "source_url": "",
+          "as_of": "2024",
+          "status": "assumption",
+          "history_years": null,
+          "note": null
+        },
+        "rain_so_far_mm": {
+          "value": 65.8,
+          "unit": "mm",
+          "source": "Open-Meteo forecast (past_days=92)",
+          "source_url": "https://api.open-meteo.com",
+          "as_of": "2026-11-01",
+          "status": "live",
+          "history_years": null,
+          "note": null
+        }
+      },
+      "irrigation_method": "flood",
+      "efficiency_pct": {
+        "value": 60.0,
+        "unit": "pct",
+        "source": "Minor Irrigation Census (MoJS)",
+        "source_url": "",
+        "as_of": "2017-18",
+        "status": "official_dataset",
+        "history_years": null,
+        "note": null
+      },
+      "need_m3": {
+        "traditional_plan": {
+          "value": 3837.1,
+          "unit": "m3",
+          "source": "Computed: sum(acres × per-crop excess water need)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        },
+        "recommended_plan": {
+          "value": 0.0,
+          "unit": "m3",
+          "source": "Computed: sum(acres × per-crop excess water need)",
+          "source_url": "",
+          "as_of": "2026-11-01",
+          "status": "computed",
+          "history_years": null,
+          "note": null
+        }
+      }
+    }
+  ],
+  "strategies": [
+    {
+      "id": "traditional",
+      "label": "Traditional",
+      "kind": "traditional",
+      "risk_lambda": 0.0,
+      "safety_scenario": "normal",
+      "allocations": [
+        {
+          "crop_id": "chickpea",
+          "acres": 0.666,
+          "share_pct": 33.3,
+          "cost_rs": 12536.0,
+          "water_m3": 0.0,
+          "profit_rs": {
+            "drought": -3597.44562,
+            "normal": -3201.5952,
+            "excess": -3079.6705800000004
+          },
+          "revenue_rs": {
+            "drought": 8938.772280000001,
+            "normal": 9334.622700000002,
+            "excess": 9456.547320000001
+          }
+        },
+        {
+          "crop_id": "maize",
+          "acres": 0.666,
+          "share_pct": 33.3,
+          "cost_rs": 14594.0,
+          "water_m3": 1728.0,
+          "profit_rs": {
+            "drought": -6857.78202,
+            "normal": -6803.84268,
+            "excess": -5964.36966
+          },
+          "revenue_rs": {
+            "drought": 7735.996260000001,
+            "normal": 7789.935600000001,
+            "excess": 8629.40862
+          }
+        },
+        {
+          "crop_id": "wheat",
+          "acres": 0.668,
+          "share_pct": 33.3,
+          "cost_rs": 14861.0,
+          "water_m3": 1645.0,
+          "profit_rs": {
+            "drought": -7748.0652,
+            "normal": -7636.61608,
+            "excess": -7420.197440000001
+          },
+          "revenue_rs": {
+            "drought": 7112.65692,
+            "normal": 7224.106040000001,
+            "excess": 7440.52468
+          }
+        }
+      ],
+      "totals": {
+        "land_used_acres": 2.0,
+        "budget_used_rs": 41991.0,
+        "fertilizer_kg": {
+          "n": 71.52,
+          "p2o5": 45.86,
+          "k2o": 29.68
+        },
+        "water_m3": 3373.0
+      },
+      "finance": null,
+      "profit_by_scenario_rs": {
+        "drought": -18203.29284,
+        "normal": -17642.05396,
+        "excess": -16464.237680000002
+      },
+      "expected_profit_rs": -17519.0,
+      "worst_case_profit_rs": -18203.0,
+      "feasible": false,
+      "binding_constraints": [],
+      "relaxations_applied": [],
+      "solver": {
+        "name": "none",
+        "status": "ok",
+        "ms": 0
+      },
+      "infeasibility": null,
+      "traditional_exceeds": [
+        "budget",
+        "water"
+      ]
+    },
+    {
+      "id": "lp_max_profit",
+      "label": "LP Max-profit",
+      "kind": "lp",
+      "risk_lambda": 0.0,
+      "safety_scenario": "normal",
+      "allocations": [],
+      "totals": {
+        "land_used_acres": 0.0,
+        "budget_used_rs": 0.0,
+        "fertilizer_kg": {
+          "n": 0.0,
+          "p2o5": 0.0,
+          "k2o": 0.0
+        },
+        "water_m3": 0.0
+      },
+      "finance": null,
+      "profit_by_scenario_rs": {
+        "drought": 0.0,
+        "normal": 0.0,
+        "excess": 0.0
+      },
+      "expected_profit_rs": 0.0,
+      "worst_case_profit_rs": 0.0,
+      "feasible": false,
+      "binding_constraints": [],
+      "relaxations_applied": [],
+      "solver": {
+        "name": "HiGHS",
+        "status": "optimal (0 ms)",
+        "ms": 0
+      },
+      "infeasibility": {
+        "binding": [],
+        "violated": [],
+        "detail": [],
+        "relaxations_tried": [],
+        "suggestion_code": "NO_POSITIVE_ALLOCATION",
+        "suggestion_params": {
+          "reason": "no_crop_has_positive_expected_margin"
+        }
+      },
+      "traditional_exceeds": []
+    },
+    {
+      "id": "qp_balanced",
+      "label": "LP expected-profit (risk model unavailable)",
+      "kind": "lp",
+      "risk_lambda": 0.0,
+      "safety_scenario": "normal",
+      "allocations": [],
+      "totals": {
+        "land_used_acres": 0.0,
+        "budget_used_rs": 0.0,
+        "fertilizer_kg": {
+          "n": 0.0,
+          "p2o5": 0.0,
+          "k2o": 0.0
+        },
+        "water_m3": 0.0
+      },
+      "finance": null,
+      "profit_by_scenario_rs": {
+        "drought": 0.0,
+        "normal": 0.0,
+        "excess": 0.0
+      },
+      "expected_profit_rs": 0.0,
+      "worst_case_profit_rs": 0.0,
+      "feasible": false,
+      "binding_constraints": [],
+      "relaxations_applied": [],
+      "solver": {
+        "name": "HiGHS",
+        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 0
+      },
+      "infeasibility": {
+        "binding": [],
+        "violated": [],
+        "detail": [],
+        "relaxations_tried": [],
+        "suggestion_code": "NO_POSITIVE_ALLOCATION",
+        "suggestion_params": {
+          "reason": "no_crop_has_positive_expected_margin"
+        }
+      },
+      "traditional_exceeds": []
+    },
+    {
+      "id": "qp_drought_safe",
+      "label": "LP drought-water scenario (risk model unavailable)",
+      "kind": "lp",
+      "risk_lambda": 0.0,
+      "safety_scenario": "drought",
+      "allocations": [],
+      "totals": {
+        "land_used_acres": 0.0,
+        "budget_used_rs": 0.0,
+        "fertilizer_kg": {
+          "n": 0.0,
+          "p2o5": 0.0,
+          "k2o": 0.0
+        },
+        "water_m3": 0.0
+      },
+      "finance": null,
+      "profit_by_scenario_rs": {
+        "drought": 0.0,
+        "normal": 0.0,
+        "excess": 0.0
+      },
+      "expected_profit_rs": 0.0,
+      "worst_case_profit_rs": 0.0,
+      "feasible": false,
+      "binding_constraints": [],
+      "relaxations_applied": [],
+      "solver": {
+        "name": "HiGHS",
+        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 0
+      },
+      "infeasibility": {
+        "binding": [],
+        "violated": [],
+        "detail": [],
+        "relaxations_tried": [],
+        "suggestion_code": "NO_POSITIVE_ALLOCATION",
+        "suggestion_params": {
+          "reason": "no_crop_has_positive_expected_margin"
+        }
+      },
+      "traditional_exceeds": []
+    }
+  ],
+  "recommended_strategy": "lp_max_profit",
+  "impact": {
+    "water_saved_pct": {
+      "value": 100.0,
+      "unit": "pct",
+      "source": "optimizer vs traditional",
+      "source_url": "",
+      "as_of": "2026-11-01",
+      "status": "computed",
+      "history_years": null,
+      "note": null
+    },
+    "fertilizer_saved_pct": {
+      "value": 100.0,
+      "unit": "pct",
+      "source": "optimizer vs traditional (RDF kg)",
+      "source_url": "",
+      "as_of": "2026-11-01",
+      "status": "computed",
+      "history_years": null,
+      "note": null
+    },
+    "fertilizer_vs_district_use_pct": null,
+    "drought_profit_gain_rs": {
+      "value": 18203.0,
+      "unit": "rs",
+      "source": "optimizer vs traditional in drought scenario",
+      "source_url": "",
+      "as_of": "2026-11-01",
+      "status": "computed",
+      "history_years": null,
+      "note": null
+    },
+    "versus": "traditional",
+    "traditional_exceeds": [
+      "budget",
+      "water"
+    ]
+  },
+  "infeasibility": {
+    "binding": [],
+    "violated": [],
+    "detail": [],
+    "relaxations_tried": [],
+    "suggestion_code": "NO_POSITIVE_ALLOCATION",
+    "suggestion_params": {
+      "reason": "no_crop_has_positive_expected_margin"
+    }
+  },
+  "explanation": {
+    "language": "en",
+    "text": "With the current real data, no profitable crop plan was found for this season. See the reasons and next options below.",
+    "key_points": [],
+    "grounded": false,
+    "provider": "template"
+  },
+  "warnings": [
+    {
+      "code": "OLD_COST_YEAR",
+      "params": {
+        "year": "2022-23"
+      }
+    },
+    {
+      "code": "CACHED_PRICES",
+      "params": {
+        "crops": [
+          "chickpea",
+          "maize",
+          "wheat"
+        ]
+      }
+    }
+  ],
+  "data_status": {
+    "live": 1,
+    "cached": 3,
+    "official_dataset": 33
+  }
+}

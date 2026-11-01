@@ -1,0 +1,498 @@
+[
+  {
+    "name": "nashik_borewell_drip_balanced",
+    "district": "Nashik",
+    "land": 5.0,
+    "budget": 155000,
+    "water": "borewell",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "onion 1.72",
+    "profit": 16516.0,
+    "roi": 22.455472467709043,
+    "status": "PASS",
+    "reason": "",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds water (declared): 8620 > 5040.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Nashik, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "grapes",
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane"
+      ]
+    },
+    "http": 200,
+    "secs": 6.0,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "pune_canal_flood_safe",
+    "district": "Pune",
+    "land": 4.0,
+    "budget": 115000,
+    "water": "canal",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "",
+    "profit": null,
+    "roi": null,
+    "status": "PASS-NOPLAN",
+    "reason": "no plan: suggestion_code=RESOURCE_LIMIT_BLOCKS_ALLOCATION params={'limiting': ['water'], 'safety_scenario': 'normal', 'profitable_crop_ids': ['onion'], 'min_plan_acres': 0.01}",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds water (declared): 11200 > 0.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES",
+        "CANAL_NOT_CREDITED"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Pune, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane",
+        "grapes"
+      ]
+    },
+    "http": 200,
+    "secs": 3.8,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "pune_borewell_drip_safe",
+    "district": "Pune",
+    "land": 4.0,
+    "budget": 115000,
+    "water": "borewell",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "onion 1.82",
+    "profit": 35500.0,
+    "roi": 45.691485938606085,
+    "status": "PASS",
+    "reason": "",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds water (declared): 7467 > 5760.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Pune, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane",
+        "grapes"
+      ]
+    },
+    "http": 200,
+    "secs": 3.7,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "solapur_rainfed_balanced",
+    "district": "Solapur",
+    "land": 6.0,
+    "budget": 65000,
+    "water": "rainfed",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "",
+    "profit": null,
+    "roi": null,
+    "status": "PASS-NOPLAN",
+    "reason": "no plan: suggestion_code=NO_POSITIVE_ALLOCATION params={'reason': 'no_crop_has_positive_expected_margin'}",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds budget (declared): 158579 > 65000",
+      "[traditional] traditional exceeds water (declared): 15170 > 0.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Solapur, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "banana",
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane",
+        "grapes"
+      ]
+    },
+    "http": 200,
+    "secs": 3.9,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "ahilyanagar_tiny_borewell_safe",
+    "district": "Ahilyanagar",
+    "land": 3.0,
+    "budget": 90000,
+    "water": "borewell",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "",
+    "profit": null,
+    "roi": null,
+    "status": "PASS-NOPLAN",
+    "reason": "no plan: suggestion_code=NO_POSITIVE_ALLOCATION params={'reason': 'no_crop_has_positive_expected_margin'}",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds water (declared): 4828 > 134.4",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Ahilyanagar, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane",
+        "grapes"
+      ]
+    },
+    "http": 200,
+    "secs": 3.6,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "latur_lowbudget_balanced",
+    "district": "Latur",
+    "land": 2.0,
+    "budget": 8000,
+    "water": "rainfed",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "",
+    "profit": null,
+    "roi": null,
+    "status": "PASS-NOPLAN",
+    "reason": "no plan: suggestion_code=NO_POSITIVE_ALLOCATION params={'reason': 'no_crop_has_positive_expected_margin'}",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds budget (declared): 41991 > 8000",
+      "[traditional] traditional exceeds water (declared): 3373 > 0.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 3,
+        "official_dataset": 33
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Latur, Maharashtra",
+      "n_crops": 3,
+      "excluded": [
+        "banana",
+        "jowar",
+        "lentil",
+        "mango",
+        "onion",
+        "orange",
+        "pomegranate",
+        "sugarcane",
+        "grapes"
+      ]
+    },
+    "http": 200,
+    "secs": 3.6,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "nagpur_large_maxprofit",
+    "district": "Nagpur",
+    "land": 40.0,
+    "budget": 1400000,
+    "water": "both",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "onion 11.57",
+    "profit": 397841.0,
+    "roi": 80.45220887107538,
+    "status": "PASS",
+    "reason": "",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds water (declared): 74294 > 38880.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES",
+        "CANAL_NOT_CREDITED"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 3,
+        "official_dataset": 33
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Nagpur, Maharashtra",
+      "n_crops": 3,
+      "excluded": [
+        "grapes",
+        "jowar",
+        "lentil",
+        "maize",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane"
+      ]
+    },
+    "http": 200,
+    "secs": 3.1,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "kolhapur_borewell_sprinkler_maxprofit",
+    "district": "Kolhapur",
+    "land": 8.0,
+    "budget": 280000,
+    "water": "borewell",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "chickpea 5.20, onion 1.90, wheat 0.90",
+    "profit": 30716.0,
+    "roi": 15.43377985910822,
+    "status": "PASS",
+    "reason": "",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds water (declared): 17000 > 9000.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Kolhapur, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "banana",
+        "grapes",
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane"
+      ]
+    },
+    "http": 200,
+    "secs": 3.4,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "jalgaon_edge_tiny_plot",
+    "district": "Jalgaon",
+    "land": 0.25,
+    "budget": 1000,
+    "water": "rainfed",
+    "season": "Rabi",
+    "rec_strategy": "lp_max_profit",
+    "rec_crops": "",
+    "profit": null,
+    "roi": null,
+    "status": "PASS-NOPLAN",
+    "reason": "no plan: suggestion_code=NO_POSITIVE_ALLOCATION params={'reason': 'no_crop_has_positive_expected_margin'}",
+    "fails": [],
+    "notes": [
+      "[traditional] traditional exceeds budget (declared): 6600 > 1000",
+      "[traditional] traditional exceeds water (declared): 668 > 0.0",
+      "[traditional] feasible=false but has allocations"
+    ],
+    "provenance": {
+      "price_status": {
+        "chickpea": "cached",
+        "maize": "cached",
+        "onion": "cached",
+        "wheat": "cached"
+      },
+      "warnings": [
+        "OLD_COST_YEAR",
+        "CACHED_PRICES"
+      ],
+      "data_status": {
+        "live": 1,
+        "cached": 4,
+        "official_dataset": 34
+      },
+      "explanation_provider": "template",
+      "grounded": false,
+      "resolved": "Jalgaon, Maharashtra",
+      "n_crops": 4,
+      "excluded": [
+        "banana",
+        "grapes",
+        "jowar",
+        "lentil",
+        "mango",
+        "orange",
+        "pomegranate",
+        "sugarcane"
+      ]
+    },
+    "http": 200,
+    "secs": 3.5,
+    "unmatched_explanation_numbers": []
+  },
+  {
+    "name": "edge_unsupported_district",
+    "district": "Bengaluru",
+    "land": 3.0,
+    "budget": 50000,
+    "water": "rainfed",
+    "season": "",
+    "rec_strategy": "",
+    "rec_crops": "",
+    "profit": null,
+    "roi": null,
+    "status": "PASS-NOPLAN",
+    "reason": "HTTP 422 (graceful rejection): {\"error\":{\"code\":\"LOCATION_NOT_FOUND\",\"message\":\"We could not find this place in India.\",\"user_message\":{\"mr\":\"हे ठिकाण भारतात सापडले नाही.\",\"hi\":\"यह स्थान भारत में नहीं मिला।\",\"en\":\"We could not find",
+    "fails": [],
+    "notes": [],
+    "provenance": {},
+    "http": 422,
+    "secs": 0.9
+  }
+]
