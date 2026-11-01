@@ -20,9 +20,13 @@ interface SummaryTilesProps {
 export function SummaryTiles({ plan, scenario, loading, compact = false }: SummaryTilesProps) {
   const { t } = useTranslation()
 
+  const gridClass = compact
+    ? 'grid grid-cols-2 gap-2'
+    : 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5'
+
   if (loading || !plan) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5">
+      <div className={gridClass}>
         {[1, 2, 3, 4].map((i) => <SummaryTileSkeleton key={i} />)}
       </div>
     )
@@ -36,8 +40,11 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
   const profitDeltaPct = tradProfit > 0 ? Math.round(((expectedProfit - tradProfit) / tradProfit) * 100) : null
   const profitDeltaRs = expectedProfit - tradProfit
 
-  const waterNeedM3 = plan.water.need_m3.recommended_plan.value
-  const tradWaterM3 = plan.water.need_m3.traditional_plan.value
+  const wb = Array.isArray(plan.water)
+    ? (plan.water.find((w) => w.scenario === scenario) ?? plan.water[0])
+    : plan.water
+  const waterNeedM3 = wb?.need_m3?.recommended_plan?.value ?? 0
+  const tradWaterM3 = wb?.need_m3?.traditional_plan?.value ?? 0
   const waterDeltaPct = tradWaterM3 > 0 ? Math.round(((waterNeedM3 - tradWaterM3) / tradWaterM3) * 100) : null
 
   const cropCount = recommended?.allocations.length ?? plan.crops.length
@@ -61,7 +68,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
         neutral: profitDeltaPct === 0,
       } : null,
       sourceName: 'Agmarknet & CEDA',
-      sourced: plan.impact?.drought_profit_gain_rs ?? plan.water.need_m3.recommended_plan,
+      sourced: plan.impact?.drought_profit_gain_rs ?? wb?.need_m3?.recommended_plan,
     },
     {
       id: 'land',
@@ -104,7 +111,7 @@ export function SummaryTiles({ plan, scenario, loading, compact = false }: Summa
         neutral: waterDeltaPct === 0,
       } : null,
       sourceName: 'FAO-56 & CGWB',
-      sourced: plan.water.need_m3.recommended_plan,
+      sourced: wb?.need_m3?.recommended_plan,
     },
     {
       id: 'crops',

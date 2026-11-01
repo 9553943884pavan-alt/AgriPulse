@@ -3,7 +3,6 @@
  * Charts load via lazy imports (route-level code split).
  */
 
-import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '@/state/store'
@@ -11,14 +10,12 @@ import { SummaryTiles } from '@/features/plan/SummaryTiles'
 import { ScenarioToggle } from '@/components/ScenarioToggle'
 import { SourceBadge } from '@/components/SourceBadge'
 import { MoneyText } from '@/components/MoneyText'
-import { WaterText } from '@/components/WaterText'
 import { QuintalText } from '@/components/QuintalText'
 import { Badge } from '@/components/Badge'
 import { Card, CardHeader } from '@/components/Card'
-import { Skeleton } from '@/components/Skeleton'
 import type { Language } from '@/api/types'
 import {
-  PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
   BarChart, Bar, XAxis, YAxis, CartesianGrid,
 } from 'recharts'
 import { getCropEmoji } from '@/utils/cropEmoji'
@@ -85,12 +82,16 @@ export function DashboardPage() {
     }
   })
 
-  // Water gauge data
-  const waterAvail = plan.water.available_m3
+  // Water budget for active scenario
+  const activeWaterBudget = Array.isArray(plan.water)
+    ? (plan.water.find((w) => w.scenario === selectedScenario) ?? plan.water[0])
+    : plan.water
+  const waterAvail = activeWaterBudget?.available_m3
+  const waterNeed = activeWaterBudget?.need_m3
   const waterGaugeData = [
-    { name: 'Rain', value: waterAvail.rain.value, fill: '#1565C0' },
-    { name: 'Groundwater', value: waterAvail.groundwater.value, fill: '#2E7D32' },
-    { name: 'Canal', value: waterAvail.canal.value, fill: '#F9A825' },
+    { name: 'Rain', value: waterAvail?.rain?.value ?? 0, fill: '#1565C0' },
+    { name: 'Groundwater', value: waterAvail?.groundwater?.value ?? 0, fill: '#2E7D32' },
+    { name: 'Canal', value: waterAvail?.canal?.value ?? 0, fill: '#F9A825' },
   ].filter((d) => d.value > 0)
 
   return (
@@ -130,7 +131,7 @@ export function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center gap-1 bg-green-50 rounded-lg px-3 py-1.5 text-xs font-semibold text-green-700">
-              🌾 {t('units.total_area')} {activeStrategy?.totals?.acres ?? (activeStrategy?.allocations ?? []).reduce((s, a) => s + a.acres, 0)} {t('units.acres')}
+              🌾 {t('units.total_area')} {activeStrategy?.totals?.land_used_acres ?? (activeStrategy?.allocations ?? []).reduce((s, a) => s + a.acres, 0)} {t('units.acres')}
             </div>
           </div>
 
@@ -295,7 +296,7 @@ export function DashboardPage() {
               {/* Centre number */}
               <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center">
                 <span className="text-base font-bold text-gray-800 leading-none">
-                  {((plan.water.available_m3.total.value * 1000) / 100000).toFixed(1)}
+                  {(((waterAvail?.total?.value ?? 0) * 1000) / 100000).toFixed(1)}
                 </span>
                 <span className="text-[10px] text-gray-400">lakh L</span>
               </div>
@@ -306,7 +307,7 @@ export function DashboardPage() {
               <div className="bg-blue-50 rounded-xl px-3 py-2">
                 <p className="text-[10px] text-blue-500 font-medium">{t('dashboard.total_requirement', 'Total Requirement')}</p>
                 <p className="text-sm font-bold text-gray-800">
-                  {((plan.water.need_m3.recommended_plan.value * 1000) / 100000).toFixed(1)} lakh L
+                  {(((waterNeed?.recommended_plan?.value ?? 0) * 1000) / 100000).toFixed(1)} lakh L
                 </p>
               </div>
               <div className="bg-green-50 rounded-xl px-3 py-2">
@@ -314,12 +315,12 @@ export function DashboardPage() {
                   <div>
                     <p className="text-[10px] text-green-600 font-medium">{t('dashboard.available_water', 'Available Water')}</p>
                     <p className="text-sm font-bold text-gray-800">
-                      {((plan.water.available_m3.total.value * 1000) / 100000).toFixed(1)} lakh L
+                      {(((waterAvail?.total?.value ?? 0) * 1000) / 100000).toFixed(1)} lakh L
                     </p>
                   </div>
                   {(() => {
-                    const need  = plan.water.need_m3.recommended_plan.value
-                    const avail = plan.water.available_m3.total.value
+                    const need  = waterNeed?.recommended_plan?.value ?? 0
+                    const avail = waterAvail?.total?.value ?? 0
                     const pct   = need > 0 ? Math.round((avail / need) * 100) : 0
                     return (
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${pct >= 100 ? 'bg-green-200 text-green-800' : 'bg-orange-200 text-orange-800'}`}>
@@ -330,7 +331,7 @@ export function DashboardPage() {
                 </div>
               </div>
               {(() => {
-                const surplus = plan.water.available_m3.total.value - plan.water.need_m3.recommended_plan.value
+                const surplus = (waterAvail?.total?.value ?? 0) - (waterNeed?.recommended_plan?.value ?? 0)
                 return surplus > 0 ? (
                   <div className="bg-teal-50 rounded-xl px-3 py-2">
                     <p className="text-[10px] text-teal-600 font-medium">{t('dashboard.surplus', 'Surplus')}</p>
@@ -355,7 +356,7 @@ export function DashboardPage() {
 
           {/* Info note */}
           {(() => {
-            const surplus = plan.water.available_m3.total.value - plan.water.need_m3.recommended_plan.value
+            const surplus = (waterAvail?.total?.value ?? 0) - (waterNeed?.recommended_plan?.value ?? 0)
             return (
               <div className="mt-3 flex items-start gap-2 bg-blue-50 rounded-xl px-3 py-2">
                 <span className="text-blue-500 text-sm mt-0.5">ℹ️</span>
@@ -370,8 +371,8 @@ export function DashboardPage() {
           })()}
 
           <div className="flex gap-2 mt-2 flex-wrap">
-            <SourceBadge sourced={plan.water.basis.category_cap} compact />
-            <SourceBadge sourced={plan.water.basis.effective_rain_factor} compact />
+            {activeWaterBudget?.basis?.category_cap && <SourceBadge sourced={activeWaterBudget.basis.category_cap} compact />}
+            {activeWaterBudget?.basis?.effective_rain_factor && <SourceBadge sourced={activeWaterBudget.basis.effective_rain_factor} compact />}
           </div>
         </div>
 
@@ -407,7 +408,7 @@ export function DashboardPage() {
                       fill={COST_COLORS[i]}
                       radius={i === COST_KEYS.length - 1 ? [4, 4, 0, 0] : undefined}
                       label={i === COST_KEYS.length - 1
-                        ? { position: 'top', fontSize: 11, fill: '#374151', formatter: (v: number, _: any, index: number) => {
+                        ? { position: 'top', fontSize: 11, fill: '#374151', formatter: (_v: number, _: any, index: number) => {
                             const row = costData[index]
                             if (!row) return ''
                             const total = COST_KEYS.reduce((s, k) => s + (row[k] ?? 0), 0)

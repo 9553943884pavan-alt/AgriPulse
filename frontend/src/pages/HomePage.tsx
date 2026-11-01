@@ -13,16 +13,12 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   Send, Volume2, Copy, ThumbsUp, ThumbsDown, Zap,
-  Sprout, Cloud, BarChart2, Droplets, TrendingUp, IndianRupee,
+  Sprout, Cloud, BarChart2, Droplets, IndianRupee,
 } from 'lucide-react'
 import { MicButton } from '@/features/chat/MicButton'
 import { TraceTimeline } from '@/features/trace/TraceTimeline'
 import { SummaryTiles } from '@/features/plan/SummaryTiles'
-import { Card, CardHeader } from '@/components/Card'
 import { ErrorState } from '@/components/ErrorState'
-import { Badge } from '@/components/Badge'
-import { MoneyText } from '@/components/MoneyText'
-import { SourceBadge } from '@/components/SourceBadge'
 import { useStore } from '@/state/store'
 import { streamChat } from '@/api/sseClient'
 import { apiPostForm } from '@/api/client'
