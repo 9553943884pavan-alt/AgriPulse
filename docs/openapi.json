@@ -1,0 +1,2359 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AgriPulse Backend",
+    "description": "Crop planning API for smallholder farmers in Maharashtra. Every number shown to the farmer carries a source, date and status.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "description": "Deployment check and warm-up ping.\n\nReturns 200 as soon as the app is up. models_loaded and data_files are\nupdated in-place by the lifespan warm-up.",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Health Api Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/schemas/sse-events": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Sse Schemas",
+        "description": "C.4 — exposes every SSE payload as an OpenAPI-visible response model.\n\nOpenAPI cannot describe a stream, so this stub endpoint declares all SSE\nevent shapes so the TypeScript generator picks them up.  The frontend\ngenerates its types from these; it must not hand-write them.",
+        "operationId": "sse_schemas_api_schemas_sse_events_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Sse Schemas Api Schemas Sse Events Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plan": {
+      "post": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "Create Plan",
+        "description": "E2 — Plan from a complete profile, no agent. Target: warm response under 5 s.\n\nexplanation.provider = 'template' (no LLM calls).",
+        "operationId": "create_plan_api_plan_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FarmProfile"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/plans/{plan_id}/reoptimize": {
+      "post": {
+        "tags": [
+          "plan"
+        ],
+        "summary": "Reoptimize",
+        "description": "E3 — Re-solve with new risk/budget/scenario using the stored plan inputs.\nNo external API calls. Target: under 1.5 s.\nWrites changed field back to agent checkpointer so chat follow-ups stay consistent.",
+        "operationId": "reoptimize_api_plans__plan_id__reoptimize_post",
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Plan Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agent/chat": {
+      "post": {
+        "tags": [
+          "agent"
+        ],
+        "summary": "Agent Chat",
+        "description": "E1 — One conversation turn, streamed as SSE.\n\nRequest body:\n  thread_id?      omit on first turn; response creates one\n  message         farmer's text or transcription\n  language?       mr | hi | en  (default: mr)\n  profile_patch?  partial FarmProfile override (card edit, no message needed)\n  district?       pre-fill district if known",
+        "operationId": "agent_chat_api_agent_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/threads/{thread_id}": {
+      "get": {
+        "tags": [
+          "threads"
+        ],
+        "summary": "Get Thread",
+        "description": "E4 — Restore profile + last plan + messages for page reload (F14).",
+        "operationId": "get_thread_api_threads__thread_id__get",
+        "parameters": [
+          {
+            "name": "thread_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Thread Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Get Thread Api Threads  Thread Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transcribe": {
+      "post": {
+        "tags": [
+          "speech"
+        ],
+        "summary": "Transcribe Audio",
+        "description": "E5 — Audio → text + detected language (F1 mic button).\n\nAccepted: webm/ogg/wav/mp3/mp4 (mp4 required for iOS Safari).\nMax size: 10 MB, max duration: 60 s.",
+        "operationId": "transcribe_audio_api_transcribe_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_transcribe_audio_api_transcribe_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Transcribe Audio Api Transcribe Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/speak": {
+      "post": {
+        "tags": [
+          "speech"
+        ],
+        "summary": "Speak Text",
+        "description": "E6 — Text → audio/wav (F10 spoken reply).\n\nReturns audio/wav bytes, or 503 if Sarvam is unavailable\n(frontend falls back to browser speechSynthesis).",
+        "operationId": "speak_text_api_speak_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/prefetch": {
+      "post": {
+        "tags": [
+          "locations"
+        ],
+        "summary": "Prefetch",
+        "description": "E7 — Warm caches for a location while the farmer is still talking (F16).\nFailure here NEVER blocks a plan.",
+        "operationId": "prefetch_api_prefetch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Body"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Prefetch Api Prefetch Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/locations/search": {
+      "get": {
+        "tags": [
+          "locations"
+        ],
+        "summary": "Search Locations",
+        "description": "E8 — Place autocomplete → district suggestions (F17).",
+        "operationId": "search_locations_api_locations_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10,
+              "minimum": 1,
+              "default": 5,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Search Locations Api Locations Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/districts": {
+      "get": {
+        "tags": [
+          "locations"
+        ],
+        "summary": "List Districts",
+        "description": "E9 — All 36 districts with coordinates, groundwater color, is_agricultural (F11 map).",
+        "operationId": "list_districts_api_districts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response List Districts Api Districts Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/districts/{district}/context": {
+      "get": {
+        "tags": [
+          "locations"
+        ],
+        "summary": "District Context",
+        "description": "E10 — Groundwater, reservoirs, recent rain, irrigation for a district (F11 popup).",
+        "operationId": "district_context_api_districts__district__context_get",
+        "parameters": [
+          {
+            "name": "district",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "District"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response District Context Api Districts  District  Context Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sources": {
+      "get": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "List Sources",
+        "description": "E11 — All datasets and APIs with name, publisher, licence, date, type (F12).",
+        "operationId": "list_sources_api_sources_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response List Sources Api Sources Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sources/health": {
+      "get": {
+        "tags": [
+          "sources"
+        ],
+        "summary": "Sources Health",
+        "description": "E12 — Live health status of each external API, cached for 60 s (F12).",
+        "operationId": "sources_health_api_sources_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Sources Health Api Sources Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Allocation": {
+        "properties": {
+          "crop_id": {
+            "type": "string",
+            "title": "Crop Id"
+          },
+          "acres": {
+            "type": "number",
+            "title": "Acres"
+          },
+          "share_pct": {
+            "type": "number",
+            "title": "Share Pct"
+          },
+          "cost_rs": {
+            "type": "number",
+            "title": "Cost Rs"
+          },
+          "water_m3": {
+            "type": "number",
+            "title": "Water M3"
+          },
+          "profit_rs": {
+            "$ref": "#/components/schemas/ProfitByScenario"
+          }
+        },
+        "type": "object",
+        "required": [
+          "crop_id",
+          "acres",
+          "share_pct",
+          "cost_rs",
+          "water_m3",
+          "profit_rs"
+        ],
+        "title": "Allocation"
+      },
+      "Body_transcribe_audio_api_transcribe_post": {
+        "properties": {
+          "audio": {
+            "type": "string",
+            "format": "binary",
+            "title": "Audio"
+          },
+          "language_hint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language Hint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "audio"
+        ],
+        "title": "Body_transcribe_audio_api_transcribe_post"
+      },
+      "ConstraintDetail": {
+        "properties": {
+          "constraint": {
+            "type": "string",
+            "title": "Constraint"
+          },
+          "required_rs": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required Rs"
+          },
+          "available_rs": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available Rs"
+          },
+          "shortfall_rs": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shortfall Rs"
+          },
+          "required_m3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Required M3"
+          },
+          "available_m3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available M3"
+          },
+          "shortfall_m3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shortfall M3"
+          }
+        },
+        "type": "object",
+        "required": [
+          "constraint"
+        ],
+        "title": "ConstraintDetail"
+      },
+      "CostBreakdown": {
+        "properties": {
+          "total_rs": {
+            "type": "number",
+            "title": "Total Rs"
+          },
+          "seed": {
+            "type": "number",
+            "title": "Seed"
+          },
+          "fertilizer": {
+            "type": "number",
+            "title": "Fertilizer"
+          },
+          "manure": {
+            "type": "number",
+            "title": "Manure"
+          },
+          "labour": {
+            "type": "number",
+            "title": "Labour"
+          },
+          "machine": {
+            "type": "number",
+            "title": "Machine"
+          },
+          "irrigation": {
+            "type": "number",
+            "title": "Irrigation"
+          },
+          "pesticide": {
+            "type": "number",
+            "title": "Pesticide"
+          },
+          "interest": {
+            "type": "number",
+            "title": "Interest"
+          },
+          "superseded": {
+            "$ref": "#/components/schemas/SupersededLines"
+          },
+          "reference_year": {
+            "type": "string",
+            "title": "Reference Year"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "cached",
+              "official_dataset",
+              "model",
+              "computed",
+              "farmer_input",
+              "assumption"
+            ],
+            "title": "Status",
+            "default": "official_dataset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_rs",
+          "seed",
+          "fertilizer",
+          "manure",
+          "labour",
+          "machine",
+          "irrigation",
+          "pesticide",
+          "interest",
+          "reference_year",
+          "source"
+        ],
+        "title": "CostBreakdown"
+      },
+      "CropOption": {
+        "properties": {
+          "crop_id": {
+            "type": "string",
+            "title": "Crop Id"
+          },
+          "names": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Names"
+          },
+          "season": {
+            "type": "string",
+            "title": "Season"
+          },
+          "suitability": {
+            "$ref": "#/components/schemas/Suitability"
+          },
+          "yield_quintal_per_acre": {
+            "$ref": "#/components/schemas/YieldByScenario"
+          },
+          "price": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "expected_harvest_price": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "seasonal_ratio": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "duration_days": {
+            "type": "integer",
+            "title": "Duration Days"
+          },
+          "harvest_month": {
+            "type": "string",
+            "title": "Harvest Month"
+          },
+          "opens_on": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opens On"
+          },
+          "msp": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SourcedValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cost_per_acre": {
+            "$ref": "#/components/schemas/CostBreakdown"
+          },
+          "fertilizer": {
+            "$ref": "#/components/schemas/FertilizerPlan"
+          },
+          "water_need_m3_per_acre": {
+            "$ref": "#/components/schemas/WaterNeed"
+          },
+          "profit_rs_per_acre": {
+            "$ref": "#/components/schemas/ProfitByScenario"
+          }
+        },
+        "type": "object",
+        "required": [
+          "crop_id",
+          "names",
+          "season",
+          "suitability",
+          "yield_quintal_per_acre",
+          "price",
+          "expected_harvest_price",
+          "seasonal_ratio",
+          "duration_days",
+          "harvest_month",
+          "cost_per_acre",
+          "fertilizer",
+          "water_need_m3_per_acre",
+          "profit_rs_per_acre"
+        ],
+        "title": "CropOption"
+      },
+      "DataStatus": {
+        "properties": {
+          "live": {
+            "type": "integer",
+            "title": "Live"
+          },
+          "cached": {
+            "type": "integer",
+            "title": "Cached"
+          },
+          "official_dataset": {
+            "type": "integer",
+            "title": "Official Dataset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "live",
+          "cached",
+          "official_dataset"
+        ],
+        "title": "DataStatus"
+      },
+      "DefaultUsed": {
+        "properties": {
+          "field": {
+            "type": "string",
+            "title": "Field"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Value"
+          },
+          "basis": {
+            "type": "string",
+            "title": "Basis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "field",
+          "value",
+          "basis"
+        ],
+        "title": "DefaultUsed"
+      },
+      "ExcludedCrop": {
+        "properties": {
+          "crop_id": {
+            "type": "string",
+            "title": "Crop Id"
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "NO_REAL_PRICE",
+              "NO_YIELD_DATA",
+              "NOT_SOWABLE_NOW",
+              "NOT_GROWN_IN_DISTRICT",
+              "WATER_INFEASIBLE",
+              "OVER_BUDGET"
+            ],
+            "title": "Reason Code"
+          },
+          "params": {
+            "type": "object",
+            "title": "Params"
+          }
+        },
+        "type": "object",
+        "required": [
+          "crop_id",
+          "reason_code"
+        ],
+        "title": "ExcludedCrop"
+      },
+      "Explanation": {
+        "properties": {
+          "language": {
+            "type": "string",
+            "enum": [
+              "mr",
+              "hi",
+              "en"
+            ],
+            "title": "Language"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "key_points": {
+            "items": {
+              "$ref": "#/components/schemas/KeyPoint"
+            },
+            "type": "array",
+            "title": "Key Points"
+          },
+          "grounded": {
+            "type": "boolean",
+            "title": "Grounded"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          }
+        },
+        "type": "object",
+        "required": [
+          "language",
+          "text",
+          "key_points",
+          "grounded",
+          "provider"
+        ],
+        "title": "Explanation"
+      },
+      "FarmProfile": {
+        "properties": {
+          "location_text": {
+            "type": "string",
+            "title": "Location Text"
+          },
+          "land_acres": {
+            "type": "number",
+            "title": "Land Acres"
+          },
+          "budget_rs": {
+            "type": "number",
+            "title": "Budget Rs"
+          },
+          "water_source": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "rainfed",
+                  "borewell",
+                  "canal",
+                  "both"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Water Source"
+          },
+          "borewell_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Borewell Count"
+          },
+          "borewell_yield_lph": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Borewell Yield Lph"
+          },
+          "pump_hours_per_day": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pump Hours Per Day"
+          },
+          "canal_access": {
+            "type": "boolean",
+            "title": "Canal Access",
+            "default": false
+          },
+          "irrigation_method": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "flood",
+                  "sprinkler",
+                  "drip"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Irrigation Method"
+          },
+          "risk_appetite": {
+            "type": "string",
+            "enum": [
+              "safe",
+              "balanced",
+              "max_profit"
+            ],
+            "title": "Risk Appetite",
+            "default": "balanced"
+          },
+          "soil_test": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SoilTest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "mr",
+              "hi",
+              "en"
+            ],
+            "title": "Language",
+            "default": "en"
+          },
+          "missing": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "location_text",
+                "land_acres",
+                "budget_rs"
+              ]
+            },
+            "type": "array",
+            "title": "Missing"
+          },
+          "defaults_used": {
+            "items": {
+              "$ref": "#/components/schemas/DefaultUsed"
+            },
+            "type": "array",
+            "title": "Defaults Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "location_text",
+          "land_acres",
+          "budget_rs"
+        ],
+        "title": "FarmProfile"
+      },
+      "FertilizerPlan": {
+        "properties": {
+          "n_kg_per_acre": {
+            "type": "number",
+            "title": "N Kg Per Acre"
+          },
+          "p2o5_kg_per_acre": {
+            "type": "number",
+            "title": "P2O5 Kg Per Acre"
+          },
+          "k2o_kg_per_acre": {
+            "type": "number",
+            "title": "K2O Kg Per Acre"
+          },
+          "urea_bags": {
+            "type": "number",
+            "title": "Urea Bags"
+          },
+          "dap_bags": {
+            "type": "number",
+            "title": "Dap Bags"
+          },
+          "mop_bags": {
+            "type": "number",
+            "title": "Mop Bags"
+          },
+          "cost_rs": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "basis": {
+            "type": "string",
+            "title": "Basis",
+            "default": "university recommended dose (RDF)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "n_kg_per_acre",
+          "p2o5_kg_per_acre",
+          "k2o_kg_per_acre",
+          "urea_bags",
+          "dap_bags",
+          "mop_bags",
+          "cost_rs"
+        ],
+        "title": "FertilizerPlan"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Impact": {
+        "properties": {
+          "water_saved_pct": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "fertilizer_saved_pct": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "fertilizer_vs_district_use_pct": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SourcedValue"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "drought_profit_gain_rs": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "versus": {
+            "type": "string",
+            "const": "traditional",
+            "title": "Versus",
+            "default": "traditional"
+          },
+          "traditional_exceeds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Traditional Exceeds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "water_saved_pct",
+          "fertilizer_saved_pct",
+          "drought_profit_gain_rs",
+          "traditional_exceeds"
+        ],
+        "title": "Impact"
+      },
+      "Infeasibility": {
+        "properties": {
+          "binding": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Binding"
+          },
+          "violated": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Violated"
+          },
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ConstraintDetail"
+            },
+            "type": "array",
+            "title": "Detail"
+          },
+          "relaxations_tried": {
+            "items": {
+              "$ref": "#/components/schemas/RelaxationTried"
+            },
+            "type": "array",
+            "title": "Relaxations Tried"
+          },
+          "suggestion_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggestion Code"
+          },
+          "suggestion_params": {
+            "type": "object",
+            "title": "Suggestion Params"
+          }
+        },
+        "type": "object",
+        "required": [
+          "binding",
+          "violated",
+          "detail",
+          "relaxations_tried"
+        ],
+        "title": "Infeasibility"
+      },
+      "KeyPoint": {
+        "properties": {
+          "icon": {
+            "type": "string",
+            "enum": [
+              "wheat",
+              "droplets",
+              "cloud-rain",
+              "sun",
+              "coins",
+              "trending-up",
+              "trending-down",
+              "map-pin",
+              "alert-triangle",
+              "badge-check"
+            ],
+            "title": "Icon"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "icon",
+          "text"
+        ],
+        "title": "KeyPoint"
+      },
+      "Location": {
+        "properties": {
+          "input": {
+            "type": "string",
+            "title": "Input"
+          },
+          "resolved_name": {
+            "type": "string",
+            "title": "Resolved Name"
+          },
+          "district": {
+            "type": "string",
+            "title": "District"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "latitude": {
+            "type": "number",
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "title": "Longitude"
+          }
+        },
+        "type": "object",
+        "required": [
+          "input",
+          "resolved_name",
+          "district",
+          "state",
+          "latitude",
+          "longitude"
+        ],
+        "title": "Location"
+      },
+      "PlanResult": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "title": "Plan Id"
+          },
+          "thread_id": {
+            "type": "string",
+            "title": "Thread Id"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "previous_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous Version"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/FarmProfile"
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "season": {
+            "$ref": "#/components/schemas/Season"
+          },
+          "scenarios": {
+            "items": {
+              "$ref": "#/components/schemas/Scenario"
+            },
+            "type": "array",
+            "title": "Scenarios"
+          },
+          "crops": {
+            "items": {
+              "$ref": "#/components/schemas/CropOption"
+            },
+            "type": "array",
+            "title": "Crops"
+          },
+          "excluded_crops": {
+            "items": {
+              "$ref": "#/components/schemas/ExcludedCrop"
+            },
+            "type": "array",
+            "title": "Excluded Crops"
+          },
+          "water": {
+            "items": {
+              "$ref": "#/components/schemas/WaterBudget"
+            },
+            "type": "array",
+            "title": "Water"
+          },
+          "strategies": {
+            "items": {
+              "$ref": "#/components/schemas/StrategyResult"
+            },
+            "type": "array",
+            "title": "Strategies"
+          },
+          "recommended_strategy": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "traditional",
+                  "lp_max_profit",
+                  "qp_balanced",
+                  "qp_drought_safe"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommended Strategy"
+          },
+          "impact": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Impact"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "infeasibility": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Infeasibility"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "explanation": {
+            "$ref": "#/components/schemas/Explanation"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "data_status": {
+            "$ref": "#/components/schemas/DataStatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "plan_id",
+          "thread_id",
+          "version",
+          "created_at",
+          "profile",
+          "location",
+          "season",
+          "scenarios",
+          "crops",
+          "excluded_crops",
+          "water",
+          "strategies",
+          "explanation",
+          "warnings",
+          "data_status"
+        ],
+        "title": "PlanResult"
+      },
+      "ProfitByScenario": {
+        "properties": {
+          "drought": {
+            "type": "number",
+            "title": "Drought"
+          },
+          "normal": {
+            "type": "number",
+            "title": "Normal"
+          },
+          "excess": {
+            "type": "number",
+            "title": "Excess"
+          }
+        },
+        "type": "object",
+        "required": [
+          "drought",
+          "normal",
+          "excess"
+        ],
+        "title": "ProfitByScenario"
+      },
+      "RelaxationApplied": {
+        "properties": {
+          "step": {
+            "type": "string",
+            "enum": [
+              "CAP_TO_1",
+              "REDUCE_AREA",
+              "DROP_WATER_HUNGRY_CROP",
+              "USE_NORMAL_SCENARIO_WATER"
+            ],
+            "title": "Step"
+          },
+          "params": {
+            "type": "object",
+            "title": "Params"
+          }
+        },
+        "type": "object",
+        "required": [
+          "step"
+        ],
+        "title": "RelaxationApplied"
+      },
+      "RelaxationTried": {
+        "properties": {
+          "step": {
+            "type": "string",
+            "title": "Step"
+          },
+          "result": {
+            "type": "string",
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "step",
+          "result"
+        ],
+        "title": "RelaxationTried"
+      },
+      "Scenario": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "drought",
+              "normal",
+              "excess"
+            ],
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "season_rain_mm": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "probability": {
+            "type": "number",
+            "title": "Probability"
+          },
+          "analogue_year": {
+            "type": "integer",
+            "title": "Analogue Year"
+          },
+          "all_year_samples": {
+            "items": {
+              "$ref": "#/components/schemas/SourcedValue"
+            },
+            "type": "array",
+            "title": "All Year Samples"
+          },
+          "rainfall_mm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rainfall Mm"
+          },
+          "et0_mm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Et0 Mm"
+          },
+          "rainy_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rainy Days"
+          },
+          "max_dry_spell_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Dry Spell Days"
+          },
+          "mean_temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Temp C"
+          },
+          "max_temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Temp C"
+          },
+          "heat_stress_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Heat Stress Days"
+          },
+          "mean_humidity_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Humidity Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "season_rain_mm",
+          "probability",
+          "analogue_year"
+        ],
+        "title": "Scenario"
+      },
+      "Season": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "sowing_window": {
+            "$ref": "#/components/schemas/SowingWindow"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "cached",
+              "official_dataset",
+              "model",
+              "computed",
+              "farmer_input",
+              "assumption"
+            ],
+            "title": "Status",
+            "default": "official_dataset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "sowing_window"
+        ],
+        "title": "Season"
+      },
+      "SoilTest": {
+        "properties": {
+          "n": {
+            "type": "number",
+            "title": "N"
+          },
+          "p": {
+            "type": "number",
+            "title": "P"
+          },
+          "k": {
+            "type": "number",
+            "title": "K"
+          },
+          "ph": {
+            "type": "number",
+            "title": "Ph"
+          }
+        },
+        "type": "object",
+        "required": [
+          "n",
+          "p",
+          "k",
+          "ph"
+        ],
+        "title": "SoilTest"
+      },
+      "SolverInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "ms": {
+            "type": "integer",
+            "title": "Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "status",
+          "ms"
+        ],
+        "title": "SolverInfo"
+      },
+      "SourcedValue": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Value"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url",
+            "default": ""
+          },
+          "as_of": {
+            "type": "string",
+            "title": "As Of"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "cached",
+              "official_dataset",
+              "model",
+              "computed",
+              "farmer_input",
+              "assumption"
+            ],
+            "title": "Status"
+          },
+          "history_years": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "History Years"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value",
+          "unit",
+          "source",
+          "as_of",
+          "status"
+        ],
+        "title": "SourcedValue",
+        "description": "A single numeric value with full provenance."
+      },
+      "SowingWindow": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end"
+        ],
+        "title": "SowingWindow"
+      },
+      "StrategyResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "traditional",
+              "lp_max_profit",
+              "qp_balanced",
+              "qp_drought_safe"
+            ],
+            "title": "Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "traditional",
+              "lp",
+              "qp"
+            ],
+            "title": "Kind"
+          },
+          "risk_lambda": {
+            "type": "number",
+            "title": "Risk Lambda"
+          },
+          "safety_scenario": {
+            "type": "string",
+            "enum": [
+              "drought",
+              "normal",
+              "excess"
+            ],
+            "title": "Safety Scenario"
+          },
+          "allocations": {
+            "items": {
+              "$ref": "#/components/schemas/Allocation"
+            },
+            "type": "array",
+            "title": "Allocations"
+          },
+          "totals": {
+            "$ref": "#/components/schemas/StrategyTotals"
+          },
+          "profit_by_scenario_rs": {
+            "$ref": "#/components/schemas/ProfitByScenario"
+          },
+          "expected_profit_rs": {
+            "type": "number",
+            "title": "Expected Profit Rs"
+          },
+          "worst_case_profit_rs": {
+            "type": "number",
+            "title": "Worst Case Profit Rs"
+          },
+          "feasible": {
+            "type": "boolean",
+            "title": "Feasible"
+          },
+          "binding_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Binding Constraints"
+          },
+          "relaxations_applied": {
+            "items": {
+              "$ref": "#/components/schemas/RelaxationApplied"
+            },
+            "type": "array",
+            "title": "Relaxations Applied"
+          },
+          "solver": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SolverInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "infeasibility": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Infeasibility"
+          },
+          "traditional_exceeds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Traditional Exceeds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "kind",
+          "risk_lambda",
+          "safety_scenario",
+          "allocations",
+          "totals",
+          "profit_by_scenario_rs",
+          "expected_profit_rs",
+          "worst_case_profit_rs",
+          "feasible",
+          "binding_constraints"
+        ],
+        "title": "StrategyResult"
+      },
+      "StrategyTotals": {
+        "properties": {
+          "land_used_acres": {
+            "type": "number",
+            "title": "Land Used Acres"
+          },
+          "budget_used_rs": {
+            "type": "number",
+            "title": "Budget Used Rs"
+          },
+          "fertilizer_kg": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Fertilizer Kg"
+          },
+          "water_m3": {
+            "type": "number",
+            "title": "Water M3"
+          }
+        },
+        "type": "object",
+        "required": [
+          "land_used_acres",
+          "budget_used_rs",
+          "fertilizer_kg",
+          "water_m3"
+        ],
+        "title": "StrategyTotals"
+      },
+      "Suitability": {
+        "properties": {
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "label": {
+            "type": "string",
+            "enum": [
+              "good",
+              "average",
+              "poor"
+            ],
+            "title": "Label"
+          },
+          "top_factors": {
+            "items": {
+              "$ref": "#/components/schemas/SuitabilityFactor"
+            },
+            "type": "array",
+            "title": "Top Factors"
+          },
+          "fallback_used": {
+            "type": "boolean",
+            "title": "Fallback Used",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "score",
+          "label",
+          "top_factors"
+        ],
+        "title": "Suitability"
+      },
+      "SuitabilityFactor": {
+        "properties": {
+          "feature": {
+            "type": "string",
+            "enum": [
+              "season_rainfall_mm",
+              "rainfall_departure_pct",
+              "rainy_days",
+              "max_dry_spell_days",
+              "mean_temp_c",
+              "max_temp_c",
+              "heat_stress_days",
+              "et0_total_mm",
+              "mean_humidity_pct",
+              "soil_n_kg_ha",
+              "soil_p_kg_ha",
+              "soil_k_kg_ha",
+              "soil_ph",
+              "organic_carbon_pct",
+              "irrigated_pct",
+              "fertilizer_use_kg_per_ha"
+            ],
+            "title": "Feature"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "effect_quintal_per_acre": {
+            "type": "number",
+            "title": "Effect Quintal Per Acre"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down"
+            ],
+            "title": "Direction"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feature",
+          "value",
+          "unit",
+          "effect_quintal_per_acre",
+          "direction"
+        ],
+        "title": "SuitabilityFactor"
+      },
+      "SupersededLines": {
+        "properties": {
+          "seed_des": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed Des"
+          },
+          "fertilizer_des": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fertilizer Des"
+          }
+        },
+        "type": "object",
+        "title": "SupersededLines",
+        "description": "DES 2022-23 lines that were replaced by live sources."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Warning": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "CACHED_PRICES",
+              "CACHED_WEATHER",
+              "ASSUMED_IRRIGATION",
+              "ASSUMED_BOREWELL",
+              "DISTRICT_AVERAGE_SOIL",
+              "OLD_COST_YEAR",
+              "PRICE_NOT_ADJUSTED",
+              "SINGLE_CROP_ELIGIBLE",
+              "SINGLE_SEASON_COMPARISON"
+            ],
+            "title": "Code"
+          },
+          "params": {
+            "type": "object",
+            "title": "Params"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "title": "Warning"
+      },
+      "WaterAvailable": {
+        "properties": {
+          "rain": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "groundwater": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "canal": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "total": {
+            "$ref": "#/components/schemas/SourcedValue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rain",
+          "groundwater",
+          "canal",
+          "total"
+        ],
+        "title": "WaterAvailable"
+      },
+      "WaterBasis": {
+        "properties": {
+          "groundwater_category": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "category_cap": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "effective_rain_factor": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "reservoir_storage_pct": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "rain_so_far_mm": {
+            "$ref": "#/components/schemas/SourcedValue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "groundwater_category",
+          "category_cap",
+          "effective_rain_factor",
+          "reservoir_storage_pct",
+          "rain_so_far_mm"
+        ],
+        "title": "WaterBasis"
+      },
+      "WaterBudget": {
+        "properties": {
+          "scenario": {
+            "type": "string",
+            "enum": [
+              "drought",
+              "normal",
+              "excess"
+            ],
+            "title": "Scenario"
+          },
+          "analogue_year": {
+            "type": "integer",
+            "title": "Analogue Year"
+          },
+          "available_m3": {
+            "$ref": "#/components/schemas/WaterAvailable"
+          },
+          "basis": {
+            "$ref": "#/components/schemas/WaterBasis"
+          },
+          "irrigation_method": {
+            "type": "string",
+            "title": "Irrigation Method"
+          },
+          "efficiency_pct": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "need_m3": {
+            "$ref": "#/components/schemas/WaterNeedSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scenario",
+          "analogue_year",
+          "available_m3",
+          "basis",
+          "irrigation_method",
+          "efficiency_pct",
+          "need_m3"
+        ],
+        "title": "WaterBudget"
+      },
+      "WaterNeed": {
+        "properties": {
+          "drought": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "normal": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "excess": {
+            "$ref": "#/components/schemas/SourcedValue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "drought",
+          "normal",
+          "excess"
+        ],
+        "title": "WaterNeed"
+      },
+      "WaterNeedSummary": {
+        "properties": {
+          "traditional_plan": {
+            "$ref": "#/components/schemas/SourcedValue"
+          },
+          "recommended_plan": {
+            "$ref": "#/components/schemas/SourcedValue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "traditional_plan",
+          "recommended_plan"
+        ],
+        "title": "WaterNeedSummary"
+      },
+      "YieldByScenario": {
+        "properties": {
+          "drought": {
+            "type": "number",
+            "title": "Drought"
+          },
+          "normal": {
+            "type": "number",
+            "title": "Normal"
+          },
+          "excess": {
+            "type": "number",
+            "title": "Excess"
+          }
+        },
+        "type": "object",
+        "required": [
+          "drought",
+          "normal",
+          "excess"
+        ],
+        "title": "YieldByScenario"
+      }
+    }
+  }
+}

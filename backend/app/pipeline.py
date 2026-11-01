@@ -76,7 +76,8 @@ async def run_plan(profile: FarmProfile, thread_id: str | None = None, plan_id: 
 
     # ── Stage 3: Weather ──────────────────────────────────────────────────────
     weather = await wx_svc.get_weather(location)
-    if not weather:
+    is_cached_wx = not weather or any(getattr(sv, "status", "") == "cached" for sv in weather.values())
+    if is_cached_wx:
         warnings.append(Warning(code="CACHED_WEATHER", params={"district": location.district}))
 
     # ── Stages 4–8: ML pipeline (stubs for now) ───────────────────────────────

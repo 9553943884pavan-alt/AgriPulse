@@ -1,4 +1,4 @@
-﻿# Backend SPECS: Data Layer, Services and API
+# Backend SPECS: Data Layer, Services and API
 
 **Owner:** Teammate A. Note that `backend/app/ml` and `backend/app/agent` sit in this tree but are **written and owned by the ML lead**; everything else here is Teammate A's. Whoever owns the file with the failing line fixes it; if that is unclear, the person whose test went red first opens the pull request and tags the other.
 
@@ -451,7 +451,7 @@ Rows reference the **feature ids** `F1`-`F18` in [`frontend/SPECS.md`](../fronte
 | ID | Task | Done when | Dependency | Status |
 |---|---|---|---|---|
 | C.1 | `schemas.py` with every type in section 5.1 **and** every type the ML interface uses, so nothing is referenced but undefined: `SourcedValue`, `FarmProfile`, `Location`, `Season`, `Scenario` (incl. `analogue_year` and the all-year samples), `Candidate`, `ExcludedCrop`, `CropOption`, `Suitability`, `SuitabilityFactor`, `YieldPrediction`, `WaterNeed`, `WaterBudget`, `FertilizerPlan`, `CostBreakdown`, `Allocation`, `OptimizerInputs`, `StrategyResult`, `Infeasibility`, `Impact`, `PlanResult`, `TraceEvent`, `ChatMessage`, `Message` (code + params), `Error` | Reviewed by all three; no type is used anywhere without being defined here | P0.5 | ✅ |
-| C.2 | `docs/API_CONTRACT.md` generated from the OpenAPI file, **plus two example sets**: `docs/api_examples/contract/` (hand-written by the three of us at C.1 time, so the frontend is never blocked) and `docs/api_examples/live/` (captured from a real run as soon as M2 lands, and then the only set the frontend uses). Contract examples are an interface agreement, not product data, so they do not break the no-mock-data rule; they must never be bundled into a build | Frontend can build every screen from the contract set on day 1, and switches to the live set at M2 | C.1 | ⬜ |
+| C.2 | `docs/API_CONTRACT.md` generated from the OpenAPI file, **plus two example sets**: `docs/api_examples/contract/` (hand-written by the three of us at C.1 time, so the frontend is never blocked) and `docs/api_examples/live/` (captured from a real run as soon as M2 lands, and then the only set the frontend uses). Contract examples are an interface agreement, not product data, so they do not break the no-mock-data rule; they must never be bundled into a build | Frontend can build every screen from the contract set on day 1, and switches to the live set at M2 | C.1 | ✅ |
 | C.4 | **SSE payloads are in the OpenAPI file too.** `TraceEvent`, `PlanResult`, `question`, `message` and `done` are declared as response models of a documented, non-streaming endpoint `GET /api/schemas/sse-events` that returns one example of each. OpenAPI cannot describe a stream, so without this the frontend would have to hand-write the types it parses, which its rule 4 forbids | The generated TypeScript types include every SSE payload | C.1 | ✅ |
 | C.3 | Function stubs for ML calls (signatures in [`ml/SPECS.md`](../ml/SPECS.md) section 10) that raise `NotImplementedError` | Merged before ML code | C.1 | ✅ |
 
@@ -497,8 +497,8 @@ C.2, C.3 and C.4 may be done in parallel after C.1 merges. No feature work may s
 ### 7.5 Quality and deployment
 | ID | Task | Done when | Status |
 |---|---|---|---|
-| QA.1 | Benchmark script: latency per stage on 5 saved real profiles | Warm plan under 5 s | ⬜ |
-| QA.2 | Failure drills: turn off each external API in turn | App still answers with cached real data and clear warnings | ⬜ |
+| QA.1 | Benchmark script: latency per stage on 5 saved real profiles | Warm plan under 5 s | ✅ |
+| QA.2 | Failure drills: turn off each external API in turn | App still answers with cached real data and clear warnings | ✅ |
 | DD.1 | Deploy backend (D4); secrets set in the host, not in code; warm-up ping scheduled before judging. **Attach a persistent volume** for `CACHE_DB_PATH` (otherwise the cached-real-data fallback is empty after every restart, exactly when the demo needs it), and make sure the model files are actually deployed: they are committed with git-lfs, never git-ignored, because an ignored file never reaches the host | Public URL works from a phone; a restart keeps the cache; `/api/health` reports `models_loaded: true` | ⬜ |
 
 ---

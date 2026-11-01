@@ -1,9 +1,9 @@
 {
-  "plan_id": "pl_153ff3b435704c55af591c9a6bd9b610",
-  "thread_id": "th_3726bf2ab01245509f9072c5ff3b3516",
+  "plan_id": "pl_4c56c0ae4b314c269757415d4404450b",
+  "thread_id": "th_6ab94f70c6d943a5afab070269cf3449",
   "version": 1,
   "previous_version": null,
-  "created_at": "2026-11-01T17:26:06.668392Z",
+  "created_at": "2026-11-01T18:02:14.719366Z",
   "profile": {
     "location_text": "Nagpur",
     "land_acres": 40.0,
@@ -2091,8 +2091,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (0 ms)",
-        "ms": 0
+        "status": "optimal (15 ms)",
+        "ms": 15
       },
       "infeasibility": null,
       "traditional_exceeds": []
@@ -2208,8 +2208,8 @@
       "relaxations_applied": [],
       "solver": {
         "name": "HiGHS",
-        "status": "optimal (15 ms); risk QP disabled: no validated joint crop-profit history",
-        "ms": 15
+        "status": "optimal (0 ms); risk QP disabled: no validated joint crop-profit history",
+        "ms": 0
       },
       "infeasibility": null,
       "traditional_exceeds": []
