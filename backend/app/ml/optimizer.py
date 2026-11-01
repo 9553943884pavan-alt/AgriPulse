@@ -197,10 +197,11 @@ def _solve_lp(vecs: dict, safety_scenario: str = "normal") -> tuple[np.ndarray |
     # Budget: Σ cost_i * xᵢ ≤ B
     rows.append(vecs["cost"])
     rhs.append(B)
-    # Water: Σ water_i(s*) * xᵢ ≤ W(s*)
-    si = _SCEN_IDX[safety_scenario]
-    rows.append(vecs["water_by_s"][si])
-    rhs.append(W_s)
+    # Water: Σ water_i(s*) * xᵢ ≤ W(s*) (only if finite water limit)
+    if W_s is not None and not np.isinf(W_s) and not np.isnan(W_s):
+        si = _SCEN_IDX[safety_scenario]
+        rows.append(vecs["water_by_s"][si])
+        rhs.append(W_s)
     # Diversification cap: xᵢ ≤ cap * L  for each crop
     for i in range(n):
         r = np.zeros(n)
@@ -264,8 +265,9 @@ def _solve_qp(
     constraints = [
         cp.sum(x) <= L,                          # land
         vecs["cost"] @ x <= B,                   # budget
-        vecs["water_by_s"][_SCEN_IDX[safety_scenario]] @ x <= W_s,  # water
     ]
+    if W_s is not None and not np.isinf(W_s) and not np.isnan(W_s):
+        constraints.append(vecs["water_by_s"][_SCEN_IDX[safety_scenario]] @ x <= W_s)
     # Diversification cap
     for i in range(n):
         constraints.append(x[i] <= cap * L)

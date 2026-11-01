@@ -431,18 +431,21 @@ def _build_fallback_season() -> Season:
 # recommend_crops — calls ML stubs, no LLM
 # ─────────────────────────────────────────────────────────────────────────────
 
-def recommend_crops_node(state: dict) -> dict:
+async def recommend_crops_node(state: dict) -> dict:
     from app.agent import tools
+    from app.ml.candidate_options import build_crop_options
     trace = list(state.get("trace", []))
     profile: FarmProfile = state["profile"]
     location: Location = state["location"]
     season: Season = state.get("season") or _build_fallback_season()
     water: list = state.get("water", [])
+    scenarios: list = state.get("scenarios", [])
 
     try:
-        candidates, excluded = tools.recommend_crops(profile, location, season, water)
-        trace.append(_trace("recommend_crops", "ml1", "ok", f"{len(candidates)} candidates, {len(excluded)} excluded"))
-        return {"candidates": candidates, "excluded": excluded, "trace": trace}
+        raw_candidates, excluded = tools.recommend_crops(profile, location, season, water)
+        crop_options = await build_crop_options(raw_candidates, scenarios, location, season, profile)
+        trace.append(_trace("recommend_crops", "ml1", "ok", f"{len(crop_options)} candidates, {len(excluded)} excluded"))
+        return {"candidates": crop_options, "excluded": excluded, "trace": trace}
     except NotImplementedError:
         trace.append(_trace("recommend_crops", "ml1", "skipped", "ML stub not implemented"))
         return {"candidates": [], "excluded": [], "no_data": True, "trace": trace}
@@ -823,10 +826,26 @@ async def answer_from_memory_node(state: dict) -> dict:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# save_memory — persist state to checkpointer (LangGraph does this automatically;
-# this node is a no-op hook for any extra app-level persistence)
+# save_memory — persist state to checkpointer and cache
 # ─────────────────────────────────────────────────────────────────────────────
 
 async def save_memory_node(state: dict) -> dict:
-    """LangGraph saves state automatically. This node is a no-op."""
-    return {}
+    """Persist conversation and plan to SQLite cache and return state update."""
+    from app.core.cache import get_cache
+    thread_id = state.get("thread_id", "")
+    plan = state.get("plan_result")
+    profile = state.get("profile")
+
+    if thread_id and plan:
+        try:
+            cache = await get_cache()
+            plan_data = plan.model_dump(mode="json") if hasattr(plan, "model_dump") else plan
+            await cache.set_plan(plan.plan_id, plan_data)
+            if profile:
+                profile_data = profile.model_dump(mode="json") if hasattr(profile, "model_dump") else profile
+                await cache.set_memory(thread_id, "profile", profile_data)
+            await cache.set_memory(thread_id, "plan", plan_data)
+        except Exception as exc:
+            logger.warning("save_memory failed to write to cache: %s", exc)
+
+    return {"thread_id": thread_id}

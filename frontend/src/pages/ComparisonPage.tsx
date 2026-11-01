@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Star } from 'lucide-react'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, Legend,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts'
 import { useStore } from '@/state/store'
 import { ScenarioToggle } from '@/components/ScenarioToggle'
@@ -45,50 +45,56 @@ export function ComparisonPage() {
   }
 
   // Bar chart data for each metric
-  const profitData = plan.strategies.map((s) => ({
+  const profitData = (plan.strategies ?? []).map((s) => ({
     name: t(`strategies.${s.id}`),
-    value: s.profit_by_scenario_rs[selectedScenario],
-    color: STRATEGY_COLORS[s.id],
+    value: s.profit_by_scenario_rs?.[selectedScenario] ?? 0,
+    color: STRATEGY_COLORS[s.id] ?? '#78909C',
   }))
 
-  const worstData = plan.strategies.map((s) => ({
+  const worstData = (plan.strategies ?? []).map((s) => ({
     name: t(`strategies.${s.id}`),
-    value: s.worst_case_profit_rs,
-    color: STRATEGY_COLORS[s.id],
+    value: s.worst_case_profit_rs ?? 0,
+    color: STRATEGY_COLORS[s.id] ?? '#78909C',
   }))
 
-  const waterData = plan.strategies.map((s) => ({
+  const waterData = (plan.strategies ?? []).map((s) => ({
     name: t(`strategies.${s.id}`),
-    value: Math.round(s.totals.water_m3 / 1000), // m³ → thousands
-    color: STRATEGY_COLORS[s.id],
+    value: Math.round((s.totals?.water_m3 ?? 0) / 1000), // m³ → thousands
+    color: STRATEGY_COLORS[s.id] ?? '#78909C',
   }))
 
-  const fertData = plan.strategies.map((s) => ({
-    name: t(`strategies.${s.id}`),
-    value: s.totals.fertilizer_kg.n + s.totals.fertilizer_kg.p2o5 + s.totals.fertilizer_kg.k2o,
-    color: STRATEGY_COLORS[s.id],
-  }))
+  const fertData = (plan.strategies ?? []).map((s) => {
+    const f = s.totals?.fertilizer_kg
+    const totalFert = typeof f === 'object' && f !== null
+      ? ((f.n ?? 0) + (f.p2o5 ?? 0) + (f.k2o ?? 0))
+      : (typeof f === 'number' ? f : 0)
+    return {
+      name: t(`strategies.${s.id}`),
+      value: totalFert,
+      color: STRATEGY_COLORS[s.id] ?? '#78909C',
+    }
+  })
 
   // Scenario summary for selected strategy
-  const summaryStrategy = plan.strategies.find((s) => s.id === (selectedStrategy ?? plan.recommended_strategy))
+  const summaryStrategy = (plan.strategies ?? []).find((s) => s.id === (selectedStrategy ?? plan.recommended_strategy)) ?? plan.strategies?.[0]
 
   // Auto-generate insights from data comparisons (not free text)
   const insights: string[] = []
-  const qpB = plan.strategies.find((s) => s.id === 'qp_balanced')
-  const qpD = plan.strategies.find((s) => s.id === 'qp_drought_safe')
-  const lp = plan.strategies.find((s) => s.id === 'lp_max_profit')
-  const trad = plan.strategies.find((s) => s.id === 'traditional')
+  const qpB = plan.strategies?.find((s) => s.id === 'qp_balanced')
+  const qpD = plan.strategies?.find((s) => s.id === 'qp_drought_safe')
+  const lp = plan.strategies?.find((s) => s.id === 'lp_max_profit')
+  const trad = plan.strategies?.find((s) => s.id === 'traditional')
 
-  if (qpB && trad && qpB.expected_profit_rs > trad.expected_profit_rs) {
+  if (qpB && trad && (qpB.expected_profit_rs ?? 0) > (trad.expected_profit_rs ?? 0) && trad.expected_profit_rs > 0) {
     insights.push(`QP Balanced gives ${Math.round(((qpB.expected_profit_rs - trad.expected_profit_rs) / trad.expected_profit_rs) * 100)}% more expected profit than Traditional.`)
   }
-  if (qpD && lp && qpD.worst_case_profit_rs > lp.worst_case_profit_rs) {
+  if (qpD && lp && (qpD.worst_case_profit_rs ?? 0) > (lp.worst_case_profit_rs ?? 0)) {
     insights.push('QP Drought-Safe performs best in low rainfall conditions (highest worst-year profit).')
   }
-  if (lp && qpB && lp.totals.water_m3 > qpB.totals.water_m3) {
+  if (lp && qpB && (lp.totals?.water_m3 ?? 0) > (qpB.totals?.water_m3 ?? 0)) {
     insights.push('LP Max-Profit gives highest expected profit but uses more water.')
   }
-  if (trad && qpB && trad.totals.water_m3 > qpB.totals.water_m3) {
+  if (trad && qpB && (trad.totals?.water_m3 ?? 0) > (qpB.totals?.water_m3 ?? 0)) {
     insights.push('Traditional plan has highest water usage.')
   }
 
@@ -165,15 +171,15 @@ export function ComparisonPage() {
               <dl className="space-y-1.5 text-sm">
                 <div className="flex justify-between">
                   <dt className="text-gray-400">{t('comparison.expected_profit')}</dt>
-                  <dd className="font-semibold text-gray-800"><MoneyText value={strategy.profit_by_scenario_rs[selectedScenario]} /></dd>
+                  <dd className="font-semibold text-gray-800"><MoneyText value={strategy.profit_by_scenario_rs?.[selectedScenario] ?? 0} /></dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-gray-400">{t('comparison.worst_year')}</dt>
-                  <dd className="font-semibold text-gray-800"><MoneyText value={strategy.worst_case_profit_rs} /></dd>
+                  <dd className="font-semibold text-gray-800"><MoneyText value={strategy.worst_case_profit_rs ?? 0} /></dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-gray-400">{t('comparison.water_usage')}</dt>
-                  <dd className="font-semibold text-gray-800"><WaterText m3={strategy.totals.water_m3} showTankers={false} /></dd>
+                  <dd className="font-semibold text-gray-800"><WaterText m3={strategy.totals?.water_m3 ?? 0} showTankers={false} /></dd>
                 </div>
               </dl>
               {isSelected && (
@@ -257,24 +263,30 @@ export function ComparisonPage() {
                   <tbody className="divide-y divide-gray-50">
                     <tr>
                       <td className="py-2 text-muted">{t('comparison.expected_profit')} (₹)</td>
-                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs.normal} /></td>
-                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs.drought} /></td>
-                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs.excess} /></td>
+                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs?.normal ?? 0} /></td>
+                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs?.drought ?? 0} /></td>
+                      <td className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.profit_by_scenario_rs?.excess ?? 0} /></td>
                     </tr>
                     <tr>
                       <td className="py-2 text-muted">{t('misc.worst_year_profit')}</td>
-                      <td colSpan={3} className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.worst_case_profit_rs} /></td>
+                      <td colSpan={3} className="py-2 text-right font-medium"><MoneyText value={summaryStrategy.worst_case_profit_rs ?? 0} /></td>
                     </tr>
                     <tr>
                       <td className="py-2 text-muted">{t('comparison.water_usage')}</td>
                       <td colSpan={3} className="py-2 text-right font-medium">
-                        <WaterText m3={summaryStrategy.totals.water_m3} showTankers={false} />
+                        <WaterText m3={summaryStrategy.totals?.water_m3 ?? 0} showTankers={false} />
                       </td>
                     </tr>
                     <tr>
                       <td className="py-2 text-muted">{t('comparison.fertilizer_usage')}</td>
                       <td colSpan={3} className="py-2 text-right font-medium">
-                        {summaryStrategy.totals.fertilizer_kg.n + summaryStrategy.totals.fertilizer_kg.p2o5 + summaryStrategy.totals.fertilizer_kg.k2o} kg
+                        {(() => {
+                          const f = summaryStrategy.totals?.fertilizer_kg
+                          const total = typeof f === 'object' && f !== null
+                            ? ((f.n ?? 0) + (f.p2o5 ?? 0) + (f.k2o ?? 0))
+                            : (typeof f === 'number' ? f : 0)
+                          return `${Math.round(total)} kg`
+                        })()}
                       </td>
                     </tr>
                   </tbody>

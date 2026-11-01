@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { ExternalLink } from 'lucide-react'
 import { useSources, useSourcesHealth } from '@/api/queryHooks'
-import { Card, CardHeader } from '@/components/Card'
+import { Card } from '@/components/Card'
 import { Badge } from '@/components/Badge'
 import { Skeleton } from '@/components/Skeleton'
 

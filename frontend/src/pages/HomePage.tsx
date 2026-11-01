@@ -13,16 +13,12 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   Send, Volume2, Copy, ThumbsUp, ThumbsDown, Zap,
-  Sprout, Cloud, BarChart2, Droplets, TrendingUp, IndianRupee,
+  Sprout, Cloud, BarChart2, Droplets, IndianRupee,
 } from 'lucide-react'
 import { MicButton } from '@/features/chat/MicButton'
 import { TraceTimeline } from '@/features/trace/TraceTimeline'
 import { SummaryTiles } from '@/features/plan/SummaryTiles'
-import { Card, CardHeader } from '@/components/Card'
 import { ErrorState } from '@/components/ErrorState'
-import { Badge } from '@/components/Badge'
-import { MoneyText } from '@/components/MoneyText'
-import { SourceBadge } from '@/components/SourceBadge'
 import { useStore } from '@/state/store'
 import { streamChat } from '@/api/sseClient'
 import { apiPostForm } from '@/api/client'
@@ -500,15 +496,21 @@ export function HomePage() {
 
             {/* Crop cards — 3 horizontal / responsive */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {(plan.strategies.find((s) => s.id === plan.recommended_strategy)?.allocations ?? [])
+              {((plan.strategies ?? []).find((s) => s.id === plan.recommended_strategy)?.allocations ?? plan.strategies?.[0]?.allocations ?? [])
                 .slice(0, 3)
                 .map((alloc) => {
-                  const crop = plan.crops.find((c) => c.crop_id === alloc.crop_id)
+                  const crop = (plan.crops ?? []).find((c) => c.crop_id === alloc.crop_id)
                   if (!crop) return null
-                  const profitVal = crop.profit_rs_per_acre[selectedScenario] * alloc.acres
-                  const waterM3 = crop.water_need_m3_per_acre[selectedScenario] * alloc.acres
-                  const waterLow = waterM3 * 1000 / 100000 < 2
-                  const waterMed = !waterLow && waterM3 * 1000 / 100000 < 4
+                  const profitVal = (crop.profit_rs_per_acre?.[selectedScenario] ?? 0) * alloc.acres
+                  const waterNeedSv = crop.water_need_m3_per_acre?.[selectedScenario] as unknown
+                  const waterVal = typeof waterNeedSv === 'number'
+                    ? waterNeedSv
+                    : (typeof waterNeedSv === 'object' && waterNeedSv !== null && 'value' in waterNeedSv
+                        ? Number((waterNeedSv as { value: number }).value)
+                        : 0)
+                  const waterM3 = waterVal * alloc.acres
+                  const waterLow = (waterM3 * 1000) / 100000 < 2
+                  const waterMed = !waterLow && (waterM3 * 1000) / 100000 < 4
                   const waterLabel = waterLow ? 'Low water' : waterMed ? 'Medium water' : 'High water'
                   const waterColor = waterLow ? '#16834A' : waterMed ? '#0ea5e9' : '#f59e0b'
 
@@ -525,7 +527,7 @@ export function HomePage() {
                       </div>
 
                       <p className="text-xs font-bold text-center truncate w-full text-ink">
-                        {crop.names[lang]}
+                        {crop.names?.[lang] ?? crop.crop_id}
                       </p>
                       <p className="text-[10px] text-muted">
                         {alloc.acres} {t('units.acres')}
@@ -536,7 +538,7 @@ export function HomePage() {
                           Est. Profit
                         </p>
                         <p className="text-xs font-bold text-forest">
-                          ₹{Math.round(profitVal).toLocaleString('en-IN')}
+                          ₹{Math.round(profitVal || 0).toLocaleString('en-IN')}
                         </p>
                       </div>
 

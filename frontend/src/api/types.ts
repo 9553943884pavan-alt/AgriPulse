@@ -308,7 +308,7 @@ export interface PlanResult {
   scenarios: Scenario[]
   crops: CropOption[]
   excluded_crops: ExcludedCrop[]
-  water: WaterBudget        // backend returns one per scenario; we store the current scenario's
+  water: WaterBudget | WaterBudget[]
   strategies: StrategyResult[]
   recommended_strategy: StrategyId | null
   impact: ImpactResult | null

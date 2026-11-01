@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { vi } from 'vitest'
 
 // Mock MediaRecorder (not available in jsdom)
-global.MediaRecorder = vi.fn().mockImplementation(() => ({
+;(globalThis as any).MediaRecorder = vi.fn().mockImplementation(() => ({
   start: vi.fn(),
   stop: vi.fn(),
   state: 'inactive',
@@ -10,7 +10,7 @@ global.MediaRecorder = vi.fn().mockImplementation(() => ({
   onstop: null,
 })) as unknown as typeof MediaRecorder
 
-Object.assign(global.MediaRecorder, {
+Object.assign((globalThis as any).MediaRecorder, {
   isTypeSupported: vi.fn().mockReturnValue(true),
 })
 

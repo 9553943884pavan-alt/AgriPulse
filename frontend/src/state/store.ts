@@ -75,8 +75,22 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'agripulse-session',
+      version: 3,
+      // On version mismatch, wipe persisted plan/messages to avoid render crashes
+      // from stale data shapes. Preferences (language, scenario) are re-applied below.
+      migrate: (persisted: unknown, fromVersion: number) => {
+        if (fromVersion < 3) {
+          // Discard plan/messages — they may be shaped differently
+          const p = persisted as Partial<typeof initialState> | null
+          return {
+            ...initialState,
+            language: p?.language ?? initialState.language,
+            selectedScenario: p?.selectedScenario ?? initialState.selectedScenario,
+          }
+        }
+        return persisted as typeof initialState
+      },
       // Persist plan, profile and preferences so navigation never loses the farm data.
-      // Messages are NOT persisted (they can get large and the greeting re-runs fine).
       partialize: (state) => ({
         threadId: state.threadId,
         language: state.language,
