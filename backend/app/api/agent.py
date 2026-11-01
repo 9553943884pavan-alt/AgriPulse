@@ -89,9 +89,13 @@ async def agent_chat(request: Request, body: dict):
                 config=config,
                 version="v1",   # LangGraph 0.2 default — NOT "v2"
             ):
-                sse = _lg_event_to_sse(event)
-                if sse:
-                    yield sse
+                sse_item = _lg_event_to_sse(event)
+                if sse_item:
+                    if isinstance(sse_item, list):
+                        for sse in sse_item:
+                            yield sse
+                    else:
+                        yield sse_item
 
         except AppError as e:
             yield {"event": "error", "data": json.dumps(e.to_response().model_dump())}
@@ -168,8 +172,14 @@ def _lg_event_to_sse(event: dict) -> dict | None:
         plan_result = output.get("plan_result")
         if plan_result:
             plan_json = plan_result.model_dump_json() if hasattr(plan_result, "model_dump_json") else json.dumps(plan_result)
-            # Return plan event; message event will come in the next yield
-            return {"event": "plan", "data": plan_json}
+            events = [{"event": "plan", "data": plan_json}]
+            if hasattr(plan_result, "explanation") and plan_result.explanation:
+                msg_payload = {
+                    "text": plan_result.explanation.text,
+                    "language": plan_result.explanation.language,
+                }
+                events.append({"event": "message", "data": json.dumps(msg_payload)})
+            return events
 
     return None
 
