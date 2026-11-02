@@ -15,7 +15,7 @@ WITH_PLAN = {"strategies": [object()], "profile": PROFILE}
 @pytest.mark.parametrize(
     ("message", "route"),
     [
-        ("Hello", "question"),
+        ("Hello", "smalltalk"),  # small talk never reaches plan Q&A or extraction
         ("Why did you choose onion?", "question"),
         ("What is my budget?", "question"),
         ("I am from Pune, Maharashtra", "follow_up"),   # new location -> re-plan

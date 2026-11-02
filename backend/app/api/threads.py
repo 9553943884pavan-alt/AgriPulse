@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
+from app.agent.memory import cap_messages
 from app.core.cache import get_cache
 from app.core.errors import AppError
 from app.schemas import FarmProfile, PlanResult
@@ -21,7 +22,7 @@ async def get_thread(thread_id: str) -> dict:
 
     profile_data = memory.get("profile")
     plan_data = memory.get("plan")
-    messages_data = memory.get("messages", [])
+    messages_data = cap_messages(memory.get("messages") or [])
 
     return {
         "thread_id": thread_id,

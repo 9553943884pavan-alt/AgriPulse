@@ -76,9 +76,12 @@ async def reoptimize(plan_id: str, body: dict) -> PlanResult:
     })
 
     # Write back to cache and agent memory
-    await cache.set_plan(plan_id, new_plan.model_dump(mode="json"))
+    new_plan_data = new_plan.model_dump(mode="json")
+    await cache.set_plan(plan_id, new_plan_data)
     if new_plan.thread_id:
         await cache.set_memory(new_plan.thread_id, "profile", stored_profile)
+        # The thread restore (E4) and the next chat turn must see the NEW plan, not the old one.
+        await cache.set_memory(new_plan.thread_id, "plan", new_plan_data)
 
     # Write patched fields back to the LangGraph checkpointer so the next
     # chat turn (E1) reads the updated profile. This is the only place outside

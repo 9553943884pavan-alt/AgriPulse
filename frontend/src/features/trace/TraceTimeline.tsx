@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import type { SourceStatus, TraceEvent } from '@/api/types'
 import { SourceBadge } from '@/components/SourceBadge'
 import { TraceRowSkeleton } from '@/components/Skeleton'
+import { sanitizeTraceSummary, sortTraceEvents, traceDisplayName } from '@/utils/traceStatus'
 
 interface TraceTimelineProps {
   events: TraceEvent[]
@@ -29,8 +30,11 @@ function getStepIcon(step: string): { emoji: string; bg: string } {
   if (s.includes('farm') || s.includes('understand'))  return { emoji: '🌿', bg: '#dcfce7' }
   if (s.includes('weather'))                           return { emoji: '🌦️', bg: '#dbeafe' }
   if (s.includes('soil'))                              return { emoji: '🪨', bg: '#d6b896' }
-  if (s.includes('price'))                             return { emoji: '📊', bg: '#fef9c3' }
-  if (s.includes('water'))                             return { emoji: '💧', bg: '#dbeafe' }
+  if (s.includes('price') || s.includes('market'))     return { emoji: '📊', bg: '#fef9c3' }
+  if (s.includes('water') || s.includes('borewell'))   return { emoji: '💧', bg: '#dbeafe' }
+  if (s.includes('yield'))                             return { emoji: '🌾', bg: '#fef3c7' }
+  if (s.includes('cost'))                              return { emoji: '🧾', bg: '#f1f5f9' }
+  if (s.includes('location'))                          return { emoji: '📍', bg: '#fee2e2' }
   if (s.includes('crop') || s.includes('candidate'))   return { emoji: '🌱', bg: '#dcfce7' }
   if (s.includes('qp') || s.includes('balanced') || s.includes('optim')) return { emoji: '⚙️', bg: '#f0fdf4' }
   if (s.includes('lp') || s.includes('profit'))        return { emoji: '💹', bg: '#fef3c7' }
@@ -38,6 +42,7 @@ function getStepIcon(step: string): { emoji: string; bg: string } {
 }
 
 const STATUS_CHECK: Record<string, React.ReactNode> = {
+  pending:  <Loader2    className="w-3.5 h-3.5 text-gray-300" aria-hidden="true" />,
   running:  <Loader2    className="w-3.5 h-3.5 text-blue-500 animate-spin" aria-hidden="true" />,
   ok:       <CheckCircle2 className="w-3.5 h-3.5 text-green-500" aria-hidden="true" />,
   cached:   <AlertCircle  className="w-3.5 h-3.5 text-amber-500" aria-hidden="true" />,
@@ -58,13 +63,17 @@ export function TraceTimeline({ events, loading, className = '' }: TraceTimeline
 
   return (
     <div role="log" aria-live="polite" aria-label="Agent execution trace" className={`space-y-0 ${className}`}>
-      {events.map((event) => {
-        const { emoji, bg } = getStepIcon(event.step)
+      {sortTraceEvents(events).map((event) => {
+        const name = traceDisplayName(event)
+        const summary = sanitizeTraceSummary(event.summary)
+        const { emoji, bg } = getStepIcon(`${event.step} ${name}`)
+        const statusKey = event.status in STATUS_CHECK ? event.status : 'ok'
         return (
           <div key={event.id} className="flex items-start gap-3 py-2.5 border-b border-gray-50 last:border-0">
             {/* Status check icon */}
             <div className="w-4 flex-shrink-0 mt-1">
-              {STATUS_CHECK[event.status] ?? STATUS_CHECK.ok}
+              <span title={t(`trace.${statusKey}`)}>{STATUS_CHECK[statusKey]}</span>
+              <span className="sr-only">{t(`trace.${statusKey}`)}</span>
             </div>
 
             {/* Colored circle step icon */}
@@ -80,7 +89,7 @@ export function TraceTimeline({ events, loading, className = '' }: TraceTimeline
               <div className="flex items-center gap-2 flex-wrap">
                 <span className={`text-sm font-semibold ${event.status === 'failed' ? 'text-red-600' : ''}`}
                   style={{ color: event.status === 'failed' ? undefined : '#172B24' }}>
-                  {event.step.replace(/_/g, ' ')}
+                  {name}
                 </span>
                 {event.source && (
                   <SourceBadge
@@ -95,8 +104,8 @@ export function TraceTimeline({ events, loading, className = '' }: TraceTimeline
                   />
                 )}
               </div>
-              {event.summary && (
-                <p className="text-xs mt-0.5 truncate" style={{ color: '#64748B' }}>{event.summary}</p>
+              {summary && (
+                <p className="text-xs mt-0.5 break-words" style={{ color: '#64748B' }}>{summary}</p>
               )}
               {event.fallback_used && (
                 <p className="text-xs mt-0.5" style={{ color: '#f59e0b' }}>
@@ -106,7 +115,7 @@ export function TraceTimeline({ events, loading, className = '' }: TraceTimeline
             </div>
 
             {/* Duration */}
-            {event.duration_ms > 0 && (
+            {typeof event.duration_ms === 'number' && event.duration_ms > 0 && (
               <span className="text-xs flex-shrink-0 tabular-nums" style={{ color: '#94a3b8' }}>
                 {(event.duration_ms / 1000).toFixed(1)}s
               </span>

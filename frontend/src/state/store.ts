@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import type { StateStorage } from 'zustand/middleware'
 import type {
   FarmProfile,
   PlanResult,
@@ -35,6 +36,22 @@ interface AppState {
   setScenario: (scenario: ScenarioId) => void
   setStrategy: (strategy: StrategyId) => void
   reset: () => void
+}
+
+/** Only the most recent messages are persisted so localStorage stays small. */
+export const MAX_PERSISTED_MESSAGES = 50
+
+/** localStorage wrapper that never throws (private mode, quota exceeded, blocked storage). */
+const safeStorage: StateStorage = {
+  getItem: (name) => {
+    try { return localStorage.getItem(name) } catch { return null }
+  },
+  setItem: (name, value) => {
+    try { localStorage.setItem(name, value) } catch { /* persistence is best-effort */ }
+  },
+  removeItem: (name) => {
+    try { localStorage.removeItem(name) } catch { /* persistence is best-effort */ }
+  },
 }
 
 const initialState = {
@@ -82,8 +99,10 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'agripulse-session',
+      storage: createJSONStorage(() => safeStorage),
       // Persist plan, profile and preferences so navigation never loses the farm data.
-      // Messages are NOT persisted (they can get large and the greeting re-runs fine).
+      // Messages ARE persisted (so chat survives reloads) but capped to the last
+      // MAX_PERSISTED_MESSAGES entries to keep the stored payload small.
       partialize: (state) => ({
         threadId: state.threadId,
         language: state.language,
@@ -92,7 +111,7 @@ export const useStore = create<AppState>()(
         profile: state.profile,
         plan: state.plan,
         traceEvents: state.traceEvents,
-        messages: state.messages,
+        messages: state.messages.slice(-MAX_PERSISTED_MESSAGES),
       }),
     },
   ),

@@ -25,6 +25,8 @@ import { streamChat } from '@/api/sseClient'
 import { apiPostBlob, apiPostForm, ApiClientError, NetworkError } from '@/api/client'
 import { getCropEmoji } from '@/utils/cropEmoji'
 import { traceState } from '@/utils/traceStatus'
+import { buildChatRequest, isPlaceholderProfile, normalizeAgentText, MAX_MESSAGE_LENGTH } from '@/utils/chatRequest'
+import { createStreamGuard } from '@/utils/streamGuard'
 import type { FarmProfile, PlanResult, ApiError, Language, TranscriptionResponse } from '@/api/types'
 
 /* ─── Suggested quick questions ────────────────────────────────── */
@@ -91,7 +93,7 @@ function BotanicalLeaf({ className }: { className: string }) {
 export function HomePage() {
   const { t } = useTranslation()
   const {
-    threadId, language, plan, selectedScenario,
+    language, plan, selectedScenario,
     setThreadId, setProfile, setPlan, addMessage, addTraceEvent,
     clearTrace, messages: storedMessages, traceEvents,
   } = useStore()
@@ -122,6 +124,7 @@ export function HomePage() {
   })
 
   const abortRef = useRef<AbortController | null>(null)
+  const guardRef = useRef(createStreamGuard())
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const speakTextRef = useRef<(text: string) => Promise<void>>(async () => {})
   const lastMessageRef = useRef('')
@@ -145,54 +148,67 @@ export function HomePage() {
   }, [storedMessages, chatMessages.length])
 
   const sendMessage = useCallback((text: string, appendFarmerMessage = true) => {
-    if (!text.trim() || isStreaming) return
+    const message = text.trim().slice(0, MAX_MESSAGE_LENGTH)
+    if (!message || isStreaming) return
     setError(null)
     setLastTurnWasQuestion(false)
     setIsStreaming(true)
     setInputText('')
 
+    // A new request supersedes any earlier one: invalidate its token first so
+    // late events (including its close/done) cannot touch this turn's state.
+    const token = guardRef.current.begin()
+    abortRef.current?.abort()
+    const isLive = () => guardRef.current.isCurrent(token)
+    const live = <A extends unknown[]>(fn: (...args: A) => void) => (...args: A) => {
+      if (isLive()) fn(...args)
+    }
+
+    lastAgentTextRef.current = null
     if (appendFarmerMessage) {
-      lastMessageRef.current = text
-      lastAgentTextRef.current = null
+      lastMessageRef.current = message
       const now = formatTime()
-      const farmerMsg: DisplayMessage = { role: 'farmer', text, ts: now }
+      const farmerMsg: DisplayMessage = { role: 'farmer', text: message, ts: now }
       setChatMessages((prev) => [...prev, farmerMsg])
-      addMessage({ role: 'farmer', text, language: language as Language, at: new Date().toISOString() })
+      addMessage({ role: 'farmer', text: message, language: language as Language, at: new Date().toISOString() })
     }
     clearTrace()
 
+    // Append an agent bubble once per distinct (trimmed, non-empty) text in a turn.
+    const appendAgentText = (raw: unknown): boolean => {
+      const answer = normalizeAgentText(raw)
+      if (!answer || lastAgentTextRef.current === answer) return false
+      lastAgentTextRef.current = answer
+      setChatMessages((prev) => [...prev, { role: 'agent', text: answer, ts: formatTime() }])
+      addMessage({ role: 'agent', text: answer, language: language as Language, at: new Date().toISOString() })
+      return true
+    }
+
+    const { threadId, profile } = useStore.getState()
     let controller: AbortController
     try {
       controller = streamChat(
-      { thread_id: threadId, message: text, language: language as Language },
+      buildChatRequest({ threadId, message, language: language as Language, profile }),
       {
-        onThread: (e) => setThreadId(e.thread_id),
-        onProfile: (e: FarmProfile) => setProfile(e),
-        onQuestion: (e) => {
+        onThread: live((e) => setThreadId(e.thread_id)),
+        onProfile: live((e: FarmProfile) => {
+          // Never let a placeholder profile overwrite what the farmer saved.
+          if (!isPlaceholderProfile(e)) setProfile(e)
+        }),
+        onQuestion: live((e) => {
           setLastTurnWasQuestion(true)
-          setChatMessages((prev) => [...prev, { role: 'agent', text: e.text, ts: formatTime() }])
-          addMessage({ role: 'agent', text: e.text, language: language as Language, at: new Date().toISOString() })
-          void speakTextRef.current(e.text)
+          if (appendAgentText(e.text)) void speakTextRef.current(normalizeAgentText(e.text))
           setIsStreaming(false)
-        },
-        onTrace: (e) => addTraceEvent(e),
-        onPlan: (e: PlanResult) => {
+        }),
+        onTrace: live((e) => addTraceEvent(e)),
+        onPlan: live((e: PlanResult) => {
           setPlan(e)
-          const answer = e.explanation.text.trim()
-          if (!answer || lastAgentTextRef.current === answer) return
-          lastAgentTextRef.current = answer
-          setChatMessages((prev) => [...prev, { role: 'agent', text: answer, ts: formatTime() }])
-          addMessage({ role: 'agent', text: answer, language: language as Language, at: new Date().toISOString() })
-        },
-        onMessage: (e) => {
-          if (lastAgentTextRef.current === e.text) return
-          lastAgentTextRef.current = e.text
-          setChatMessages((prev) => [...prev, { role: 'agent', text: e.text, ts: formatTime() }])
-          addMessage({ role: 'agent', text: e.text, language: language as Language, at: new Date().toISOString() })
-        },
-        onError: (e: ApiError) => { setError(e); setIsStreaming(false) },
-        onDone: () => setIsStreaming(false),
-        onClose: () => setIsStreaming(false),
+          appendAgentText(e.explanation?.text)
+        }),
+        onMessage: live((e) => { appendAgentText(e.text) }),
+        onError: live((e: ApiError) => { setError(e); setIsStreaming(false) }),
+        onDone: live(() => setIsStreaming(false)),
+        onClose: live(() => setIsStreaming(false)),
       },
       )
     } catch (caught) {
@@ -208,7 +224,7 @@ export function HomePage() {
     }
     abortRef.current = controller
     setTimeout(() => inputRef.current?.focus(), 50)
-  }, [isStreaming, t, threadId, language, addMessage, addTraceEvent, clearTrace, setThreadId, setProfile, setPlan])
+  }, [isStreaming, t, language, addMessage, addTraceEvent, clearTrace, setThreadId, setProfile, setPlan])
 
   const speakText = useCallback(async (text: string) => {
     try {
@@ -263,7 +279,9 @@ export function HomePage() {
   }, [language, sendMessage, t])
 
   useEffect(() => {
+    const guard = guardRef.current
     return () => {
+      guard.invalidate()
       abortRef.current?.abort()
       audioRef.current?.pause()
     }
@@ -364,7 +382,8 @@ export function HomePage() {
                 key={q.text}
                 type="button"
                 onClick={() => sendMessage(q.text)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150 hover:shadow-md hover:-translate-y-0.5 active:scale-95 flex-shrink-0"
+                disabled={isStreaming}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-150 hover:shadow-md hover:-translate-y-0.5 active:scale-95 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   background: '#fff',
                   border: `1px solid ${q.color}50`,
@@ -524,6 +543,7 @@ export function HomePage() {
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
+              maxLength={MAX_MESSAGE_LENGTH}
               onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) sendMessage(inputText) }}
               placeholder="Ask AgriPulse anything..."
               disabled={isStreaming}

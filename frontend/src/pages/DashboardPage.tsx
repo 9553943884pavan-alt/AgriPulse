@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { useStore } from '@/state/store'
 import { SummaryTiles } from '@/features/plan/SummaryTiles'
 import { FinancialSummary } from '@/features/plan/FinancialSummary'
+import { StalePlanNotice } from '@/components/StalePlanNotice'
 import { ScenarioToggle } from '@/components/ScenarioToggle'
 import { SourceBadge } from '@/components/SourceBadge'
 import { MoneyText } from '@/components/MoneyText'
@@ -118,6 +119,8 @@ export function DashboardPage() {
   return (
     <div className="h-full overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#86efac transparent' }}>
     <div className="max-w-6xl mx-auto px-4 lg:px-6 py-6 space-y-6">
+
+      <StalePlanNotice />
 
       {/* Page header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">

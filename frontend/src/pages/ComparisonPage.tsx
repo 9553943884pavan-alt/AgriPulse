@@ -12,6 +12,7 @@ import {
 import { useStore } from '@/state/store'
 import { ScenarioToggle } from '@/components/ScenarioToggle'
 import { Card, CardHeader } from '@/components/Card'
+import { StalePlanNotice } from '@/components/StalePlanNotice'
 import { Badge } from '@/components/Badge'
 import { MoneyText } from '@/components/MoneyText'
 import { WaterText } from '@/components/WaterText'
@@ -146,6 +147,8 @@ export function ComparisonPage() {
   return (
     <div className="h-full overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#86efac transparent' }}>
     <div className="max-w-6xl mx-auto px-4 lg:px-6 py-6 space-y-6">
+
+      <StalePlanNotice />
 
       {/* Page header */}
       <div className="flex items-start gap-3">

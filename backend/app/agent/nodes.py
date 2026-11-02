@@ -45,17 +45,69 @@ def _now() -> datetime:
     return datetime.now(tz=timezone.utc)
 
 
-def _trace(node: str, step: str, status: str, summary: str, duration_ms: int = 0) -> TraceEvent:
+# One mapping table: (node, step) or node -> (tool_name, display_name).
+_TRACE_TOOLS: dict[tuple[str, str] | str, tuple[str, str]] = {
+    ("plan", "started"): ("planner", "Planning Started"),
+    ("plan", "failed"): ("planner", "Planning Failed"),
+    ("persist", "saved"): ("plan_store", "Plan Saved"),
+    ("persist", "failed"): ("plan_store", "Plan Saved"),
+    ("gather_data", "location"): ("location_resolver", "Location Lookup"),
+    ("gather_data", "weather"): ("weather_service", "Weather Data"),
+    ("gather_data", "soil"): ("soil_service", "Soil Data"),
+    ("gather_data", "scenarios"): ("scenario_builder", "Weather Scenarios"),
+    ("gather_data", "water"): ("water_analyzer", "Water Availability Analysis"),
+    ("gather_data", "prices"): ("market_price_service", "Market Price Analysis"),
+    ("gather_data", "complete"): ("data_collector", "Data Collection"),
+    ("optimize", "costs"): ("cost_calculator", "Cultivation Cost Estimation"),
+    ("optimize", "prices"): ("market_price_service", "Market Price Analysis"),
+    "extract_profile": ("profile_extractor", "Farm Profile"),
+    "merge_patch": ("profile_extractor", "Farm Profile"),
+    "ask_missing": ("profile_extractor", "Farm Profile"),
+    "recommend_crops": ("crop_recommender", "Crop Recommendation"),
+    "predict_yield": ("yield_predictor", "Yield Prediction"),
+    "optimize": ("optimizer", "Farm Plan Optimization"),
+    "check_feasibility": ("strategy_selector", "Strategy Comparison"),
+    "relax_constraint": ("constraint_relaxer", "Constraint Relaxation"),
+    "explain": ("plan_explainer", "Plan Explanation"),
+    "grounding_check": ("plan_reviewer", "Plan Review"),
+    "answer_from_memory": ("saved_plan_reader", "Answer from Saved Plan"),
+    "respond": ("plan_builder", "Plan Result"),
+}
+
+
+def _trace(
+    node: str,
+    step: str,
+    status: str,
+    summary: str,
+    duration_ms: int = 0,
+    *,
+    started: datetime | None = None,
+    completed: datetime | None = None,
+    fallback_used: str | None = None,
+) -> TraceEvent:
+    """Build a trace item. Pass `started` (a _now() taken before the work) so that
+    started_at / completed_at / duration_ms are measured, not guessed."""
+    completed = completed or _now()
+    if started is not None:
+        started_at = started
+        duration_ms = max(0, int((completed - started).total_seconds() * 1000))
+    else:
+        started_at = completed
+    tool_name, display_name = _TRACE_TOOLS.get((node, step)) or _TRACE_TOOLS.get(node) or (None, None)
     return TraceEvent(
         id=f"ev_{uuid.uuid4().hex}",
         node=node,
         step=step,
         status=status,  # type: ignore[arg-type]
-        started_at=_now(),
+        started_at=started_at,
         duration_ms=duration_ms,
         summary=summary,
         source=None,
-        fallback_used=None,
+        fallback_used=fallback_used,
+        tool_name=tool_name,
+        display_name=display_name,
+        completed_at=completed,
     )
 
 
@@ -130,19 +182,81 @@ def _mentions_farm_change(message: str, profile) -> bool:
     return False
 
 
-def route_node(state: dict) -> dict:
-    """Decide the path: new_plan / follow_up / patch / question.
+# Small-talk: the WHOLE message is a greeting / thanks / help request. Anything
+# longer ("hi, plan my farm") is a real request and goes through the normal route.
+_SMALLTALK_RE = re.compile(
+    r"^\s*(?:"
+    r"(?P<greet>hello|hi+|hey+|namaste|namaskar|namaskara|namaskaara|good\s+(?:morning|afternoon|evening|night)"
+    r"|नमस्कार|नमस्ते|राम\s*राम)"
+    r"|(?P<thanks>thanks?(?:\s+a\s+lot)?|thank\s+you(?:\s+(?:so\s+much|very\s+much))?|thx|dhanyavad|dhanyawad"
+    r"|धन्यवाद|आभारी\s+आहे|आभार|शुक्रिया)"
+    r"|(?P<help>help(?:\s+me)?|what\s+can\s+you\s+do|who\s+are\s+you|what\s+are\s+you|what\s+is\s+this"
+    r"|मदत|मदत\s+करा|तुम्ही\s+कोण\s+आहात|आप\s+कौन\s+हैं|आप\s+क्या\s+कर\s+सकते\s+हैं|मदद|मदद\s+करो|सहायता)"
+    r")(?:\s+(?:there|friend|sir|madam|ji|bhai))?[\s!.,?🙏👋]*$",
+    re.IGNORECASE,
+)
+_KANNADA_RE = re.compile("[ಀ-೿]")
+_KANNADA_GREETING_RE = re.compile(r"^\s*(?:namaskara|namaskaara|ನಮಸ್ಕಾರ)[\s!.,?🙏👋]*$", re.IGNORECASE)
 
-    new_plan:   required profile fields unknown OR message has location/number.
-    follow_up:  plan exists AND message contains a changed fact (number, crop, risk word).
+# A request to (re)make a plan. Question-style messages about an existing plan
+# ("why ... plan") are excluded so they stay plan Q&A.
+_PLANNING_INTENT_RE = re.compile(
+    r"\b(plan|planning|replan|recommend\w*|suggest\w*|profitable|optimi[sz]e\w*|"
+    r"(?:what|which)\s+(?:crops?\s+)?(?:should|can|do|to)\s+i\s+(?:grow|sow|plant|cultivate|raise)|"
+    r"which\s+crops?|best\s+crops?|crop\s+advice)\b"
+    r"|आराखडा|आराखडे|योजना|नियोजन|पीक\s*सुचवा|पिके\s*सुचवा|पीक\s*सुझाव|कोणते\s+पीक|"
+    r"फसल\s*योजना|फसल\s*सुझाव|फसलें?\s*सुझाइए|कौन\s*सी\s*फसल|कौनसी\s*फसल",
+    re.IGNORECASE,
+)
+_PLAN_QUESTION_RE = re.compile(
+    r"\b(why|explain|how\s+come|reason|because)\b|क्यों|क्यूँ|कारण|का\s+निवडले|कशासाठी|कशाला|समजावून|समझाइए|समझाओ",
+    re.IGNORECASE,
+)
+
+
+def is_planning_intent(message: str) -> bool:
+    """True when the farmer asks for a (new) plan / crop recommendation."""
+    msg = message or ""
+    return bool(_PLANNING_INTENT_RE.search(msg)) and not _PLAN_QUESTION_RE.search(msg)
+
+
+def smalltalk_kind(message: str) -> str | None:
+    """'greeting' | 'thanks' | 'help' | 'kannada' | 'kannada_greeting' | None.
+
+    Deterministic and tool-free: no LLM, no extraction."""
+    msg = message or ""
+    if _KANNADA_GREETING_RE.match(msg):
+        return "kannada_greeting"
+    if _KANNADA_RE.search(msg):
+        return "kannada"
+    m = _SMALLTALK_RE.match(msg)
+    if not m:
+        return None
+    if m.group("greet"):
+        return "greeting"
+    if m.group("thanks"):
+        return "thanks"
+    return "help"
+
+
+def route_node(state: dict) -> dict:
+    """Decide the path: smalltalk / new_plan / follow_up / patch / question.
+
     patch:      profile_patch is set (farmer edited the card directly, no message).
+    smalltalk:  greeting / thanks / help / Kannada text: a fixed reply, no tools, no LLM.
+    new_plan:   no plan yet, or the farmer asked for a plan (saved profile is reused).
+    follow_up:  plan exists AND message contains a changed fact (number, crop, risk word).
     question:   plan exists AND message is a question with no changed fact.
     """
     if state.get("profile_patch"):
         return {"route": "patch"}
 
+    message = state.get("message", "") or ""
+
+    if smalltalk_kind(message):
+        return {"route": "smalltalk"}
+
     has_plan = bool(state.get("strategies"))
-    message = state.get("message", "")
 
     # Check for changed facts in message
     has_number = bool(re.search(r"\d", _devanagari_to_ascii(message)))
@@ -150,12 +264,16 @@ def route_node(state: dict) -> dict:
     has_risk_word = any(w in message.lower() for w in risk_words)
     changed_fact = has_number or has_risk_word or _mentions_farm_change(message, state.get("profile"))
 
+    if is_planning_intent(message):
+        # "Make a plan" re-uses the saved profile as-is. Without a new fact in the
+        # message there is nothing for the LLM to extract, so it is skipped.
+        return {"route": "new_plan", "plan_only": not changed_fact}
     if not has_plan:
-        return {"route": "new_plan"}
+        return {"route": "new_plan", "plan_only": False}
     if changed_fact:
-        return {"route": "follow_up"}
+        return {"route": "follow_up", "plan_only": False}
     # Question about the existing plan
-    return {"route": "question"}
+    return {"route": "question", "plan_only": False}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -164,6 +282,7 @@ def route_node(state: dict) -> dict:
 
 def merge_patch_node(state: dict) -> dict:
     """Merge profile_patch into profile. No LLM call."""
+    t0 = _now()
     patch = state.get("profile_patch") or {}
     profile: FarmProfile | None = state.get("profile")
 
@@ -195,11 +314,17 @@ def merge_patch_node(state: dict) -> dict:
     missing = compute_missing(profile_data)
     profile_data["missing"] = list(missing)
     updated = FarmProfile(**profile_data)
+    trace = list(state.get("trace", []))
+    if not missing:
+        # First item of the turn: the data tools run next.
+        trace.append(_trace("plan", "started", "ok", "Planning started for your farm", started=t0, completed=t0))
+    trace.append(_trace("merge_patch", "card_edit", "ok", "Farm profile updated from your edit", started=t0))
     return {
         "profile": updated,
         "profile_patch": None,
         "missing": missing,
         "route": "follow_up",
+        "trace": trace,
     }
 
 
@@ -299,6 +424,7 @@ async def extract_profile_node(state: dict) -> dict:
     message = state.get("message", "")
     trace = list(state.get("trace", []))
     t0 = _now()
+    first_new = len(trace)   # this node's trace items start here
     existing: FarmProfile | None = state.get("profile")
     pending = state.get("pending_field")
     asked = list(state.get("asked_fields") or [])
@@ -307,13 +433,21 @@ async def extract_profile_node(state: dict) -> dict:
     # first: "5000 litres, 6 hours" or "I don't know" needs no LLM call.
     answer = parse_borewell_answer(message) if pending == "borewell_capacity" and existing else None
     answered_by_rules = bool(answer and (answer["dont_know"] or answer["values"]))
+    # "Make a plan" with a saved profile and no new fact in the message: nothing to extract.
+    plan_only = bool(state.get("plan_only")) and existing is not None
 
-    if answered_by_rules:
+    if answered_by_rules or plan_only:
         profile_data: dict = {}
         step = "rules"
     else:
         profile_data = await _llm_extract(state, language, message)
         step = "llm"
+        if existing is not None:
+            # A clear money amount ("only Rs 50,000") is read by rule so a missed or
+            # hallucinated LLM value can never decide the new budget.
+            explicit_budget = _explicit_budget(message)
+            if explicit_budget:
+                profile_data["budget_rs"] = explicit_budget
     if answer and answer["values"]:
         profile_data.update(answer["values"])
 
@@ -340,8 +474,14 @@ async def extract_profile_node(state: dict) -> dict:
     if language in ("mr", "hi", "en"):
         safe_data["language"] = language
 
-    duration_ms = int((_now() - t0).total_seconds() * 1000)
-    trace.append(_trace("extract_profile", step, "ok", f"Extracted profile; missing={missing}", duration_ms))
+    _field_names = {"location_text": "location", "land_acres": "farm size", "budget_rs": "budget"}
+    if missing:
+        profile_summary = "Farm profile read; still needed: " + ", ".join(_field_names.get(m, m) for m in missing)
+    elif plan_only:
+        profile_summary = "Using your saved farm profile"
+    else:
+        profile_summary = "Farm profile read from your message"
+    trace.append(_trace("extract_profile", step, "ok", profile_summary, started=t0))
 
     try:
         profile_obj = FarmProfile(**safe_data)
@@ -362,6 +502,11 @@ async def extract_profile_node(state: dict) -> dict:
     ):
         optional_ask = "borewell_capacity"
 
+    if not missing and not optional_ask:
+        # The next node runs the data tools: "Planning started" is the first item of the turn.
+        trace.insert(first_new, _trace("plan", "started", "ok", "Planning started for your farm", started=t0, completed=t0))
+    profile_obj = _drop_stale_seed_marks(profile_obj)
+
     return {
         "profile": profile_obj,
         "missing": missing,
@@ -369,6 +514,64 @@ async def extract_profile_node(state: dict) -> dict:
         "pending_field": None,
         "trace": trace,
     }
+
+
+SEED_BASIS = "farmer_input (saved Farm Profile)"
+
+
+def _drop_stale_seed_marks(profile: FarmProfile) -> FarmProfile:
+    """A field the farmer has since changed is no longer the saved-profile value: drop its mark."""
+    keep = []
+    for d in profile.defaults_used:
+        if d.basis == SEED_BASIS:
+            current = getattr(profile, d.field, None)
+            try:
+                same = float(current) == float(d.value)
+            except (TypeError, ValueError):
+                same = str(current) == str(d.value)
+            if not same:
+                continue
+        keep.append(d)
+    if len(keep) == len(profile.defaults_used):
+        return profile
+    return profile.model_copy(update={"defaults_used": keep})
+
+
+_BUDGET_CUE_RE = re.compile(
+    r"\b(budget|capital|only|just|now|have|with|total|left|spend|invest\w*|if)\b"
+    r"|बजेट|बजट|भांडवल|फक्त|केवळ|सिर्फ|केवल|आता|अब|पैसे|पैसा",
+    re.IGNORECASE,
+)
+_NOT_BUDGET_RE = re.compile(r"quintal|क्विंटल|per\s+kg|/\s*kg|per\s+acre|/\s*acre|प्रति|per\s+hectare", re.IGNORECASE)
+_MONEY_RE = re.compile(
+    r"(?P<pre>₹|\brs\b\.?|\binr\b|\brupees?\b|रुपये|रुपए|रुपया|\bरु\b\.?)?\s*"
+    r"(?P<num>\d[\d,]*(?:\.\d+)?)\s*"
+    r"(?P<mult>lakhs?|lacs?|लाख|crores?|करोड़?|thousand|hazar|हजार|हज़ार|k\b)?\s*"
+    r"(?P<post>₹|\brs\b|\binr\b|\brupees?\b|रुपये|रुपए|रुपया|\bरु\b)?",
+    re.IGNORECASE,
+)
+_MULT = {"lakh": 1e5, "lakhs": 1e5, "lac": 1e5, "lacs": 1e5, "लाख": 1e5, "crore": 1e7, "crores": 1e7,
+         "करोड": 1e7, "करोड़": 1e7, "thousand": 1e3, "hazar": 1e3, "हजार": 1e3, "हज़ार": 1e3, "k": 1e3}
+
+
+def _explicit_budget(message: str) -> float | None:
+    """A money amount the farmer states with a currency sign or word (₹50,000, Rs 2 lakh,
+    50 हजार रुपये). Bare numbers are ignored. Returns rupees, or None."""
+    text = _devanagari_to_ascii(message or "")
+    if _NOT_BUDGET_RE.search(text) or not _BUDGET_CUE_RE.search(text):
+        return None
+    for m in _MONEY_RE.finditer(text):
+        if not (m.group("pre") or m.group("post") or m.group("mult")):
+            continue
+        try:
+            value = float(m.group("num").replace(",", ""))
+        except ValueError:
+            continue
+        mult = _MULT.get((m.group("mult") or "").lower(), 1.0)
+        value *= mult
+        if value > 0:
+            return value
+    return None
 
 
 def _regex_profile_fallback(message: str) -> dict:
@@ -465,7 +668,9 @@ def ask_missing_node(state: dict) -> dict:
     questions = ASK_MISSING.get(field, {})
     question_text = questions.get(language, questions.get("en", f"Please provide {field}."))
 
-    trace.append(_trace("ask_missing", field, "ok", f"Asking for {field}"))
+    _asked = {"location_text": "your location", "land_acres": "your farm size", "budget_rs": "your budget",
+              "borewell_capacity": "your borewell details"}.get(field, "one more detail")
+    trace.append(_trace("ask_missing", field, "ok", f"Asked for {_asked}", started=_now()))
     asked = list(state.get("asked_fields") or [])
     if field not in asked:
         asked.append(field)
@@ -485,8 +690,22 @@ def ask_missing_node(state: dict) -> dict:
 # gather_data — parallel service calls, no LLM
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _live_or_cached(values) -> tuple[str, str | None]:
+    """('ok' | 'cached', fallback_used) from the SourcedValue statuses of a fetched dict."""
+    items = values.values() if isinstance(values, dict) else values
+    statuses = {getattr(v, "status", None) for v in items if v is not None}
+    if "cached" in statuses and "live" not in statuses:
+        return "cached", "cached data (live source unavailable)"
+    return "ok", None
+
+
 async def gather_data_node(state: dict) -> dict:
-    """Run location + weather + soil in parallel, then scenarios + water + prices + costs."""
+    """Run location + weather + soil in parallel, then scenarios + water.
+
+    Every sub-step is traced with its real timing and outcome. A step that failed or
+    returned nothing is marked "failed"/"skipped", never "ok". Exception text is only
+    logged server-side; the trace carries a short friendly summary.
+    """
     from app.agent import tools
     from app.core.errors import AppError
 
@@ -495,87 +714,139 @@ async def gather_data_node(state: dict) -> dict:
     updates: dict = {}
     t0 = _now()
 
-    # Stage 1 — parallel: location, weather, soil
+    # Stage 1 — parallel: location, weather, soil. Each returns (key, value, failed, started, completed).
     async def _locate():
+        started = _now()
         try:
             loc = await tools.get_location(profile.location_text)
-            return "location", loc, None
+            return "location", loc, False, started, _now()
         except AppError:
             # An unknown / non-agricultural place is a user-facing error, not
             # "no profitable plan": surface it as the same structured error that
             # /api/plan returns (LOCATION_NOT_FOUND etc.) via the SSE error event.
             raise
-        except Exception as e:
-            return "location", None, str(e)
+        except Exception:
+            logger.warning("gather_data: location lookup failed", exc_info=True)
+            return "location", None, True, started, _now()
 
     async def _weather(location):
+        started = _now()
         try:
             wx = await tools.get_weather(location)
-            return "weather", wx, None
-        except Exception as e:
-            return "weather", {}, str(e)
+            return "weather", wx, False, started, _now()
+        except Exception:
+            logger.warning("gather_data: weather fetch failed", exc_info=True)
+            return "weather", {}, True, started, _now()
 
     async def _soil(location):
+        started = _now()
         try:
             s = await tools.get_soil(profile, location)
-            return "soil", s, None
-        except Exception as e:
-            return "soil", {}, str(e)
+            return "soil", s, False, started, _now()
+        except Exception:
+            logger.warning("gather_data: soil fetch failed", exc_info=True)
+            return "soil", {}, True, started, _now()
 
     # Resolve location first (others depend on it)
-    _, location, loc_err = await _locate()
+    _, location, loc_failed, loc_started, loc_done = await _locate()
     if location is None:
-        trace.append(_trace("gather_data", "location", "failed", f"Location error: {loc_err}"))
+        trace.append(_trace("gather_data", "location", "failed",
+                            "Could not look up this location", started=loc_started, completed=loc_done))
         return {"location": None, "no_data": True, "trace": trace}
 
     updates["location"] = location
-    trace.append(_trace("gather_data", "location", "ok", f"Resolved: {location.district}"))
+    trace.append(_trace("gather_data", "location", "ok", f"Location found: {location.district}",
+                        started=loc_started, completed=loc_done))
+
+    gaps: list[str] = []      # non-critical sub-steps that did not deliver
+    critical: list[str] = []  # sub-steps the plan cannot be built without
 
     # Parallel weather + soil
     results = await asyncio.gather(_weather(location), _soil(location), return_exceptions=False)
-    for key, value, err in results:
+    labels = {"weather": ("Weather data", "weather forecast and recent rainfall"),
+              "soil": ("Soil data", "soil properties")}
+    for key, value, failed, started, done in results:
         updates[key] = value
-        status = "ok" if err is None else "failed"
-        trace.append(_trace("gather_data", key, status, err or f"{key} fetched"))
+        title, what = labels[key]
+        if failed:
+            gaps.append(key)
+            trace.append(_trace("gather_data", key, "failed",
+                                f"{title} unavailable; planning continues without it",
+                                started=started, completed=done))
+        elif not value:
+            gaps.append(key)
+            trace.append(_trace("gather_data", key, "skipped", f"No {what} returned",
+                                started=started, completed=done))
+        else:
+            status, fallback = _live_or_cached(value)
+            if key == "soil" and {getattr(v, "status", None) for v in value.values() if v is not None} == {"official_dataset"}:
+                fallback = "district soil dataset"
+            summary = f"{title} loaded" + (f" (using {fallback})" if fallback else "")
+            trace.append(_trace("gather_data", key, status, summary,
+                                started=started, completed=done, fallback_used=fallback))
 
-    # Stage 2 — sequential: scenarios, water, prices, costs
+    # Stage 2 — sequential: scenarios, then water budgets
     season: Season = state.get("season") or _build_fallback_season()
 
-    # Build scenarios
+    s_started = _now()
     try:
         scenarios = tools.build_scenarios(location, season)
         updates["scenarios"] = scenarios
-        trace.append(_trace("gather_data", "scenarios", "ok", f"{len(scenarios)} scenarios"))
+        if scenarios:
+            trace.append(_trace("gather_data", "scenarios", "ok",
+                                f"{len(scenarios)} weather scenarios built", started=s_started))
+        else:
+            critical.append("scenarios")
+            trace.append(_trace("gather_data", "scenarios", "failed",
+                                "No weather scenarios could be built", started=s_started))
     except NotImplementedError:
         updates["scenarios"] = []
-        trace.append(_trace("gather_data", "scenarios", "skipped", "ML stub not implemented"))
-    except Exception as e:
+        critical.append("scenarios")
+        trace.append(_trace("gather_data", "scenarios", "skipped",
+                            "Weather scenarios are not available", started=s_started))
+    except Exception:
+        logger.warning("gather_data: scenario build failed", exc_info=True)
         updates["scenarios"] = []
-        trace.append(_trace("gather_data", "scenarios", "failed", str(e)))
+        critical.append("scenarios")
+        trace.append(_trace("gather_data", "scenarios", "failed",
+                            "Weather scenarios could not be built", started=s_started))
 
     # Water budgets
     if updates.get("scenarios"):
+        w_started = _now()
         try:
             wb = await tools.get_water_budget(profile, location, updates["scenarios"], updates.get("weather", {}))
             updates["water"] = wb
-            trace.append(_trace("gather_data", "water", "ok", f"{len(wb)} water budgets"))
-        except Exception as e:
+            if wb:
+                trace.append(_trace("gather_data", "water", "ok",
+                                    f"Water availability worked out for {len(wb)} scenarios", started=w_started))
+            else:
+                critical.append("water")
+                trace.append(_trace("gather_data", "water", "failed",
+                                    "No water availability could be worked out", started=w_started))
+        except Exception:
+            logger.warning("gather_data: water budget failed", exc_info=True)
             updates["water"] = []
-            trace.append(_trace("gather_data", "water", "failed", str(e)))
+            critical.append("water")
+            trace.append(_trace("gather_data", "water", "failed",
+                                "Water availability could not be worked out", started=w_started))
     else:
         updates["water"] = []
+        critical.append("water")
+        trace.append(_trace("gather_data", "water", "skipped",
+                            "Skipped: no weather scenarios to work from"))
 
-    # Prices and costs (crop_ids unknown until recommend_crops — pass empty list for warming)
-    try:
-        prices = await tools.get_prices(location.district, [])
-        updates["prices"] = prices
-        trace.append(_trace("gather_data", "prices", "ok", "Prices warmed"))
-    except Exception as e:
-        updates["prices"] = {}
-        trace.append(_trace("gather_data", "prices", "failed", str(e)))
+    # Crop prices and costs are fetched per crop inside the optimisation step, which
+    # traces them itself. Nothing is fetched here, so nothing is reported here.
+    updates["prices"] = {}
 
-    duration_ms = int((_now() - t0).total_seconds() * 1000)
-    trace.append(_trace("gather_data", "complete", "ok", "All data gathered", duration_ms))
+    if critical:
+        status, summary = "failed", "Data collection incomplete: " + ", ".join(critical) + " unavailable"
+    elif gaps:
+        status, summary = "ok", "Data collected; unavailable: " + ", ".join(gaps)
+    else:
+        status, summary = "ok", "Location, weather, soil, scenarios and water data collected"
+    trace.append(_trace("gather_data", "complete", status, summary, started=t0))
     updates["trace"] = trace
     updates["no_data"] = False
     return updates
@@ -598,17 +869,18 @@ def recommend_crops_node(state: dict) -> dict:
     location: Location = state["location"]
     season: Season = state.get("season") or _build_fallback_season()
     water: list = state.get("water", [])
+    t0 = _now()
 
     try:
         candidates, excluded = tools.recommend_crops(profile, location, season, water)
-        trace.append(_trace("recommend_crops", "Crop recommendations", "ok", f"{len(candidates)} candidates, {len(excluded)} excluded"))
+        trace.append(_trace("recommend_crops", "Crop recommendations", "ok", f"{len(candidates)} suitable crops found, {len(excluded)} excluded", started=t0))
         return {"candidates": candidates, "excluded": excluded, "trace": trace}
     except NotImplementedError:
-        trace.append(_trace("recommend_crops", "Crop recommendations", "skipped", "Crop recommendation service is unavailable"))
+        trace.append(_trace("recommend_crops", "Crop recommendations", "skipped", "Crop recommendation service is unavailable", started=t0))
         return {"candidates": [], "excluded": [], "no_data": True, "trace": trace}
     except Exception as exc:
         logger.warning("recommend_crops failed: %s", exc)
-        trace.append(_trace("recommend_crops", "Crop recommendations", "failed", "Crop recommendation service failed"))
+        trace.append(_trace("recommend_crops", "Crop recommendations", "failed", "Crop recommendation service failed", started=t0))
         return {"candidates": [], "excluded": [], "trace": trace}
 
 
@@ -626,6 +898,7 @@ def predict_yield_node(state: dict) -> dict:
 
     scenario_yields: dict = {}
     long_duration_crops: set = set()
+    t0 = _now()
 
     try:
         for candidate in candidates:
@@ -646,9 +919,20 @@ def predict_yield_node(state: dict) -> dict:
                     logger.warning("predict_yield %s/%s: %s", crop_id, scenario.id, exc)
                     scenario_yields[crop_id][scenario.id] = None
 
-        trace.append(_trace("predict_yield", "Yield forecasts", "ok", f"Yields forecast for {len(scenario_yields)} crops"))
+        missing_yields = sum(1 for per in scenario_yields.values() for v in per.values() if v is None)
+        if scenario_yields and missing_yields == sum(len(per) for per in scenario_yields.values()):
+            trace.append(_trace("predict_yield", "Yield forecasts", "failed",
+                                "Yield forecasts could not be produced", started=t0))
+        elif missing_yields:
+            trace.append(_trace("predict_yield", "Yield forecasts", "ok",
+                                f"Yields forecast for {len(scenario_yields)} crops ({missing_yields} scenario forecasts unavailable)",
+                                started=t0))
+        else:
+            trace.append(_trace("predict_yield", "Yield forecasts", "ok",
+                                f"Yields forecast for {len(scenario_yields)} crops", started=t0))
     except Exception:
-        trace.append(_trace("predict_yield", "Yield forecasts", "failed", "Yield forecast service failed"))
+        logger.warning("predict_yield failed", exc_info=True)
+        trace.append(_trace("predict_yield", "Yield forecasts", "failed", "Yield forecast service failed", started=t0))
 
     return {"scenario_yields": scenario_yields, "long_duration_crops": long_duration_crops, "trace": trace}
 
@@ -670,14 +954,37 @@ async def optimize_node(state: dict) -> dict:
     water = state.get("water", [])
     scenarios = state.get("scenarios", [])
     excluded = list(state.get("excluded", []))
+    t0 = _now()
 
     try:
         crops, price_excluded = await build_crop_options(candidates, scenarios, location, season, profile)
         excluded.extend(price_excluded)
+        # build_crop_options really does the cost and price work; report each outcome.
+        n_no_price = sum(1 for e in price_excluded if getattr(e, "reason_code", "") == "NO_REAL_PRICE")
+        n_no_cost = sum(
+            1 for e in price_excluded
+            if getattr(e, "reason_code", "") == "DATA_UNAVAILABLE"
+            and (getattr(e, "params", None) or {}).get("field") == "cost_or_fertilizer"
+        )
+        costs_ok = len(crops) + n_no_price
+        trace.append(_trace(
+            "optimize", "costs", "ok" if costs_ok else "failed",
+            f"Cultivation cost estimated for {costs_ok} of {len(candidates)} crops"
+            + (f" ({n_no_cost} without cost data)" if n_no_cost else ""),
+            started=t0,
+        ))
+        trace.append(_trace(
+            "optimize", "prices", "ok" if crops else "failed",
+            f"Market prices found for {len(crops)} of {costs_ok} crops"
+            + (f" ({n_no_price} without a real price)" if n_no_price else ""),
+            started=t0,
+        ))
         if not crops:
-            trace.append(_trace("optimize", "Plan optimization", "skipped", "No crop has complete price and cost data"))
+            trace.append(_trace("optimize", "Plan optimization", "skipped",
+                                "No crop has complete price and cost data", started=t0))
             return {"crops": [], "excluded": excluded, "strategies": [], "impact": None,
                     "opt_warnings": [], "trace": trace}
+        t_opt = _now()
         inputs = OptimizerInputs(
             profile=profile,
             location=location,
@@ -688,12 +995,13 @@ async def optimize_node(state: dict) -> dict:
             price_history_years={c.crop_id: 5 for c in crops},
         )
         strategies, impact, opt_warnings = compare_strategies(inputs)
-        trace.append(_trace("optimize", "Plan optimization", "ok", f"Compared {len(strategies)} plan strategies"))
+        trace.append(_trace("optimize", "Plan optimization", "ok",
+                            f"Compared {len(strategies)} plan strategies", started=t_opt))
         return {"crops": crops, "excluded": excluded, "strategies": strategies, "impact": impact,
                 "opt_warnings": opt_warnings, "trace": trace}
     except Exception as exc:
         logger.warning("optimize_node failed: %s", exc)
-        trace.append(_trace("optimize", "Plan optimization", "failed", "Plan optimization failed"))
+        trace.append(_trace("optimize", "Plan optimization", "failed", "Plan optimization failed", started=t0))
         return {"crops": [], "excluded": excluded, "strategies": [], "impact": None,
                 "opt_warnings": [], "trace": trace}
 
@@ -728,16 +1036,17 @@ def _recommended_strategy(state: dict):
 def check_feasibility_node(state: dict) -> dict:
     """The optimizer applies the 4-step relaxation ladder itself; here we only read the verdict."""
     trace = list(state.get("trace", []))
+    t0 = _now()
     recommended = _recommended_strategy(state)
 
     if recommended and recommended.feasible and recommended.allocations:
-        trace.append(_trace("check_feasibility", "Plan feasibility check", "ok", "A profitable plan satisfies the available land, budget, and water constraints"))
+        trace.append(_trace("check_feasibility", "Plan feasibility check", "ok", "A profitable plan satisfies the available land, budget, and water constraints", started=t0))
         return {"feasibility": None, "trace": trace}
 
     # An infeasible plan is a valid optimizer outcome, not a runtime failure.
     # Keep the trace green so the farmer can distinguish it from a broken step.
     trace.append(_trace("check_feasibility", "Plan feasibility check", "ok",
-                        "No profitable plan satisfies the available land, budget, and water constraints"))
+                        "No profitable plan satisfies the available land, budget, and water constraints", started=t0))
     return {"feasibility": "INFEASIBLE", "trace": trace}
 
 
@@ -758,12 +1067,13 @@ def relax_constraint_node(state: dict) -> dict:
     relaxations = list(state.get("relaxations", []))
     trace = list(state.get("trace", []))
     candidates = list(state.get("candidates", []))
+    t0 = _now()
 
     steps = ["CAP_TO_1", "REDUCE_AREA", "DROP_WATER_HUNGRY_CROP", "USE_NORMAL_SCENARIO_WATER"]
     if relaxation_count < len(steps):
         step = steps[relaxation_count]
         relaxations.append(step)
-        trace.append(_trace("relax_constraint", step, "ok", f"Applying relaxation step {relaxation_count + 1}: {step}"))
+        trace.append(_trace("relax_constraint", step, "ok", f"Applying relaxation step {relaxation_count + 1}: {step}", started=t0))
 
         # DROP_WATER_HUNGRY_CROP: remove the candidate with the highest normal water need
         if step == "DROP_WATER_HUNGRY_CROP" and candidates:
@@ -831,7 +1141,7 @@ def _plan_facts(state: dict, recommended, profile) -> tuple[list[dict], dict]:
 
 async def explain_node(state: dict) -> dict:
     """LLM call 2: generate natural-language explanation of the plan."""
-    from app.agent.client import SarvamAllModelsFailed, get_sarvam_client
+    from app.agent.client import get_sarvam_client
     from app.agent.grounding import grounding_check
     from app.agent.prompts import EXPLAIN_SYSTEM, build_explain_user_prompt, long_duration_facts
     from app.agent.templates import build_template_explanation
@@ -863,6 +1173,8 @@ async def explain_node(state: dict) -> dict:
     long_facts = long_duration_facts(recommended, state.get("crops", []))
 
     explanation_text = ""
+    t0 = _now()
+    retry_count = state.get("grounding_retry_count", 0)
     try:
         client = get_sarvam_client()
         resp = await client.chat(
@@ -878,17 +1190,24 @@ async def explain_node(state: dict) -> dict:
         if not raw:
             raise ValueError("Sarvam returned empty content")
         parsed = json.loads(raw)
-        explanation_text = parsed.get("text", "")
+        if not isinstance(parsed, dict):
+            raise ValueError("Sarvam returned non-object JSON")
+        explanation_text = parsed.get("text")
+        if not isinstance(explanation_text, str) or not explanation_text.strip():
+            raise ValueError("Sarvam returned no text")
         provider = "sarvam"
-    except (SarvamAllModelsFailed, json.JSONDecodeError, ValueError, TypeError) as exc:
+    except Exception as exc:  # SarvamAllModelsFailed, bad JSON, wrong types, network: all fall back
         logger.warning("explain: LLM failed (%s: %s); using template", type(exc).__name__, str(exc)[:200])
-        # No LLM → template
+        # No LLM -> deterministic template. Setting the retry counter to its limit means
+        # the grounding loop can never come back here for another failing LLM call.
         fallback = build_template_explanation(language, getattr(profile, "land_acres", 0), recommended, water_saved)
-        trace.append(_trace("explain", "llm", "failed", "All models failed; using template"))
+        trace.append(_trace("explain", "llm", "failed", "AI explanation unavailable; used the built-in summary",
+                            started=t0, fallback_used="template"))
         return {
             "explanation_text": fallback.text,
-            "explanation_grounded": False,
+            "explanation_grounded": True,
             "explanation_provider": "template",
+            "grounding_retry_count": max(retry_count + 1, 2),
             "water_saved_pct": water_saved,
             "trace": trace,
         }
@@ -898,10 +1217,13 @@ async def explain_node(state: dict) -> dict:
                     "shap_factors": shap_factors, "long_crop_facts": long_facts,
                     "farmer_limits": farmer_limits}
     grounded = grounding_check(explanation_text, tool_outputs)
-    retry_count = state.get("grounding_retry_count", 0)
 
-    trace.append(_trace("explain", "llm", "ok" if grounded else "running",
-                        f"Explanation generated; grounded={grounded}"))
+    trace.append(_trace(
+        "explain", "llm", "ok" if grounded else "failed",
+        "Explanation written from the plan numbers" if grounded
+        else "Draft explanation did not match the plan numbers",
+        started=t0,
+    ))
 
     return {
         "explanation_text": explanation_text,
@@ -939,22 +1261,35 @@ def grounding_check_node(state: dict) -> dict:
                         "farmer_land_acres": getattr(profile, "land_acres", None),
                         "farmer_budget_rs": getattr(profile, "budget_rs", None),
                     }}
+    t0 = _now()
+    # A deterministic template is built from the plan's own numbers: nothing to verify.
+    if state.get("explanation_provider") == "template":
+        trace.append(_trace("grounding_check", "check", "ok",
+                            "Summary is built directly from the plan numbers", started=t0))
+        return {"explanation_grounded": True, "trace": trace}
+
     grounded = grounding_check(explanation_text, tool_outputs)
 
     if not grounded and retry_count >= 2:
-        # Max retries reached — fall back to template
+        # Max retries reached: fall back to the deterministic template.
         recommended = _recommended_strategy(state)
         fallback = build_template_explanation(language, getattr(profile, "land_acres", 0), recommended, water_saved)
-        trace.append(_trace("grounding_check", "check", "failed", "Grounding failed twice — using template"))
+        trace.append(_trace("grounding_check", "check", "failed",
+                            "Explanation did not match the plan numbers twice; used the built-in summary",
+                            started=t0, fallback_used="template"))
         return {
             "explanation_text": fallback.text,
-            "explanation_grounded": False,
+            "explanation_grounded": True,
             "explanation_provider": "template",
             "trace": trace,
         }
 
-    trace.append(_trace("grounding_check", "check", "ok" if grounded else "running",
-                        f"Grounded={grounded} retry={retry_count}"))
+    trace.append(_trace(
+        "grounding_check", "check", "ok" if grounded else "failed",
+        "Explanation matches the plan numbers" if grounded
+        else "Explanation did not match the plan numbers; writing it again",
+        started=t0,
+    ))
     return {"explanation_grounded": grounded, "trace": trace}
 
 
@@ -971,6 +1306,17 @@ def respond_node(state: dict) -> dict:
     import uuid
     from datetime import datetime, timezone
 
+    if state.get("route") == "question_answered":
+        # A question or small talk: emit the answer only. No new plan version, and the
+        # stored plan's explanation is left exactly as it was.
+        return {"reply": {
+            "text": state.get("explanation_text", ""),
+            "language": state.get("language", "en"),
+            "provider": state.get("explanation_provider", "template"),
+        }}
+
+    t0 = _now()
+    trace = list(state.get("trace", []))
     profile: FarmProfile = state.get("profile") or FarmProfile(
         location_text="unknown", land_acres=0, budget_rs=0
     )
@@ -1071,7 +1417,12 @@ def respond_node(state: dict) -> dict:
     from app.services.data_status import count_data_status
     plan = plan.model_copy(update={"data_status": count_data_status(plan)})
 
-    return {"plan_result": plan}
+    if recommended and recommended.feasible and recommended.allocations:
+        trace.append(_trace("respond", "complete", "ok", "Planning completed", started=t0))
+    else:
+        trace.append(_trace("respond", "complete", "failed",
+                            "Planning finished without a feasible plan for these inputs", started=t0))
+    return {"plan_result": plan, "reply": None, "trace": trace}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1116,6 +1467,7 @@ async def answer_from_memory_node(state: dict) -> dict:
     lang = language if language in ("mr", "hi", "en") else "en"
     message = state.get("message", "") or ""
     trace = list(state.get("trace", []))
+    t0 = _now()
     recommended = _recommended_strategy(state)
     summary = build_template_explanation(lang, profile.land_acres, recommended, 0.0).text
     provider = "memory"
@@ -1166,7 +1518,10 @@ async def answer_from_memory_node(state: dict) -> dict:
                     temperature=0.2,
                     max_tokens=800,
                 )
-                answer = json.loads(client.extract_text(resp) or "{}").get("text", "")
+                parsed = json.loads(client.extract_text(resp) or "{}")
+                answer = parsed.get("text") if isinstance(parsed, dict) else None
+                if not isinstance(answer, str):
+                    answer = ""
                 tool_outputs = {
                     "strategies": [s.model_dump() for s in state.get("strategies", [])],
                     "shap_factors": shap_factors,
@@ -1182,13 +1537,90 @@ async def answer_from_memory_node(state: dict) -> dict:
             provider = "template"
             grounded = False
 
-    trace.append(_trace("answer_from_memory", step, "ok", "Answered from this conversation's saved plan"))
+    trace.append(_trace("answer_from_memory", step, "ok", "Answered from this conversation's saved plan", started=t0))
     return {
         "route": "question_answered",
         "explanation_text": text,
         "explanation_grounded": grounded,
         "explanation_provider": provider,
         "trace": trace,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# smalltalk — greeting / thanks / help / Kannada. Fixed text: no tools, no LLM.
+# ─────────────────────────────────────────────────────────────────────────────
+
+_SMALLTALK_TEXT = {
+    "greeting": {
+        "en": "Hello! 👋 How can I help you with your farming plan today?",
+        "mr": "नमस्कार! 👋 आज तुमच्या शेतीच्या आराखड्यात मी तुम्हाला कशी मदत करू?",
+        "hi": "नमस्ते! 👋 आज मैं आपकी खेती की योजना में कैसे मदद कर सकता हूँ?",
+    },
+    "thanks": {
+        "en": "You're welcome! Tell me if you want to change anything or make a new plan.",
+        "mr": "तुमचे स्वागत आहे! काही बदल करायचा असेल किंवा नवीन आराखडा हवा असेल तर सांगा.",
+        "hi": "आपका स्वागत है! कुछ बदलना हो या नई योजना चाहिए तो बताइए।",
+    },
+    "help": {
+        "en": "I'm AgriPulse, a farming assistant for Maharashtra. Tell me your location, farm size in acres "
+              "and budget, and I will suggest crops, water use and expected profit. You can also ask me "
+              "questions about your plan.",
+        "mr": "मी AgriPulse आहे, महाराष्ट्रातील शेतीसाठी मदतनीस. तुमचे ठिकाण, शेताचे क्षेत्र (एकर) आणि बजेट सांगा, "
+              "मी पिके, पाण्याचा वापर आणि अपेक्षित नफा सुचवेन. तुमच्या आराखड्याबद्दल प्रश्नही विचारू शकता.",
+        "hi": "मैं AgriPulse हूँ, महाराष्ट्र की खेती के लिए सहायक। अपनी जगह, खेत का क्षेत्र (एकड़) और बजट बताइए, "
+              "मैं फसलें, पानी का उपयोग और अनुमानित मुनाफ़ा सुझाऊँगा। आप अपनी योजना के बारे में सवाल भी पूछ सकते हैं।",
+    },
+}
+_SMALLTALK_SAVED_PROFILE = {
+    "en": "I have your farm saved: {location}, {acres} acres, budget ₹{budget}. Say \"make a plan\" and I will plan crops for it.",
+    "mr": "तुमची शेत माहिती जतन आहे: {location}, {acres} एकर, बजेट ₹{budget}. \"आराखडा तयार करा\" म्हणा, मी पिकांचे नियोजन करेन.",
+    "hi": "आपकी खेत जानकारी सहेजी है: {location}, {acres} एकड़, बजट ₹{budget}। \"योजना बनाइए\" कहिए, मैं फसलों की योजना बनाऊँगा।",
+}
+# Kannada is not a planning language yet: greet in Kannada and say so honestly.
+_KANNADA_GREETING = "ನಮಸ್ಕಾರ! 🙏"
+_KANNADA_NOTE = (
+    "ಕ್ಷಮಿಸಿ, ಸದ್ಯಕ್ಕೆ ಕೃಷಿ ಯೋಜನೆ ಇಂಗ್ಲಿಷ್, ಮರಾಠಿ ಮತ್ತು ಹಿಂದಿ ಭಾಷೆಗಳಲ್ಲಿ ಮಾತ್ರ ಲಭ್ಯವಿದೆ (ಪೈಲಟ್ ಮಹಾರಾಷ್ಟ್ರಕ್ಕೆ ಮಾತ್ರ). "
+    "Farm planning currently works in English, Marathi and Hindi (the pilot covers Maharashtra)."
+)
+
+
+def _complete_profile(profile) -> bool:
+    """A saved profile that is really usable (never the 'unknown' placeholder)."""
+    if profile is None:
+        return False
+    try:
+        return not compute_missing(profile.model_dump())
+    except Exception:
+        return False
+
+
+def smalltalk_node(state: dict) -> dict:
+    """Reply to small talk with fixed text. Never calls a tool or the LLM, and never
+    claims to remember anything that is not in the saved profile."""
+    language = state.get("language", "en")
+    lang = language if language in ("mr", "hi", "en") else "en"
+    kind = smalltalk_kind(state.get("message", "")) or "greeting"
+
+    if kind == "kannada_greeting":
+        text = f"{_KANNADA_GREETING} {_KANNADA_NOTE}"
+    elif kind == "kannada":
+        text = _KANNADA_NOTE
+    else:
+        text = _SMALLTALK_TEXT[kind][lang]
+        profile = state.get("profile")
+        if kind == "greeting" and _complete_profile(profile):
+            text += " " + _SMALLTALK_SAVED_PROFILE[lang].format(
+                location=profile.location_text, acres=f"{profile.land_acres:g}", budget=f"{profile.budget_rs:,.0f}",
+            )
+            if state.get("strategies"):
+                text += " " + _NEXT_STEP_HINT[lang]
+    return {
+        "route": "question_answered",
+        "explanation_text": text,
+        "explanation_grounded": True,
+        "explanation_provider": "template",
+        "trace": list(state.get("trace", [])),
     }
 
 

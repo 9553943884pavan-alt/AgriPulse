@@ -366,16 +366,24 @@ export interface QuestionEvent { text: string; field: string; language: Language
 export interface MessageEvent { text: string; language: Language; provider: string }
 export interface DoneEvent { ms: number }
 
+export type TraceStatus = 'pending' | 'running' | 'ok' | 'cached' | 'failed' | 'skipped'
+
 export interface TraceEvent {
   id: string
   node: string
   step: string
-  status: 'running' | 'ok' | 'cached' | 'failed' | 'skipped'
+  status: TraceStatus
   started_at: string
   duration_ms: number
   summary: string
   source: { name: string; url: string; status: string } | null
   fallback_used: string | null
+  // Optional fields added by newer backends; older payloads omit them.
+  run_id?: string
+  sequence?: number
+  tool_name?: string
+  display_name?: string
+  completed_at?: string
 }
 
 // ---------------------------------------------------------------------------
@@ -484,6 +492,8 @@ export interface ChatRequest {
   message: string
   language: Language
   profile_patch?: Partial<FarmProfile>
+  /** Saved farm profile; sent only when starting a brand-new conversation. */
+  profile?: FarmProfile
 }
 
 export interface PrefetchResponse {

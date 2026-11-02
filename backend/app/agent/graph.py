@@ -42,6 +42,7 @@ from app.agent.nodes import (
     respond_node,
     route_node,
     save_memory_node,
+    smalltalk_node,
 )
 
 logger = logging.getLogger(__name__)
@@ -55,7 +56,9 @@ class AgentState(TypedDict, total=False):
     message: str
     language: Literal["mr", "hi", "en"]
     profile_patch: dict | None
-    route: Literal["new_plan", "follow_up", "patch", "question"]
+    route: Literal["new_plan", "follow_up", "patch", "question", "smalltalk", "question_answered"]
+    plan_only: bool               # "make a plan" with a saved profile: skip LLM extraction
+    reply: dict | None            # message-only answer (question / small talk): {text, language, provider}
 
     # Profile
     profile: Any          # FarmProfile | None
@@ -115,6 +118,8 @@ def _after_route(state: AgentState) -> str:
         return "merge_patch"
     if route in ("follow_up", "question"):
         return "answer_from_memory"
+    if route == "smalltalk":
+        return "smalltalk"
     return "extract_profile"
 
 
@@ -165,6 +170,7 @@ def build_graph() -> StateGraph:
     g.add_node("ask_missing", ask_missing_node)
     g.add_node("gather_data", gather_data_node)
     g.add_node("answer_from_memory", answer_from_memory_node)
+    g.add_node("smalltalk", smalltalk_node)
     g.add_node("recommend_crops", recommend_crops_node)
     g.add_node("predict_yield", predict_yield_node)
     g.add_node("optimize", optimize_node)
@@ -183,7 +189,9 @@ def build_graph() -> StateGraph:
         "merge_patch": "merge_patch",
         "answer_from_memory": "answer_from_memory",
         "extract_profile": "extract_profile",
+        "smalltalk": "smalltalk",
     })
+    g.add_edge("smalltalk", "respond")
     g.add_conditional_edges("merge_patch", _after_extract_profile, {
         "ask_missing": "ask_missing",
         "gather_data": "gather_data",

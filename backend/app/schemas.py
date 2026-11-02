@@ -647,6 +647,12 @@ class TraceEvent(BaseModel):
     summary: str
     source: TraceSource | None = None
     fallback_used: str | None = None
+    # Additive, all optional: older clients ignore them.
+    run_id: str | None = None          # one id per chat request
+    sequence: int | None = None        # 1..n across the whole turn, set when emitted
+    tool_name: str | None = None       # internal tool id, e.g. crop_recommender
+    display_name: str | None = None    # friendly English name for the UI
+    completed_at: datetime | None = None
 
 
 # ─────────────────────────────────────────────────────────────────────────────

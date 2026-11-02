@@ -4,6 +4,8 @@ import { defineConfig } from '@playwright/test'
 // Browser: system Microsoft Edge (channel 'msedge'), no browser download needed.
 export default defineConfig({
   testDir: './e2e',
+  // The long demo recording has its own config (playwright.demo.config.ts).
+  testIgnore: 'demo-video.spec.ts',
   timeout: 60_000,
   reporter: 'list',
   use: {

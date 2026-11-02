@@ -203,6 +203,7 @@
     "chat_failed": "Chat could not be completed. Please try again."
   },
   "trace": {
+    "pending": "Waiting",
     "running": "Running…",
     "ok": "Done",
     "cached": "Cached",
@@ -261,6 +262,7 @@
     "OVER_BUDGET": "{{crop_id}} not included: cost exceeds budget."
   },
   "misc": {
+    "plan_stale_notice": "Your farm details changed after this plan was made. Ask the assistant to re-plan or save your Farm Profile.",
     "live_data": "Live data",
     "occupies_land": "Occupies the land for {{months}} months",
     "opens_on": "Opens {{date}}",

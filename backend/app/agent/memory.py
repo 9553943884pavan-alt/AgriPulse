@@ -23,6 +23,14 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
+# Chat history kept per thread (saved and loaded): old turns are dropped, never the newest.
+MAX_STORED_MESSAGES = 40
+
+
+def cap_messages(messages: list) -> list:
+    """The last MAX_STORED_MESSAGES chat messages."""
+    return list(messages)[-MAX_STORED_MESSAGES:]
+
 
 async def get_checkpointer():
     """Return a MemorySaver for the graph checkpointer.
