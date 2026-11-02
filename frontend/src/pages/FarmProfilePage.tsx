@@ -1,127 +1,361 @@
 /**
- * FarmProfilePage — view and edit farm profile.
- * Editing saves and re-runs the plan via E2 or E3.
+ * FarmProfilePage — view, edit, SAVE and then OPTIMIZE the farm profile.
+ *
+ * Workflow: edit -> "Save Changes" (PUT /api/profile, persists only) ->
+ * "Optimize Plan" (agent run from the SAVED profile) -> redirect to /dashboard
+ * only after a plan was generated AND persisted. Optimize is never available
+ * for unsaved form values.
  */
 
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { MapPin, CheckCircle2 } from 'lucide-react'
+import { MapPin, CheckCircle2, Sparkles } from 'lucide-react'
 import { Card, CardHeader } from '@/components/Card'
 import { Button } from '@/components/Button'
 import { Badge } from '@/components/Badge'
 import { ErrorState } from '@/components/ErrorState'
+import { TraceTimeline } from '@/features/trace/TraceTimeline'
 import { useStore } from '@/state/store'
-import { apiPost } from '@/api/client'
+import { ApiClientError, NetworkError, apiFetch, saveProfile } from '@/api/client'
+import { streamChat } from '@/api/sseClient'
 import { useLocationSearch, usePrefetchLocation } from '@/api/queryHooks'
 import { validateProfile } from '@/utils/profileValidation'
-import type { FarmProfile, PlanResult, IrrigationMethod, WaterSource, RiskAppetite, ApiError } from '@/api/types'
+import { isValidThreadId, isPlaceholderProfile } from '@/utils/chatRequest'
+import { createStreamGuard } from '@/utils/streamGuard'
+import {
+  canOptimize,
+  canSave,
+  createRunGuard,
+  evaluateOptimizeRun,
+  extractFieldErrors,
+  failureCode,
+  formatSavedTime,
+  isProfileDirty,
+  optimizeErrorInfo,
+  type OptimizeErrorInfo,
+  type ProfileStatus,
+} from '@/utils/profileWorkflow'
+import type {
+  ApiError,
+  FarmProfile,
+  IrrigationMethod,
+  Language,
+  PlanResult,
+  RiskAppetite,
+  ThreadResponse,
+  TraceEvent,
+  WaterSource,
+} from '@/api/types'
 
 const numText = (n: number | null | undefined) => (n && n > 0 ? String(n) : '')
 
+const INITIAL_PROFILE: FarmProfile = {
+  location_text: '',
+  land_acres: 0,
+  budget_rs: 0,
+  water_source: 'borewell',
+  irrigation_method: 'flood',
+  risk_appetite: 'balanced',
+  canal_access: false,
+  borewell_count: 1,
+  borewell_yield_lph: null,
+  pump_hours_per_day: null,
+  soil_test: null,
+  language: 'en',
+  missing: [],
+  defaults_used: [],
+}
+
+/** Field names that have their own inline error slot in the form. */
+const INLINE_FIELDS = new Set([
+  'location_text', 'land_acres', 'budget_rs', 'water_source', 'borewell_count',
+  'borewell_yield_lph', 'pump_hours_per_day', 'irrigation_method', 'risk_appetite',
+])
+
+type SaveError = { kind: 'network' } | { kind: 'api'; error: ApiError }
+
+interface RunError {
+  info: OptimizeErrorInfo
+  apiError: ApiError | null
+}
+
 export function FarmProfilePage() {
   const { t } = useTranslation()
-  const { profile, plan, setProfile, setPlan } = useStore()
+  const navigate = useNavigate()
+  const profile = useStore((s) => s.profile)
+  const plan = useStore((s) => s.plan)
+  const profileVersion = useStore((s) => s.profileVersion)
+  const profileSavedAt = useStore((s) => s.profileSavedAt)
+  const language = useStore((s) => s.language) as Language
+  const traceEvents = useStore((s) => s.traceEvents)
 
-  const initialProfile: FarmProfile = {
-    location_text: '',
-    land_acres: 0,
-    budget_rs: 0,
-    water_source: 'borewell',
-    irrigation_method: 'flood',
-    risk_appetite: 'balanced',
-    canal_access: false,
-    borewell_count: 1,
-    borewell_yield_lph: null,
-    pump_hours_per_day: null,
-    soil_test: null,
-    language: 'en',
-    missing: [],
-    defaults_used: [],
-  }
-  const [form, setForm] = useState<Partial<FarmProfile>>(profile ?? {
-    ...initialProfile,
-  })
+  // Last server-confirmed profile. A stored profile without a version (legacy) counts as UNSAVED.
+  const savedSnapshot = profileVersion !== null ? profile : null
+
+  const [form, setForm] = useState<Partial<FarmProfile>>(profile ?? { ...INITIAL_PROFILE })
   const [landText, setLandText] = useState(numText(profile?.land_acres))
   const [budgetText, setBudgetText] = useState(numText(profile?.budget_rs))
   const [submitAttempted, setSubmitAttempted] = useState(false)
+  const [touched, setTouched] = useState(false)
   const [locationFocused, setLocationFocused] = useState(false)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<ApiError | null>(null)
-  const [saved, setSaved] = useState(false)
+  const [status, setStatus] = useState<ProfileStatus>('idle')
+  const [saveError, setSaveError] = useState<SaveError | null>(null)
+  const [serverErrors, setServerErrors] = useState<Record<string, string>>({})
+  const [runError, setRunError] = useState<RunError | null>(null)
+  const [runAttempted, setRunAttempted] = useState(false)
+  const [reloading, setReloading] = useState(false)
+  // Set when the server told us the saved profile cannot be used (stale / missing / invalid).
+  const [forceDirty, setForceDirty] = useState(false)
+
+  const lastSyncedRef = useRef<FarmProfile | null>(profile)
+  const mountedRef = useRef(true)
+  const abortRef = useRef<AbortController | null>(null)
+  const streamGuardRef = useRef(createStreamGuard())
+  const [saveGuard] = useState(() => createRunGuard())
+  const [optimizeGuard] = useState(() => createRunGuard())
+
   const locationQuery = form.location_text ?? ''
   const locationSearch = useLocationSearch(locationQuery)
   const prefetch = usePrefetchLocation()
 
-  useEffect(() => {
-    if (profile && !locationQuery) {
-      setForm(profile)
-      setLandText(numText(profile.land_acres))
-      setBudgetText(numText(profile.budget_rs))
-    }
-  }, [profile, locationQuery])
+  const applyProfileToForm = (p: FarmProfile | null) => {
+    setForm(p ?? { ...INITIAL_PROFILE })
+    setLandText(numText(p?.land_acres))
+    setBudgetText(numText(p?.budget_rs))
+  }
+
+  const patchForm = (patch: Partial<FarmProfile>) => {
+    setTouched(true)
+    setForm((f) => ({ ...f, ...patch }))
+  }
+
+  // The form as the server would receive it.
+  const currentProfile = useMemo<FarmProfile>(() => ({
+    ...INITIAL_PROFILE,
+    ...form,
+    location_text: (form.location_text ?? '').trim(),
+    land_acres: Number(landText) || 0,
+    budget_rs: Number(budgetText) || 0,
+  }), [form, landText, budgetText])
 
   const errors = validateProfile({
     location_text: form.location_text ?? '',
     land_acres: landText,
     budget_rs: budgetText,
   })
-  const hasErrors = Object.keys(errors).length > 0
+  const valid = Object.keys(errors).length === 0
+  const showErrors = submitAttempted || touched
+  const isDirty = forceDirty || isProfileDirty(currentProfile, savedSnapshot)
+  const busy = status === 'saving' || status === 'optimizing'
+  const saveEnabled = canSave({ valid, dirty: isDirty, status })
+  const optimizeState = canOptimize({ profileVersion, dirty: isDirty, valid, status })
+
+  // Keep the form in step with the store (e.g. a profile change made through chat),
+  // but never throw away edits the farmer has made.
+  useEffect(() => {
+    if (!profile || profile === lastSyncedRef.current) return
+    const previous = lastSyncedRef.current
+    lastSyncedRef.current = profile
+    const formIsClean = previous ? !isProfileDirty(currentProfile, previous) : !touched
+    if (formIsClean && !isPlaceholderProfile(profile)) {
+      setForm(profile)
+      setLandText(numText(profile.land_acres))
+      setBudgetText(numText(profile.budget_rs))
+    }
+  }, [profile, currentProfile, touched])
+
+  // Server-side field errors belong to the values that produced them.
+  useEffect(() => {
+    setServerErrors({})
+  }, [form, landText, budgetText])
+
+  useEffect(() => {
+    mountedRef.current = true
+    const guard = streamGuardRef.current
+    return () => {
+      mountedRef.current = false
+      guard.invalidate()
+      abortRef.current?.abort()
+    }
+  }, [])
 
   const handleSave = async () => {
     setSubmitAttempted(true)
-    if (hasErrors) return
-    setSaving(true)
-    setError(null)
-    setSaved(false)
+    if (!canSave({ valid, dirty: isDirty, status })) return
+    if (!saveGuard.tryStart()) return
+    setStatus('saving')
+    setSaveError(null)
+    setRunError(null)
+    setServerErrors({})
     try {
-      const submitted: FarmProfile = {
-        ...initialProfile,
-        ...form,
-        location_text: (form.location_text ?? '').trim(),
-        land_acres: Number(landText),
-        budget_rs: Number(budgetText),
+      const submitted: FarmProfile = { ...currentProfile, language }
+      const { threadId, setSavedProfile } = useStore.getState()
+      const result = await saveProfile(isValidThreadId(threadId) ? threadId : null, submitted)
+      if (typeof result.profile_version !== 'number') throw new NetworkError('Unexpected save response')
+      const saved = result.profile ?? submitted
+      setSavedProfile({
+        thread_id: result.thread_id,
+        profile: saved,
+        profile_version: result.profile_version,
+        saved_at: result.saved_at,
+      })
+      lastSyncedRef.current = saved
+      if (mountedRef.current) {
+        applyProfileToForm(saved)
+        setForceDirty(false)
+        setStatus('saved')
       }
-      const reoptimizeFields = ['land_acres', 'budget_rs', 'risk_appetite'] as const
-      const unchangedReoptimizeFields = profile && (
-        submitted.location_text === profile.location_text
-        && submitted.water_source === profile.water_source
-        && submitted.borewell_count === profile.borewell_count
-        && submitted.borewell_yield_lph === profile.borewell_yield_lph
-        && submitted.pump_hours_per_day === profile.pump_hours_per_day
-        && submitted.canal_access === profile.canal_access
-        && submitted.irrigation_method === profile.irrigation_method
-        && JSON.stringify(submitted.soil_test) === JSON.stringify(profile.soil_test)
-      )
-      const patch = Object.fromEntries(
-        reoptimizeFields
-          .filter((field) => submitted[field] !== profile?.[field])
-          .map((field) => [field, submitted[field]]),
-      )
-      const result = plan && unchangedReoptimizeFields && Object.keys(patch).length > 0
-        ? await apiPost<PlanResult>(`/api/plans/${encodeURIComponent(plan.plan_id)}/reoptimize`, patch)
-        : await apiPost<PlanResult>('/api/plan', submitted)
-      setPlan(result)
-      setProfile(result.profile)
-      setSaved(true)
     } catch (err) {
-      const apiErr = (err as { apiError?: ApiError }).apiError
-      setError(apiErr ?? null)
+      if (!mountedRef.current) return
+      setStatus('error')
+      if (err instanceof ApiClientError) {
+        const fields = extractFieldErrors(err.apiError, language)
+        if (Object.keys(fields).length > 0) setServerErrors(fields)
+        else setSaveError({ kind: 'api', error: err.apiError })
+      } else {
+        setSaveError({ kind: 'network' })
+      }
     } finally {
-      setSaving(false)
+      saveGuard.finish()
+    }
+  }
+
+  const failRun = (code: string, apiError: ApiError | null) => {
+    const info = optimizeErrorInfo(code)
+    setRunError({ info, apiError })
+    if (info.needsSave) setForceDirty(true)
+    setStatus('error')
+    optimizeGuard.finish()
+    abortRef.current = null
+  }
+
+  const handleOptimize = () => {
+    if (!optimizeState.enabled || optimizeGuard.running) return
+    if (!optimizeGuard.tryStart()) return
+
+    const { threadId, profileVersion: version, clearTrace, addTraceEvent, setThreadId, setProfile, setPlan, setProfileVersion } =
+      useStore.getState()
+    if (!isValidThreadId(threadId) || version === null) {
+      failRun('NO_SAVED_PROFILE', null)
+      return
+    }
+
+    setStatus('optimizing')
+    setRunError(null)
+    setSaveError(null)
+    setRunAttempted(true)
+    clearTrace()
+
+    const token = streamGuardRef.current.begin()
+    const isLive = () => mountedRef.current && streamGuardRef.current.isCurrent(token)
+    const live = <A extends unknown[]>(fn: (...args: A) => void) => (...args: A) => {
+      if (isLive()) fn(...args)
+    }
+
+    const run: {
+      plan: PlanResult | null
+      done: boolean
+      doneVersion: number | null
+      error: ApiError | null
+      trace: Map<string, TraceEvent>
+    } = { plan: null, done: false, doneVersion: null, error: null, trace: new Map() }
+
+    abortRef.current = streamChat(
+      { thread_id: threadId, language, intent: 'optimize', profile_version: version },
+      {
+        onThread: live((e) => { if (e.thread_id !== useStore.getState().threadId) setThreadId(e.thread_id) }),
+        onProfile: live((e: FarmProfile) => { if (!isPlaceholderProfile(e)) setProfile(e) }),
+        onQuestion: live(() => { /* an optimize run never asks; treated as incomplete on close */ }),
+        onTrace: live((e) => {
+          run.trace.set(e.id, e)
+          addTraceEvent(e)
+        }),
+        onPlan: live((e: PlanResult) => { run.plan = e }),
+        onMessage: live(() => { /* chat text is not shown here */ }),
+        onError: live((e: ApiError) => { run.error ??= e }),
+        onDone: live((e) => {
+          run.done = true
+          if (typeof e.profile_version === 'number') run.doneVersion = e.profile_version
+        }),
+        onClose: live(() => {
+          const verdict = evaluateOptimizeRun({
+            plan: run.plan,
+            done: run.done,
+            error: run.error,
+            trace: Array.from(run.trace.values()),
+          })
+          if (!verdict.ok || !run.plan) {
+            failRun(failureCode(verdict, run.error), run.error)
+            return
+          }
+          // Plan generated AND persisted: only now adopt it and leave the page.
+          setPlan(run.plan)
+          if (run.doneVersion !== null) setProfileVersion(run.doneVersion)
+          abortRef.current = null
+          navigate('/dashboard')
+        }),
+      },
+    )
+  }
+
+  const handleCancel = () => {
+    streamGuardRef.current.invalidate()
+    abortRef.current?.abort()
+    abortRef.current = null
+    optimizeGuard.finish()
+    setRunError(null)
+    setStatus('idle')
+  }
+
+  const handleReloadSaved = async () => {
+    const { threadId } = useStore.getState()
+    if (!isValidThreadId(threadId) || reloading) return
+    setReloading(true)
+    try {
+      const thread = await apiFetch<ThreadResponse>(`/api/threads/${encodeURIComponent(threadId)}`)
+      if (!mountedRef.current) return
+      if (thread.profile && typeof thread.profile_version === 'number') {
+        const { setProfile, setProfileVersion } = useStore.getState()
+        setProfile(thread.profile)
+        setProfileVersion(thread.profile_version, thread.profile_saved_at ?? null)
+        lastSyncedRef.current = thread.profile
+        applyProfileToForm(thread.profile)
+        setForceDirty(false)
+        setTouched(false)
+        setRunError(null)
+        setStatus('idle')
+      } else {
+        setRunError({ info: optimizeErrorInfo('NO_SAVED_PROFILE'), apiError: null })
+      }
+    } catch {
+      if (mountedRef.current) setRunError({ info: optimizeErrorInfo(null), apiError: null })
+    } finally {
+      if (mountedRef.current) setReloading(false)
     }
   }
 
   const handleReset = () => {
-    setForm(profile ?? initialProfile)
-    setLandText(numText(profile?.land_acres))
-    setBudgetText(numText(profile?.budget_rs))
+    applyProfileToForm(savedSnapshot ?? profile)
+    setTouched(false)
     setSubmitAttempted(false)
-    setError(null)
-    setSaved(false)
+    setSaveError(null)
+    setServerErrors({})
+    setRunError(null)
+    if (status === 'error' || status === 'saved') setStatus('idle')
   }
 
   const riskValue = form.risk_appetite === 'safe' ? 0 : form.risk_appetite === 'balanced' ? 50 : 100
+  const savedTime = formatSavedTime(profileSavedAt)
+  const showSavedNote = profileVersion !== null && !isDirty && !busy
+  const unmappedErrors = Object.entries(serverErrors).filter(([field]) => !INLINE_FIELDS.has(field))
+  const serverFieldError = (field: string) => (
+    field in serverErrors ? (
+      <p role="alert" className="mt-1 text-xs text-danger">
+        {serverErrors[field] || t('profile_page.field_error_fallback')}
+      </p>
+    ) : null
+  )
 
   return (
     <div className="h-full overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#16834A transparent' }}>
@@ -155,7 +389,7 @@ export function FarmProfilePage() {
                 title={t('profile_page.basic_info')}
               />
 
-              <div className="mt-6 space-y-5">
+              <fieldset disabled={busy} className="mt-6 space-y-5 min-w-0 border-0 p-0 m-0">
                 {/* Location */}
                 <div>
                   <label className="block text-sm font-semibold text-ink mb-1.5" htmlFor="location">
@@ -167,7 +401,7 @@ export function FarmProfilePage() {
                       id="location"
                       type="text"
                       value={form.location_text ?? ''}
-                      onChange={(e) => setForm((f) => ({ ...f, location_text: e.target.value }))}
+                      onChange={(e) => patchForm({ location_text: e.target.value })}
                       onFocus={() => setLocationFocused(true)}
                       onBlur={() => window.setTimeout(() => setLocationFocused(false), 150)}
                       autoComplete="off"
@@ -175,7 +409,7 @@ export function FarmProfilePage() {
                       aria-expanded={locationFocused && (locationSearch.data?.results.length ?? 0) > 0}
                       aria-controls="location-suggestions"
                       placeholder="e.g. Beed, Maharashtra"
-                      aria-invalid={submitAttempted && !!errors.location_text}
+                      aria-invalid={showErrors && !!errors.location_text}
                       className="w-full pl-9 pr-4 py-3 rounded-btn border border-gray-300 text-sm text-ink placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary min-h-touch"
                     />
                     {locationFocused && (locationSearch.data?.results.length ?? 0) > 0 && (
@@ -190,7 +424,7 @@ export function FarmProfilePage() {
                               type="button"
                               onMouseDown={(event) => event.preventDefault()}
                               onClick={() => {
-                                setForm((current) => ({ ...current, location_text: location.resolved_name }))
+                                patchForm({ location_text: location.resolved_name })
                                 setLocationFocused(false)
                                 prefetch.mutate(location.resolved_name)
                               }}
@@ -203,9 +437,10 @@ export function FarmProfilePage() {
                       </ul>
                     )}
                   </div>
-                  {submitAttempted && errors.location_text && (
+                  {showErrors && errors.location_text && (
                     <p role="alert" className="mt-1 text-xs text-danger">{t(errors.location_text)}</p>
                   )}
+                  {serverFieldError('location_text')}
                   {prefetch.isError && (
                     <p role="status" className="mt-1 text-xs text-amber-700">
                       {t('errors.prefetch_failed', 'Location cache could not be warmed; planning can still continue.')}
@@ -225,17 +460,18 @@ export function FarmProfilePage() {
                       min={0}
                       step={0.5}
                       value={landText}
-                      aria-invalid={submitAttempted && !!errors.land_acres}
-                      onChange={(e) => setLandText(e.target.value)}
+                      aria-invalid={showErrors && !!errors.land_acres}
+                      onChange={(e) => { setTouched(true); setLandText(e.target.value) }}
                       className="flex-1 px-4 py-3 rounded-btn border border-gray-300 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary min-h-touch"
                     />
                     <div className="w-32 px-4 py-3 rounded-btn border border-gray-300 text-sm text-muted bg-gray-50 flex items-center">
                       {t('units.acres')}
                     </div>
                   </div>
-                  {submitAttempted && errors.land_acres && (
+                  {showErrors && errors.land_acres && (
                     <p role="alert" className="mt-1 text-xs text-danger">{t(errors.land_acres)}</p>
                   )}
+                  {serverFieldError('land_acres')}
                 </div>
 
                 {/* Budget */}
@@ -251,14 +487,15 @@ export function FarmProfilePage() {
                       min={0}
                       step={1000}
                       value={budgetText}
-                      aria-invalid={submitAttempted && !!errors.budget_rs}
-                      onChange={(e) => setBudgetText(e.target.value)}
+                      aria-invalid={showErrors && !!errors.budget_rs}
+                      onChange={(e) => { setTouched(true); setBudgetText(e.target.value) }}
                       className="w-full pl-7 pr-4 py-3 rounded-btn border border-gray-300 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary min-h-touch"
                     />
                   </div>
-                  {submitAttempted && errors.budget_rs && (
+                  {showErrors && errors.budget_rs && (
                     <p role="alert" className="mt-1 text-xs text-danger">{t(errors.budget_rs)}</p>
                   )}
+                  {serverFieldError('budget_rs')}
                 </div>
 
                 {/* Water source */}
@@ -273,11 +510,10 @@ export function FarmProfilePage() {
                       value={form.water_source ?? 'borewell'}
                       onChange={(e) => {
                         const waterSource = e.target.value as WaterSource
-                        setForm((f) => ({
-                          ...f,
+                        patchForm({
                           water_source: waterSource,
                           canal_access: waterSource === 'canal' || waterSource === 'both',
-                        }))
+                        })
                       }}
                       className="w-full pl-9 pr-4 py-3 rounded-btn border border-gray-300 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary min-h-touch appearance-none bg-white"
                     >
@@ -287,6 +523,7 @@ export function FarmProfilePage() {
                       <option value="both">{t('profile_page.water_both')}</option>
                     </select>
                   </div>
+                  {serverFieldError('water_source')}
                 </div>
 
                 {(form.water_source === 'borewell' || form.water_source === 'both') && (
@@ -301,7 +538,7 @@ export function FarmProfilePage() {
                         min={1}
                         step={1}
                         value={form.borewell_count ?? ''}
-                        onChange={(e) => setForm((f) => ({ ...f, borewell_count: e.target.value ? Number(e.target.value) : null }))}
+                        onChange={(e) => patchForm({ borewell_count: e.target.value ? Number(e.target.value) : null })}
                         className="w-full px-3 py-3 rounded-btn border border-gray-300 text-sm"
                       />
                     </div>
@@ -314,7 +551,7 @@ export function FarmProfilePage() {
                         type="number"
                         min={0}
                         value={form.borewell_yield_lph ?? ''}
-                        onChange={(e) => setForm((f) => ({ ...f, borewell_yield_lph: e.target.value ? Number(e.target.value) : null }))}
+                        onChange={(e) => patchForm({ borewell_yield_lph: e.target.value ? Number(e.target.value) : null })}
                         className="w-full px-3 py-3 rounded-btn border border-gray-300 text-sm"
                       />
                     </div>
@@ -329,7 +566,7 @@ export function FarmProfilePage() {
                         max={24}
                         step={0.5}
                         value={form.pump_hours_per_day ?? ''}
-                        onChange={(e) => setForm((f) => ({ ...f, pump_hours_per_day: e.target.value ? Number(e.target.value) : null }))}
+                        onChange={(e) => patchForm({ pump_hours_per_day: e.target.value ? Number(e.target.value) : null })}
                         className="w-full px-3 py-3 rounded-btn border border-gray-300 text-sm"
                       />
                     </div>
@@ -346,7 +583,7 @@ export function FarmProfilePage() {
                     <select
                       id="irrigation"
                       value={form.irrigation_method ?? 'flood'}
-                      onChange={(e) => setForm((f) => ({ ...f, irrigation_method: e.target.value as IrrigationMethod }))}
+                      onChange={(e) => patchForm({ irrigation_method: e.target.value as IrrigationMethod })}
                       className="w-full pl-9 pr-4 py-3 rounded-btn border border-gray-300 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-primary min-h-touch appearance-none bg-white"
                     >
                       <option value="flood">{t('profile_page.irrigation_flood')}</option>
@@ -354,6 +591,7 @@ export function FarmProfilePage() {
                       <option value="drip">{t('profile_page.irrigation_drip')}</option>
                     </select>
                   </div>
+                  {serverFieldError('irrigation_method')}
                   {/* Assumption badge if this came from defaults */}
                   {profile?.defaults_used?.find((d) => d.field === 'irrigation_method') && (
                     <Badge variant="assumption" className="mt-1.5">
@@ -378,7 +616,7 @@ export function FarmProfilePage() {
                       onChange={(e) => {
                         const v = parseInt(e.target.value)
                         const appetite: RiskAppetite = v === 0 ? 'safe' : v === 50 ? 'balanced' : 'max_profit'
-                        setForm((f) => ({ ...f, risk_appetite: appetite }))
+                        patchForm({ risk_appetite: appetite })
                       }}
                       className="w-full accent-primary"
                       aria-valuetext={t(`profile_page.risk_${form.risk_appetite ?? 'balanced'}`)}
@@ -391,12 +629,50 @@ export function FarmProfilePage() {
                   </div>
                 </div>
 
-              </div>
+              </fieldset>
 
-              {/* Error */}
-              {error && (
+              {/* Save errors (field-level 422s are shown next to each field) */}
+              {unmappedErrors.length > 0 && (
+                <ul role="alert" className="mt-4 space-y-1 rounded-xl bg-red-50 border border-danger/20 p-4 text-sm text-danger">
+                  {unmappedErrors.map(([field, message]) => (
+                    <li key={field}>{message || t('profile_page.field_error_fallback')}</li>
+                  ))}
+                </ul>
+              )}
+              {saveError?.kind === 'network' && (
                 <div className="mt-4">
-                  <ErrorState error={error} retryable={false} />
+                  <ErrorState
+                    error={null}
+                    isNetworkError
+                    retryable
+                    onRetry={() => void handleSave()}
+                  />
+                </div>
+              )}
+              {saveError?.kind === 'api' && (
+                <div className="mt-4">
+                  <ErrorState error={saveError.error} retryable={saveError.error.retryable} onRetry={() => void handleSave()} />
+                </div>
+              )}
+
+              {/* Optimize errors: friendly, localized, never raw text */}
+              {runError && (
+                <div role="alert" className="mt-4 rounded-xl bg-red-50 border border-danger/20 p-4 text-sm text-ink">
+                  <p className="font-medium">{t(runError.info.key)}</p>
+                  {runError.info.key === 'profile_page.opt_err_validation' && runError.apiError?.user_message?.[language] && (
+                    <p className="mt-1 text-muted">{runError.apiError.user_message[language]}</p>
+                  )}
+                  {runError.info.action === 'reload_profile' && (
+                    <Button
+                      className="mt-3"
+                      variant="secondary"
+                      size="sm"
+                      loading={reloading}
+                      onClick={() => void handleReloadSaved()}
+                    >
+                      {t('profile_page.reload_saved')}
+                    </Button>
+                  )}
                 </div>
               )}
 
@@ -407,17 +683,62 @@ export function FarmProfilePage() {
               </div>
             </div>
 
-            {/* Save / reset bar */}
-            <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-3">
-              <Button variant="secondary" onClick={handleReset} disabled={saving}>
-                {t('profile_page.reset')}
-              </Button>
-              <Button onClick={() => void handleSave()} loading={saving} disabled={saving || (submitAttempted && hasErrors)}>
-                {saved && <CheckCircle2 className="w-4 h-4" aria-hidden="true" />}
-                {t('profile_page.save')}
-              </Button>
+            {/* Save / optimize bar */}
+            <div className="px-6 py-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3">
+              <div role="status" aria-live="polite" className="text-sm min-h-[1.25rem]">
+                {showSavedNote && (
+                  <span className="inline-flex items-center gap-1.5 text-forest font-medium">
+                    <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
+                    {savedTime ? t('profile_page.saved_at', { time: savedTime }) : t('profile_page.saved')}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-wrap items-center justify-end gap-3">
+                <Button variant="secondary" onClick={handleReset} disabled={busy}>
+                  {t('profile_page.reset')}
+                </Button>
+                <Button
+                  variant={isDirty ? 'primary' : 'secondary'}
+                  onClick={() => void handleSave()}
+                  loading={status === 'saving'}
+                  disabled={!saveEnabled}
+                >
+                  {t('profile_page.save')}
+                </Button>
+                {status === 'optimizing' && (
+                  <Button variant="ghost" onClick={handleCancel}>
+                    {t('profile_page.cancel')}
+                  </Button>
+                )}
+                <Button
+                  onClick={handleOptimize}
+                  loading={status === 'optimizing'}
+                  disabled={!optimizeState.enabled}
+                  aria-describedby={optimizeState.needsSave && status !== 'optimizing' ? 'optimize-hint' : undefined}
+                >
+                  {status !== 'optimizing' && <Sparkles className="w-4 h-4" aria-hidden="true" />}
+                  {status === 'optimizing' ? t('profile_page.optimizing') : t('profile_page.optimize')}
+                </Button>
+              </div>
+              {optimizeState.needsSave && status !== 'optimizing' && (
+                <p id="optimize-hint" className="basis-full text-right text-xs text-muted">
+                  {t('profile_page.save_first')}
+                </p>
+              )}
             </div>
           </Card>
+
+          {runAttempted && (
+            <Card className="mt-6">
+              <div className="p-6">
+                <CardHeader
+                  icon={<span aria-hidden="true">⚙️</span>}
+                  title={t('profile_page.trace_title')}
+                />
+                <TraceTimeline className="mt-4" events={traceEvents} loading={status === 'optimizing'} />
+              </div>
+            </Card>
+          )}
         </div>
 
         {/* ── Right: What happens next ──────────────────────────── */}

@@ -148,7 +148,7 @@ describe('buildChatRequest', () => {
     const req = buildChatRequest({ threadId: 'old-id', message: ` ${'a'.repeat(3000)} `, language: 'mr', profile: profile() })
     expect(req.thread_id).toBeNull()
     expect(req.profile).toBeDefined()
-    expect(req.message.length).toBe(MAX_MESSAGE_LENGTH)
+    expect(req.message?.length).toBe(MAX_MESSAGE_LENGTH)
     expect(req.language).toBe('mr')
   })
   it('profile helpers', () => {

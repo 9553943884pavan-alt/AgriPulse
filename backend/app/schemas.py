@@ -687,6 +687,9 @@ ErrorCode = Literal[
     "LOCATION_NOT_FOUND",
     "DISTRICT_NOT_AGRICULTURAL",
     "PLAN_NOT_FOUND",
+    "PROFILE_STALE",
+    "RUN_IN_PROGRESS",
+    "NO_SAVED_PROFILE",
     "AUDIO_TOO_LARGE",
     "STT_FAILED",
     "UPSTREAM_UNAVAILABLE",
@@ -736,6 +739,7 @@ class SSEMessage(BaseModel):
 
 class SSEDone(BaseModel):
     ms: int
+    profile_version: int | None = None   # version of the thread's saved profile after this turn
 
 
 class SSEEventExamples(BaseModel):

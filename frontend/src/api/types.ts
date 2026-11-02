@@ -364,7 +364,11 @@ export interface PlanResult {
 export interface ThreadEvent { thread_id: string }
 export interface QuestionEvent { text: string; field: string; language: Language }
 export interface MessageEvent { text: string; language: Language; provider: string }
-export interface DoneEvent { ms: number }
+export interface DoneEvent {
+  ms: number
+  /** Saved-profile version after the run (present on newer backends). */
+  profile_version?: number
+}
 
 export type TraceStatus = 'pending' | 'running' | 'ok' | 'cached' | 'failed' | 'skipped'
 
@@ -414,6 +418,28 @@ export interface ThreadResponse {
   profile: FarmProfile | null
   plan: PlanResult | null
   messages: ThreadMessage[]
+  /** Added with the save/optimize workflow; older backends omit them. */
+  profile_version?: number | null
+  profile_saved_at?: string | null
+  plan_stale?: boolean
+}
+
+// ---------------------------------------------------------------------------
+// Save profile (PUT /api/profile)
+// ---------------------------------------------------------------------------
+
+export interface SaveProfileRequest {
+  thread_id: string | null
+  profile: FarmProfile
+}
+
+export interface SaveProfileResponse {
+  thread_id: string
+  profile: FarmProfile
+  profile_version: number
+  saved_at: string
+  plan_stale: boolean
+  warnings: unknown[]
 }
 
 // ---------------------------------------------------------------------------
@@ -489,9 +515,13 @@ export interface SourceHealth {
 
 export interface ChatRequest {
   thread_id?: string | null
-  message: string
+  message?: string
   language: Language
   profile_patch?: Partial<FarmProfile>
+  /** 'optimize' plans from the profile saved on the server (message is optional). */
+  intent?: 'optimize'
+  /** Version of the saved profile the client believes is current (optimize only). */
+  profile_version?: number
   /** Saved farm profile; sent only when starting a brand-new conversation. */
   profile?: FarmProfile
 }

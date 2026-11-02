@@ -16,6 +16,9 @@ _STATUS: dict[str, int] = {
     "LOCATION_NOT_FOUND": 422,
     "DISTRICT_NOT_AGRICULTURAL": 422,
     "PLAN_NOT_FOUND": 404,
+    "PROFILE_STALE": 409,
+    "RUN_IN_PROGRESS": 409,
+    "NO_SAVED_PROFILE": 422,
     "AUDIO_TOO_LARGE": 413,
     "STT_FAILED": 502,
     "UPSTREAM_UNAVAILABLE": 503,
@@ -45,6 +48,21 @@ _USER_MSG: dict[str, dict[str, str]] = {
         "hi": "यह प्लान नहीं मिला या समय समाप्त हो गया।",
         "en": "Plan not found or expired.",
     },
+    "PROFILE_STALE": {
+        "mr": "तुमचे शेत प्रोफाइल बदलले आहे. कृपया नवीनतम प्रोफाइल लोड करून पुन्हा प्रयत्न करा.",
+        "hi": "आपकी खेत प्रोफ़ाइल बदल गई है। कृपया नवीनतम प्रोफ़ाइल लोड करके फिर प्रयास करें।",
+        "en": "Your farm profile has changed. Please reload the latest profile and try again.",
+    },
+    "RUN_IN_PROGRESS": {
+        "mr": "या संभाषणासाठी प्लॅन आधीच तयार होत आहे. कृपया तो पूर्ण होण्याची वाट पहा.",
+        "hi": "इस बातचीत के लिए प्लान पहले से बन रहा है। कृपया उसके पूरा होने का इंतज़ार करें।",
+        "en": "A plan is already being prepared for this conversation. Please wait for it to finish.",
+    },
+    "NO_SAVED_PROFILE": {
+        "mr": "प्लॅन तयार करण्यासाठी आधी तुमचे शेत प्रोफाइल सेव्ह करा.",
+        "hi": "प्लान बनाने से पहले अपनी खेत प्रोफ़ाइल सेव करें।",
+        "en": "Please save your farm profile before optimizing a plan.",
+    },
     "AUDIO_TOO_LARGE": {
         "mr": "ऑडिओ फाइल खूप मोठी आहे (जास्तीत जास्त 10 MB, 30 सेकंद).",
         "hi": "ऑडियो फ़ाइल बहुत बड़ी है (अधिकतम 10 MB, 30 सेकंड)।",
@@ -72,7 +90,7 @@ _USER_MSG: dict[str, dict[str, str]] = {
     },
 }
 
-_RETRYABLE: set[str] = {"UPSTREAM_UNAVAILABLE", "RATE_LIMITED", "STT_FAILED", "INTERNAL"}
+_RETRYABLE: set[str] = {"UPSTREAM_UNAVAILABLE", "RATE_LIMITED", "STT_FAILED", "INTERNAL", "RUN_IN_PROGRESS"}
 
 
 class AppError(Exception):

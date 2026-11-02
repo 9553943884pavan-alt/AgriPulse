@@ -28,6 +28,13 @@ from sse_starlette.sse import EventSourceResponse
 
 from app.agent.memory import cap_messages
 from app.agent.nodes import SEED_BASIS, compute_missing
+from app.api.profile import (
+    PROFILE_META_KEY,
+    effective_version,
+    load_meta,
+    meta_for_profile_write,
+    meta_with_plan,
+)
 from app.core.errors import AppError
 from app.schemas import FarmProfile, PlanResult
 
@@ -43,6 +50,37 @@ _LANGUAGES = ("mr", "hi", "en")
 _PROFILE_KEYS = frozenset(FarmProfile.model_fields) - {"missing", "defaults_used"}
 _VALIDATION_BASE = {"location_text": "x", "land_acres": 1.0, "budget_rs": 1.0}
 _PLACEHOLDER_LOCATIONS = {"", "unknown", "none", "null", "undefined", "n/a", "na", "-"}
+
+# Optimize turns have no farmer text; this is what the transcript shows for the click.
+OPTIMIZE_MESSAGE = {
+    "en": "Optimize my plan",
+    "mr": "माझा प्लॅन ऑप्टिमाइझ करा",
+    "hi": "मेरा प्लान ऑप्टिमाइज़ करें",
+}
+
+# One running turn per thread. Check-and-set has no await in it, so it is atomic on the
+# event loop. An entry older than the max age is treated as dead (a crashed run can never
+# lock a thread forever).
+_INFLIGHT: dict[str, tuple[float, str]] = {}
+INFLIGHT_MAX_AGE_S = 300.0
+
+
+def acquire_thread(thread_id: str) -> str:
+    """Mark the thread as running and return a release token. Raises RUN_IN_PROGRESS (409)."""
+    now = time.monotonic()
+    held = _INFLIGHT.get(thread_id)
+    if held is not None and now - held[0] < INFLIGHT_MAX_AGE_S:
+        raise AppError("RUN_IN_PROGRESS", {"thread_id": thread_id})
+    token = uuid.uuid4().hex
+    _INFLIGHT[thread_id] = (now, token)
+    return token
+
+
+def release_thread(thread_id: str, token: str) -> None:
+    """Idempotent; only releases the run that owns the token."""
+    held = _INFLIGHT.get(thread_id)
+    if held is not None and held[1] == token:
+        del _INFLIGHT[thread_id]
 
 
 def _invalid(*fields: str) -> AppError:
@@ -61,6 +99,33 @@ def _validate_chat_body(body: dict) -> dict:
 
     language = body.get("language")
     language = language if isinstance(language, str) and language in _LANGUAGES else "en"
+
+    intent = body.get("intent")
+    if intent in (None, ""):
+        intent = None
+    elif intent != "optimize":
+        bad.append("intent")
+    profile_version = body.get("profile_version")
+    if profile_version is not None and (
+        isinstance(profile_version, bool) or not isinstance(profile_version, int) or profile_version < 1
+    ):
+        bad.append("profile_version")
+        profile_version = None
+
+    if intent == "optimize":
+        # The saved profile on the server is the only input: no farmer text, no patch,
+        # and a profile in the request body is ignored.
+        if bad:
+            raise _invalid(*bad)
+        return {
+            "thread_id": thread_id,
+            "language": language,
+            "message": OPTIMIZE_MESSAGE[language],
+            "profile_patch": None,
+            "seed_profile": None,
+            "intent": "optimize",
+            "profile_version": profile_version,
+        }
 
     patch_raw = body.get("profile_patch")
     patch: dict | None = None
@@ -95,6 +160,8 @@ def _validate_chat_body(body: dict) -> dict:
         "message": message,
         "profile_patch": patch,
         "seed_profile": seed_profile_from_body(body.get("profile"), language),
+        "intent": None,
+        "profile_version": profile_version,
     }
 
 
@@ -188,6 +255,7 @@ def fresh_turn_state(thread_id: str, message: str, language: str, profile_patch:
         "message": message,
         "language": language,
         "profile_patch": profile_patch,
+        "intent": None,        # "optimize" only for the Optimize button
         "route": "new_plan",   # overwritten by route_node
         "plan_only": False,
         "missing": [],
@@ -239,6 +307,10 @@ async def agent_chat(request: Request, body: dict):
       profile?        saved Farm Profile; seeds a thread that has no stored profile
     """
     req = _validate_chat_body(body)
+    optimize = req["intent"] == "optimize"
+    if optimize and not req["thread_id"]:
+        # Optimize runs on a profile saved on the server; a brand-new thread has none.
+        raise AppError("NO_SAVED_PROFILE", {"thread_id": None})
     # Thread IDs are bearer-style secrets until user authentication is added.
     # Do not truncate UUID entropy: a 32-bit ID can be enumerated in a public API.
     thread_id = req["thread_id"] or f"th_{uuid.uuid4().hex}"
@@ -246,12 +318,28 @@ async def agent_chat(request: Request, body: dict):
     message = req["message"]
     seed_profile = req["seed_profile"]
 
+    # One running turn per thread: refuse a second one BEFORE streaming starts (HTTP 409).
+    lock_token = acquire_thread(thread_id)
+    prepared = None
+    if optimize:
+        try:
+            prepared = await _prepare_optimize(thread_id, req["profile_version"])
+        except BaseException:
+            release_thread(thread_id, lock_token)
+            raise
+
     # Get compiled graph from app state (initialised in lifespan)
     graph = getattr(request.app.state, "agent_graph", None)
 
     initial_state: dict = fresh_turn_state(thread_id, message, language, req["profile_patch"])
+    if optimize:
+        # Plan from the saved profile only: no extraction, and never ask the optional borewell
+        # question (the plan discloses the missing capacity instead).
+        initial_state.update(intent="optimize", plan_only=True, pending_field=None, asked_fields=["borewell_capacity"])
     config = {"configurable": {"thread_id": thread_id}, "recursion_limit": RECURSION_LIMIT}
     ctx = TraceContext()
+    # Saved-profile bookkeeping for this turn: the stored profile (dict) and its meta.
+    vstate: dict = {"profile": None, "meta": None}
 
     async def _persist(event: dict, cache, messages: list) -> bool:
         """Save profile / plan / chat messages so GET /api/threads/{id} and
@@ -260,6 +348,8 @@ async def agent_chat(request: Request, body: dict):
         try:
             name = event.get("event")
             if name == "profile":
+                if optimize:
+                    return True        # an optimize turn never changes the saved profile
                 profile_data = json.loads(event["data"])
                 # Do not replace a durable, complete profile with the temporary
                 # placeholder emitted while the agent is asking for a missing
@@ -271,10 +361,15 @@ async def agent_chat(request: Request, body: dict):
                     and float(profile_data.get("budget_rs") or 0) > 0
                 ):
                     await cache.set_memory(thread_id, "profile", profile_data)
+                    await _bump_if_changed(cache, profile_data)
             elif name == "plan":
                 plan_data = json.loads(event["data"])
                 await cache.set_plan(plan_data["plan_id"], plan_data)
                 await cache.set_memory(thread_id, "plan", plan_data)
+                # The plan was built from the profile as it is now: record that version.
+                meta = meta_with_plan(vstate["meta"], vstate["profile"] is not None)
+                await cache.set_memory(thread_id, PROFILE_META_KEY, meta)
+                vstate["meta"] = meta
             elif name in ("message", "question"):
                 payload = json.loads(event["data"])
                 messages.append({
@@ -290,20 +385,34 @@ async def agent_chat(request: Request, body: dict):
             logger.warning("Could not persist agent event %s", event.get("event"), exc_info=True)
             return False
 
+    async def _bump_if_changed(cache, profile_data: dict) -> None:
+        """The agent stored a profile: a new or changed one is a new saved-profile version."""
+        meta = meta_for_profile_write(vstate["meta"], vstate["profile"], profile_data)
+        if meta != vstate["meta"]:
+            await cache.set_memory(thread_id, PROFILE_META_KEY, meta)
+        vstate["meta"], vstate["profile"] = meta, profile_data
+
     async def _stream():
         started = time.perf_counter()
+        plan_failed = False
         try:
             from app.core.cache import get_cache
 
             cache, messages = None, []
             try:
-                cache = await get_cache()
-                # The graph checkpointer is intentionally in-process. Restore
-                # durable profile/plan state from the application cache so a
-                # backend restart does not make a continuing conversation lose
-                # its farm memory.
-                messages, restored = await restore_thread_state(cache, thread_id)
+                if prepared is not None:
+                    cache, messages, restored = prepared
+                else:
+                    cache = await get_cache()
+                    # The graph checkpointer is intentionally in-process. Restore
+                    # durable profile/plan state from the application cache so a
+                    # backend restart does not make a continuing conversation lose
+                    # its farm memory.
+                    messages, restored = await restore_thread_state(cache, thread_id)
                 initial_state.update(restored)
+                stored = await cache.get_memory(thread_id, "profile")
+                vstate["profile"] = stored if isinstance(stored, dict) else None
+                vstate["meta"] = await load_meta(cache, thread_id)
             except Exception:
                 logger.warning(
                     "Agent cache unavailable, continuing without persistence (thread=%s)",
@@ -316,7 +425,9 @@ async def agent_chat(request: Request, body: dict):
                 initial_state["profile"] = seed_profile
                 if cache is not None and _is_complete_profile(seed_profile):
                     try:
-                        await cache.set_memory(thread_id, "profile", seed_profile.model_dump(mode="json"))
+                        seeded = seed_profile.model_dump(mode="json")
+                        await cache.set_memory(thread_id, "profile", seeded)
+                        await _bump_if_changed(cache, seeded)
                     except Exception:
                         logger.warning("Could not store seeded profile (thread=%s)", thread_id, exc_info=True)
             if message:
@@ -328,22 +439,47 @@ async def agent_chat(request: Request, body: dict):
                 })
                 messages[:] = cap_messages(messages)
             async for ev in _stream_events():
-                if ev.get("event") == "plan":
+                name = ev.get("event")
+                if name == "plan":
+                    # Atomic success: the plan reaches the client only once it is really stored
+                    # (plans table AND thread memory). Otherwise: failed trace + error, no plan.
                     t_save = datetime.now(tz=timezone.utc)
                     saved = cache is not None and await _persist(ev, cache, messages)
-                    yield ctx.api_trace(
-                        "persist", "saved" if saved else "failed", "ok" if saved else "failed",
-                        "Plan saved to this conversation" if saved
-                        else "Plan could not be saved; it may not survive a refresh",
-                        started=t_save,
-                    )
-                elif cache is not None:
+                    if saved:
+                        yield ev
+                        yield ctx.api_trace("persist", "saved", "ok", "Plan saved to this conversation", started=t_save)
+                    else:
+                        plan_failed = True
+                        yield ctx.api_trace(
+                            "persist", "failed", "failed",
+                            "Plan could not be saved; it was not kept", started=t_save,
+                        )
+                        yield _error_event(
+                            AppError("INTERNAL", {"stage": "save_plan"}, message="The plan could not be saved"),
+                            language,
+                        )
+                    continue
+                if plan_failed and name == "message":
+                    continue            # the explanation belongs to a plan that was not kept
+                if cache is not None:
                     await _persist(ev, cache, messages)
                 yield ev
         except Exception as exc:  # last line of defence: never a bare 5xx
             logger.exception("Agent chat failed outside the graph (thread=%s)", thread_id)
             yield _error_event(exc, language)
-        yield {"event": "done", "data": json.dumps({"ms": int((time.perf_counter() - started) * 1000)})}
+        yield {"event": "done", "data": json.dumps({
+            "ms": int((time.perf_counter() - started) * 1000),
+            "profile_version": effective_version(vstate["meta"], vstate["profile"] is not None),
+        })}
+
+    async def _guarded_stream():
+        # The thread stays locked for exactly as long as this stream lives, even if the
+        # client disconnects or the graph raises.
+        try:
+            async for item in _stream():
+                yield item
+        finally:
+            release_thread(thread_id, lock_token)
 
     async def _stream_events():
         yield {"event": "thread", "data": json.dumps({"thread_id": thread_id})}
@@ -372,7 +508,30 @@ async def agent_chat(request: Request, body: dict):
                 yield ctx.api_trace("plan", "failed", "failed", "Planning stopped before it finished")
             yield _error_event(exc, language)
 
-    return EventSourceResponse(_stream(), ping=10)
+    # background= is a second release path for a stream that never started (client gone early).
+    from starlette.background import BackgroundTask
+
+    return EventSourceResponse(
+        _guarded_stream(), ping=10, background=BackgroundTask(release_thread, thread_id, lock_token)
+    )
+
+
+async def _prepare_optimize(thread_id: str, sent_version: int | None):
+    """Pre-stream checks for the Optimize button. Returns (cache, messages, restored state).
+
+    422 NO_SAVED_PROFILE when the server holds no complete profile for the thread;
+    409 PROFILE_STALE when the client's profile_version is not the stored one."""
+    from app.core.cache import get_cache
+
+    cache = await get_cache()
+    messages, restored = await restore_thread_state(cache, thread_id)
+    profile = restored.get("profile")
+    if not _is_complete_profile(profile):
+        raise AppError("NO_SAVED_PROFILE", {"thread_id": thread_id})
+    current = effective_version(await load_meta(cache, thread_id), True)
+    if sent_version is not None and sent_version != current:
+        raise AppError("PROFILE_STALE", {"profile_version": current, "sent_profile_version": sent_version})
+    return cache, messages, restored
 
 
 def _error_event(exc: Exception, language: str) -> dict:

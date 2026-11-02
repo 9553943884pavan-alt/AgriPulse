@@ -15,6 +15,9 @@ interface AppState {
   // Session
   threadId: string | null
   profile: FarmProfile | null
+  /** Version of the profile last confirmed saved by the server (null = never saved / legacy). */
+  profileVersion: number | null
+  profileSavedAt: string | null
   plan: PlanResult | null
   messages: ThreadMessage[]
   traceEvents: TraceEvent[]
@@ -27,6 +30,9 @@ interface AppState {
   // Actions
   setThreadId: (id: string) => void
   setProfile: (profile: FarmProfile) => void
+  /** Adopts a server-confirmed save (profile, thread, version) WITHOUT touching the plan. */
+  setSavedProfile: (saved: { thread_id: string; profile: FarmProfile; profile_version: number; saved_at: string }) => void
+  setProfileVersion: (version: number, savedAt?: string | null) => void
   setPlan: (plan: PlanResult) => void
   setMessages: (messages: ThreadMessage[]) => void
   addMessage: (msg: ThreadMessage) => void
@@ -57,6 +63,8 @@ const safeStorage: StateStorage = {
 const initialState = {
   threadId: null,
   profile: null,
+  profileVersion: null as number | null,
+  profileSavedAt: null as string | null,
   plan: null,
   messages: [],
   traceEvents: [],
@@ -72,6 +80,16 @@ export const useStore = create<AppState>()(
 
       setThreadId: (id) => set({ threadId: id }),
       setProfile: (profile) => set({ profile }),
+      setSavedProfile: (saved) => set({
+        profile: saved.profile,
+        threadId: saved.thread_id,
+        profileVersion: saved.profile_version,
+        profileSavedAt: saved.saved_at,
+      }),
+      setProfileVersion: (version, savedAt) => set((state) => ({
+        profileVersion: version,
+        profileSavedAt: savedAt === undefined ? state.profileSavedAt : savedAt,
+      })),
       setPlan: (plan) => set({
         plan,
         profile: plan.profile,
@@ -109,6 +127,8 @@ export const useStore = create<AppState>()(
         selectedScenario: state.selectedScenario,
         selectedStrategy: state.selectedStrategy,
         profile: state.profile,
+        profileVersion: state.profileVersion,
+        profileSavedAt: state.profileSavedAt,
         plan: state.plan,
         traceEvents: state.traceEvents,
         messages: state.messages.slice(-MAX_PERSISTED_MESSAGES),

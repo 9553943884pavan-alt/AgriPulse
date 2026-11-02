@@ -207,7 +207,11 @@ export function HomePage() {
         }),
         onMessage: live((e) => { appendAgentText(e.text) }),
         onError: live((e: ApiError) => { setError(e); setIsStreaming(false) }),
-        onDone: live(() => setIsStreaming(false)),
+        onDone: live((e) => {
+          // A chat-driven profile change makes the server bump the saved version.
+          if (typeof e.profile_version === 'number') useStore.getState().setProfileVersion(e.profile_version)
+          setIsStreaming(false)
+        }),
         onClose: live(() => setIsStreaming(false)),
       },
       )

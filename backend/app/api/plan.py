@@ -8,6 +8,7 @@ from __future__ import annotations
 from fastapi import APIRouter
 from pydantic import ValidationError
 
+from app.api.profile import PROFILE_META_KEY, load_meta, meta_for_profile_write, meta_with_plan
 from app.core.cache import get_cache
 from app.core.errors import AppError, ensure_positive
 from app.pipeline import run_plan
@@ -33,9 +34,15 @@ async def create_plan(profile: FarmProfile) -> PlanResult:
     plan_data = result.model_dump(mode="json")
     await cache.set_plan(result.plan_id, plan_data)
     if result.thread_id:
-        await cache.set_memory(result.thread_id, "profile", profile.model_dump(mode="json"))
+        profile_data = profile.model_dump(mode="json")
+        prev_profile = await cache.get_memory(result.thread_id, "profile")
+        prev_meta = await load_meta(cache, result.thread_id)
+        # The plan was built from this profile: record the version it belongs to.
+        meta = meta_with_plan(meta_for_profile_write(prev_meta, prev_profile, profile_data))
+        await cache.set_memory(result.thread_id, "profile", profile_data)
         await cache.set_memory(result.thread_id, "plan", plan_data)
         await cache.set_memory(result.thread_id, "messages", [])
+        await cache.set_memory(result.thread_id, PROFILE_META_KEY, meta)
     return result
 
 
@@ -79,9 +86,13 @@ async def reoptimize(plan_id: str, body: dict) -> PlanResult:
     new_plan_data = new_plan.model_dump(mode="json")
     await cache.set_plan(plan_id, new_plan_data)
     if new_plan.thread_id:
+        prev_profile = await cache.get_memory(new_plan.thread_id, "profile")
+        prev_meta = await load_meta(cache, new_plan.thread_id)
+        meta = meta_with_plan(meta_for_profile_write(prev_meta, prev_profile, stored_profile))
         await cache.set_memory(new_plan.thread_id, "profile", stored_profile)
         # The thread restore (E4) and the next chat turn must see the NEW plan, not the old one.
         await cache.set_memory(new_plan.thread_id, "plan", new_plan_data)
+        await cache.set_memory(new_plan.thread_id, PROFILE_META_KEY, meta)
 
     # Write patched fields back to the LangGraph checkpointer so the next
     # chat turn (E1) reads the updated profile. This is the only place outside

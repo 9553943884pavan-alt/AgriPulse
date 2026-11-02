@@ -4,7 +4,7 @@
  * All JSON responses ≤ 64 KB (mirrors backend rule).
  */
 
-import type { ApiError } from './types'
+import type { ApiError, FarmProfile, SaveProfileRequest, SaveProfileResponse } from './types'
 
 export const API_BASE_URL = (
   (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:8000'
@@ -32,13 +32,12 @@ export function normalizeApiError(value: unknown, status: number): ApiError {
   if (
     isRecord(envelope)
     && typeof envelope.code === 'string'
-    && typeof envelope.message === 'string'
     && isRecord(envelope.user_message)
   ) {
     const messages = envelope.user_message
     return {
       code: envelope.code,
-      message: envelope.message,
+      message: typeof envelope.message === 'string' ? envelope.message : envelope.code,
       user_message: {
         en: typeof messages.en === 'string' ? messages.en : 'Something went wrong.',
         mr: typeof messages.mr === 'string' ? messages.mr : 'काहीतरी चुकले.',
@@ -106,6 +105,23 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
     method: 'POST',
     body: JSON.stringify(body),
   })
+}
+
+/** PUT with a JSON body */
+export async function apiPut<T>(path: string, body: unknown): Promise<T> {
+  return apiFetch<T>(path, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  })
+}
+
+/**
+ * PUT /api/profile: validates and persists the farm profile. It never plans.
+ * 422 errors carry per-field messages in apiError.details.fields.
+ */
+export async function saveProfile(threadId: string | null, profile: FarmProfile): Promise<SaveProfileResponse> {
+  const body: SaveProfileRequest = { thread_id: threadId, profile }
+  return apiPut<SaveProfileResponse>('/api/profile', body)
 }
 
 /** POST multipart/form-data (for audio upload) */

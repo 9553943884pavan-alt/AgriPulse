@@ -193,7 +193,13 @@ function dispatchEvent(event: string, payload: unknown, handlers: SSEHandlers): 
       handlers.onError(normalizeApiError(payload, 500))
       break
     case 'done':
-      if (typeof payload.ms === 'number') handlers.onDone({ ms: payload.ms })
+      if (typeof payload.ms === 'number') {
+        handlers.onDone(
+          typeof payload.profile_version === 'number'
+            ? { ms: payload.ms, profile_version: payload.profile_version }
+            : { ms: payload.ms },
+        )
+      }
       else handlers.onError(protocolError('Invalid done event payload.'))
       break
     default:

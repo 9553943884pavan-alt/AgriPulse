@@ -58,6 +58,7 @@ class AgentState(TypedDict, total=False):
     profile_patch: dict | None
     route: Literal["new_plan", "follow_up", "patch", "question", "smalltalk", "question_answered"]
     plan_only: bool               # "make a plan" with a saved profile: skip LLM extraction
+    intent: str | None            # "optimize": plan from the saved profile only (set by the API)
     reply: dict | None            # message-only answer (question / small talk): {text, language, provider}
 
     # Profile

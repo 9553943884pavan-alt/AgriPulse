@@ -25,7 +25,7 @@ from app.config import settings
 from app.core.errors import AppError
 
 # ── Routers ───────────────────────────────────────────────────────────────────
-from app.api import agent, health, locations, plan, sources, speech, threads
+from app.api import agent, health, locations, plan, profile, sources, speech, threads
 
 # ── Lifespan: warm up data loaders and ML models at startup ──────────────────
 
@@ -164,6 +164,7 @@ app.include_router(health.router,    prefix="/api", tags=["health"])
 app.include_router(plan.router,      prefix="/api", tags=["plan"])
 app.include_router(agent.router,     prefix="/api", tags=["agent"])
 app.include_router(threads.router,   prefix="/api", tags=["threads"])
+app.include_router(profile.router,   prefix="/api", tags=["profile"])
 app.include_router(speech.router,    prefix="/api", tags=["speech"])
 app.include_router(locations.router, prefix="/api", tags=["locations"])
 app.include_router(sources.router,   prefix="/api", tags=["sources"])

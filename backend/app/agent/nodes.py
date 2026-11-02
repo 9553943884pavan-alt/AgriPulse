@@ -49,8 +49,8 @@ def _now() -> datetime:
 _TRACE_TOOLS: dict[tuple[str, str] | str, tuple[str, str]] = {
     ("plan", "started"): ("planner", "Planning Started"),
     ("plan", "failed"): ("planner", "Planning Failed"),
-    ("persist", "saved"): ("plan_store", "Plan Saved"),
-    ("persist", "failed"): ("plan_store", "Plan Saved"),
+    ("persist", "saved"): ("plan_saved", "Plan Saved"),
+    ("persist", "failed"): ("plan_saved", "Plan Saved"),
     ("gather_data", "location"): ("location_resolver", "Location Lookup"),
     ("gather_data", "weather"): ("weather_service", "Weather Data"),
     ("gather_data", "soil"): ("soil_service", "Soil Data"),
@@ -248,6 +248,10 @@ def route_node(state: dict) -> dict:
     follow_up:  plan exists AND message contains a changed fact (number, crop, risk word).
     question:   plan exists AND message is a question with no changed fact.
     """
+    if state.get("intent") == "optimize":
+        # Optimize button: re-plan from the saved profile. No routing guess, no extraction.
+        return {"route": "new_plan", "plan_only": True}
+
     if state.get("profile_patch"):
         return {"route": "patch"}
 

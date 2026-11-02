@@ -18,6 +18,7 @@ export function AppShell() {
   const threadId = useStore((s) => s.threadId)
   const setProfile = useStore((s) => s.setProfile)
   const setPlan = useStore((s) => s.setPlan)
+  const setProfileVersion = useStore((s) => s.setProfileVersion)
   const setMessages = useStore((s) => s.setMessages)
   const initialThreadId = useRef(threadId).current
   const thread = useThread(initialThreadId)
@@ -25,10 +26,18 @@ export function AppShell() {
 
   useEffect(() => {
     if (!thread.data) return
-    if (thread.data.profile) setProfile(thread.data.profile)
-    if (thread.data.plan) setPlan(thread.data.plan)
+    const serverVersion = thread.data.profile_version
+    const localVersion = useStore.getState().profileVersion
+    // Never let an older server snapshot overwrite a save made on this device after the request started.
+    const serverIsOlder = typeof serverVersion === 'number' && localVersion !== null && serverVersion < localVersion
+    // setPlan also copies plan.profile, so apply it first; the saved profile then wins.
+    if (thread.data.plan && !serverIsOlder) setPlan(thread.data.plan)
+    if (thread.data.profile && !serverIsOlder) {
+      setProfile(thread.data.profile)
+      if (typeof serverVersion === 'number') setProfileVersion(serverVersion, thread.data.profile_saved_at ?? null)
+    }
     setMessages(thread.data.messages)
-  }, [thread.data, setProfile, setPlan, setMessages])
+  }, [thread.data, setProfile, setProfileVersion, setPlan, setMessages])
 
   useEffect(() => {
     if (i18n.language !== language) {
