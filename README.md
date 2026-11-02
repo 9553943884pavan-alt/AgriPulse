@@ -336,3 +336,6 @@ More detail: the limitations section of [`docs/PRESENTATION.md`](docs/PRESENTATI
 Data and services: [data.gov.in](https://data.gov.in) and Agmarknet (DMI), Open-Meteo (ERA5 / ECMWF), ISRIC SoilGrids, Central Ground Water Board (CGWB) and GSDA Maharashtra, Central Water Commission (CWC), Directorate of Economics and Statistics (DES) and CACP, Soil Health Card (DAC&FW), FAO Irrigation and Drainage Paper 56, Mahabeej, state agricultural universities, OpenStreetMap, and Sarvam AI. Each dataset's publisher and license are listed in [`docs/data/SOURCES.md`](docs/data/SOURCES.md).
 
 **License:** _TBD_ <!-- TODO: no LICENSE file found in the repo. Add one (and name it here) before publishing. -->
+
+**Honestly I want to say Me and My teammates are literally Built something Nice but AI totally runied it we say Fix this small Mistake but it Creating a big error**
+
